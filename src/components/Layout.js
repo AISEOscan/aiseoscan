@@ -1,60 +1,73 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import { BarChart3 } from 'lucide-react';
+import { Bot } from 'lucide-react';
 
-export default function Layout({ children, title = 'FounderScan - Complete Website Growth Analysis' }) {
-  return (
-    <div className="min-h-screen bg-gray-950 font-mono text-white">
-      <Head>
-        <title>{title}</title>
-        <meta name="description" content="Complete website analysis covering security, SEO, performance, and compliance for founders and entrepreneurs" />
-      </Head>
+export default function Layout({ children, title = 'AISEOScan - AI SEO Readiness Scanner for ChatGPT & Perplexity' }) {
+ return (
+   <div className="min-h-screen bg-gradient-to-br from-gray-950 via-purple-950 to-pink-950 font-sans text-white">
+     <Head>
+       <title>{title}</title>
+       <meta name="description" content="AI SEO readiness scanner - Optimize your website for ChatGPT, Perplexity, SearchGPT and other AI search engines. Get comprehensive schema markup, content quality, and authority signal analysis." />
+     </Head>
 
-      <header className="bg-gray-950 border-b border-gray-800/50 shadow-md">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex items-center">
-              <Link href="/">
-                <div className="flex items-center space-x-2 cursor-pointer group">
-                  <BarChart3 className="h-6 w-6 text-gray-300 group-hover:text-white transition-colors" />
-                  <span className="text-xl font-bold tracking-tight text-gray-200 group-hover:text-white transition-colors">
-                    Founder<span className="text-gray-400">Scan</span>
-                  </span>
-                </div>
-              </Link>
-            </div>
-                        
-            {/* Optional: Add navigation links */}
-            <div className="flex items-center space-x-4">
-              <div className="hidden md:flex items-center space-x-1 text-xs text-gray-400">
-                <span className="px-2 py-1 bg-red-900/30 rounded text-red-300">Security</span>
-                <span className="px-2 py-1 bg-green-900/30 rounded text-green-300">SEO</span>
-                <span className="px-2 py-1 bg-purple-900/30 rounded text-purple-300">Performance</span>
-                <span className="px-2 py-1 bg-blue-900/30 rounded text-blue-300">Compliance</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
+     <header className="bg-gray-950/80 backdrop-blur-xl border-b border-purple-500/30 shadow-2xl">
+       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+         <div className="flex justify-between h-16">
+           <div className="flex items-center">
+             <Link href="/">
+               <div className="flex items-center space-x-2 cursor-pointer group">
+                 <div className="relative">
+                   <Bot className="h-7 w-7 text-pink-400 group-hover:text-pink-300 transition-colors" />
+                   <div className="absolute -inset-1 bg-pink-400/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity animate-pulse"></div>
+                 </div>
+                 <span className="text-xl font-bold tracking-tight text-white group-hover:text-pink-100 transition-colors">
+                   AI<span className="bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">SEO</span><span className="text-gray-300">Scan</span>
+                 </span>
+               </div>
+             </Link>
+           </div>
+                          
+           {/* AI-focused navigation badges */}
+           <div className="flex items-center space-x-4">
+             <div className="hidden md:flex items-center space-x-1 text-xs">
+               <span className="px-3 py-1 bg-gradient-to-r from-purple-900/40 to-purple-800/40 border border-purple-500/50 rounded-full text-purple-200 backdrop-blur-sm">
+                 Schema Markup
+               </span>
+               <span className="px-3 py-1 bg-gradient-to-r from-pink-900/40 to-pink-800/40 border border-pink-500/50 rounded-full text-pink-200 backdrop-blur-sm">
+                 Content Quality
+               </span>
+               <span className="px-3 py-1 bg-gradient-to-r from-blue-900/40 to-blue-800/40 border border-blue-500/50 rounded-full text-blue-200 backdrop-blur-sm">
+                 Technical SEO
+               </span>
+               <span className="px-3 py-1 bg-gradient-to-r from-emerald-900/40 to-emerald-800/40 border border-emerald-500/50 rounded-full text-emerald-200 backdrop-blur-sm">
+                 Trust Signals
+               </span>
+             </div>
+           </div>
+         </div>
+       </div>
+     </header>
 
-      <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative">
-        {children}
-      </main>
+     <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative">
+       {children}
+     </main>
 
-      <footer className="bg-gray-950 border-t border-gray-800/50 mt-12">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-center text-gray-500 text-sm font-light">
-              &copy; {new Date().getFullYear()} FounderScan. All rights reserved.
-            </p>
-            <div className="mt-2 md:mt-0 flex items-center space-x-4 text-xs text-gray-400">
-              <span>Complete website growth analysis</span>
-              <span>•</span>
-              <span>Security • SEO • Performance • Compliance</span>
-            </div>
-          </div>
-        </div>
-      </footer>
-    </div>
-  );
+     <footer className="bg-gray-950/80 backdrop-blur-xl border-t border-purple-500/30 mt-12">
+       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+         <div className="flex flex-col md:flex-row justify-between items-center">
+           <p className="text-center text-gray-300 text-sm font-light">
+             &copy; {new Date().getFullYear()} AISEOScan. All rights reserved.
+           </p>
+           <div className="mt-2 md:mt-0 flex items-center space-x-4 text-xs text-gray-400">
+             <span className="bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent font-medium">
+               AI SEO optimization platform
+             </span>
+             <span>•</span>
+             <span>ChatGPT • Perplexity • SearchGPT Ready</span>
+           </div>
+         </div>
+       </div>
+     </footer>
+   </div>
+ );
 }
