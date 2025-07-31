@@ -270,6 +270,13 @@ export const processMultiDimensionalData = (data) => {
 
       processedData.issues.forEach((issue, index) => {
         // Validate issue structure
+        console.log(`🔍 CATEGORIZATION DEBUG: Issue ${index}:`, {
+  type: issue.type,
+  severity: issue.severity,
+  description: issue.description?.substring(0, 50),
+  isSeoByFunction: isSeoIssue(issue.type),
+  categorizedAs: categorizeIssueType(issue.type)
+})
         if (!validateIssue(issue, index)) {
           skippedIssueCount++;
           return;
