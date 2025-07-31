@@ -147,12 +147,11 @@ function calculateAISEOScores(reportData, aiSeoIssues) {
     trustSignals: reportData.compliance?.score || calculateScoreFromIssues(aiSeoIssues.trustSignals)
   };
   
-  // Calculate overall score with AI SEO focused weighting
-  scores.overall = Math.round(
-    (scores.aiSeo * 0.60) + 
-    (scores.technicalSeo * 0.25) + 
-    (scores.trustSignals * 0.15)
-  );
+ // Calculate overall score with 2-dimension weighting
+scores.overall = Math.round(
+  (scores.aiSeo * 0.75) + 
+  (scores.trustSignals * 0.25)
+);
   
   return scores;
 }
@@ -359,25 +358,19 @@ function displayDimensionBreakdown(doc, reportData, startY, colors) {
   y += 15;
   
   const dimensions = [
-    {
-      name: 'AI SEO Optimization',
-      data: reportData.seo,
-      color: colors.primary,
-      description: 'Schema markup, content structure, and AI citation readiness'
-    },
-    {
-      name: 'Technical Foundation',
-      data: reportData.performance,
-      color: colors.accent,
-      description: 'Page speed, mobile optimization, and AI crawler accessibility'
-    },
-    {
-      name: 'Trust & Authority Signals',
-      data: reportData.compliance,
-      color: colors.compliance,
-      description: 'E-A-T factors and credibility indicators for AI engines'
-    }
-  ];
+  {
+    name: 'AI SEO Optimization',
+    data: reportData.seo,
+    color: colors.primary,
+    description: 'Schema markup, content structure, and AI citation readiness'
+  },
+  {
+    name: 'Trust & Authority Signals',
+    data: reportData.compliance,
+    color: colors.compliance,
+    description: 'E-A-T factors and credibility indicators for AI engines'
+  }
+];
   
   dimensions.forEach(dimension => {
     if (y > 240) {

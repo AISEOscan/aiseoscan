@@ -331,46 +331,36 @@ if (data.issues?.length > 0 && !data.security?.total) {
 
   // Get dimension description - Updated for AI SEO
   const getDimensionDescription = (dimension) => {
-    switch (dimension) {
-      case 'AI SEO':
-        return 'Optimized for ChatGPT, Perplexity & AI search engines';
-      case 'Schema Markup':
-        return 'Structured data for AI understanding and citation';
-      case 'Content Quality':
-        return 'AI-digestible content structure and authority';
-      case 'Trust Signals':
-        return 'Credibility factors for AI engine evaluation';
-      default:
-        return 'AI search engine optimization analysis';
-    }
-  };
+  switch (dimension) {
+    case 'AI SEO Optimization':
+      return 'Schema markup, content structure, and AI citation readiness';
+    case 'Trust Signals':
+      return 'E-A-T factors and credibility indicators for AI engines';
+    default:
+      return 'AI search engine optimization analysis';
+  }
+};
 
   const getTotalCriticalIssues = (report) => {
-    let total = 0;
-    total += report?.security?.critical || 0;
-    total += report?.seo?.critical || 0;
-    total += report?.performance?.critical || 0;
-    total += report?.compliance?.critical || 0;
-    return total;
-  };
+  let total = 0;
+  total += report?.seo?.critical || 0;
+  total += report?.compliance?.critical || 0;
+  return total;
+};
 
-  const getTotalMediumIssues = (report) => {
-    let total = 0;
-    total += report?.security?.medium || 0;
-    total += report?.seo?.medium || 0;
-    total += report?.performance?.medium || 0;
-    total += report?.compliance?.medium || 0;
-    return total;
-  };
+const getTotalMediumIssues = (report) => {
+  let total = 0;
+  total += report?.seo?.medium || 0;
+  total += report?.compliance?.medium || 0;
+  return total;
+};
 
-  const getTotalLowIssues = (report) => {
-    let total = 0;
-    total += report?.security?.low || 0;
-    total += report?.seo?.low || 0;
-    total += report?.performance?.low || 0;
-    total += report?.compliance?.low || 0;
-    return total;
-  };
+const getTotalLowIssues = (report) => {
+  let total = 0;
+  total += report?.seo?.low || 0;
+  total += report?.compliance?.low || 0;
+  return total;
+};
   // Enhanced Dimension Card Component - Updated for AI SEO
   const DimensionCard = ({ title, icon: Icon, color, data, dimensionKey }) => {
     const isExpanded = expandedDimensions[dimensionKey];
@@ -691,68 +681,39 @@ if (data.issues?.length > 0 && !data.security?.total) {
              <span className="text-pink-400 mr-2">🤖</span>
              AI SEO Analysis Dimensions
            </h2>
-           
            <div className="grid md:grid-cols-2 gap-6">
-             <DimensionCard
-               title="AI SEO"
-               icon={Bot}
-               color="text-purple-400"
-               data={{
-                 score: report?.seo?.score || report?.summary?.seoScore || 75,
-                 total: report?.seo?.total || 0,
-                 critical: report?.seo?.critical || 0,
-                 medium: report?.seo?.medium || 0,
-                 low: report?.seo?.low || 0,
-                 issues: report?.seo?.issues || []
-               }}
-               dimensionKey="seo"
-             />
+  <DimensionCard
+    title="AI SEO Optimization"
+    icon={Bot}
+    color="text-purple-400"
+    data={{
+      score: report?.seo?.score || 0,
+      total: report?.seo?.total || 0,
+      critical: report?.seo?.critical || 0,
+      medium: report?.seo?.medium || 0,
+      low: report?.seo?.low || 0,
+      issues: report?.seo?.issues || []
+    }}
+    dimensionKey="seo"
+  />
 
-             <DimensionCard
-               title="Trust Signals"
-               icon={Award}
-               color="text-emerald-400"
-               data={{
-                 score: report?.compliance?.score || report?.summary?.complianceScore || 90,
-                 total: report?.compliance?.total || 0,
-                 critical: report?.compliance?.critical || 0,
-                 medium: report?.compliance?.medium || 0,
-                 low: report?.compliance?.low || 0,
-                 issues: report?.compliance?.issues || []
-               }}
-               dimensionKey="compliance"
-             />
-
-             <DimensionCard
-               title="Schema Markup"
-               icon={FileText}
-               color="text-blue-400"
-               data={{
-                 score: report?.security?.score || report?.summary?.securityScore || 0,
-                 total: report?.security?.total || 0,
-                 critical: report?.security?.critical || 0,
-                 medium: report?.security?.medium || 0,
-                 low: report?.security?.low || 0,
-                 issues: report?.security?.issues || []
-               }}
-               dimensionKey="security"
-             />
-
-             <DimensionCard
-               title="Content Quality"
-               icon={MessageSquare}
-               color="text-pink-400"
-               data={{
-                 score: report?.performance?.score || report?.summary?.performanceScore || 80,
-                 total: report?.performance?.total || 0,
-                 critical: report?.performance?.critical || 0,
-                 medium: report?.performance?.medium || 0,
-                 low: report?.performance?.low || 0,
-                 issues: report?.performance?.issues || []
-               }}
-               dimensionKey="performance"
-             />
-           </div>
+  <DimensionCard
+    title="Trust Signals"
+    icon={Award}
+    color="text-emerald-400"
+    data={{
+      score: report?.compliance?.score || 0,
+      total: report?.compliance?.total || 0,
+      critical: report?.compliance?.critical || 0,
+      medium: report?.compliance?.medium || 0,
+      low: report?.compliance?.low || 0,
+      issues: report?.compliance?.issues || []
+    }}
+    dimensionKey="compliance"
+  />
+</div>
+           
+          
          </div>
 
          {/* Recommended Actions */}
@@ -787,68 +748,62 @@ if (data.issues?.length > 0 && !data.security?.total) {
              </h3>
              
              <div className="space-y-4">
-               {/* Critical Issues First */}
-               {getTotalCriticalIssues(report) > 0 && (
-                 <div>
-                   <h4 className="text-lg font-semibold text-rose-400 mb-3">🚨 Critical Issues (Fix Immediately)</h4>
-                   <div className="space-y-3">
-                     {[
-                       ...(report?.security?.issues?.filter(issue => issue.severity === 'critical') || []),
-                       ...(report?.seo?.issues?.filter(issue => issue.severity === 'critical') || []),
-                       ...(report?.performance?.issues?.filter(issue => issue.severity === 'critical') || []),
-                       ...(report?.compliance?.issues?.filter(issue => issue.severity === 'critical') || [])
-                     ].map((issue, index) => (
-                       <IssueDetail 
-                         key={`critical-${index}`}
-                         issue={issue}
-                         issueId={`critical-${index}`}
-                       />
-                     ))}
-                   </div>
-                 </div>
-               )}
+              {/* Critical Issues First */}
+{getTotalCriticalIssues(report) > 0 && (
+  <div>
+    <h4 className="text-lg font-semibold text-rose-400 mb-3">🚨 Critical Issues (Fix Immediately)</h4>
+    <div className="space-y-3">
+      {[
+        ...(report?.seo?.issues?.filter(issue => issue.severity === 'critical') || []),
+        ...(report?.compliance?.issues?.filter(issue => issue.severity === 'critical') || [])
+      ].map((issue, index) => (
+        <IssueDetail 
+          key={`critical-${index}`}
+          issue={issue}
+          issueId={`critical-${index}`}
+        />
+      ))}
+    </div>
+  </div>
+)}
 
-               {/* Medium Issues */}
-               {getTotalMediumIssues(report) > 0 && (
-                 <div>
-                   <h4 className="text-lg font-semibold text-amber-400 mb-3">⚠️ Medium Priority Issues</h4>
-                   <div className="space-y-3">
-                     {[
-                       ...(report?.security?.issues?.filter(issue => issue.severity === 'medium') || []),
-                       ...(report?.seo?.issues?.filter(issue => issue.severity === 'medium') || []),
-                       ...(report?.performance?.issues?.filter(issue => issue.severity === 'medium') || []),
-                       ...(report?.compliance?.issues?.filter(issue => issue.severity === 'medium') || [])
-                     ].map((issue, index) => (
-                       <IssueDetail 
-                         key={`medium-${index}`}
-                         issue={issue}
-                         issueId={`medium-${index}`}
-                       />
-                     ))}
-                   </div>
-                 </div>
-               )}
+{/* Medium Issues */}
+{getTotalMediumIssues(report) > 0 && (
+  <div>
+    <h4 className="text-lg font-semibold text-amber-400 mb-3">⚠️ Medium Priority Issues</h4>
+    <div className="space-y-3">
+      {[
+        ...(report?.seo?.issues?.filter(issue => issue.severity === 'medium') || []),
+        ...(report?.compliance?.issues?.filter(issue => issue.severity === 'medium') || [])
+      ].map((issue, index) => (
+        <IssueDetail 
+          key={`medium-${index}`}
+          issue={issue}
+          issueId={`medium-${index}`}
+        />
+      ))}
+    </div>
+  </div>
+)}
 
-               {/* Low Issues */}
-               {getTotalLowIssues(report) > 0 && (
-                 <div>
-                   <h4 className="text-lg font-semibold text-blue-400 mb-3">💡 AI Optimization Opportunities</h4>
-                   <div className="space-y-3">
-                     {[
-                       ...(report?.security?.issues?.filter(issue => issue.severity === 'low') || []),
-                       ...(report?.seo?.issues?.filter(issue => issue.severity === 'low') || []),
-                       ...(report?.performance?.issues?.filter(issue => issue.severity === 'low') || []),
-                       ...(report?.compliance?.issues?.filter(issue => issue.severity === 'low') || [])
-                     ].map((issue, index) => (
-                       <IssueDetail 
-                         key={`low-${index}`}
-                         issue={issue}
-                         issueId={`low-${index}`}
-                       />
-                     ))}
-                   </div>
-                 </div>
-               )}
+{/* Low Issues */}
+{getTotalLowIssues(report) > 0 && (
+  <div>
+    <h4 className="text-lg font-semibold text-blue-400 mb-3">💡 AI Optimization Opportunities</h4>
+    <div className="space-y-3">
+      {[
+        ...(report?.seo?.issues?.filter(issue => issue.severity === 'low') || []),
+        ...(report?.compliance?.issues?.filter(issue => issue.severity === 'low') || [])
+      ].map((issue, index) => (
+        <IssueDetail 
+          key={`low-${index}`}
+          issue={issue}
+          issueId={`low-${index}`}
+        />
+      ))}
+    </div>
+  </div>
+)}
 
                {/* No Issues */}
                {getTotalCriticalIssues(report) === 0 && getTotalMediumIssues(report) === 0 && getTotalLowIssues(report) === 0 && (
