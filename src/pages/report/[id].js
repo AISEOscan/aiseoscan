@@ -160,40 +160,55 @@ export default function ReportPage() {
 });
 
 console.log('🔍 DETAILED API DATA:', {
-  fullData: data,
   hasPreliminiaryScan: !!data.preliminaryScan,
   preliminaryIssues: data.preliminaryScan?.issues?.length || 0,
   preliminaryPreviewIssues: data.preliminaryScan?.previewIssues?.length || 0,
   directIssues: data.issues?.length || 0,
   status: data.status,
-  dataKeys: Object.keys(data),
-  preliminaryScanKeys: data.preliminaryScan ? Object.keys(data.preliminaryScan) : 'No preliminaryScan'
+  preliminaryStatus: data.preliminaryScan?.status
 });
 
-// CRITICAL: Check if we need to extract issues from preliminaryScan
-if (data.preliminaryScan?.issues && !data.issues) {
-  console.log('🔧 FRONTEND - Found issues in preliminaryScan, extracting to main issues array');
-  data.issues = data.preliminaryScan.issues;
-} else if (data.preliminaryScan?.previewIssues && !data.issues) {
-  console.log('🔧 FRONTEND - Found previewIssues in preliminaryScan, extracting to main issues array');
-  data.issues = data.preliminaryScan.previewIssues;
+// CRITICAL: Extract issues from preliminaryScan to maintain single point of truth
+if (data.preliminaryScan && (!data.issues || data.issues.length === 0)) {
+  console.log('🔧 FRONTEND - Extracting issues from preliminaryScan to maintain data flow');
+  
+  // Use the full preliminary scan issues (not just preview)
+  if (data.preliminaryScan.issues && data.preliminaryScan.issues.length > 0) {
+    console.log(`✅ FRONTEND - Found ${data.preliminaryScan.issues.length} issues in preliminaryScan.issues`);
+    data.issues = data.preliminaryScan.issues;
+  } else if (data.preliminaryScan.previewIssues && data.preliminaryScan.previewIssues.length > 0) {
+    console.log(`✅ FRONTEND - Found ${data.preliminaryScan.previewIssues.length} issues in preliminaryScan.previewIssues`);
+    data.issues = data.preliminaryScan.previewIssues;
+  }
+  
+  // Also copy over scanner data if available
+  if (data.preliminaryScan.scanners && !data.scanners) {
+    console.log('🔧 FRONTEND - Copying scanner data from preliminaryScan');
+    data.scanners = data.preliminaryScan.scanners;
+  }
+  
+  // Copy summary if available
+  if (data.preliminaryScan.summary && !data.summary?.total) {
+    console.log('🔧 FRONTEND - Copying summary data from preliminaryScan');
+    data.summary = data.preliminaryScan.summary;
+  }
 }
-      
-      // Enhanced data processing for multi-dimensional reports
-      let processedData = data;
-      
-      // CRITICAL FIX: If API didn't process the data, do it here as fallback
-      if (data.issues?.length > 0 && !data.security?.total) {
-        console.log('🔧 FRONTEND - API returned raw data, processing with processMultiDimensionalData()');
-        processedData = processMultiDimensionalData(data);
-        
-        console.log('✅ FRONTEND - Fallback processing complete:', {
-          security: processedData.security?.total || 0,
-          seo: processedData.seo?.total || 0,
-          performance: processedData.performance?.total || 0,
-          compliance: processedData.compliance?.total || 0
-        });
-      }
+
+// Enhanced data processing for multi-dimensional reports
+let processedData = data;
+
+// CRITICAL FIX: If API didn't process the data, do it here as fallback
+if (data.issues?.length > 0 && !data.security?.total) {
+  console.log('🔧 FRONTEND - API returned raw data, processing with processMultiDimensionalData()');
+  processedData = processMultiDimensionalData(data);
+  
+  console.log('✅ FRONTEND - Fallback processing complete:', {
+    security: processedData.security?.total || 0,
+    seo: processedData.seo?.total || 0,
+    performance: processedData.performance?.total || 0,
+    compliance: processedData.compliance?.total || 0
+  });
+}
       
       // Payment flow logic - FIXED: Removed manual scan call
       if (processedData.status === 'awaiting_payment' && session_id) {
