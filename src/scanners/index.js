@@ -1,5 +1,5 @@
-// FIXED: /src/scanners/index.js
-// Returns clean raw data for processing
+// UPDATED: /src/scanners/index.js
+// Phase 1: Simplified for AI SEO focus while preserving architecture
 
 import { scanSSL } from './ssl';
 import { scanHeaders } from './headers';
@@ -84,27 +84,40 @@ function normalizeUrl(url) {
   }
 }
 
+// PHASE 1 CHANGE: Return empty results for non-SEO scanners
+async function runDisabledScanner(scannerName) {
+  console.log(`🔄 ${scannerName} scanner disabled for AI SEO focus - returning empty results`);
+  return { issues: [] };
+}
+
 // MAIN FUNCTION: Returns clean raw data for processMultiDimensionalData to process
 export async function runPreliminaryScan(url) {
   try {
-    console.log(`🔍 Starting preliminary scan for: ${url}`);
+    console.log(`🔍 Starting AI SEO scan for: ${url}`);
     
     const normalizedUrl = normalizeUrl(url);
     console.log(`📝 Normalized URL: ${normalizedUrl}`);
     
-    // Run all scanners in parallel
+    // PHASE 1 CHANGE: Only run SEO scanner, return empty for others
+    console.log('🎯 Running AI SEO-focused scan (non-SEO scanners disabled)');
+    
     const scannerResults = await Promise.allSettled([
-      withRetry(() => scanSSL(normalizedUrl)),
-      withRetry(() => scanHeaders(normalizedUrl)),
-      withRetry(() => scanExposedFiles(normalizedUrl)),     
-      withRetry(() => scanForOWASPVulnerabilities(normalizedUrl)), 
-      withRetry(() => scanForStripeIssues(normalizedUrl)),  
-      withRetry(() => scanWordPress(normalizedUrl)),        
-      withRetry(() => scanForSecrets(normalizedUrl)),       
-      withRetry(() => scanForSupabaseIssues(normalizedUrl)),
+      // Disabled scanners - return empty results but preserve structure
+      runDisabledScanner('SSL'),
+      runDisabledScanner('Headers'), 
+      runDisabledScanner('ExposedFiles'),
+      runDisabledScanner('OWASP'),
+      runDisabledScanner('Stripe'),
+      runDisabledScanner('WordPress'),
+      runDisabledScanner('Secrets'),
+      runDisabledScanner('Supabase'),
+      
+      // ACTIVE: Enhanced SEO scanner
       withRetry(() => scanSEO(normalizedUrl)),
-      withRetry(() => scanPerformance(normalizedUrl)),
-      withRetry(() => scanCompliance(normalizedUrl))
+      
+      // Disabled scanners
+      runDisabledScanner('Performance'),
+      runDisabledScanner('Compliance')
     ]);
     
     // Extract and validate results
@@ -113,7 +126,11 @@ export async function runPreliminaryScan(url) {
       
       if (result.status === 'fulfilled') {
         const issueCount = result.value?.issues?.length || 0;
-        console.log(`✅ ${scannerNames[index]}: ${issueCount} issues found`);
+        if (index === 8) { // SEO scanner
+          console.log(`✅ ${scannerNames[index]}: ${issueCount} AI SEO issues found`);
+        } else {
+          console.log(`⏸️  ${scannerNames[index]}: Disabled (${issueCount} issues - empty as expected)`);
+        }
         return result.value || { issues: [] };
       } else {
         console.error(`❌ ${scannerNames[index]} failed:`, result.reason?.message);
@@ -127,26 +144,26 @@ export async function runPreliminaryScan(url) {
       performanceResults, complianceResults
     ] = results;
 
-    // Detect WordPress
+    // WordPress detection (keep for potential AI SEO insights)
     const isWordPress = wordpressResults.isWordPress || false;
     console.log(`🔍 WordPress detected: ${isWordPress}`);
     
-    // Collect and sanitize ALL issues
+    // PHASE 1 CHANGE: Only collect SEO issues, but maintain structure for categorization.js
     const allRawIssues = [
-      ...sanitizeIssues(sslResults.issues || []),
-      ...sanitizeIssues(headersResults.issues || []),
-      ...sanitizeIssues(filesResults.issues || []),         
-      ...sanitizeIssues(owaspResults.issues || []),         
-      ...sanitizeIssues(stripeResults.issues || []),        
-      ...sanitizeIssues(wordpressResults.issues || []),     
-      ...sanitizeIssues(secretsResults.issues || []),       
-      ...sanitizeIssues(supabaseResults.issues || []),
-      ...sanitizeIssues(seoResults.issues || []),
-      ...sanitizeIssues(performanceResults.issues || []),
-      ...sanitizeIssues(complianceResults.issues || [])
+      ...sanitizeIssues(sslResults.issues || []),      // Empty but preserves structure
+      ...sanitizeIssues(headersResults.issues || []),  // Empty but preserves structure
+      ...sanitizeIssues(filesResults.issues || []),    // Empty but preserves structure        
+      ...sanitizeIssues(owaspResults.issues || []),    // Empty but preserves structure         
+      ...sanitizeIssues(stripeResults.issues || []),   // Empty but preserves structure        
+      ...sanitizeIssues(wordpressResults.issues || []),// Empty but preserves structure     
+      ...sanitizeIssues(secretsResults.issues || []),  // Empty but preserves structure       
+      ...sanitizeIssues(supabaseResults.issues || []), // Empty but preserves structure
+      ...sanitizeIssues(seoResults.issues || []),      // ACTIVE: All AI SEO issues
+      ...sanitizeIssues(performanceResults.issues || []), // Empty but preserves structure
+      ...sanitizeIssues(complianceResults.issues || [])   // Empty but preserves structure
     ];
 
-    console.log(`📊 Collected ${allRawIssues.length} total issues from all scanners`);
+    console.log(`📊 Collected ${allRawIssues.length} total AI SEO issues (non-SEO scanners disabled)`);
 
     // Create clean raw data structure (no dimensional processing here)
     const rawScanData = {
@@ -167,14 +184,14 @@ export async function runPreliminaryScan(url) {
         low: allRawIssues.filter(i => i.severity === 'low').length
       },
       
-      // Scanner metadata for reference
+      // Scanner metadata for reference (preserves structure)
       scanners: createScannersFromResults(results),
       
       // Preview issues for frontend display
       previewIssues: selectPreviewIssues(allRawIssues, 3)
     };
 
-    console.log('✅ PRELIMINARY SCAN COMPLETE:', {
+    console.log('✅ AI SEO SCAN COMPLETE:', {
       url: normalizedUrl,
       totalIssues: rawScanData.issues.length,
       breakdown: {
@@ -183,14 +200,14 @@ export async function runPreliminaryScan(url) {
         low: rawScanData.summary.low
       },
       isWordPress: rawScanData.isWordPress,
-      note: 'Raw data ready for processMultiDimensionalData()'
+      note: 'AI SEO data ready for processMultiDimensionalData()'
     });
 
     return rawScanData;
     
   } catch (error) {
-    console.error('❌ Preliminary scan error:', error);
-    throw new Error(`Failed to run preliminary scan: ${error.message}`);
+    console.error('❌ AI SEO scan error:', error);
+    throw new Error(`Failed to run AI SEO scan: ${error.message}`);
   }
 }
 
@@ -238,7 +255,7 @@ function sanitizeIssues(issues) {
     }
     
     // Ensure required type property
-    const type = issue.type || `generic-issue-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+    const type = issue.type || `ai-seo-issue-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
     
     // Normalize and validate severity
     let severity = issue.severity || 'medium';
@@ -251,7 +268,7 @@ function sanitizeIssues(issues) {
     }
     
     // Ensure description
-    const description = issue.description || `Website issue of type ${type}`;
+    const description = issue.description || `AI SEO issue of type ${type}`;
     
     // Build clean issue object
     const sanitizedIssue = {
