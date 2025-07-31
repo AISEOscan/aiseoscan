@@ -347,27 +347,36 @@ export const processMultiDimensionalData = (data) => {
       });
 
       // PHASE 1 CHANGE: Modified scoring for AI SEO focus
-      ['security', 'seo', 'performance', 'compliance'].forEach(dimension => {
-        const critical = processedData[dimension].critical;
-        const medium = processedData[dimension].medium;
-        const low = processedData[dimension].low;
-        
-        // Calculate score differently for disabled vs active scanners
-        if (dimension === 'seo') {
-          // Active SEO scanner - calculate based on actual issues
-          let calculatedScore = 100;
-          calculatedScore -= critical * 8;   // -8 points per critical AI SEO issue
-          calculatedScore -= medium * 3;     // -3 points per medium AI SEO issue  
-          calculatedScore -= low * 1;        // -1 point per low AI SEO issue
-          
-          processedData[dimension].score = Math.max(0, Math.min(100, calculatedScore));
-        } else {
-          // Disabled scanners - high score since they're not running
-          processedData[dimension].score = 100;
-        }
-        
-        console.log(`📊 ${dimension} score calculated: ${processedData[dimension].score} (${critical}/${medium}/${low} issues) ${dimension === 'seo' ? '[ACTIVE]' : '[DISABLED]'}`);
-      });
+['security', 'seo', 'performance', 'compliance'].forEach(dimension => {
+  const critical = processedData[dimension].critical;
+  const medium = processedData[dimension].medium;
+  const low = processedData[dimension].low;
+  
+  // FIXED: Calculate score differently for disabled vs active scanners
+  if (dimension === 'seo') {
+    // Active SEO scanner - calculate based on actual issues
+    let calculatedScore = 100;
+    calculatedScore -= critical * 8;   // -8 points per critical AI SEO issue
+    calculatedScore -= medium * 3;     // -3 points per medium AI SEO issue  
+    calculatedScore -= low * 1;        // -1 point per low AI SEO issue
+    
+    processedData[dimension].score = Math.max(0, Math.min(100, calculatedScore));
+  } else if (dimension === 'compliance' && (critical > 0 || medium > 0 || low > 0)) {
+    // FIXED: If compliance has issues, calculate real score instead of defaulting to 100
+    let calculatedScore = 100;
+    calculatedScore -= critical * 15;  // -15 points per critical compliance issue
+    calculatedScore -= medium * 10;    // -10 points per medium compliance issue
+    calculatedScore -= low * 5;        // -5 points per low compliance issue
+    
+    processedData[dimension].score = Math.max(0, Math.min(100, calculatedScore));
+  } else {
+    // Disabled scanners with no issues - high score since they're not running
+    processedData[dimension].score = 100;
+  }
+  
+  console.log(`📊 ${dimension} score calculated: ${processedData[dimension].score} (${critical}/${medium}/${low} issues) ${dimension === 'seo' ? '[ACTIVE]' : (dimension === 'compliance' && (critical > 0 || medium > 0 || low > 0)) ? '[COMPLIANCE WITH ISSUES]' : '[DISABLED]'}`);
+});
+
 
       const totalProcessed = processedData.security.total + processedData.seo.total + 
                            processedData.performance.total + processedData.compliance.total;
@@ -396,20 +405,23 @@ export const processMultiDimensionalData = (data) => {
    if (!processedData.summary) processedData.summary = {};
    
    try {
-     // CHANGED: Heavy weighting on SEO (80%) since other scanners are disabled
-     const calculatedOverallScore = Math.round(
-       (processedData.security.score * 0.05) +   // Minimal weight (disabled)
-       (processedData.seo.score * 0.80) +        // PRIMARY: AI SEO focus  
-       (processedData.performance.score * 0.10) + // Minimal weight (disabled)
-       (processedData.compliance.score * 0.05)    // Minimal weight (disabled)
-     );
-     
-     processedData.summary.overallScore = Math.max(0, Math.min(100, calculatedOverallScore));
-     console.log(`🎯 AI SEO Overall Score: ${processedData.summary.overallScore} (heavily weighted on SEO: ${processedData.seo.score})`);
-   } catch (scoreError) {
-     console.error('Error calculating overall score:', scoreError);
-     processedData.summary.overallScore = 80; // Safe fallback
-   }
+  // FIXED: Proper weighting that accounts for compliance issues
+  const securityScore = processedData.security.score * 0.05;
+  const seoScore = processedData.seo.score * 0.75;  // Primary AI SEO focus
+  const performanceScore = processedData.performance.score * 0.05;
+  
+  // FIXED: Give compliance proper weight if it has issues, minimal weight if disabled
+  const complianceWeight = (processedData.compliance.critical > 0 || processedData.compliance.medium > 0 || processedData.compliance.low > 0) ? 0.15 : 0.05;
+  const complianceScore = processedData.security.score * complianceWeight;
+  
+  const calculatedOverallScore = Math.round(securityScore + seoScore + performanceScore + complianceScore);
+  
+  processedData.summary.overallScore = Math.max(0, Math.min(100, calculatedOverallScore));
+  console.log(`🎯 AI SEO Overall Score: ${processedData.summary.overallScore} (SEO: ${processedData.seo.score}, Compliance: ${processedData.compliance.score})`);
+} catch (scoreError) {
+  console.error('Error calculating overall score:', scoreError);
+  processedData.summary.overallScore = 80; // Safe fallback
+}
 
    // Update summary totals with validation
    const totalIssues = processedData.security.total + processedData.seo.total + 
