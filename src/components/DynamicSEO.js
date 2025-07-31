@@ -12,49 +12,48 @@ export default function DynamicSEO({
   const generateDynamicMeta = () => {
     if (!scanResults) {
       return {
-        title: "FounderScan - Professional Website Analysis for Business Growth",
-        description: "Comprehensive website analysis covering security, SEO, performance, and compliance. Enterprise-grade security scanning plus growth insights to accelerate your business for just $19.",
-        keywords: "website analysis, security scan, SEO audit, performance optimization, compliance check, website growth, founder tools, vulnerability scanner"
+        title: "AISEOScan - AI SEO Readiness Scanner for ChatGPT, Perplexity & SearchGPT",
+        description: "AI SEO readiness scanner - Optimize your website for ChatGPT, Perplexity, SearchGPT and other AI search engines. Get comprehensive schema markup, content quality, and authority signal analysis for $29.",
+        keywords: "AI SEO scanner, ChatGPT optimization, Perplexity SEO, SearchGPT ready, schema markup, AI citation, content optimization, AI search engines, voice search SEO, structured data audit"
       };
     }
 
     const overallScore = scanResults.summary?.overallScore || 0;
-    const totalIssues = (scanResults.security?.total || 0) + 
-                       (scanResults.seo?.total || 0) + 
-                       (scanResults.performance?.total || 0) + 
-                       (scanResults.compliance?.total || 0);
+    const seoIssues = scanResults.seo?.total || scanResults.seo?.issues?.length || 0;
+    const complianceIssues = scanResults.compliance?.total || scanResults.compliance?.issues?.length || 0;
+    const totalIssues = seoIssues + complianceIssues;
 
     if (isReportPage && reportId) {
       return {
-        title: `Website Analysis Report ${reportId} - Score: ${overallScore}/100 | FounderScan`,
-        description: `Complete analysis found ${totalIssues} optimization opportunities. Security: ${scanResults.security?.score || 0}/100, SEO: ${scanResults.seo?.score || 0}/100, Performance: ${scanResults.performance?.score || 0}/100, Compliance: ${scanResults.compliance?.score || 0}/100.`,
-        keywords: `website analysis report, security scan results, SEO audit report, performance analysis, compliance check, ${url || 'website'} analysis`
+        title: `AI SEO Analysis Report ${reportId} - Score: ${overallScore}/100 | AISEOScan`,
+        description: `AI SEO readiness analysis found ${totalIssues} optimization opportunities for ChatGPT and AI search engines. Schema markup: ${scanResults.seo?.score || 0}/100, Trust signals: ${100 - (complianceIssues * 10)}/100. Get cited by AI engines.`,
+        keywords: `AI SEO report, ChatGPT optimization, schema markup audit, AI citation ready, ${url || 'website'} AI analysis, Perplexity SEO, SearchGPT optimization`
       };
     }
 
     // For home page with results
-    let scoreStatus = 'needs optimization';
-    if (overallScore >= 80) scoreStatus = 'excellent performance';
-    else if (overallScore >= 60) scoreStatus = 'good foundation';
+    let aiReadinessStatus = 'needs AI optimization';
+    if (overallScore >= 80) aiReadinessStatus = 'AI-ready';
+    else if (overallScore >= 60) aiReadinessStatus = 'good AI foundation';
 
     return {
-      title: `${url || 'Website'} Analysis Complete - ${overallScore}/100 Score | FounderScan`,
-      description: `Analysis complete! Found ${totalIssues} optimization opportunities across security, SEO, performance & compliance. Your website shows ${scoreStatus}. Get detailed fix instructions for $19.`,
-      keywords: `${url || 'website'} analysis, website scan results, security issues, SEO opportunities, performance optimization, compliance check`
+      title: `${url || 'Website'} AI SEO Analysis - ${overallScore}/100 Score | AISEOScan`,
+      description: `AI SEO analysis complete! Found ${totalIssues} optimization opportunities for ChatGPT, Perplexity & AI search engines. Your website is ${aiReadinessStatus}. Get detailed AI optimization plan for $29.`,
+      keywords: `${url || 'website'} AI SEO, AI search optimization, ChatGPT citation ready, schema markup analysis, AI content optimization, voice search SEO`
     };
   };
 
   const meta = generateDynamicMeta();
-  const pageUrl = url ? `https://founderscan.com${url}` : 'https://founderscan.com';
+  const pageUrl = url ? `https://aiseoscan.dev${url}` : 'https://aiseoscan.dev';
   
   // Generate Open Graph image URL based on results
   const getOGImage = () => {
     if (scanResults) {
       const score = scanResults.summary?.overallScore || 0;
-      // You can create dynamic OG images based on score
-      return `https://founderscan.com/og/report-${score >= 80 ? 'excellent' : score >= 60 ? 'good' : 'needs-work'}.png`;
+      // You can create dynamic OG images based on AI readiness score
+      return `https://aiseoscan.dev/og/ai-seo-${score >= 80 ? 'ready' : score >= 60 ? 'good' : 'needs-optimization'}.png`;
     }
-    return 'https://founderscan.com/og/default.png';
+    return 'https://aiseoscan.dev/og/ai-seo-default.png';
   };
 
   return (
@@ -76,8 +75,8 @@ export default function DynamicSEO({
       <meta property="og:image" content={getOGImage()} />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
-      <meta property="og:image:alt" content={`FounderScan analysis ${scanResults ? `showing ${scanResults.summary?.overallScore}/100 score` : 'for website optimization'}`} />
-      <meta property="og:site_name" content="FounderScan" />
+      <meta property="og:image:alt" content={`AISEOScan AI readiness analysis ${scanResults ? `showing ${scanResults.summary?.overallScore}/100 score` : 'for AI search engine optimization'}`} />
+      <meta property="og:site_name" content="AISEOScan" />
       <meta property="og:locale" content="en_US" />
       
       {/* Twitter */}
@@ -86,9 +85,9 @@ export default function DynamicSEO({
       <meta property="twitter:title" content={title || meta.title} />
       <meta property="twitter:description" content={description || meta.description} />
       <meta property="twitter:image" content={getOGImage()} />
-      <meta property="twitter:image:alt" content={`FounderScan analysis ${scanResults ? `showing ${scanResults.summary?.overallScore}/100 score` : 'for website optimization'}`} />
-      <meta property="twitter:creator" content="@founderscan" />
-      <meta property="twitter:site" content="@founderscan" />
+      <meta property="twitter:image:alt" content={`AISEOScan AI readiness analysis ${scanResults ? `showing ${scanResults.summary?.overallScore}/100 score` : 'for AI search engine optimization'}`} />
+      <meta property="twitter:creator" content="@aiseoscan" />
+      <meta property="twitter:site" content="@aiseoscan" />
       
       {/* Additional Meta Tags */}
       <meta name="robots" content="index, follow" />
@@ -96,27 +95,43 @@ export default function DynamicSEO({
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
       <meta name="language" content="English" />
-      <meta name="author" content="FounderScan" />
+      <meta name="author" content="AISEOScan" />
       
-      {/* Schema.org structured data - Enhanced */}
+      {/* Schema.org structured data - Enhanced for AI SEO */}
       <script type="application/ld+json">
         {JSON.stringify({
           "@context": "https://schema.org",
           "@type": isReportPage ? "Report" : "SoftwareApplication",
-          "name": isReportPage ? `Website Analysis Report` : "FounderScan",
+          "name": isReportPage ? `AI SEO Readiness Report` : "AISEOScan",
           "applicationCategory": isReportPage ? undefined : "WebApplication",
+          "applicationSubCategory": isReportPage ? undefined : "SEO Tools",
           "url": pageUrl,
           "description": description || meta.description,
+          "category": "AI SEO Optimization",
+          "keywords": "AI SEO, ChatGPT optimization, schema markup, AI citation, content optimization",
           "offers": isReportPage ? undefined : {
             "@type": "Offer",
-            "price": "19.00",
+            "name": "AI SEO Readiness Audit",
+            "description": "Comprehensive AI SEO analysis for ChatGPT, Perplexity, and SearchGPT optimization",
+            "price": "29.00",
             "priceCurrency": "USD",
-            "availability": "https://schema.org/InStock"
+            "availability": "https://schema.org/InStock",
+            "category": "AI SEO Analysis"
           },
           "creator": {
             "@type": "Organization",
-            "name": "FounderScan",
-            "url": "https://founderscan.com"
+            "name": "AISEOScan",
+            "url": "https://aiseoscan.dev",
+            "description": "AI SEO optimization platform for modern search engines"
+          },
+          "audience": {
+            "@type": "Audience",
+            "audienceType": "Content Marketers, SEO Professionals, Business Owners"
+          },
+          "serviceType": "AI SEO Analysis",
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": pageUrl
           },
           ...(scanResults && {
             "about": {
@@ -124,11 +139,37 @@ export default function DynamicSEO({
               "url": scanResults.url || url,
               "potentialAction": {
                 "@type": "SearchAction",
-                "target": "https://founderscan.com/scan?url={search_term_string}",
+                "target": "https://aiseoscan.dev/scan?url={search_term_string}",
                 "query-input": "required name=search_term_string"
               }
             }
           })
+        })}
+      </script>
+      
+      {/* Additional AI SEO specific schema */}
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What makes AISEOScan different from traditional SEO tools?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "AISEOScan is the only tool built specifically for AI search optimization, analyzing schema markup, content structure, and authority signals that ChatGPT, Perplexity, and SearchGPT need for content citation."
+              }
+            },
+            {
+              "@type": "Question", 
+              "name": "Which AI search engines does this optimize for?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "AISEOScan optimizes for ChatGPT, Perplexity AI, SearchGPT, Claude, and other major AI search engines by focusing on structured data, content quality, and authority signals."
+              }
+            }
+          ]
         })}
       </script>
       
@@ -146,7 +187,7 @@ export default function DynamicSEO({
       {/* Additional performance hints */}
       {scanResults && (
         <>
-          <meta name="theme-color" content={scanResults.summary?.overallScore >= 80 ? "#22c55e" : scanResults.summary?.overallScore >= 60 ? "#3b82f6" : "#ef4444"} />
+          <meta name="theme-color" content={scanResults.summary?.overallScore >= 80 ? "#10b981" : scanResults.summary?.overallScore >= 60 ? "#3b82f6" : "#f472b6"} />
           <meta name="msapplication-TileColor" content="#1f2937" />
         </>
       )}

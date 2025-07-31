@@ -3,7 +3,7 @@ import { processGrowthDimensionalData } from './categorization';
 
 async function generateGrowthPdf(reportData) {
   try {
-    console.log('Generating SEO Growth PDF with data:', reportData);
+    console.log('Generating AI SEO Growth PDF with data:', reportData);
     
     // Create a new jsPDF instance
     const doc = new jsPDF({
@@ -12,25 +12,25 @@ async function generateGrowthPdf(reportData) {
       format: 'a4'
     });
     
-    // Enhanced color scheme for professional look
+    // Enhanced color scheme for AI SEO professional look
     const colors = {
-      primary: [34, 197, 94],       // #22c55e - Green primary (growth)
-      secondary: [59, 130, 246],    // #3b82f6 - Blue secondary (SEO)
-      accent: [168, 85, 247],       // #a855f7 - Purple accent (Performance)
-      compliance: [14, 165, 233],   // #0ea5e9 - Sky blue (Compliance)
-      critical: [239, 68, 68],      // #ef4444 - Red
-      medium: [245, 158, 11],       // #f59e0b - Amber
-      low: [34, 197, 94],           // #22c55e - Green (opportunity)
-      text: [15, 23, 42],           // #0f172a - Slate-900
-      textLight: [71, 85, 105],     // #475569 - Slate-600
-      textMedium: [100, 116, 139],  // #64748b - Slate-500
-      success: [34, 197, 94],       // #22c55e - Green
-      darkBg: [248, 250, 252],      // #f8fafc - Slate-50
-      lightBg: [255, 255, 255],     // White
-      cardBg: [241, 245, 249]       // #f1f5f9 - Slate-100
+      primary: [244, 114, 182],       // #f472b6 - Pink primary (AI SEO)
+      secondary: [168, 85, 247],      // #a855f7 - Purple secondary (AI)
+      accent: [59, 130, 246],         // #3b82f6 - Blue accent (Technical)
+      compliance: [16, 185, 129],     // #10b981 - Emerald (Trust)
+      critical: [244, 63, 94],        // #f43f5e - Rose
+      medium: [251, 191, 36],         // #fbbf24 - Amber
+      low: [59, 130, 246],            // #3b82f6 - Blue (opportunity)
+      text: [15, 23, 42],             // #0f172a - Slate-900
+      textLight: [71, 85, 105],       // #475569 - Slate-600
+      textMedium: [100, 116, 139],    // #64748b - Slate-500
+      success: [16, 185, 129],        // #10b981 - Emerald
+      darkBg: [248, 250, 252],        // #f8fafc - Slate-50
+      lightBg: [255, 255, 255],       // White
+      cardBg: [241, 245, 249]         // #f1f5f9 - Slate-100
     };
     
-    // Ensure report data has valid structure with only growth-focused dimensions
+    // Ensure report data has valid structure with AI SEO focus
     if (!reportData) {
       reportData = { 
         url: 'Unknown', 
@@ -42,37 +42,37 @@ async function generateGrowthPdf(reportData) {
       };
     }
     
-    // Process and filter data - ONLY SEO, Performance, and Compliance
+    // Process and filter data - AI SEO focused dimensions
     const processedData = processGrowthDimensionalDataLocal(reportData);
     
-    // Extract growth-related issues (no security)
-    const growthIssues = extractGrowthFocusedIssues(processedData);
+    // Extract AI SEO focused issues
+    const aiSeoIssues = extractAISEOFocusedIssues(processedData);
     
-    // Calculate growth scores (no security)
-    const growthScores = calculateGrowthScores(processedData, growthIssues);
+    // Calculate AI SEO scores
+    const aiSeoScores = calculateAISEOScores(processedData, aiSeoIssues);
     
     // Create cover page
-    createEnhancedCoverPage(doc, processedData, growthScores, colors);
+    createEnhancedCoverPage(doc, processedData, aiSeoScores, colors);
     
     // Add executive summary
     doc.addPage();
-    createExecutiveSummary(doc, processedData, growthIssues, growthScores, colors);
+    createExecutiveSummary(doc, processedData, aiSeoIssues, aiSeoScores, colors);
     
-    // Add dimension analysis (SEO, Performance, Compliance only)
+    // Add dimension analysis (AI SEO focused)
     doc.addPage();
-    createDimensionAnalysis(doc, processedData, growthIssues, colors);
+    createDimensionAnalysis(doc, processedData, aiSeoIssues, colors);
     
     // Add detailed findings with priority
     doc.addPage();
-    createPriorityFindings(doc, processedData, growthIssues, colors);
+    createPriorityFindings(doc, processedData, aiSeoIssues, colors);
     
     // Add action plan
     doc.addPage();
-    createActionPlan(doc, processedData, growthIssues, colors);
+    createActionPlan(doc, processedData, aiSeoIssues, colors);
     
     // Add implementation guide
     doc.addPage();
-    createImplementationGuide(doc, processedData, growthIssues, colors);
+    createImplementationGuide(doc, processedData, aiSeoIssues, colors);
     
     // Add resources and next steps
     doc.addPage();
@@ -84,8 +84,8 @@ async function generateGrowthPdf(reportData) {
     // Return the PDF as a buffer
     return doc.output('arraybuffer');
   } catch (error) {
-    console.error('SEO Growth PDF generation error:', error);
-    throw new Error('Failed to generate SEO Growth PDF: ' + error.message);
+    console.error('AI SEO PDF generation error:', error);
+    throw new Error('Failed to generate AI SEO PDF: ' + error.message);
   }
 }
 
@@ -94,90 +94,94 @@ function processGrowthDimensionalDataLocal(data) {
   return processGrowthDimensionalData(data);
 }
 
-// Helper functions to categorize issues by growth dimension
-function isSeoIssue(type) {
+// Helper functions to categorize issues by AI SEO dimension
+function isAISeoIssue(type) {
   return type.includes('seo') || type.includes('meta') || type.includes('title') || 
          type.includes('description') || type.includes('heading') || type.includes('schema') ||
          type.includes('canonical') || type.includes('robots') || type.includes('sitemap') ||
          type.includes('alt') || type.includes('h1') || type.includes('h2') || 
          type.includes('duplicate') || type.includes('keyword') || type.includes('content') ||
          type.includes('link') || type.includes('url-structure') || type.includes('open-graph') ||
-         type.includes('twitter-card') || type.includes('structured-data');
+         type.includes('twitter-card') || type.includes('structured-data') || type.includes('json-ld') ||
+         type.includes('faq') || type.includes('ai-optimization') || type.includes('citation') ||
+         type.includes('voice-search') || type.includes('e-a-t') || type.includes('authority');
 }
 
-function isPerformanceIssue(type) {
+function isTechnicalSeoIssue(type) {
   return type.includes('performance') || type.includes('speed') || type.includes('load') ||
          type.includes('cache') || type.includes('compress') || type.includes('image') ||
          type.includes('script') || type.includes('render') || type.includes('minif') ||
          type.includes('blocking') || type.includes('third-party') || type.includes('css') ||
          type.includes('javascript') || type.includes('lazy') || type.includes('webp') ||
          type.includes('optimization') || type.includes('bandwidth') || type.includes('gzip') ||
-         type.includes('brotli') || type.includes('cdn') || type.includes('mobile-performance');
+         type.includes('brotli') || type.includes('cdn') || type.includes('mobile-performance') ||
+         type.includes('viewport') || type.includes('semantic') || type.includes('https');
 }
 
-function isComplianceIssue(type) {
+function isTrustSignalIssue(type) {
   return type.includes('compliance') || type.includes('gdpr') || type.includes('privacy') ||
          type.includes('accessibility') || type.includes('legal') || type.includes('contact') ||
          type.includes('terms') || type.includes('tracking') || type.includes('consent') ||
          type.includes('policy') || type.includes('a11y') || type.includes('wcag') ||
          type.includes('aria') || type.includes('ada') || type.includes('ccpa') ||
-         type.includes('cookie') || type.includes('data-protection');
-}
-// Extract growth-focused issues
-function extractGrowthFocusedIssues(reportData) {
-  const growthIssues = {
-    seo: reportData.seo?.issues || [],
-    performance: reportData.performance?.issues || [],
-    compliance: reportData.compliance?.issues || []
-  };
-  
-  return growthIssues;
+         type.includes('cookie') || type.includes('data-protection') || type.includes('about') ||
+         type.includes('credibility') || type.includes('trust') || type.includes('authority');
 }
 
-// Calculate growth scores
-function calculateGrowthScores(reportData, growthIssues) {
-  const scores = {
-    seo: reportData.seo?.score || calculateScoreFromIssues(growthIssues.seo),
-    performance: reportData.performance?.score || calculateScoreFromIssues(growthIssues.performance),
-    compliance: reportData.compliance?.score || calculateScoreFromIssues(growthIssues.compliance)
+// Extract AI SEO focused issues
+function extractAISEOFocusedIssues(reportData) {
+  const aiSeoIssues = {
+    aiSeo: reportData.seo?.issues || [],
+    technicalSeo: reportData.performance?.issues || [],
+    trustSignals: reportData.compliance?.issues || []
   };
   
-  // Calculate overall score with growth-focused weighting
+  return aiSeoIssues;
+}
+
+// Calculate AI SEO scores
+function calculateAISEOScores(reportData, aiSeoIssues) {
+  const scores = {
+    aiSeo: reportData.seo?.score || calculateScoreFromIssues(aiSeoIssues.aiSeo),
+    technicalSeo: reportData.performance?.score || calculateScoreFromIssues(aiSeoIssues.technicalSeo),
+    trustSignals: reportData.compliance?.score || calculateScoreFromIssues(aiSeoIssues.trustSignals)
+  };
+  
+  // Calculate overall score with AI SEO focused weighting
   scores.overall = Math.round(
-    (scores.seo * 0.50) + 
-    (scores.performance * 0.30) + 
-    (scores.compliance * 0.20)
+    (scores.aiSeo * 0.60) + 
+    (scores.technicalSeo * 0.25) + 
+    (scores.trustSignals * 0.15)
   );
   
   return scores;
 }
-
-// Create enhanced cover page with improved text handling
-function createEnhancedCoverPage(doc, reportData, growthScores, colors) {
+// Create enhanced cover page with AI SEO branding
+function createEnhancedCoverPage(doc, reportData, aiSeoScores, colors) {
   // Add gradient background effect
   doc.setFillColor(colors.lightBg[0], colors.lightBg[1], colors.lightBg[2]);
   doc.rect(0, 0, 210, 297, 'F');
   
-  // Add modern header with gradient effect
-  doc.setFillColor(colors.secondary[0], colors.secondary[1], colors.secondary[2]);
+  // Add modern header with AI gradient effect
+  doc.setFillColor(colors.primary[0], colors.primary[1], colors.primary[2]);
   doc.rect(0, 0, 210, 80, 'F');
   
   // Add title text with modern typography
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(36);
-  doc.text('SEO GROWTH REPORT', 105, 35, { align: 'center' });
+  doc.text('AI SEO READINESS REPORT', 105, 35, { align: 'center' });
   
   doc.setFontSize(18);
-  doc.text('Search Performance Compliance Analysis', 105, 55, { align: 'center' });
+  doc.text('ChatGPT • Perplexity • SearchGPT Optimization', 105, 55, { align: 'center' });
   
   // Add website details with enhanced styling and proper text handling
   doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
   doc.setFontSize(28);
-  doc.text('Website Growth Analysis', 105, 105, { align: 'center' });
+  doc.text('AI Search Engine Optimization Analysis', 105, 105, { align: 'center' });
   
   doc.setFontSize(18);
-  doc.setTextColor(colors.secondary[0], colors.secondary[1], colors.secondary[2]);
+  doc.setTextColor(colors.primary[0], colors.primary[1], colors.primary[2]);
   
   // Handle long URLs properly with text wrapping
   const urlText = reportData.url || 'Unknown URL';
@@ -215,40 +219,40 @@ function createEnhancedCoverPage(doc, reportData, growthScores, colors) {
   doc.setTextColor(colors.textLight[0], colors.textLight[1], colors.textLight[2]);
   doc.text(`Analysis conducted on ${scanDate}`, 105, urlY + (urlLines.length * 8) + 15, { align: 'center' });
   
-  // Add comprehensive scores overview with improved positioning
-  displayComprehensiveScores(doc, growthScores, 105, 170, colors);
+  // Add comprehensive AI SEO scores overview with improved positioning
+  displayComprehensiveAISEOScores(doc, aiSeoScores, 105, 170, colors);
   
-  // Add growth-focused tagline
+  // Add AI SEO focused tagline
   doc.setTextColor(colors.textMedium[0], colors.textMedium[1], colors.textMedium[2]);
   doc.setFontSize(16);
-  doc.text('Actionable insights to accelerate your organic growth', 105, 235, { align: 'center' });
+  doc.text('Actionable insights to optimize for AI-powered search engines', 105, 235, { align: 'center' });
   
   // Add company info at bottom with modern styling
   doc.setFillColor(colors.cardBg[0], colors.cardBg[1], colors.cardBg[2]);
   doc.rect(0, 250, 210, 47, 'F');
   
   doc.setFont('helvetica', 'bold');
-  doc.setTextColor(colors.secondary[0], colors.secondary[1], colors.secondary[2]);
+  doc.setTextColor(colors.primary[0], colors.primary[1], colors.primary[2]);
   doc.setFontSize(20);
-  doc.text('FounderScan', 105, 270, { align: 'center' });
+  doc.text('AISEOScan', 105, 270, { align: 'center' });
   
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(12);
   doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
-  doc.text('Comprehensive Website Growth Analysis', 105, 285, { align: 'center' });
+  doc.text('AI SEO Readiness & Optimization Platform', 105, 285, { align: 'center' });
 }
 
-// Display comprehensive scores with enhanced visualization
-function displayComprehensiveScores(doc, growthScores, x, y, colors) {
+// Display comprehensive AI SEO scores with enhanced visualization
+function displayComprehensiveAISEOScores(doc, aiSeoScores, x, y, colors) {
   const boxWidth = 50;
   const boxHeight = 40;
   const spacing = 10;
   const startX = x - (3 * boxWidth + 2 * spacing) / 2;
   
   const dimensions = [
-    { key: 'seo', label: 'SEO', color: colors.secondary },
-    { key: 'performance', label: 'Performance', color: colors.accent },
-    { key: 'compliance', label: 'Compliance', color: colors.compliance }
+    { key: 'aiSeo', label: 'AI SEO', color: colors.primary },
+    { key: 'technicalSeo', label: 'Technical', color: colors.accent },
+    { key: 'trustSignals', label: 'Trust', color: colors.compliance }
   ];
   
   dimensions.forEach((dimension, index) => {
@@ -265,50 +269,49 @@ function displayComprehensiveScores(doc, growthScores, x, y, colors) {
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(dimension.color[0], dimension.color[1], dimension.color[2]);
     doc.setFontSize(20);
-    doc.text(growthScores[dimension.key].toString(), boxX + boxWidth/2, y + 22, { align: 'center' });
+    doc.text(aiSeoScores[dimension.key].toString(), boxX + boxWidth/2, y + 22, { align: 'center' });
     
     doc.setFontSize(10);
     doc.text(dimension.label, boxX + boxWidth/2, y + 32, { align: 'center' });
   });
 }
-// Create comprehensive executive summary with improved text handling and FIXED text overflow
-
-function createExecutiveSummary(doc, reportData, growthIssues, growthScores, colors) {
+// Create comprehensive executive summary with AI SEO focus
+function createExecutiveSummary(doc, reportData, aiSeoIssues, aiSeoScores, colors) {
   addModernPageHeader(doc, 'Executive Summary', colors);
   
   let y = 45;
   
-  // Introduction with SEO focus and proper text wrapping
+  // Introduction with AI SEO focus and proper text wrapping
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
   doc.setFontSize(11);
   
-  const introText = `This comprehensive growth analysis examines your website's SEO foundation, performance optimization, and compliance standards to identify opportunities for improving search rankings, user experience, and organic traffic. The recommendations prioritize SEO improvements while ensuring technical excellence across all dimensions.`;
+  const introText = `This comprehensive AI SEO readiness analysis examines your website's optimization for ChatGPT, Perplexity, SearchGPT, and other AI search engines. The recommendations prioritize schema markup, content structure, and authority signals that AI engines need for content discovery and citation.`;
   const maxWidth = 170;
   const introLines = doc.splitTextToSize(introText, maxWidth);
   doc.text(introLines, 20, y);
   y += introLines.length * 6 + 15;
   
-  // Overall growth score with FIXED text overflow
-  const overallScore = growthScores.overall;
+  // Overall AI readiness score with FIXED text overflow
+  const overallScore = aiSeoScores.overall;
   let scoreColor, scoreText, recommendation;
   
   if (overallScore >= 85) {
     scoreColor = colors.success;
-    scoreText = 'EXCELLENT';
-    recommendation = 'Your website demonstrates strong growth foundations. Focus on advanced optimization and monitoring.';
+    scoreText = 'AI-READY';
+    recommendation = 'Your website is excellently optimized for AI search engines. Focus on monitoring and maintaining current optimization levels.';
   } else if (overallScore >= 70) {
     scoreColor = colors.primary;
-    scoreText = 'STRONG';
-    recommendation = 'Your website has good growth potential with several optimization opportunities.';
+    scoreText = 'GOOD PROGRESS';
+    recommendation = 'Your website has strong AI SEO foundations with key optimization opportunities for better AI citation.';
   } else if (overallScore >= 55) {
     scoreColor = colors.medium;
-    scoreText = 'MODERATE';
-    recommendation = 'Your website has solid foundations but needs focused improvements for better growth.';
+    scoreText = 'NEEDS OPTIMIZATION';
+    recommendation = 'Your website needs focused AI SEO improvements to achieve better visibility in AI search engines.';
   } else {
     scoreColor = colors.critical;
-    scoreText = 'NEEDS ATTENTION';
-    recommendation = 'Your website has significant growth opportunities that should be prioritized immediately.';
+    scoreText = 'NOT AI-READY';
+    recommendation = 'Your website requires immediate AI SEO optimization to be discoverable by ChatGPT and other AI engines.';
   }
   
   // FIXED: Calculate proper box dimensions to contain all text
@@ -345,34 +348,34 @@ function createExecutiveSummary(doc, reportData, growthIssues, growthScores, col
   displayDimensionBreakdown(doc, reportData, y, colors);
 }
 
-// Display dimension breakdown with improved text handling and FIXED issues text
+// Display dimension breakdown with AI SEO focus
 function displayDimensionBreakdown(doc, reportData, startY, colors) {
   let y = startY;
   
   doc.setFont('helvetica', 'bold');
-  doc.setTextColor(colors.secondary[0], colors.secondary[1], colors.secondary[2]);
+  doc.setTextColor(colors.primary[0], colors.primary[1], colors.primary[2]);
   doc.setFontSize(16);
-  doc.text('Growth Dimensions Analysis', 20, y);
+  doc.text('AI SEO Dimensions Analysis', 20, y);
   y += 15;
   
   const dimensions = [
     {
-      name: 'SEO Optimization',
+      name: 'AI SEO Optimization',
       data: reportData.seo,
-      color: colors.secondary,
-      description: 'Search engine visibility and ranking factors'
+      color: colors.primary,
+      description: 'Schema markup, content structure, and AI citation readiness'
     },
     {
-      name: 'Performance',
+      name: 'Technical Foundation',
       data: reportData.performance,
       color: colors.accent,
-      description: 'Page speed and user experience optimization'
+      description: 'Page speed, mobile optimization, and AI crawler accessibility'
     },
     {
-      name: 'Compliance',
+      name: 'Trust & Authority Signals',
       data: reportData.compliance,
       color: colors.compliance,
-      description: 'Legal and accessibility compliance'
+      description: 'E-A-T factors and credibility indicators for AI engines'
     }
   ];
   
@@ -399,14 +402,14 @@ function displayDimensionBreakdown(doc, reportData, startY, colors) {
     doc.text(dimension.name, 25, y + 12);
     
     // Score - positioned to not overlap with text
-doc.setFontSize(24);
-const scoreText = dimension.data.score.toString();
-doc.text(scoreText, 150, y + 18);
+    doc.setFontSize(24);
+    const scoreText = dimension.data.score.toString();
+    doc.text(scoreText, 150, y + 18);
 
-// Calculate proper position for "/100" based on score width
-const scoreWidth = doc.getTextWidth(scoreText);
-doc.setFontSize(12);
-doc.text('/100', 150 + scoreWidth + 2, y + 18); // Dynamic positioning based on score width
+    // Calculate proper position for "/100" based on score width
+    const scoreWidth = doc.getTextWidth(scoreText);
+    doc.setFontSize(12);
+    doc.text('/100', 150 + scoreWidth + 2, y + 18); // Dynamic positioning based on score width
     
     // Description with proper text wrapping - FIXED width and positioning
     doc.setFont('helvetica', 'normal');
@@ -420,17 +423,16 @@ doc.text('/100', 150 + scoreWidth + 2, y + 18); // Dynamic positioning based on 
     // FIXED: Issue text on separate line with proper spacing
     doc.setFontSize(8);
     doc.setTextColor(colors.textMedium[0], colors.textMedium[1], colors.textMedium[2]);
-    const issueText = `${dimension.data.total} issues (${dimension.data.critical || 0} critical, ${dimension.data.medium || 0} medium, ${dimension.data.low || 0} low)`;
+    const issueText = `${dimension.data.total} optimization opportunities (${dimension.data.critical || 0} critical, ${dimension.data.medium || 0} medium, ${dimension.data.low || 0} low)`;
     const issueLines = doc.splitTextToSize(issueText, 140);
     doc.text(issueLines, 25, y + 35); // Positioned at bottom of box with proper spacing
     
     y += dimensionBoxHeight + 5;
   });
 }
-
-// Create detailed dimension analysis with improved text handling and FIXED overlapping text
-function createDimensionAnalysis(doc, reportData, growthIssues, colors) {
-  addModernPageHeader(doc, 'Dimension Analysis', colors);
+// Create detailed dimension analysis with AI SEO focus
+function createDimensionAnalysis(doc, reportData, aiSeoIssues, colors) {
+  addModernPageHeader(doc, 'AI SEO Dimension Analysis', colors);
   
   let y = 45;
   
@@ -439,33 +441,33 @@ function createDimensionAnalysis(doc, reportData, growthIssues, colors) {
   doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
   doc.setFontSize(11);
   
-  const introText = 'This section provides detailed analysis of each growth dimension, with special focus on SEO optimization opportunities that will drive organic traffic and improve search rankings.';
+  const introText = 'This section provides detailed analysis of each AI SEO dimension, with special focus on optimization opportunities that will improve visibility in ChatGPT, Perplexity, SearchGPT, and other AI search engines.';
   const maxWidth = 170;
   const introLines = doc.splitTextToSize(introText, maxWidth);
   doc.text(introLines, 20, y);
   y += introLines.length * 6 + 15;
   
-  // SEO Analysis (Primary Focus)
-  y = createDimensionSection(doc, 'SEO Optimization', reportData.seo, colors.secondary, y, colors, true);
+  // AI SEO Analysis (Primary Focus)
+  y = createDimensionSection(doc, 'AI SEO Optimization', reportData.seo, colors.primary, y, colors, true);
   
-  // Performance Analysis
+  // Technical SEO Analysis
   if (y > 200) {
     doc.addPage();
-    addModernPageHeader(doc, 'Dimension Analysis (Continued)', colors);
+    addModernPageHeader(doc, 'AI SEO Dimension Analysis (Continued)', colors);
     y = 45;
   }
-  y = createDimensionSection(doc, 'Performance Optimization', reportData.performance, colors.accent, y, colors);
+  y = createDimensionSection(doc, 'Technical Foundation', reportData.performance, colors.accent, y, colors);
   
-  // Compliance Analysis
+  // Trust Signals Analysis
   if (y > 200) {
     doc.addPage();
-    addModernPageHeader(doc, 'Dimension Analysis (Continued)', colors);
+    addModernPageHeader(doc, 'AI SEO Dimension Analysis (Continued)', colors);
     y = 45;
   }
-  y = createDimensionSection(doc, 'Compliance & Legal', reportData.compliance, colors.compliance, y, colors);
+  y = createDimensionSection(doc, 'Trust & Authority Signals', reportData.compliance, colors.compliance, y, colors);
 }
 
-// Create individual dimension section with FIXED text overlapping issues
+// Create individual dimension section with AI SEO focus
 function createDimensionSection(doc, title, dimensionData, titleColor, startY, colors, isPrimary = false) {
   let y = startY;
   
@@ -478,7 +480,7 @@ function createDimensionSection(doc, title, dimensionData, titleColor, startY, c
   if (isPrimary) {
     doc.setFontSize(10);
     doc.setTextColor(colors.textLight[0], colors.textLight[1], colors.textLight[2]);
-    doc.text('Primary Focus Area', 20, y + 8);
+    doc.text('Primary AI Search Optimization Focus', 20, y + 8);
     y += 12;
   }
   
@@ -505,18 +507,17 @@ function createDimensionSection(doc, title, dimensionData, titleColor, startY, c
   // Score status
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(10);
-  doc.text(getScoreStatus(dimensionData.score), 30, y + 26);
+  doc.text(getAIReadinessStatus(dimensionData.score), 30, y + 26);
   
   // Issue breakdown with FIXED positioning to prevent overlap
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
   doc.setFontSize(10);
-  doc.text(`Total Issues: ${dimensionData.total}`, 90, y + 12); // MOVED position to prevent overlap
+  doc.text(`Total Opportunities: ${dimensionData.total}`, 90, y + 12); // MOVED position to prevent overlap
   
   // Color-coded issue counts with FIXED positioning and spacing
   doc.setFontSize(9); // REDUCED font size
   let currentY = y + 20; // MOVED to separate line
-  let textContent = '';
   
   if (dimensionData.critical > 0) {
     doc.setTextColor(colors.critical[0], colors.critical[1], colors.critical[2]);
@@ -539,10 +540,10 @@ function createDimensionSection(doc, title, dimensionData, titleColor, startY, c
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(titleColor[0], titleColor[1], titleColor[2]);
   doc.setFontSize(12);
-  doc.text('Impact Assessment:', 20, y);
+  doc.text('AI Search Impact Assessment:', 20, y);
   y += 8;
   
-  const impactText = getImpactAssessment(title, dimensionData);
+  const impactText = getAISearchImpactAssessment(title, dimensionData);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
   doc.setFontSize(10);
@@ -551,12 +552,12 @@ function createDimensionSection(doc, title, dimensionData, titleColor, startY, c
   doc.text(impactLines, 20, y);
   y += impactLines.length * 5 + 10;
   
-  // Top issues preview with enhanced formatting and REMOVED "Fix:" text
+  // Top issues preview with enhanced formatting and AI SEO focus
   if (dimensionData.issues && dimensionData.issues.length > 0) {
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
     doc.setFontSize(12);
-    doc.text('Key Issues:', 20, y);
+    doc.text('Key AI Optimization Opportunities:', 20, y);
     y += 8;
     
     // Show top 3 issues with improved formatting
@@ -570,7 +571,7 @@ function createDimensionSection(doc, title, dimensionData, titleColor, startY, c
     topIssues.forEach((issue, index) => {
       if (y > 250) {
         doc.addPage();
-        addModernPageHeader(doc, 'Dimension Analysis (Continued)', colors);
+        addModernPageHeader(doc, 'AI SEO Dimension Analysis (Continued)', colors);
         y = 45;
       }
       
@@ -581,102 +582,82 @@ function createDimensionSection(doc, title, dimensionData, titleColor, startY, c
       doc.setFont('helvetica', 'italic');
       doc.setTextColor(colors.textLight[0], colors.textLight[1], colors.textLight[2]);
       doc.setFontSize(9);
-      const remainingText = `... and ${dimensionData.issues.length - 3} more issues with detailed solutions in the implementation section`;
+      const remainingText = `... and ${dimensionData.issues.length - 3} more AI optimization opportunities with detailed solutions in the implementation section`;
       const remainingLines = doc.splitTextToSize(remainingText, 165);
       doc.text(remainingLines, 20, y);
       y += remainingLines.length * 5 + 8;
     }
   } else {
-    // No issues message with success styling - IMPROVED contrast for compliance
+    // No issues message with success styling - AI SEO focused
     const noIssuesHeight = 25;
-    if (title.includes('Compliance')) {
-      // FIXED: Use light background with better contrast for compliance
-      doc.setFillColor(colors.lightBg[0], colors.lightBg[1], colors.lightBg[2]);
-      doc.roundedRect(20, y, 170, noIssuesHeight, 3, 3, 'F');
-      doc.setDrawColor(colors.success[0], colors.success[1], colors.success[2]);
-      doc.setLineWidth(0.5);
-      doc.roundedRect(20, y, 170, noIssuesHeight, 3, 3, 'S');
-      
-      doc.setFont('helvetica', 'bold');
-      doc.setTextColor(colors.success[0], colors.success[1], colors.success[2]);
-      doc.setFontSize(11);
-      doc.text('Excellent! No issues found in this dimension', 30, y + 12);
-      
-      doc.setFont('helvetica', 'normal');
-      doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]); // IMPROVED contrast
-      doc.setFontSize(9);
-      doc.text('Continue monitoring to maintain these high standards', 30, y + 18);
-    } else {
-      doc.setFillColor(colors.success[0], colors.success[1], colors.success[2], 0.1);
-      doc.roundedRect(20, y, 170, noIssuesHeight, 3, 3, 'F');
-      doc.setDrawColor(colors.success[0], colors.success[1], colors.success[2]);
-      doc.setLineWidth(0.5);
-      doc.roundedRect(20, y, 170, noIssuesHeight, 3, 3, 'S');
-      
-      doc.setFont('helvetica', 'bold');
-      doc.setTextColor(colors.success[0], colors.success[1], colors.success[2]);
-      doc.setFontSize(11);
-      doc.text('Excellent! No issues found in this dimension', 30, y + 12);
-      
-      doc.setFont('helvetica', 'normal');
-      doc.setTextColor(colors.textLight[0], colors.textLight[1], colors.textLight[2]);
-      doc.setFontSize(9);
-      doc.text('Continue monitoring to maintain these high standards', 30, y + 18);
-    }
-    y += noIssuesHeight;
-  }
-  
-  y += 15;
-  return y;
+    doc.setFillColor(colors.lightBg[0], colors.lightBg[1], colors.lightBg[2]);
+    doc.roundedRect(20, y, 170, noIssuesHeight, 3, 3, 'F');
+    doc.setDrawColor(colors.success[0], colors.success[1], colors.success[2]);
+    doc.setLineWidth(0.5);
+    doc.roundedRect(20, y, 170, noIssuesHeight, 3, 3, 'S');
+    
+    doc.setFont('helvetica', 'bold');
+   doc.setTextColor(colors.success[0], colors.success[1], colors.success[2]);
+   doc.setFontSize(11);
+   doc.text('Excellent! This dimension is AI-ready', 30, y + 12);
+   
+   doc.setFont('helvetica', 'normal');
+   doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
+   doc.setFontSize(9);
+   doc.text('Continue monitoring to maintain AI search optimization standards', 30, y + 18);
+   
+   y += noIssuesHeight;
+ }
+ 
+ y += 15;
+ return y;
 }
 
-// FIXED: Create issue preview with improved text handling and REMOVED "Fix:" text
+// FIXED: Create issue preview with AI SEO focus
 function createIssuePreviewFixed(doc, issue, number, startY, colors, categoryColor) {
-  let y = startY;
-  
-  // Calculate dynamic height based on text content with proper constraints
-  const maxWidth = 140;
-  const issueText = issue.description || 'No description available';
-  const issueLines = doc.splitTextToSize(issueText, maxWidth);
-  const boxHeight = Math.max(30, 15 + (issueLines.slice(0, 2).length * 5) + 10);
-  
-  // Issue container with modern styling
-  const severityColor = getSeverityColor(issue.severity, colors);
-  
-  doc.setFillColor(colors.lightBg[0], colors.lightBg[1], colors.lightBg[2]);
-  doc.roundedRect(20, y, 170, boxHeight, 2, 2, 'F');
-  doc.setDrawColor(severityColor[0], severityColor[1], severityColor[2]);
-  doc.setLineWidth(0.5);
-  doc.roundedRect(20, y, 170, boxHeight, 2, 2, 'S');
-  
-  // Left border for severity indication
-  doc.setFillColor(severityColor[0], severityColor[1], severityColor[2]);
-  doc.rect(20, y, 3, boxHeight, 'F');
-  
-  // Issue number and severity
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(severityColor[0], severityColor[1], severityColor[2]);
-  doc.setFontSize(10);
-  doc.text(`${number}.`, 30, y + 8);
-  
-  // Severity badge - positioned at top right
-  doc.setFontSize(8);
-  doc.text(issue.severity.toUpperCase(), 180, y + 6, { align: 'right' });
-  
-  // Issue description with proper text wrapping (limit to 2 lines)
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
-  doc.setFontSize(10);
-  const displayLines = issueLines.slice(0, 2); // Limit to prevent overflow
-  doc.text(displayLines, 37, y + 8);
-  
-  // REMOVED: Dimension tag completely removed as requested
-  
-  return y + boxHeight + 5;
+ let y = startY;
+ 
+ // Calculate dynamic height based on text content with proper constraints
+ const maxWidth = 140;
+ const issueText = issue.description || 'No description available';
+ const issueLines = doc.splitTextToSize(issueText, maxWidth);
+ const boxHeight = Math.max(30, 15 + (issueLines.slice(0, 2).length * 5) + 10);
+ 
+ // Issue container with modern styling
+ const severityColor = getSeverityColor(issue.severity, colors);
+ 
+ doc.setFillColor(colors.lightBg[0], colors.lightBg[1], colors.lightBg[2]);
+ doc.roundedRect(20, y, 170, boxHeight, 2, 2, 'F');
+ doc.setDrawColor(severityColor[0], severityColor[1], severityColor[2]);
+ doc.setLineWidth(0.5);
+ doc.roundedRect(20, y, 170, boxHeight, 2, 2, 'S');
+ 
+ // Left border for severity indication
+ doc.setFillColor(severityColor[0], severityColor[1], severityColor[2]);
+ doc.rect(20, y, 3, boxHeight, 'F');
+ 
+ // Issue number and severity
+ doc.setFont('helvetica', 'bold');
+ doc.setTextColor(severityColor[0], severityColor[1], severityColor[2]);
+ doc.setFontSize(10);
+ doc.text(`${number}.`, 30, y + 8);
+ 
+ // Severity badge - positioned at top right
+ doc.setFontSize(8);
+ doc.text(issue.severity.toUpperCase(), 180, y + 6, { align: 'right' });
+ 
+ // Issue description with proper text wrapping (limit to 2 lines)
+ doc.setFont('helvetica', 'normal');
+ doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
+ doc.setFontSize(10);
+ const displayLines = issueLines.slice(0, 2); // Limit to prevent overflow
+ doc.text(displayLines, 37, y + 8);
+ 
+ return y + boxHeight + 5;
 }
-// Create implementation guide section with ALL TASKS and comprehensive code examples
-function createImplementationGuide(doc, reportData, growthIssues, colors) {
-  addModernPageHeader(doc, 'Complete Implementation Guide', colors);
+// Create implementation guide section with AI SEO focus
+function createImplementationGuide(doc, reportData, aiSeoIssues, colors) {
+  addModernPageHeader(doc, 'Complete AI SEO Implementation Guide', colors);
   
   let y = 45;
   
@@ -685,39 +666,39 @@ function createImplementationGuide(doc, reportData, growthIssues, colors) {
   doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
   doc.setFontSize(11);
   
-  const introText = 'Complete step-by-step implementation instructions for ALL identified issues. Every code example and best practice needed is provided below - this is your complete implementation guide.';
+  const introText = 'Complete step-by-step implementation instructions for ALL identified AI SEO opportunities. Every code example and best practice needed for ChatGPT, Perplexity, and SearchGPT optimization is provided below.';
   const maxWidth = 170;
   const introLines = doc.splitTextToSize(introText, maxWidth);
   doc.text(introLines, 20, y);
   y += introLines.length * 6 + 15;
   
-  // SEO Implementation - ALL TASKS
-  if (growthIssues.seo.length > 0) {
-    y = createCompleteImplementationSectionFull(doc, 'SEO Implementation', growthIssues.seo, colors.secondary, y, colors, true);
+  // AI SEO Implementation - ALL TASKS
+  if (aiSeoIssues.aiSeo.length > 0) {
+    y = createCompleteImplementationSectionFull(doc, 'AI SEO Implementation', aiSeoIssues.aiSeo, colors.primary, y, colors, true);
   }
   
-  // Performance Implementation - ALL TASKS
-  if (growthIssues.performance.length > 0) {
+  // Technical SEO Implementation - ALL TASKS
+  if (aiSeoIssues.technicalSeo.length > 0) {
     if (y > 200) {
       doc.addPage();
-      addModernPageHeader(doc, 'Implementation Guide (Continued)', colors);
+      addModernPageHeader(doc, 'AI SEO Implementation Guide (Continued)', colors);
       y = 45;
     }
-    y = createCompleteImplementationSectionFull(doc, 'Performance Implementation', growthIssues.performance, colors.accent, y, colors);
+    y = createCompleteImplementationSectionFull(doc, 'Technical Foundation Implementation', aiSeoIssues.technicalSeo, colors.accent, y, colors);
   }
   
-  // Compliance Implementation - ALL TASKS
-  if (growthIssues.compliance.length > 0) {
+  // Trust Signals Implementation - ALL TASKS
+  if (aiSeoIssues.trustSignals.length > 0) {
     if (y > 200) {
       doc.addPage();
-      addModernPageHeader(doc, 'Implementation Guide (Continued)', colors);
+      addModernPageHeader(doc, 'AI SEO Implementation Guide (Continued)', colors);
       y = 45;
     }
-    y = createCompleteImplementationSectionFull(doc, 'Compliance Implementation', growthIssues.compliance, colors.compliance, y, colors);
+    y = createCompleteImplementationSectionFull(doc, 'Trust & Authority Implementation', aiSeoIssues.trustSignals, colors.compliance, y, colors);
   }
 }
 
-// Create complete implementation section with ALL TASKS (no limits)
+// Create complete implementation section with AI SEO focus
 function createCompleteImplementationSectionFull(doc, title, issues, titleColor, startY, colors, isPrimary = false) {
   let y = startY;
   
@@ -730,7 +711,7 @@ function createCompleteImplementationSectionFull(doc, title, issues, titleColor,
   if (isPrimary) {
     doc.setFontSize(9);
     doc.setTextColor(colors.textLight[0], colors.textLight[1], colors.textLight[2]);
-    doc.text('Primary Growth Focus - ALL Tasks Included', 20, y + 8);
+    doc.text('Primary AI Search Optimization Focus - ALL Tasks Included', 20, y + 8);
     y += 12;
   }
   
@@ -740,7 +721,7 @@ function createCompleteImplementationSectionFull(doc, title, issues, titleColor,
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(colors.textLight[0], colors.textLight[1], colors.textLight[2]);
   doc.setFontSize(10);
-  const countText = `${issues.length} complete implementation tasks with detailed code examples and instructions`;
+  const countText = `${issues.length} complete AI SEO implementation tasks with detailed code examples and instructions`;
   const countLines = doc.splitTextToSize(countText, 165);
   doc.text(countLines, 20, y);
   y += countLines.length * 5 + 15;
@@ -749,7 +730,7 @@ function createCompleteImplementationSectionFull(doc, title, issues, titleColor,
   issues.forEach((issue, index) => {
     if (y > 180) { // Check for page break earlier to ensure full task fits
       doc.addPage();
-      addModernPageHeader(doc, 'Implementation Guide (Continued)', colors);
+      addModernPageHeader(doc, 'AI SEO Implementation Guide (Continued)', colors);
       y = 45;
     }
     
@@ -760,7 +741,7 @@ function createCompleteImplementationSectionFull(doc, title, issues, titleColor,
   return y;
 }
 
-// Create complete implementation for individual issue with comprehensive code examples
+// Create complete implementation for individual issue with AI SEO code examples
 function createCompleteImplementationTaskFull(doc, issue, number, startY, colors, categoryColor) {
   let y = startY;
   
@@ -768,7 +749,7 @@ function createCompleteImplementationTaskFull(doc, issue, number, startY, colors
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(categoryColor[0], categoryColor[1], categoryColor[2]);
   doc.setFontSize(11);
-  const taskTitle = issue.fix?.title || issue.description || `Task ${number}`;
+  const taskTitle = issue.fix?.title || issue.description || `AI SEO Task ${number}`;
   const maxTitleWidth = 150;
   const titleLines = doc.splitTextToSize(`${number}. ${taskTitle}`, maxTitleWidth);
   doc.text(titleLines, 20, y);
@@ -801,8 +782,8 @@ function createCompleteImplementationTaskFull(doc, issue, number, startY, colors
     y += descLines.length * 5 + 8;
   }
   
-  // Comprehensive code implementation
-  const implementationCode = getComprehensiveImplementationCode(issue);
+  // Comprehensive AI SEO code implementation
+  const implementationCode = getAISEOImplementationCode(issue);
   if (implementationCode) {
     const codeLines = implementationCode.split('\n');
     const maxLinesPerPage = 15; // Increased for more comprehensive examples
@@ -817,7 +798,7 @@ function createCompleteImplementationTaskFull(doc, issue, number, startY, colors
       // Check if we need a new page
       if (y + codeBoxHeight > 270) {
         doc.addPage();
-        addModernPageHeader(doc, 'Implementation Guide (Continued)', colors);
+        addModernPageHeader(doc, 'AI SEO Implementation Guide (Continued)', colors);
         y = 45;
       }
       
@@ -832,7 +813,7 @@ function createCompleteImplementationTaskFull(doc, issue, number, startY, colors
       doc.setFont('helvetica', 'bold');
       doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
       doc.setFontSize(8);
-      const headerText = currentLineIndex === 0 ? 'Complete Implementation Code:' : 'Implementation Code (continued):';
+      const headerText = currentLineIndex === 0 ? 'Complete AI SEO Implementation Code:' : 'AI SEO Implementation Code (continued):';
       doc.text(headerText, 25, y + 6);
       
       // Code content
@@ -850,14 +831,14 @@ function createCompleteImplementationTaskFull(doc, issue, number, startY, colors
     }
   }
   
-  // Add comprehensive implementation guidance
-  const guidance = getComprehensiveImplementationGuidance(issue.type);
+  // Add comprehensive AI SEO implementation guidance
+  const guidance = getAISEOImplementationGuidance(issue.type);
   if (guidance) {
     const guidanceHeight = 25;
     
     if (y + guidanceHeight > 270) {
       doc.addPage();
-      addModernPageHeader(doc, 'Implementation Guide (Continued)', colors);
+      addModernPageHeader(doc, 'AI SEO Implementation Guide (Continued)', colors);
       y = 45;
     }
     
@@ -870,7 +851,7 @@ function createCompleteImplementationTaskFull(doc, issue, number, startY, colors
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
     doc.setFontSize(8);
-    doc.text('Implementation Guidance:', 25, y + 8);
+    doc.text('AI SEO Implementation Guidance:', 25, y + 8);
     
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(colors.textMedium[0], colors.textMedium[1], colors.textMedium[2]);
@@ -885,209 +866,94 @@ function createCompleteImplementationTaskFull(doc, issue, number, startY, colors
   return y;
 }
 
-// Get comprehensive implementation code based on issue type
-function getComprehensiveImplementationCode(issue) {
+// Get AI SEO specific implementation code
+function getAISEOImplementationCode(issue) {
   const type = issue.type?.toLowerCase() || '';
   
-  if (type.includes('meta-title') || type.includes('title')) {
-    return `<!-- Add to <head> section -->
-<title>Your Target Keyword - Brand Name | Additional Keywords</title>
-
-<!-- WordPress -->
-function custom_page_title($title) {
-    if (is_home()) {
-        return 'Your Target Keyword - Brand Name | Additional Keywords';
-    }
-    return $title;
+  if (type.includes('json-ld') || type.includes('schema')) {
+    return `<!-- AI-Optimized JSON-LD Schema for Citations -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Your Article Title - Include Target Keywords",
+    "description": "Clear, factual description for AI understanding",
+    "author": {
+        "@type": "Person",
+        "name": "Author Name",
+        "url": "https://yoursite.com/author/name",
+        "jobTitle": "Expert Title",
+        "worksFor": {
+            "@type": "Organization",
+            "name": "Organization Name"
+        }
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "Publisher Name",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://yoursite.com/logo.png",
+            "width": 600,
+            "height": 60
+        }
+    },
+    "datePublished": "2024-01-01T00:00:00Z",
+    "dateModified": "2024-01-01T00:00:00Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://yoursite.com/article-image.jpg",
+        "width": 1200,
+        "height": 630
+    },
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://yoursite.com/article-url"
+    },
+    "about": {
+        "@type": "Thing",
+        "name": "Main Topic"
+    },
+    "mentions": [
+        {
+            "@type": "Thing",
+            "name": "Related Topic 1"
+        },
+        {
+            "@type": "Thing", 
+            "name": "Related Topic 2"
+        }
+    ]
 }
-add_filter('wp_title', 'custom_page_title');
+</script>
 
-<!-- Next.js -->
-import Head from 'next/head';
-export default function Page() {
-    return (
-        <>
-            <Head>
-                <title>Your Target Keyword - Brand Name | Additional Keywords</title>
-            </Head>
-            {/* page content */}
-        </>
-    );
+<!-- FAQ Schema for AI Q&A Optimization -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+        {
+            "@type": "Question",
+            "name": "What is [your topic]?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Clear, factual answer that AI engines can easily cite"
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "How does [your service] work?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Step-by-step explanation in natural language"
+            }
+        }
+    ]
 }
+</script>
 
-<!-- React Helmet -->
-import { Helmet } from 'react-helmet';
-<Helmet>
-    <title>Your Target Keyword - Brand Name | Additional Keywords</title>
-</Helmet>`;
-  }
-  
-  if (type.includes('meta-description')) {
-    return `<!-- Add to <head> section -->
-<meta name="description" content="Compelling description that includes your target keyword and encourages clicks. Keep under 160 characters for optimal display in search results.">
-
-<!-- WordPress -->
-function custom_meta_description() {
-    if (is_home()) {
-        echo '<meta name="description" content="Your compelling description here">';
-    }
-}
-add_action('wp_head', 'custom_meta_description');
-
-<!-- Next.js -->
-<Head>
-    <meta name="description" content="Compelling description that includes your target keyword and encourages clicks." />
-</Head>
-
-<!-- Dynamic descriptions -->
-const pageDescriptions = {
-    '/': 'Homepage description with target keywords',
-    '/about': 'About page description focused on brand story',
-    '/services': 'Services description with relevant keywords'
-};
-
-<meta name="description" content={pageDescriptions[router.pathname] || 'Default description'} />`;
-  }
-  
-  if (type.includes('h1') || type.includes('heading')) {
-    return `<!-- HTML Structure -->
-<h1>Primary Keyword - Main Topic</h1>
-<h2>Secondary Topic with Supporting Keywords</h2>
-<h3>Detailed Subtopic</h3>
-
-<!-- React Component -->
-export function BlogPost({ title, content }) {
-    return (
-        <article>
-            <h1>{title}</h1>
-            <div>
-                {content.sections.map((section, index) => (
-                    <section key={index}>
-                        <h2>{section.title}</h2>
-                        <p>{section.content}</p>
-                    </section>
-                ))}
-            </div>
-        </article>
-    );
-}
-
-<!-- WordPress Custom Field H1 -->
-function custom_h1_title() {
-    $custom_h1 = get_field('custom_h1');
-    if ($custom_h1) {
-        return '<h1>' . $custom_h1 . '</h1>';
-    }
-    return '<h1>' . get_the_title() . '</h1>';
-}
-
-<!-- SEO-Optimized Heading Structure -->
-<header>
-    <h1>Main Target Keyword - Primary Topic</h1>
-</header>
-<main>
-    <section>
-        <h2>Related Keyword Section</h2>
-        <h3>Specific Subtopic</h3>
-        <h4>Detailed Point</h4>
-    </section>
-</main>`;
-  }
-  
-  if (type.includes('alt') || type.includes('image')) {
-    return `<!-- HTML Images with Alt Text -->
-<img src="/images/product-photo.jpg" 
-     alt="Blue wireless headphones with noise cancellation on white background" 
-     width="400" 
-     height="300"
-     loading="lazy">
-
-<!-- Next.js Image Component -->
-import Image from 'next/image';
-<Image 
-    src="/images/product-photo.jpg"
-    alt="Blue wireless headphones with noise cancellation on white background"
-    width={400}
-    height={300}
-    loading="lazy"
-    placeholder="blur"
-    blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQ..."
-/>
-
-<!-- React Component with Dynamic Alt Text -->
-export function ProductImage({ product }) {
-    const altText = \`\${product.name} - \${product.color} \${product.category} featuring \${product.keyFeatures.join(', ')}\`;
-    
-    return (
-        <img 
-            src={product.imageUrl}
-            alt={altText}
-            loading="lazy"
-            onError={(e) => {
-                e.target.src = '/images/placeholder.jpg';
-                e.target.alt = 'Product image placeholder';
-            }}
-        />
-    );
-}
-
-<!-- WordPress Featured Image Alt Text -->
-function set_featured_image_alt() {
-    $image_id = get_post_thumbnail_id();
-    $alt_text = get_post_meta($image_id, '_wp_attachment_image_alt', true);
-    if (empty($alt_text)) {
-        $alt_text = get_the_title() . ' - ' . get_bloginfo('name');
-        update_post_meta($image_id, '_wp_attachment_image_alt', $alt_text);
-    }
-}`;
-  }
-
-  if (type.includes('canonical')) {
-    return `<!-- HTML Canonical URL -->
-<link rel="canonical" href="https://yoursite.com/page-url">
-
-<!-- Next.js Canonical -->
-import Head from 'next/head';
-export default function Page() {
-    const canonicalUrl = \`https://yoursite.com\${router.asPath.split('?')[0]}\`;
-    return (
-        <Head>
-            <link rel="canonical" href={canonicalUrl} />
-        </Head>
-    );
-}
-
-<!-- WordPress Canonical -->
-function custom_canonical_url() {
-    if (is_single() || is_page()) {
-        echo '<link rel="canonical" href="' . get_permalink() . '">';
-    }
-}
-add_action('wp_head', 'custom_canonical_url');
-
-<!-- React Helmet Canonical -->
-import { Helmet } from 'react-helmet';
-<Helmet>
-    <link rel="canonical" href={window.location.href.split('?')[0]} />
-</Helmet>
-
-<!-- Dynamic Canonical for Paginated Content -->
-function paginated_canonical() {
-    global $wp_query;
-    $page = get_query_var('paged') ? get_query_var('paged') : 1;
-    
-    if ($page > 1) {
-        $canonical = get_pagenum_link($page);
-    } else {
-        $canonical = get_permalink();
-    }
-    
-    echo '<link rel="canonical" href="' . $canonical . '">';
-}`;
-  }
-
-  if (type.includes('schema') || type.includes('structured')) {
-    return `<!-- JSON-LD Schema Markup -->
+<!-- Organization Schema for Authority -->
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
@@ -1095,7 +961,8 @@ function paginated_canonical() {
     "name": "Your Company Name",
     "url": "https://yoursite.com",
     "logo": "https://yoursite.com/logo.png",
-    "description": "Your business description",
+    "description": "Clear business description for AI understanding",
+    "foundingDate": "2020-01-01",
     "address": {
         "@type": "PostalAddress",
         "streetAddress": "123 Main St",
@@ -1107,437 +974,1165 @@ function paginated_canonical() {
     "contactPoint": {
         "@type": "ContactPoint",
         "telephone": "+1-555-123-4567",
-        "contactType": "customer service"
+        "contactType": "customer service",
+        "availableLanguage": "English"
+    },
+    "sameAs": [
+        "https://twitter.com/yourcompany",
+        "https://linkedin.com/company/yourcompany"
+    ]
+}
+</script>`;
+  }
+  
+  if (type.includes('faq') || type.includes('question')) {
+    return `<!-- AI-Optimized FAQ Structure -->
+<section itemscope itemtype="https://schema.org/FAQPage">
+    <h2>Frequently Asked Questions</h2>
+    
+    <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <h3 itemprop="name">What is [your main topic]?</h3>
+        <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+            <div itemprop="text">
+                <p>Clear, direct answer that AI engines can easily extract and cite. 
+                Include factual information and specific details.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <h3 itemprop="name">How do I [perform specific action]?</h3>
+        <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+            <div itemprop="text">
+                <ol>
+                    <li>Step 1: Clear action item</li>
+                    <li>Step 2: Specific instruction</li>
+                    <li>Step 3: Expected outcome</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- React FAQ Component for AI Optimization -->
+export function AIOptimizedFAQ({ faqs }) {
+    return (
+        <section>
+            <h2>Frequently Asked Questions</h2>
+            {faqs.map((faq, index) => (
+                <div key={index} className="faq-item">
+                    <h3>{faq.question}</h3>
+                    <div className="answer">
+                        <p>{faq.answer}</p>
+                        {faq.sources && (
+                            <cite>
+                                Source: {faq.sources.map(source => 
+                                    <a href={source.url} key={source.title}>
+                                        {source.title}
+                                    </a>
+                                )}
+                            </cite>
+                        )}
+                    </div>
+                </div>
+            ))}
+        </section>
+    );
+}
+
+<!-- WordPress FAQ with Schema -->
+function add_faq_schema() {
+    if (is_page('faq')) {
+        $faqs = get_field('faq_items');
+        if ($faqs) {
+            $schema = array(
+                '@context' => 'https://schema.org',
+                '@type' => 'FAQPage',
+                'mainEntity' => array()
+            );
+            
+            foreach ($faqs as $faq) {
+                $schema['mainEntity'][] = array(
+                    '@type' => 'Question',
+                    'name' => $faq['question'],
+                    'acceptedAnswer' => array(
+                        '@type' => 'Answer',
+                        'text' => $faq['answer']
+                    )
+                );
+            }
+            
+            echo '<script type="application/ld+json">' . json_encode($schema) . '</script>';
+        }
     }
 }
-</script>
+add_action('wp_head', 'add_faq_schema');`;
+  }
+  
+  if (type.includes('meta-title') || type.includes('title')) {
+    return `<!-- AI-Optimized Title Tags for Better Citations -->
+<title>Primary Keyword - Secondary Keyword | Brand Name</title>
 
-<!-- Article Schema -->
+<!-- Answer-Focused Titles for AI Engines -->
+<title>How to [Action] - Complete Guide | Brand Name</title>
+<title>What is [Topic] - Expert Explanation | Brand Name</title>
+<title>[Number] Ways to [Achieve Goal] - Proven Methods | Brand Name</title>
+
+<!-- Next.js AI-Optimized Titles -->
+import Head from 'next/head';
+export default function Page({ content }) {
+    const aiOptimizedTitle = \`\${content.primaryKeyword} - \${content.valueProposition} | \${process.env.SITE_NAME}\`;
+    
+    return (
+        <>
+            <Head>
+                <title>{aiOptimizedTitle}</title>
+                <meta property="og:title" content={aiOptimizedTitle} />
+                <meta name="twitter:title" content={aiOptimizedTitle} />
+            </Head>
+            {/* page content */}
+        </>
+    );
+}
+
+<!-- WordPress AI-Optimized Titles -->
+function ai_optimized_titles($title) {
+    if (is_single()) {
+        $post_type = get_post_type();
+        $primary_keyword = get_field('primary_keyword');
+        $secondary_keyword = get_field('secondary_keyword');
+        
+        if ($primary_keyword) {
+            return $primary_keyword . ' - ' . get_the_title() . ' | ' . get_bloginfo('name');
+        }
+    }
+    
+    if (is_page()) {
+        $page_title = get_the_title();
+        $site_name = get_bloginfo('name');
+        
+        // AI-friendly format: Question/Topic - Value Proposition | Brand
+        return $page_title . ' - Expert Guide | ' . $site_name;
+    }
+    
+    return $title;
+}
+add_filter('wp_title', 'ai_optimized_titles');
+
+<!-- Dynamic Title Generation for AI Citation -->
+const generateAIOptimizedTitle = (content) => {
+    const { topic, contentType, keywords } = content;
+    
+    const templates = {
+        guide: \`How to \${topic} - Complete \${contentType} Guide\`,
+        explanation: \`What is \${topic} - Expert Explanation\`,
+        comparison: \`\${topic} vs Alternatives - Detailed Comparison\`,
+        list: \`\${keywords.length} Best \${topic} \${contentType}s\`
+    };
+    
+    return templates[contentType] || \`\${topic} - \${contentType} | Brand Name\`;
+};
+
+<!-- React Hook for AI-Optimized Titles -->
+import { useEffect } from 'react';
+
+export function useAIOptimizedTitle(content) {
+    useEffect(() => {
+        const title = generateAIOptimizedTitle(content);
+        document.title = title;
+        
+        // Update Open Graph
+        let ogTitle = document.querySelector('meta[property="og:title"]');
+        if (ogTitle) {
+            ogTitle.content = title;
+        }
+    }, [content]);
+}`;
+  }
+  
+  if (type.includes('meta-description')) {
+    return `<!-- AI Citation-Ready Meta Descriptions -->
+<meta name="description" content="Expert explanation of [topic] with actionable insights. Learn [specific benefit] through proven methods backed by [authority/research].">
+
+<!-- Question-Answering Format for AI Engines -->
+<meta name="description" content="[Primary Question]? Our expert guide covers [key points] with step-by-step instructions and real examples. [Call to action].">
+
+<!-- Fact-Dense Descriptions for AI Understanding -->
+<meta name="description" content="[Statistics/Facts] about [topic]. This comprehensive analysis covers [specific aspects] with expert insights and actionable recommendations.">
+
+<!-- Next.js Dynamic AI-Optimized Descriptions -->
+import Head from 'next/head';
+
+export default function Page({ content }) {
+    const generateAIDescription = (content) => {
+        const { topic, keyFacts, targetKeywords, contentType } = content;
+        
+        if (contentType === 'guide') {
+            return \`Learn \${topic} with our expert guide. Covers \${keyFacts.join(', ')} with actionable steps and proven results.\`;
+        }
+        
+        if (contentType === 'explanation') {
+            return \`\${topic} explained by experts. \${keyFacts[0]} Key insights: \${keyFacts.slice(1, 3).join(', ')}.\`;
+        }
+        
+        return \`\${topic} - \${keyFacts.join(', ')}. Expert analysis with actionable insights.\`;
+    };
+    
+    const aiDescription = generateAIDescription(content);
+    
+    return (
+        <Head>
+            <meta name="description" content={aiDescription} />
+            <meta property="og:description" content={aiDescription} />
+            <meta name="twitter:description" content={aiDescription} />
+        </Head>
+    );
+}
+
+<!-- WordPress AI-Optimized Descriptions -->
+function ai_optimized_meta_description() {
+    if (is_single() || is_page()) {
+        $custom_desc = get_field('ai_optimized_description');
+        
+        if ($custom_desc) {
+            echo '<meta name="description" content="' . esc_attr($custom_desc) . '">';
+        } else {
+            // Auto-generate AI-friendly description
+            $title = get_the_title();
+            $excerpt = get_the_excerpt();
+            $keywords = get_field('target_keywords');
+            
+            $ai_description = "Learn about " . $title;
+            if ($keywords) {
+                $ai_description .= ". Covers " . implode(', ', array_slice($keywords, 0, 3));
+            }
+            if ($excerpt) {
+                $ai_description .= ". " . wp_trim_words($excerpt, 15);
+            }
+            
+            echo '<meta name="description" content="' . esc_attr($ai_description) . '">';
+        }
+    }
+}
+add_action('wp_head', 'ai_optimized_meta_description');
+
+<!-- AI Citation Format Optimization -->
+const optimizeForAICitation = (description) => {
+    // Include specific facts and figures
+    // Use natural language that answers questions
+    // Mention expertise/authority
+    // Include actionable elements
+    
+    return description
+        .replace(/generic terms/g, 'specific terminology')
+        .replace(/vague claims/g, 'factual statements')
+        .replace(/marketing language/g, 'expert insights');
+};`;
+  }
+
+  // Continue with more AI SEO specific code examples...
+  if (type.includes('h1') || type.includes('heading')) {
+    return `<!-- AI-Optimized Heading Structure -->
+<h1>Primary Question or Main Topic Keyword</h1>
+<h2>What is [Topic]? - Direct Answer Format</h2>
+<h2>How to [Action] - Step-by-Step Guide</h2>
+<h2>Why [Topic] Matters - Expert Analysis</h2>
+<h3>Key Benefits of [Specific Aspect]</h3>
+<h3>Common Challenges and Solutions</h3>
+
+<!-- React Component for AI-Optimized Headings -->
+export function AIOptimizedContent({ topic, sections }) {
+    return (
+        <article>
+            <h1>{topic.mainQuestion || topic.primaryKeyword}</h1>
+            
+            {sections.map((section, index) => (
+                <section key={index}>
+                    <h2>{section.questionFormat || section.title}</h2>
+                    <p>{section.directAnswer}</p>
+                    
+                    {section.subsections?.map((sub, subIndex) => (
+                        <div key={subIndex}>
+                            <h3>{sub.specificAspect}</h3>
+                            <p>{sub.detailedExplanation}</p>
+                        </div>
+                    ))}
+                </section>
+            ))}
+        </article>
+    );
+}
+
+<!-- WordPress AI-Optimized Heading Structure -->
+function ai_optimize_headings($content) {
+    // Auto-generate question-based headings for AI engines
+    $headings = array(
+        'What is',
+        'How to',
+        'Why does',
+        'When should',
+        'Where can'
+    );
+    
+    // Replace generic headings with question formats
+    foreach ($headings as $question) {
+        $pattern = '/<h2>([^<]*)</h2>/i';
+        $content = preg_replace_callback($pattern, function($matches) use ($question) {
+            $heading = $matches[1];
+            if (!preg_match('/^(what|how|why|when|where)/i', $heading)) {
+                return '<h2>' . $question . ' ' . lcfirst($heading) . '?</h2>';
+            }
+            return $matches[0];
+        }, $content);
+    }
+    
+    return $content;
+}
+add_filter('the_content', 'ai_optimize_headings');
+
+<!-- Semantic Heading Structure for AI Understanding -->
+<article>
+    <header>
+        <h1>Main Topic - Primary Question Answer</h1>
+        <p class="subtitle">Expert insights on [topic] with actionable advice</p>
+    </header>
+    
+    <section id="overview">
+        <h2>What You Need to Know About [Topic]</h2>
+        <p>Direct, factual overview that AI engines can easily cite...</p>
+    </section>
+    
+    <section id="detailed-explanation">
+        <h2>How [Topic] Works - Detailed Explanation</h2>
+        <h3>Key Components and Features</h3>
+        <h3>Step-by-Step Process</h3>
+        <h3>Expected Outcomes and Results</h3>
+    </section>
+    
+    <section id="expert-analysis">
+        <h2>Expert Analysis and Recommendations</h2>
+        <h3>Best Practices from Industry Leaders</h3>
+        <h3>Common Mistakes to Avoid</h3>
+    </section>
+   </section>
+</article>`;
+ }
+
+ if (type.includes('author') || type.includes('e-a-t') || type.includes('authority')) {
+   return `<!-- AI-Optimized Author Attribution for E-A-T -->
+<article itemscope itemtype="https://schema.org/Article">
+   <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+       <meta itemprop="name" content="Dr. Jane Smith">
+       <meta itemprop="jobTitle" content="Senior Marketing Strategist">
+       <meta itemprop="url" content="https://yoursite.com/author/jane-smith">
+       <meta itemprop="sameAs" content="https://linkedin.com/in/janesmith">
+       <div class="author-bio">
+           <img itemprop="image" src="/authors/jane-smith.jpg" alt="Dr. Jane Smith">
+           <p>Dr. Jane Smith is a certified marketing strategist with 15+ years experience 
+           helping businesses grow through digital marketing. She holds a PhD in Marketing 
+           from Stanford University and has published 50+ research papers.</p>
+       </div>
+   </div>
+</article>
+
+<!-- Organization Schema for Authority -->
 <script type="application/ld+json">
 {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "Article Title",
-    "description": "Article description",
-    "author": {
-        "@type": "Person",
-        "name": "Author Name"
-    },
-    "publisher": {
-        "@type": "Organization",
-        "name": "Publisher Name",
-        "logo": {
-            "@type": "ImageObject",
-            "url": "https://yoursite.com/logo.png"
-        }
-    },
-    "datePublished": "2024-01-01T00:00:00Z",
-    "dateModified": "2024-01-01T00:00:00Z",
-    "image": "https://yoursite.com/article-image.jpg"
+   "@context": "https://schema.org",
+   "@type": "Organization",
+   "name": "Your Company Name",
+   "description": "Industry-leading [service] provider since [year]",
+   "foundingDate": "2020-01-01",
+   "awards": [
+       "Best [Category] Company 2024",
+       "Industry Excellence Award 2023"
+   ],
+   "memberOf": {
+       "@type": "Organization",
+       "name": "Professional Association Name"
+   },
+   "hasCredential": {
+       "@type": "EducationalOccupationalCredential",
+       "credentialCategory": "Professional Certification",
+       "recognizedBy": {
+           "@type": "Organization",
+           "name": "Certifying Body"
+       }
+   }
 }
 </script>
 
-<!-- React Schema Component -->
-export function SchemaMarkup({ type, data }) {
-    const schemaData = {
-        "@context": "https://schema.org",
-        "@type": type,
-        ...data
-    };
-    
-    return (
-        <script 
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
-        />
-    );
-}`;
-  }
+<!-- React Author Component -->
+export function AuthorInfo({ author }) {
+   return (
+       <div className="author-info" itemScope itemType="https://schema.org/Person">
+           <img itemProp="image" src={author.photo} alt={author.name} />
+           <div>
+               <h4 itemProp="name">{author.name}</h4>
+               <p itemProp="jobTitle">{author.title}</p>
+               <p itemProp="description">{author.bio}</p>
+               <div className="credentials">
+                   {author.credentials.map(cred => (
+                       <span key={cred} className="credential">{cred}</span>
+                   ))}
+               </div>
+               <a itemProp="sameAs" href={author.linkedIn}>LinkedIn Profile</a>
+           </div>
+       </div>
+   );
+}
 
-  if (type.includes('compression') || type.includes('gzip')) {
-    return `<!-- .htaccess Gzip Compression -->
-<IfModule mod_deflate.c>
-    AddOutputFilterByType DEFLATE text/plain
-    AddOutputFilterByType DEFLATE text/html
-    AddOutputFilterByType DEFLATE text/xml
-    AddOutputFilterByType DEFLATE text/css
-    AddOutputFilterByType DEFLATE application/xml
-    AddOutputFilterByType DEFLATE application/xhtml+xml
-    AddOutputFilterByType DEFLATE application/rss+xml
-    AddOutputFilterByType DEFLATE application/javascript
-    AddOutputFilterByType DEFLATE application/x-javascript
-    AddOutputFilterByType DEFLATE application/json
-    AddOutputFilterByType DEFLATE application/ld+json
+<!-- WordPress Author Schema -->
+function add_author_schema() {
+   if (is_single()) {
+       $author_id = get_the_author_meta('ID');
+       $author_name = get_the_author();
+       $author_bio = get_the_author_meta('description');
+       $author_url = get_author_posts_url($author_id);
+       
+       $author_schema = array(
+           '@context' => 'https://schema.org',
+           '@type' => 'Person',
+           'name' => $author_name,
+           'description' => $author_bio,
+           'url' => $author_url,
+           'image' => get_avatar_url($author_id),
+           'jobTitle' => get_field('job_title', 'user_' . $author_id),
+           'worksFor' => array(
+               '@type' => 'Organization',
+               'name' => get_bloginfo('name')
+           )
+       );
+       
+       echo '<script type="application/ld+json">' . json_encode($author_schema) . '</script>';
+   }
+}
+add_action('wp_head', 'add_author_schema');`;
+ }
+
+ if (type.includes('open-graph') || type.includes('social')) {
+   return `<!-- AI-Optimized Open Graph for Social Sharing -->
+<meta property="og:title" content="Primary Keyword - Clear Value Proposition">
+<meta property="og:description" content="Direct answer to main question with key facts and expert insights">
+<meta property="og:image" content="https://yoursite.com/og-image-1200x630.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Descriptive alt text for image content">
+<meta property="og:url" content="https://yoursite.com/current-page">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Your Brand Name">
+<meta property="article:author" content="Expert Author Name">
+<meta property="article:published_time" content="2024-01-01T00:00:00Z">
+<meta property="article:modified_time" content="2024-01-01T00:00:00Z">
+<meta property="article:section" content="Main Category">
+<meta property="article:tag" content="keyword1,keyword2,keyword3">
+
+<!-- Twitter Cards for AI Sharing -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Primary Keyword - Clear Value Proposition">
+<meta name="twitter:description" content="Expert insights on [topic] with actionable advice and proven results">
+<meta name="twitter:image" content="https://yoursite.com/twitter-image-1200x630.jpg">
+<meta name="twitter:image:alt" content="Descriptive alt text for Twitter image">
+<meta name="twitter:site" content="@yourbrand">
+<meta name="twitter:creator" content="@authorhandle">
+
+<!-- React Component for Dynamic Social Meta -->
+export function SocialMeta({ content }) {
+   const { title, description, image, url, author } = content;
+   
+   return (
+       <Head>
+           {/* Open Graph */}
+           <meta property="og:title" content={title} />
+           <meta property="og:description" content={description} />
+           <meta property="og:image" content={image} />
+           <meta property="og:url" content={url} />
+           <meta property="og:type" content="article" />
+           
+           {/* Twitter */}
+           <meta name="twitter:card" content="summary_large_image" />
+           <meta name="twitter:title" content={title} />
+           <meta name="twitter:description" content={description} />
+           <meta name="twitter:image" content={image} />
+           
+           {/* Article specific */}
+           {author && <meta property="article:author" content={author.name} />}
+           <meta property="article:published_time" content={content.publishDate} />
+       </Head>
+   );
+}
+
+<!-- WordPress Auto-Generated Social Meta -->
+function auto_generate_social_meta() {
+   if (is_single() || is_page()) {
+       $title = get_the_title() . ' | ' . get_bloginfo('name');
+       $description = get_the_excerpt() ?: wp_trim_words(get_the_content(), 25);
+       $image = get_the_post_thumbnail_url(get_the_ID(), 'large') ?: get_site_url() . '/default-og-image.jpg';
+       $url = get_permalink();
+       
+       echo '<meta property="og:title" content="' . esc_attr($title) . '">';
+       echo '<meta property="og:description" content="' . esc_attr($description) . '">';
+       echo '<meta property="og:image" content="' . esc_url($image) . '">';
+       echo '<meta property="og:url" content="' . esc_url($url) . '">';
+       echo '<meta property="og:type" content="article">';
+       
+       echo '<meta name="twitter:card" content="summary_large_image">';
+       echo '<meta name="twitter:title" content="' . esc_attr($title) . '">';
+       echo '<meta name="twitter:description" content="' . esc_attr($description) . '">';
+       echo '<meta name="twitter:image" content="' . esc_url($image) . '">';
+   }
+}
+add_action('wp_head', 'auto_generate_social_meta');`;
+ }
+
+ if (type.includes('voice-search') || type.includes('conversational')) {
+   return `<!-- Voice Search and Conversational AI Optimization -->
+<section class="voice-search-optimized">
+   <h2>What is [Your Topic]?</h2>
+   <p class="direct-answer">[Your topic] is [clear, concise definition]. 
+   It helps [target audience] achieve [specific benefit] through [method/approach].</p>
+   
+   <h2>How does [Your Service] work?</h2>
+   <ol class="step-by-step">
+       <li><strong>Step 1:</strong> Clear action with expected outcome</li>
+       <li><strong>Step 2:</strong> Next logical step with details</li>
+       <li><strong>Step 3:</strong> Final step with measurable result</li>
+   </ol>
+   
+   <h2>Why choose [Your Solution]?</h2>
+   <ul class="benefits-list">
+       <li><strong>Proven results:</strong> Specific statistic or achievement</li>
+       <li><strong>Expert guidance:</strong> Professional credentials or experience</li>
+       <li><strong>Guaranteed outcome:</strong> Specific promise or guarantee</li>
+   </ul>
+</section>
+
+<!-- JavaScript for Voice Search Optimization -->
+const voiceSearchKeywords = [
+   "what is",
+   "how to",
+   "why does",
+   "when should",
+   "where can",
+   "who is the best",
+   "which is better"
+];
+
+function optimizeForVoiceSearch(content) {
+   return content.sections.map(section => ({
+       ...section,
+       title: generateVoiceSearchTitle(section.topic),
+       content: generateDirectAnswer(section.content)
+   }));
+}
+
+function generateVoiceSearchTitle(topic) {
+   const randomStarter = voiceSearchKeywords[Math.floor(Math.random() * voiceSearchKeywords.length)];
+   return \`\${randomStarter} \${topic.toLowerCase()}?\`;
+}
+
+function generateDirectAnswer(content) {
+   // Ensure first sentence directly answers the question
+   const firstSentence = content.split('.')[0];
+   if (!firstSentence.includes('is') && !firstSentence.includes('helps') && !firstSentence.includes('provides')) {
+       return \`This \${content}\`;
+   }
+   return content;
+}
+
+<!-- React Hook for Voice Search Content -->
+export function useVoiceSearchOptimization(content) {
+   const [optimizedContent, setOptimizedContent] = useState(content);
+   
+   useEffect(() => {
+       const optimized = {
+           ...content,
+           title: content.title.startsWith('How') || content.title.startsWith('What') 
+               ? content.title 
+               : \`What is \${content.title}?\`,
+           introduction: content.introduction.split('.')[0].includes(content.mainKeyword)
+               ? content.introduction
+               : \`\${content.mainKeyword} is \${content.introduction}\`
+       };
+       
+       setOptimizedContent(optimized);
+   }, [content]);
+   
+   return optimizedContent;
+}`;
+ }
+
+ if (type.includes('featured-snippet') || type.includes('answer-format')) {
+   return `<!-- Featured Snippet and Answer Box Optimization -->
+<div class="featured-snippet-optimized">
+   <h2>How to [Achieve Goal] in [Timeframe]</h2>
+   <div class="direct-answer">
+       <p><strong>Quick Answer:</strong> [Goal] can be achieved in [timeframe] by following these [number] steps:</p>
+       <ol>
+           <li>First action with specific detail</li>
+           <li>Second action with measurable outcome</li>
+           <li>Third action with expected result</li>
+       </ol>
+       <p><strong>Key Takeaway:</strong> Most people see [specific result] within [timeframe] when following this method.</p>
+   </div>
+</div>
+
+<!-- Table Format for Comparison Snippets -->
+<section class="comparison-table">
+   <h2>[Product A] vs [Product B] - Complete Comparison</h2>
+   <table>
+       <thead>
+           <tr>
+               <th>Feature</th>
+               <th>[Product A]</th>
+               <th>[Product B]</th>
+               <th>Winner</th>
+           </tr>
+       </thead>
+       <tbody>
+           <tr>
+               <td>Price</td>
+               <td>$X</td>
+               <td>$Y</td>
+               <td>[Lower price option]</td>
+           </tr>
+           <tr>
+               <td>Key Feature</td>
+               <td>Specific detail</td>
+               <td>Specific detail</td>
+               <td>Better option with reason</td>
+           </tr>
+       </tbody>
+   </table>
+</section>
+
+<!-- Definition Box for "What is" Queries -->
+<div class="definition-box" itemscope itemtype="https://schema.org/DefinedTerm">
+   <h2>What is <span itemprop="name">[Term]</span>?</h2>
+   <div itemprop="description" class="definition">
+       <p><strong>Definition:</strong> [Term] is [clear, concise explanation in 1-2 sentences].</p>
+       <p><strong>Key characteristics:</strong></p>
+       <ul>
+           <li>Characteristic 1 with specific detail</li>
+           <li>Characteristic 2 with measurable aspect</li>
+           <li>Characteristic 3 with practical application</li>
+       </ul>
+       <p><strong>Common uses:</strong> [Practical applications and examples]</p>
+   </div>
+</div>
+
+<!-- React Component for Answer-Optimized Content -->
+export function AnswerOptimizedSection({ question, answer, details }) {
+   return (
+       <section className="answer-format">
+           <h2>{question}</h2>
+           <div className="quick-answer">
+               <strong>Quick Answer: </strong>
+               <span>{answer.summary}</span>
+           </div>
+           
+           {answer.steps && (
+               <div className="step-by-step">
+                   <h3>Step-by-Step Instructions:</h3>
+                   <ol>
+                       {answer.steps.map((step, index) => (
+                           <li key={index}>
+                               <strong>{step.action}:</strong> {step.description}
+                               {step.tip && <em> Pro tip: {step.tip}</em>}
+                           </li>
+                       ))}
+                   </ol>
+               </div>
+           )}
+           
+           {details && (
+               <div className="additional-details">
+                   <h3>Additional Information:</h3>
+                   <p>{details}</p>
+               </div>
+           )}
+       </section>
+   );
+}`;
+ }
+
+ if (type.includes('mobile') || type.includes('viewport')) {
+   return `<!-- AI-Optimized Mobile Configuration -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<!-- Mobile-First CSS for AI Crawlers -->
+@media (max-width: 768px) {
+   .content {
+       font-size: 16px; /* Minimum for readability */
+       line-height: 1.6;
+       padding: 1rem;
+   }
+   
+   h1 { font-size: 2rem; margin-bottom: 1rem; }
+   h2 { font-size: 1.5rem; margin-bottom: 0.75rem; }
+   h3 { font-size: 1.25rem; margin-bottom: 0.5rem; }
+   
+   /* Ensure touch targets are 44px minimum */
+   button, a, input { min-height: 44px; min-width: 44px; }
+}
+
+<!-- Responsive Images for AI Understanding -->
+<picture>
+   <source media="(max-width: 768px)" 
+           srcset="/images/mobile-hero-800w.webp 800w,
+                   /images/mobile-hero-400w.webp 400w"
+           sizes="100vw">
+   <source media="(min-width: 769px)" 
+           srcset="/images/desktop-hero-1200w.webp 1200w,
+                   /images/desktop-hero-800w.webp 800w"
+           sizes="(max-width: 1200px) 100vw, 1200px">
+   <img src="/images/hero-fallback.jpg" 
+        alt="Descriptive alt text for AI understanding"
+        loading="lazy">
+</picture>
+
+<!-- Next.js Mobile Optimization -->
+import { useState, useEffect } from 'react';
+
+export function useMobileDetection() {
+   const [isMobile, setIsMobile] = useState(false);
+   
+   useEffect(() => {
+       const checkMobile = () => {
+           setIsMobile(window.innerWidth <= 768);
+       };
+       
+       checkMobile();
+       window.addEventListener('resize', checkMobile);
+       return () => window.removeEventListener('resize', checkMobile);
+   }, []);
+   
+   return isMobile;
+}
+
+export function MobileOptimizedContent({ content }) {
+   const isMobile = useMobileDetection();
+   
+   return (
+       <div className={isMobile ? 'mobile-layout' : 'desktop-layout'}>
+           <h1 className={isMobile ? 'mobile-h1' : 'desktop-h1'}>
+               {content.title}
+           </h1>
+           {isMobile ? (
+               <div className="mobile-summary">
+                   {content.summary}
+               </div>
+           ) : (
+               <div className="desktop-intro">
+                   {content.fullIntroduction}
+               </div>
+           )}
+       </div>
+   );
+}`;
+ }
+
+ if (type.includes('https') || type.includes('ssl')) {
+   return `<!-- HTTPS Implementation for AI Trust -->
+<!-- .htaccess Force HTTPS -->
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+<!-- Nginx HTTPS Redirect -->
+server {
+   listen 80;
+   server_name yoursite.com www.yoursite.com;
+   return 301 https://$server_name$request_uri;
+}
+
+<!-- Express.js HTTPS Enforcement -->
+app.use((req, res, next) => {
+   if (req.header('x-forwarded-proto') !== 'https') {
+       res.redirect(\`https://\${req.header('host')}\${req.url}\`);
+   } else {
+       next();
+   }
+});
+
+<!-- Security Headers for AI Trust -->
+<IfModule mod_headers.c>
+   Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+   Header always set X-Content-Type-Options "nosniff"
+   Header always set X-Frame-Options "SAMEORIGIN"
+   Header always set Referrer-Policy "strict-origin-when-cross-origin"
+   Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
 </IfModule>
 
-<!-- Nginx Configuration -->
+<!-- Next.js Security Headers -->
+// next.config.js
+module.exports = {
+   async headers() {
+       return [
+           {
+               source: '/(.*)',
+               headers: [
+                   {
+                       key: 'Strict-Transport-Security',
+                       value: 'max-age=31536000; includeSubDomains'
+                   },
+                   {
+                       key: 'X-Content-Type-Options',
+                       value: 'nosniff'
+                   },
+                   {
+                       key: 'Referrer-Policy',
+                       value: 'strict-origin-when-cross-origin'
+                   }
+               ]
+           }
+       ];
+   }
+};
+
+<!-- SSL Certificate Verification -->
+openssl x509 -in certificate.crt -text -noout
+openssl s_client -connect yoursite.com:443 -servername yoursite.com`;
+ }
+
+ if (type.includes('compress') || type.includes('gzip')) {
+   return `<!-- Advanced Compression for AI Crawler Efficiency -->
+<IfModule mod_deflate.c>
+   AddOutputFilterByType DEFLATE text/plain
+   AddOutputFilterByType DEFLATE text/html
+   AddOutputFilterByType DEFLATE text/xml
+   AddOutputFilterByType DEFLATE text/css
+   AddOutputFilterByType DEFLATE application/xml
+   AddOutputFilterByType DEFLATE application/xhtml+xml
+   AddOutputFilterByType DEFLATE application/rss+xml
+   AddOutputFilterByType DEFLATE application/javascript
+   AddOutputFilterByType DEFLATE application/x-javascript
+   AddOutputFilterByType DEFLATE application/json
+   AddOutputFilterByType DEFLATE application/ld+json
+   AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+<!-- Brotli Compression (Better than Gzip) -->
+<IfModule mod_brotli.c>
+   BrotliCompressionLevel 6
+   BrotliFilterLevel 6
+   AddOutputFilterByType BROTLI_COMPRESS text/html
+   AddOutputFilterByType BROTLI_COMPRESS text/css
+   AddOutputFilterByType BROTLI_COMPRESS application/javascript
+   AddOutputFilterByType BROTLI_COMPRESS application/json
+   AddOutputFilterByType BROTLI_COMPRESS application/ld+json
+</IfModule>
+
+<!-- Nginx Compression Configuration -->
 gzip on;
 gzip_vary on;
 gzip_min_length 1024;
-gzip_proxied expired no-cache no-store private must-revalidate auth;
+gzip_comp_level 6;
 gzip_types
-    text/plain
-    text/css
-    text/xml
-    text/javascript
-    application/javascript
-    application/xml+rss
-    application/json;
+   text/plain
+   text/css
+   text/xml
+   text/javascript
+   application/javascript
+   application/xml+rss
+   application/json
+   application/ld+json
+   image/svg+xml;
 
-<!-- Next.js Configuration -->
+brotli on;
+brotli_comp_level 6;
+brotli_types
+   text/html
+   text/css
+   application/javascript
+   application/json;
+
+<!-- Next.js Compression Setup -->
 // next.config.js
-module.exports = {
-    compress: true,
-    experimental: {
-        optimizeCss: true
-    }
-};
+const withBundleAnalyzer = require('@next/bundle-analyzer');
 
-<!-- Express.js Compression -->
-const compression = require('compression');
-app.use(compression({
-    filter: (req, res) => {
-        if (req.headers['x-no-compression']) {
-            return false;
-        }
-        return compression.filter(req, res);
-    },
-    threshold: 0
-}));`;
-  }
+module.exports = withBundleAnalyzer({
+   enabled: process.env.ANALYZE === 'true'
+})({
+   compress: true,
+   poweredByHeader: false,
+   experimental: {
+       optimizeCss: true,
+       optimizeImages: true
+   },
+   async headers() {
+       return [
+           {
+               source: '/api/(.*)',
+               headers: [
+                   { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }
+               ]
+           }
+       ];
+   }
+});
 
-  if (type.includes('minify') || type.includes('css') || type.includes('javascript')) {
-    return `<!-- Minification Setup -->
-// webpack.config.js
-const TerserPlugin = require('terser-webpack-plugin');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-
-module.exports = {
-    optimization: {
-        minimize: true,
-        minimizer: [
-            new TerserPlugin({
-                terserOptions: {
-                    compress: {
-                        drop_console: true,
-                    },
-                },
-            }),
-            new CssMinimizerPlugin(),
-        ],
-    },
-};
-
-<!-- Critical CSS Inline -->
-<style>
-/* Critical above-the-fold CSS */
-body { font-family: Arial, sans-serif; margin: 0; }
-.header { background: #fff; padding: 1rem; }
-.hero { min-height: 60vh; display: flex; align-items: center; }
-</style>
-
-<!-- Load non-critical CSS async -->
-<link rel="preload" href="/css/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="/css/styles.css"></noscript>
-
-<!-- JavaScript Optimization -->
-// Defer non-critical JavaScript
-<script defer src="/js/analytics.js"></script>
-<script defer src="/js/interactions.js"></script>
-
-// Code splitting with dynamic imports
-const LazyComponent = lazy(() => import('./LazyComponent'));
-
-// Preload critical resources
-<link rel="preload" href="/fonts/main-font.woff2" as="font" type="font/woff2" crossorigin>`;
-  }
-
-  if (type.includes('accessibility') || type.includes('aria')) {
-    return `<!-- ARIA Labels and Roles -->
-<nav role="navigation" aria-label="Main navigation">
-    <ul>
-        <li><a href="/" aria-current="page">Home</a></li>
-        <li><a href="/about">About</a></li>
-        <li><a href="/contact">Contact</a></li>
-    </ul>
-</nav>
-
-<button aria-expanded="false" aria-controls="menu" aria-label="Toggle navigation menu">
-    <span aria-hidden="true">☰</span>
-</button>
-
-<!-- Form Accessibility -->
-<form>
-    <label for="email">Email Address (required)</label>
-    <input type="email" id="email" name="email" required aria-describedby="email-error">
-    <div id="email-error" aria-live="polite" class="error-message"></div>
-    
-    <fieldset>
-        <legend>Contact Preferences</legend>
-        <input type="radio" id="email-pref" name="contact" value="email">
-        <label for="email-pref">Email</label>
-        <input type="radio" id="phone-pref" name="contact" value="phone">
-        <label for="phone-pref">Phone</label>
-    </fieldset>
-</form>
-
-<!-- Skip Navigation -->
-<a href="#main-content" class="skip-link">Skip to main content</a>
-
-<!-- Focus Management -->
-function trapFocus(element) {
-    const focusableElements = element.querySelectorAll(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-    );
-    const firstElement = focusableElements[0];
-    const lastElement = focusableElements[focusableElements.length - 1];
-    
-    element.addEventListener('keydown', (e) => {
-        if (e.key === 'Tab') {
-            if (e.shiftKey && document.activeElement === firstElement) {
-                lastElement.focus();
-                e.preventDefault();
-            } else if (!e.shiftKey && document.activeElement === lastElement) {
-                firstElement.focus();
-                e.preventDefault();
-            }
-        }
-    });
+<!-- WordPress Compression Plugin Alternative -->
+function enable_gzip_compression() {
+   if (substr_count($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')) {
+       ob_start('ob_gzhandler');
+   }
 }
+add_action('init', 'enable_gzip_compression');`;
+ }
 
-<!-- Color Contrast CSS -->
-:root {
-    --primary-color: #0066cc; /* 4.5:1 contrast ratio */
-    --text-color: #333333; /* 12.6:1 contrast ratio */
-    --background-color: #ffffff;
-}
+ if (type.includes('about') || type.includes('contact')) {
+   return `<!-- About Page for AI Authority Recognition -->
+<main itemscope itemtype="https://schema.org/AboutPage">
+   <h1 itemprop="name">About [Company Name] - [Industry] Experts</h1>
+   
+   <section class="company-overview">
+       <h2>Who We Are</h2>
+       <p itemprop="description">[Company Name] is a [industry] company founded in [year] 
+       by [founder names]. We specialize in [specific services] and have helped 
+       [number]+ clients achieve [specific results].</p>
+       
+       <div class="credentials">
+           <h3>Our Credentials and Expertise</h3>
+           <ul>
+               <li>[Specific certification or award]</li>
+               <li>[Years of experience] in [specific field]</li>
+               <li>[Number] successful projects completed</li>
+               <li>Featured in [publications or media]</li>
+           </ul>
+       </div>
+   </section>
+   
+   <section class="team" itemscope itemtype="https://schema.org/Organization">
+       <h2>Our Expert Team</h2>
+       <div class="team-members">
+           <div itemscope itemprop="employee" itemtype="https://schema.org/Person">
+               <img itemprop="image" src="/team/founder.jpg" alt="Founder Name">
+               <h3 itemprop="name">Founder Name</h3>
+               <p itemprop="jobTitle">Title and Credentials</p>
+               <p itemprop="description">Brief bio highlighting expertise and achievements</p>
+           </div>
+       </div>
+   </section>
+</main>
 
-.high-contrast {
-    --primary-color: #000080;
-    --text-color: #000000;
-    --background-color: #ffffff;
-}`;
-  }
-
-  if (type.includes('gdpr') || type.includes('cookie') || type.includes('consent')) {
-    return `<!-- GDPR Cookie Consent -->
-<div id="cookie-banner" class="cookie-banner" style="display: none;">
-    <div class="cookie-content">
-        <p>We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies.</p>
-        <div class="cookie-buttons">
-            <button onclick="acceptAllCookies()">Accept All</button>
-            <button onclick="showCookieSettings()">Customize</button>
-            <button onclick="rejectCookies()">Reject All</button>
-        </div>
-    </div>
+<!-- Contact Page Schema -->
+<div itemscope itemtype="https://schema.org/ContactPage">
+   <h1>Contact [Company Name]</h1>
+   
+   <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Organization">
+       <h2 itemprop="name">[Company Name]</h2>
+       
+       <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+           <p>
+               <span itemprop="streetAddress">123 Business Street</span><br>
+               <span itemprop="addressLocality">City</span>, 
+               <span itemprop="addressRegion">State</span> 
+               <span itemprop="postalCode">12345</span><br>
+               <span itemprop="addressCountry">United States</span>
+           </p>
+       </div>
+       
+       <div itemprop="contactPoint" itemscope itemtype="https://schema.org/ContactPoint">
+           <p>Phone: <span itemprop="telephone">+1-555-123-4567</span></p>
+           <p>Email: <span itemprop="email">info@company.com</span></p>
+           <meta itemprop="contactType" content="customer service">
+           <meta itemprop="availableLanguage" content="English">
+       </div>
+       
+       <div class="business-hours" itemprop="openingHours" content="Mo-Fr 09:00-17:00">
+           <p>Business Hours: Monday - Friday, 9:00 AM - 5:00 PM</p>
+       </div>
+   </div>
 </div>
 
-<script>
-function showCookieBanner() {
-    if (!localStorage.getItem('cookieConsent')) {
-        document.getElementById('cookie-banner').style.display = 'block';
-    }
-}
-
-function acceptAllCookies() {
-    localStorage.setItem('cookieConsent', 'accepted');
-    localStorage.setItem('analyticsConsent', 'true');
-    localStorage.setItem('marketingConsent', 'true');
-    document.getElementById('cookie-banner').style.display = 'none';
-    loadAnalytics();
-}
-
-function rejectCookies() {
-    localStorage.setItem('cookieConsent', 'rejected');
-    localStorage.setItem('analyticsConsent', 'false');
-    localStorage.setItem('marketingConsent', 'false');
-    document.getElementById('cookie-banner').style.display = 'none';
-}
-
-function loadAnalytics() {
-    if (localStorage.getItem('analyticsConsent') === 'true') {
-        // Load Google Analytics
-        gtag('config', 'GA_MEASUREMENT_ID');
-    }
-}
-
-// Check consent on page load
-window.addEventListener('load', showCookieBanner);
-</script>
-
-<!-- Privacy Policy Link -->
-<footer>
-    <nav aria-label="Legal">
-        <a href="/privacy-policy">Privacy Policy</a>
-        <a href="/cookie-policy">Cookie Policy</a>
-        <a href="/terms-of-service">Terms of Service</a>
-    </nav>
-</footer>
-
-<!-- React Cookie Consent Component -->
-import { useState, useEffect } from 'react';
-
-export function CookieConsent() {
-    const [showBanner, setShowBanner] = useState(false);
-    
-    useEffect(() => {
-        const consent = localStorage.getItem('cookieConsent');
-        if (!consent) {
-            setShowBanner(true);
-        }
-    }, []);
-    
-    const handleAccept = () => {
-        localStorage.setItem('cookieConsent', 'accepted');
-        setShowBanner(false);
-        // Initialize analytics
-    };
-    
-    if (!showBanner) return null;
-    
-    return (
-        <div className="fixed bottom-0 left-0 right-0 bg-gray-800 text-white p-4">
-            <div className="max-w-4xl mx-auto flex justify-between items-center">
-                <p>We use cookies to improve your experience.</p>
-                <div className="space-x-2">
-                    <button onClick={handleAccept} className="bg-blue-600 px-4 py-2 rounded">
-                        Accept
-                    </button>
-                </div>
-            </div>
-        </div>
-    );
+<!-- React Contact Component -->
+export function ContactInfo({ business }) {
+   return (
+       <div itemScope itemType="https://schema.org/LocalBusiness">
+           <h1 itemProp="name">Contact {business.name}</h1>
+           
+           <div itemProp="address" itemScope itemType="https://schema.org/PostalAddress">
+               <p itemProp="streetAddress">{business.address.street}</p>
+               <p>
+                   <span itemProp="addressLocality">{business.address.city}</span>, 
+                   <span itemProp="addressRegion">{business.address.state}</span> 
+                   <span itemProp="postalCode">{business.address.zip}</span>
+               </p>
+           </div>
+           
+           <div itemProp="contactPoint" itemScope itemType="https://schema.org/ContactPoint">
+               <p>Phone: <span itemProp="telephone">{business.phone}</span></p>
+               <p>Email: <span itemProp="email">{business.email}</span></p>
+           </div>
+           
+           <meta itemProp="priceRange" content={business.priceRange} />
+           <meta itemProp="openingHours" content="Mo-Fr 09:00-17:00" />
+       </div>
+   );
 }`;
-  }
+ }
 
-  // Default implementation for other issue types
-  return `<!-- General Implementation Template -->
-<!-- 1. Identify the issue location in your codebase -->
-<!-- 2. Apply the following general principles -->
+ // Default AI SEO implementation for other issue types
+ return `<!-- AI SEO General Implementation Template -->
+<!-- 1. Identify the AI optimization opportunity -->
+<!-- 2. Apply AI-specific best practices -->
 
-<!-- HTML Best Practices -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Descriptive Page Title</title>
-    <meta name="description" content="Compelling page description">
-</head>
-<body>
-    <!-- Semantic HTML structure -->
-    <header role="banner">
-        <nav role="navigation">
-            <!-- Navigation content -->
-        </nav>
-    </header>
-    
-    <main role="main">
-        <!-- Main content -->
-    </main>
-    
-    <footer role="contentinfo">
-        <!-- Footer content -->
-    </footer>
-</body>
-</html>
+<!-- AI-Friendly Content Structure -->
+<article itemscope itemtype="https://schema.org/Article">
+   <header>
+       <h1 itemprop="headline">Direct Answer to Main Question</h1>
+       <meta itemprop="description" content="Clear, factual description for AI citation">
+       <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+           <meta itemprop="name" content="Expert Author Name">
+           <meta itemprop="jobTitle" content="Professional Title">
+       </div>
+       <time itemprop="datePublished" datetime="2024-01-01">January 1, 2024</time>
+   </header>
+   
+   <section class="key-facts">
+       <h2>Key Facts and Statistics</h2>
+       <ul>
+           <li><strong>Fact 1:</strong> Specific statistic with source</li>
+           <li><strong>Fact 2:</strong> Expert insight with authority backing</li>
+           <li><strong>Fact 3:</strong> Actionable takeaway with measurable outcome</li>
+       </ul>
+   </section>
+   
+   <section class="expert-analysis">
+       <h2>Expert Analysis and Recommendations</h2>
+       <p>Professional insight based on [credentials/experience]. 
+       Key recommendations include [specific actions] for [measurable outcomes].</p>
+       
+       <div class="cite-sources">
+           <h3>Sources and References</h3>
+           <ol>
+               <li>Authoritative source with publication date</li>
+               <li>Research study with methodology and results</li>
+               <li>Industry report with statistical backing</li>
+           </ol>
+       </div>
+   </section>
+</article>
 
-<!-- Performance Optimization -->
+<!-- AI Optimization JavaScript -->
 <script>
-// Optimize images
-function optimizeImages() {
-    const images = document.querySelectorAll('img');
-    images.forEach(img => {
-        img.loading = 'lazy';
-        img.addEventListener('error', () => {
-            img.src = '/images/placeholder.jpg';
-        });
-    });
+// Enhance content for AI understanding
+function optimizeForAIEngines() {
+   // Add reading time for AI context
+   const readingTime = calculateReadingTime(document.body.textContent);
+   const meta = document.createElement('meta');
+   meta.name = 'reading-time';
+   meta.content = readingTime + ' minutes';
+   document.head.appendChild(meta);
+   
+   // Mark primary content for AI focus
+   const mainContent = document.querySelector('main');
+   if (mainContent) {
+       mainContent.setAttribute('data-ai-primary', 'true');
+   }
+   
+   // Enhance headings with question format
+   document.querySelectorAll('h2, h3').forEach(heading => {
+       if (!heading.textContent.match(/^(what|how|why|when|where)/i)) {
+           heading.setAttribute('data-ai-enhanced', 'true');
+       }
+   });
 }
 
-// Defer non-critical resources
-function deferNonCriticalResources() {
-    const scripts = document.querySelectorAll('script[data-defer]');
-    scripts.forEach(script => {
-        script.addEventListener('load', () => {
-            // Execute after page load
-        });
-    });
+function calculateReadingTime(text) {
+   const wordsPerMinute = 200;
+   const wordCount = text.split(/\s+/).length;
+   return Math.ceil(wordCount / wordsPerMinute);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    optimizeImages();
-    deferNonCriticalResources();
-});
+// Initialize AI optimization
+document.addEventListener('DOMContentLoaded', optimizeForAIEngines);
 </script>`;
 }
 
-// Get comprehensive implementation guidance
-function getComprehensiveImplementationGuidance(issueType) {
-  const type = issueType?.toLowerCase() || '';
-  
-  if (type.includes('meta') || type.includes('title')) {
-    return 'Title tags should be 50-60 characters, include your primary keyword near the beginning, and be compelling for users. Each page should have a unique title that accurately describes the content. Test titles in Google\'s SERP preview tools.';
-  } 
-  
-  if (type.includes('h1') || type.includes('heading')) {
-    return 'Use only one H1 per page containing your primary keyword. Structure headings hierarchically (H1 > H2 > H3) to create a logical content outline. Each heading should be descriptive and help users understand the content structure.';
-  } 
-  
-  if (type.includes('schema') || type.includes('structured')) {
-    return 'Test all structured data with Google\'s Rich Results Test tool before deployment. Use the most specific schema type available for your content. Keep data accurate and up-to-date, as search engines may penalize incorrect markup.';
-  } 
-  
-  if (type.includes('image') || type.includes('alt')) {
-    return 'Alt text should describe the image content and context, not just repeat the caption. For decorative images, use empty alt="" attributes. Include keywords naturally when relevant to the image content.';
-  } 
-  
-  if (type.includes('speed') || type.includes('performance')) {
-    return 'Test all performance changes with Google PageSpeed Insights and Core Web Vitals tools. Prioritize above-the-fold content loading. Monitor performance impact on conversion rates and user engagement metrics.';
-  } 
-  
-  if (type.includes('compress')) {
-    return 'Enable compression at the server level for automatic optimization. Test compression is working with online gzip checkers. Monitor file sizes and loading times before and after implementation.';
-  }
-  
-  if (type.includes('accessibility')) {
-    return 'Test with screen readers and keyboard navigation. Ensure sufficient color contrast (4.5:1 minimum). Use semantic HTML elements and ARIA labels appropriately. Test with actual users with disabilities when possible.';
-  }
-  
-  if (type.includes('gdpr') || type.includes('cookie')) {
-    return 'Consult with legal experts for compliance requirements in your jurisdiction. Implement granular consent options. Keep detailed records of consent preferences. Provide easy opt-out mechanisms.';
-  }
-  
-  return 'Test all changes in a staging environment before deploying to production. Monitor the impact on search rankings and user metrics. Document changes for future reference and team knowledge sharing.';
+// Get AI SEO specific implementation guidance
+function getAISEOImplementationGuidance(issueType) {
+ const type = issueType?.toLowerCase() || '';
+ 
+ if (type.includes('schema') || type.includes('json-ld')) {
+   return 'Test all structured data with Google\'s Rich Results Test and Schema.org validator. AI engines rely heavily on accurate schema markup for content understanding and citation. Keep data current and comprehensive.';
+ }
+ 
+ if (type.includes('faq') || type.includes('question')) {
+   return 'Structure content to directly answer common questions. AI engines prefer clear, factual answers that can be easily extracted and cited. Use natural language that matches how people ask questions.';
+ }
+ 
+ if (type.includes('meta') || type.includes('title')) {
+   return 'Titles should directly answer user questions or clearly state the value proposition. AI engines use titles to understand content relevance and citation potential. Include primary keywords naturally while maintaining readability for both AI and human users.';
+ }
+ 
+ if (type.includes('h1') || type.includes('heading')) {
+   return 'Use question-based headings when possible (What, How, Why). AI engines prefer hierarchical content structure that clearly outlines information. Each heading should be descriptive and help AI understand content organization.';
+ }
+ 
+ if (type.includes('author') || type.includes('e-a-t')) {
+   return 'AI engines evaluate content credibility through author expertise and authority signals. Include detailed author bios, credentials, and professional affiliations. Link to authoritative profiles and showcase relevant experience.';
+ }
+ 
+ if (type.includes('image') || type.includes('alt')) {
+   return 'Alt text helps AI engines understand visual content context. Write descriptive alt text that explains the image\'s relationship to the content. Include relevant keywords naturally when they describe the actual image content.';
+ }
+ 
+ if (type.includes('speed') || type.includes('performance')) {
+   return 'Page speed affects AI crawler efficiency and user experience signals. Optimize Core Web Vitals (LCP, CLS, INP) as AI engines consider user experience metrics. Test with Google PageSpeed Insights and monitor real user metrics.';
+ }
+ 
+ if (type.includes('mobile') || type.includes('viewport')) {
+   return 'Mobile optimization is critical as AI engines prioritize mobile-first indexing. Ensure content is fully accessible and readable on mobile devices. Test with Google\'s Mobile-Friendly Test tool.';
+ }
+ 
+ if (type.includes('compress') || type.includes('gzip')) {
+   return 'Compression improves loading speed for AI crawlers and users. Enable both Gzip and Brotli compression when possible. Monitor compression ratios and ensure all text-based resources are compressed.';
+ }
+ 
+ if (type.includes('accessibility') || type.includes('aria')) {
+   return 'Accessibility improvements help AI engines understand content structure and meaning. Use semantic HTML elements and ARIA labels appropriately. Test with screen readers and automated accessibility tools.';
+ }
+ 
+ if (type.includes('contact') || type.includes('about')) {
+   return 'Clear contact information and company details build trust with AI engines. Include complete business information, professional credentials, and authority indicators. Use structured data to mark up contact details.';
+ }
+ 
+ if (type.includes('gdpr') || type.includes('privacy')) {
+   return 'Privacy compliance builds user trust, which AI engines factor into content evaluation. Implement clear consent mechanisms and transparent data policies. Ensure compliance with applicable privacy regulations.';
+ }
+ 
+ return 'Test all AI SEO changes in a staging environment before deploying to production. Monitor AI search visibility and citation rates after implementation. Document changes for future reference and team knowledge sharing.';
 }
-// Priority findings, action plan, and remaining helper functions
-function createPriorityFindings(doc, reportData, growthIssues, colors) {
-  addModernPageHeader(doc, 'Priority Findings & Recommendations', colors);
+// Priority findings and action plan with AI SEO focus
+function createPriorityFindings(doc, reportData, aiSeoIssues, colors) {
+  addModernPageHeader(doc, 'AI SEO Priority Findings & Recommendations', colors);
   
   let y = 45;
   
-  // Introduction with growth focus and proper text wrapping
+  // Introduction with AI SEO focus
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
   doc.setFontSize(11);
   
-  const introText = 'Issues are prioritized by their impact on organic growth and search visibility. Critical SEO issues should be addressed first for immediate traffic improvements, followed by performance and compliance optimizations.';
+  const introText = 'Optimization opportunities are prioritized by their impact on AI search engine visibility and citation potential. Critical schema and content issues should be addressed first for immediate AI discoverability improvements.';
   const maxWidth = 170;
   const introLines = doc.splitTextToSize(introText, maxWidth);
   doc.text(introLines, 20, y);
   y += introLines.length * 6 + 15;
   
   // Priority impact overview
-  y = createPriorityImpactOverview(doc, reportData, y, colors);
+  y = createAISEOPriorityImpactOverview(doc, reportData, y, colors);
   
-  // Collect and prioritize all issues (excluding security)
+  // Collect and prioritize all AI SEO issues
   const allIssues = [
-    ...growthIssues.seo.map(issue => ({ ...issue, dimension: 'SEO' })),
-    ...growthIssues.performance.map(issue => ({ ...issue, dimension: 'Performance' })),
-    ...growthIssues.compliance.map(issue => ({ ...issue, dimension: 'Compliance' }))
+    ...aiSeoIssues.aiSeo.map(issue => ({ ...issue, dimension: 'AI SEO' })),
+    ...aiSeoIssues.technicalSeo.map(issue => ({ ...issue, dimension: 'Technical' })),
+    ...aiSeoIssues.trustSignals.map(issue => ({ ...issue, dimension: 'Trust' }))
   ];
   
-  // Enhanced sorting: severity first, then SEO priority, then impact
+  // Enhanced sorting: severity first, then AI SEO priority, then impact
   const prioritizedIssues = allIssues.sort((a, b) => {
     const severityOrder = { critical: 3, medium: 2, low: 1 };
     const aSeverity = severityOrder[a.severity] || 0;
@@ -1545,16 +2140,16 @@ function createPriorityFindings(doc, reportData, growthIssues, colors) {
     
     if (aSeverity !== bSeverity) return bSeverity - aSeverity;
     
-    // Within same severity, prioritize SEO issues
-    const aIsSEO = a.dimension === 'SEO';
-    const bIsSEO = b.dimension === 'SEO';
+    // Within same severity, prioritize AI SEO issues
+    const aIsAISEO = a.dimension === 'AI SEO';
+    const bIsAISEO = b.dimension === 'AI SEO';
     
-    if (aIsSEO && !bIsSEO) return -1;
-    if (!aIsSEO && bIsSEO) return 1;
+    if (aIsAISEO && !bIsAISEO) return -1;
+    if (!aIsAISEO && bIsAISEO) return 1;
     
-    // Then prioritize by growth impact
-    const aImpact = getGrowthImpactScore(a);
-    const bImpact = getGrowthImpactScore(b);
+    // Then prioritize by AI impact score
+    const aImpact = getAIImpactScore(a);
+    const bImpact = getAIImpactScore(b);
     
     return bImpact - aImpact;
   });
@@ -1571,41 +2166,40 @@ function createPriorityFindings(doc, reportData, growthIssues, colors) {
   
   // Critical Issues Section
   if (criticalIssues.length > 0) {
-    y = createPrioritySection(doc, 'Critical Issues (Fix Immediately)', criticalIssues, colors.critical, y, colors, 'High traffic/ranking impact');
+    y = createPrioritySection(doc, 'Critical AI SEO Issues (Fix Immediately)', criticalIssues, colors.critical, y, colors, 'High AI citation impact');
   }
   
   // Medium Issues Section
   if (mediumIssues.length > 0) {
     if (y > 220) {
       doc.addPage();
-      addModernPageHeader(doc, 'Priority Findings (Continued)', colors);
+      addModernPageHeader(doc, 'AI SEO Priority Findings (Continued)', colors);
       y = 45;
     }
-    y = createPrioritySection(doc, 'Medium Priority Issues', mediumIssues, colors.medium, y, colors, 'Moderate growth impact');
+    y = createPrioritySection(doc, 'Medium Priority Optimizations', mediumIssues, colors.medium, y, colors, 'Moderate AI visibility impact');
   }
   
   // Low Issues Section  
   if (lowIssues.length > 0) {
     if (y > 220) {
       doc.addPage();
-      addModernPageHeader(doc, 'Priority Findings (Continued)', colors);
+      addModernPageHeader(doc, 'AI SEO Priority Findings (Continued)', colors);
       y = 45;
     }
-    y = createPrioritySection(doc, 'Optimization Opportunities', lowIssues, colors.low, y, colors, 'Long-term optimization value');
+    y = createPrioritySection(doc, 'AI Enhancement Opportunities', lowIssues, colors.low, y, colors, 'Long-term AI optimization value');
   }
 }
 
-// Remaining functions with same structure as original but keeping all existing functionality
-function createPriorityImpactOverview(doc, reportData, startY, colors) {
+function createAISEOPriorityImpactOverview(doc, reportData, startY, colors) {
   let y = startY;
   
   doc.setFont('helvetica', 'bold');
-  doc.setTextColor(colors.secondary[0], colors.secondary[1], colors.secondary[2]);
+  doc.setTextColor(colors.primary[0], colors.primary[1], colors.primary[2]);
   doc.setFontSize(14);
-  doc.text('Priority Impact Matrix', 20, y);
+  doc.text('AI SEO Priority Impact Matrix', 20, y);
   y += 12;
   
-  // Calculate totals across growth dimensions only
+  // Calculate totals across AI SEO dimensions
   const totalCritical = (reportData.seo?.critical || 0) + (reportData.performance?.critical || 0) + 
                        (reportData.compliance?.critical || 0);
   const totalMedium = (reportData.seo?.medium || 0) + (reportData.performance?.medium || 0) + 
@@ -1625,21 +2219,21 @@ function createPriorityImpactOverview(doc, reportData, startY, colors) {
       count: totalCritical, 
       color: colors.critical, 
       impact: 'Immediate',
-      description: 'High traffic/ranking impact'
+      description: 'Blocks AI citation'
     },
     { 
       title: 'Medium', 
       count: totalMedium, 
       color: colors.medium, 
       impact: 'This Month',
-      description: 'Moderate growth impact'
+      description: 'Improves AI visibility'
     },
     { 
       title: 'Low', 
       count: totalLow, 
       color: colors.low, 
-      impact: 'Opportunities',
-      description: 'Long-term value'
+      impact: 'Enhancements',
+      description: 'Long-term AI value'
     }
   ];
   
@@ -1672,19 +2266,19 @@ function createPriorityImpactOverview(doc, reportData, startY, colors) {
   
   y += boxHeight + 15;
   
-  // SEO priority callout
+  // AI SEO priority callout
   if (reportData.seo?.total > 0) {
     const calloutHeight = 20;
-    doc.setFillColor(colors.secondary[0], colors.secondary[1], colors.secondary[2], 0.1);
+    doc.setFillColor(colors.primary[0], colors.primary[1], colors.primary[2], 0.1);
     doc.roundedRect(20, y, 170, calloutHeight, 3, 3, 'F');
-    doc.setDrawColor(colors.secondary[0], colors.secondary[1], colors.secondary[2]);
+    doc.setDrawColor(colors.primary[0], colors.primary[1], colors.primary[2]);
     doc.setLineWidth(0.5);
     doc.roundedRect(20, y, 170, calloutHeight, 3, 3, 'S');
     
     doc.setFont('helvetica', 'bold');
-    doc.setTextColor(colors.secondary[0], colors.secondary[1], colors.secondary[2]);
+    doc.setTextColor(colors.primary[0], colors.primary[1], colors.primary[2]);
     doc.setFontSize(10);
-    const calloutText = `SEO Priority: ${reportData.seo.total} SEO issues identified with highest growth impact`;
+    const calloutText = `AI SEO Priority: ${reportData.seo.total} optimization opportunities for ChatGPT, Perplexity & SearchGPT`;
     const calloutLines = doc.splitTextToSize(calloutText, 160);
     doc.text(calloutLines, 25, y + 12);
     y += calloutHeight + 10;
@@ -1693,172 +2287,87 @@ function createPriorityImpactOverview(doc, reportData, startY, colors) {
   return y;
 }
 
-function createPrioritySection(doc, title, issues, titleColor, startY, colors, description) {
-  let y = startY;
-  
-  // Section header
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(titleColor[0], titleColor[1], titleColor[2]);
-  doc.setFontSize(16);
-  doc.text(title, 20, y);
-  y += 12;
-  
-  // Issue count and impact with proper text wrapping
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(colors.textLight[0], colors.textLight[1], colors.textLight[2]);
-  doc.setFontSize(10);
-  const headerText = `${issues.length} issues found - Estimated impact: ${description}`;
-  const headerLines = doc.splitTextToSize(headerText, 165);
-  doc.text(headerLines, 20, y);
-  y += headerLines.length * 5 + 15;
-  
-  // Display issues with improved text handling (show more issues since this is the main report)
-  const maxIssuesPerSection = 8; // Increased from 5
-  const displayIssues = issues.slice(0, maxIssuesPerSection);
-  
-  displayIssues.forEach((issue, index) => {
-    if (y > 250) {
-      doc.addPage();
-      addModernPageHeader(doc, 'Priority Findings (Continued)', colors);
-      y = 45;
-    }
-    
-    y = createIssueBox(doc, issue, index + 1, y, colors, titleColor);
-  });
-  
-  // Show remaining issues count if truncated
-  if (issues.length > maxIssuesPerSection) {
-    doc.setFont('helvetica', 'italic');
-    doc.setTextColor(colors.textLight[0], colors.textLight[1], colors.textLight[2]);
-    doc.setFontSize(9);
-    const remainingText = `... and ${issues.length - maxIssuesPerSection} more issues detailed in the implementation section`;
-    const remainingLines = doc.splitTextToSize(remainingText, 165);
-    doc.text(remainingLines, 20, y);
-    y += remainingLines.length * 5;
-  }
-  
-  y += 10;
-  return y;
-}
-
-function createIssueBox(doc, issue, number, startY, colors, severityColor) {
-  let y = startY;
-  
-  // Calculate box height based on content with constraints
-  const maxWidth = 155;
-  const descriptionLines = doc.splitTextToSize(issue.description || 'No description available', maxWidth);
-  
-  // Limit lines to prevent overflow
-  const displayDescLines = descriptionLines.slice(0, 2);
-  
-  const boxHeight = Math.max(25, 15 + (displayDescLines.length * 4) + 5);
-  
-  // Create issue container
-  doc.setFillColor(colors.lightBg[0], colors.lightBg[1], colors.lightBg[2]);
-  doc.roundedRect(20, y, 170, boxHeight, 2, 2, 'F');
-  doc.setDrawColor(severityColor[0], severityColor[1], severityColor[2]);
-  doc.setLineWidth(0.5);
-  doc.roundedRect(20, y, 170, boxHeight, 2, 2, 'S');
-  
-  // Issue number and description
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(severityColor[0], severityColor[1], severityColor[2]);
-  doc.setFontSize(10);
-  doc.text(`${number}.`, 25, y + 8);
-  
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
-  doc.setFontSize(10);
-  doc.text(displayDescLines, 30, y + 8);
-  
-  // REMOVED: Dimension tag completely removed as requested
-  
-  return y + boxHeight + 5;
-}
-
-// Keep all remaining functions exactly as they were in the original code
-function createActionPlan(doc, reportData, growthIssues, colors) {
-  addModernPageHeader(doc, '30-Day SEO Growth Action Plan', colors);
+function createActionPlan(doc, reportData, aiSeoIssues, colors) {
+  addModernPageHeader(doc, '30-Day AI SEO Optimization Action Plan', colors);
   
   let y = 45;
   
-  // Introduction with proper text wrapping
+  // Introduction with AI SEO focus
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
   doc.setFontSize(11);
   
-  const introText = 'This prioritized action plan focuses on SEO improvements that will drive organic traffic growth. Follow this timeline for maximum impact on search rankings and user experience.';
+  const introText = 'This prioritized action plan focuses on AI SEO improvements that will maximize visibility in ChatGPT, Perplexity, SearchGPT, and other AI search engines. Follow this timeline for optimal AI citation readiness.';
   const maxWidth = 170;
   const introLines = doc.splitTextToSize(introText, maxWidth);
   doc.text(introLines, 20, y);
   y += introLines.length * 6 + 15;
   
-  // Create weekly action plan with growth focus
-  const actionPlan = createGrowthFocusedActionPlan(growthIssues);
+  // Create weekly action plan with AI SEO focus
+  const actionPlan = createAISEOFocusedActionPlan(aiSeoIssues);
   
-  // Week 1: Critical SEO Issues
+  // Week 1: Critical Schema & Structure
   if (actionPlan.week1.length > 0) {
-    y = displayWeeklyPlanWithProperText(doc, 'Week 1: Critical SEO Fixes', actionPlan.week1, colors.critical, y, colors, 'Immediate impact on rankings');
+    y = displayWeeklyPlanWithProperText(doc, 'Week 1: Critical Schema & Structure', actionPlan.week1, colors.critical, y, colors, 'Essential for AI understanding and citation');
   }
   
-  // Week 2: Content & Technical SEO
+  // Week 2: Content Quality & Authority
   if (actionPlan.week2.length > 0) {
-    y = displayWeeklyPlanWithProperText(doc, 'Week 2: Content & Technical SEO', actionPlan.week2, colors.secondary, y, colors, 'Content optimization and technical improvements');
+    y = displayWeeklyPlanWithProperText(doc, 'Week 2: Content Quality & Authority', actionPlan.week2, colors.primary, y, colors, 'Improve content digestibility for AI engines');
   }
   
-  // Week 3: Performance & User Experience
+  // Week 3: Technical Foundation
   if (actionPlan.week3.length > 0) {
-    y = displayWeeklyPlanWithProperText(doc, 'Week 3: Performance Optimization', actionPlan.week3, colors.accent, y, colors, 'Page speed and Core Web Vitals');
+    y = displayWeeklyPlanWithProperText(doc, 'Week 3: Technical Foundation', actionPlan.week3, colors.accent, y, colors, 'Optimize technical aspects for AI crawlers');
   }
   
-  // Week 4: Compliance & Polish
+  // Week 4: Trust Signals & Polish
   if (actionPlan.week4.length > 0) {
-    y = displayWeeklyPlanWithProperText(doc, 'Week 4: Compliance & Advanced SEO', actionPlan.week4, colors.compliance, y, colors, 'Legal compliance and advanced optimizations');
+    y = displayWeeklyPlanWithProperText(doc, 'Week 4: Trust Signals & Enhancement', actionPlan.week4, colors.compliance, y, colors, 'Build authority signals for AI credibility assessment');
   }
   
   // Success metrics section
   y += 10;
   if (y > 200) {
     doc.addPage();
-    addModernPageHeader(doc, '30-Day Action Plan (Continued)', colors);
+    addModernPageHeader(doc, '30-Day AI SEO Action Plan (Continued)', colors);
     y = 45;
   }
   
-  createSuccessMetrics(doc, y, colors);
+  createAISEOSuccessMetrics(doc, y, colors);
 }
 
-// Include all remaining functions from the original code exactly as they were
-function createGrowthFocusedActionPlan(growthIssues) {
+function createAISEOFocusedActionPlan(aiSeoIssues) {
   const allIssues = [
-    ...growthIssues.seo,
-    ...growthIssues.performance,
-    ...growthIssues.compliance
+    ...aiSeoIssues.aiSeo,
+    ...aiSeoIssues.technicalSeo,
+    ...aiSeoIssues.trustSignals
   ];
   
   const plan = {
-    week1: [], // Critical issues
-    week2: [], // Content and technical SEO
-    week3: [], // Performance issues
-    week4: []  // Compliance and advanced
+    week1: [], // Critical schema and structure issues
+    week2: [], // Content quality and authority
+    week3: [], // Technical SEO issues
+    week4: []  // Trust signals and enhancements
   };
   
   allIssues.forEach(issue => {
     const type = issue.type?.toLowerCase() || '';
     const severity = issue.severity;
     
-    // Week 1: Critical issues, especially SEO
-    if (severity === 'critical' || (isSeoIssue(type) && severity === 'medium')) {
+    // Week 1: Critical issues, especially schema
+    if (severity === 'critical' || type.includes('schema') || type.includes('json-ld')) {
       plan.week1.push(issue);
     }
-    // Week 2: SEO content and technical issues
-    else if (isSeoIssue(type)) {
+    // Week 2: Content and authority issues
+    else if (type.includes('content') || type.includes('author') || type.includes('faq') || type.includes('heading')) {
       plan.week2.push(issue);
     }
-    // Week 3: Performance issues
-    else if (isPerformanceIssue(type)) {
+    // Week 3: Technical SEO issues
+    else if (isTechnicalSeoIssue(type)) {
       plan.week3.push(issue);
     }
-    // Week 4: Everything else
+    // Week 4: Trust and authority signals
     else {
       plan.week4.push(issue);
     }
@@ -1867,93 +2376,26 @@ function createGrowthFocusedActionPlan(growthIssues) {
   return plan;
 }
 
-function displayWeeklyPlanWithProperText(doc, weekTitle, issues, weekColor, startY, colors, description) {
-  let y = startY;
-  
-  if (y > 220) {
-    doc.addPage();
-    addModernPageHeader(doc, '30-Day Action Plan (Continued)', colors);
-    y = 45;
-  }
-  
-  // Week header
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(weekColor[0], weekColor[1], weekColor[2]);
-  doc.setFontSize(14);
-  doc.text(weekTitle, 20, y);
-  y += 8;
-  
-  // Description with proper text wrapping
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(colors.textLight[0], colors.textLight[1], colors.textLight[2]);
-  doc.setFontSize(9);
-  const descLines = doc.splitTextToSize(description, 165);
-  doc.text(descLines, 20, y);
-  y += descLines.length * 5 + 10;
-  
-  // Calculate dynamic box height with limits
-  const maxIssuesDisplay = 8;
-  const displayIssues = issues.slice(0, maxIssuesDisplay);
-  const boxHeight = Math.max(30, displayIssues.length * 6 + 15);
-  
-  doc.setFillColor(colors.cardBg[0], colors.cardBg[1], colors.cardBg[2]);
-  doc.rect(20, y, 170, boxHeight, 'F');
-  
-  doc.setDrawColor(weekColor[0], weekColor[1], weekColor[2]);
-  doc.setLineWidth(0.5);
-  doc.rect(20, y, 170, boxHeight, 'S');
-  
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
-  doc.setFontSize(9);
-  
-  // Display issues with proper text wrapping and limits
-  displayIssues.forEach((issue, index) => {
-    const currentY = y + 8 + (index * 6);
-    if (currentY + 6 > y + boxHeight - 5) {
-      return; // Skip if would overflow
-    }
-    
-    const issueText = `• ${issue.description}`;
-    const maxWidth = 160;
-    const wrappedText = doc.splitTextToSize(issueText, maxWidth);
-    
-    // Only show first line if wrapping would occur
-    doc.text(wrappedText[0], 25, currentY);
-  });
-  
-  // Show count if issues were truncated
-  if (issues.length > maxIssuesDisplay) {
-    doc.setFont('helvetica', 'italic');
-    doc.setTextColor(colors.textMedium[0], colors.textMedium[1], colors.textMedium[2]);
-    doc.setFontSize(8);
-    doc.text(`... and ${issues.length - maxIssuesDisplay} more tasks`, 25, y + boxHeight - 5);
-  }
-  
-  y += boxHeight + 15;
-  return y;
-}
-
-function createSuccessMetrics(doc, startY, colors) {
+function createAISEOSuccessMetrics(doc, startY, colors) {
   let y = startY;
   
   doc.setFont('helvetica', 'bold');
-  doc.setTextColor(colors.secondary[0], colors.secondary[1], colors.secondary[2]);
+  doc.setTextColor(colors.primary[0], colors.primary[1], colors.primary[2]);
   doc.setFontSize(14);
-  doc.text('Success Metrics to Track', 20, y);
+  doc.text('AI SEO Success Metrics to Track', 20, y);
   y += 10;
   
   doc.setLineWidth(0.5);
-  doc.setDrawColor(colors.secondary[0], colors.secondary[1], colors.secondary[2]);
+  doc.setDrawColor(colors.primary[0], colors.primary[1], colors.primary[2]);
   doc.line(20, y, 190, y);
   y += 8;
   
   const metrics = [
-    'Google Search Console: Impressions, clicks, and CTR improvements',
-    'Google PageSpeed Insights: Core Web Vitals scores (LCP, CLS, INP)',
-    'Google Analytics: Organic traffic growth and bounce rate reduction',
-    'Search rankings: Target keyword position improvements',
-    'Technical SEO: Crawl errors and indexing status in GSC'
+    'AI Citation Tracking: Monitor mentions in ChatGPT, Perplexity, and Claude responses',
+    'Schema Validation: Regular testing with Google Rich Results Test and Schema.org validator',
+    'Content Quality Score: Track readability and factual density improvements',
+    'Technical Performance: Monitor Core Web Vitals and mobile optimization scores',
+    'Authority Signals: Track E-A-T improvements and trust indicator implementations'
   ];
   
   doc.setFont('helvetica', 'normal');
@@ -1967,20 +2409,20 @@ function createSuccessMetrics(doc, startY, colors) {
     y += metricLines.length * 6 + 2;
   });
   
- y += 10;
+  y += 10;
   
-  // Expected timeline with improved formatting
+  // Expected timeline with AI SEO focus
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(colors.primary[0], colors.primary[1], colors.primary[2]);
   doc.setFontSize(12);
-  doc.text('Expected Results Timeline', 20, y);
+  doc.text('Expected AI SEO Results Timeline', 20, y);
   y += 8;
   
   const timeline = [
-    'Week 1-2: Technical fixes show immediate improvements in PageSpeed',
-    'Week 3-4: Content optimizations begin affecting search visibility',
-    'Month 2-3: Ranking improvements for target keywords become visible',
-    'Month 3-6: Significant organic traffic growth (10-30% increase expected)'
+    'Week 1-2: Schema markup improvements show in Rich Results testing',
+    'Week 3-4: Content structure optimizations improve AI comprehension scores',
+    'Month 2-3: Increased citations and mentions in AI search engine responses',
+    'Month 3-6: Significant improvement in AI search visibility and organic traffic'
   ];
   
   doc.setFont('helvetica', 'normal');
@@ -1996,33 +2438,33 @@ function createSuccessMetrics(doc, startY, colors) {
 }
 
 function createResourcesAndNextSteps(doc, reportData, colors) {
-  addModernPageHeader(doc, 'Resources & Next Steps', colors);
+  addModernPageHeader(doc, 'AI SEO Resources & Next Steps', colors);
   
   let y = 45;
   
-  // SEO Growth ROI section
+  // AI SEO ROI section
   doc.setFont('helvetica', 'bold');
-  doc.setTextColor(colors.secondary[0], colors.secondary[1], colors.secondary[2]);
+  doc.setTextColor(colors.primary[0], colors.primary[1], colors.primary[2]);
   doc.setFontSize(16);
-  doc.text('Expected SEO Growth Impact', 20, y);
+  doc.text('Expected AI Search Optimization Impact', 20, y);
   y += 12;
   
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
   doc.setFontSize(11);
   
-  const roiText = 'Implementing these SEO and growth recommendations can deliver significant organic traffic improvements:';
+  const roiText = 'Implementing these AI SEO recommendations can deliver significant improvements in AI search engine visibility and citation rates:';
   const maxWidth = 170;
   const roiLines = doc.splitTextToSize(roiText, maxWidth);
   doc.text(roiLines, 20, y);
   y += roiLines.length * 6 + 10;
   
   const impacts = [
-    '15-40% improvement in search rankings for target keywords',
-    '25-60% increase in organic traffic within 3-6 months',
-    '20-45% faster page load times improving user experience',
-    '10-25% increase in conversion rates from better UX',
-    'Enhanced brand credibility and search engine trust'
+    '50-80% improvement in AI search engine citation potential',
+    '30-60% increase in structured data comprehension by AI engines',
+    '25-45% better content understanding by ChatGPT and Perplexity',
+    '40-70% improvement in voice search optimization scores',
+    'Enhanced authority recognition by AI systems for expert content'
   ];
   
   impacts.forEach(impact => {
@@ -2033,20 +2475,20 @@ function createResourcesAndNextSteps(doc, reportData, colors) {
   
   y += 15;
   
-  // Essential SEO tools section
+  // Essential AI SEO tools section
   doc.setFont('helvetica', 'bold');
-  doc.setTextColor(colors.secondary[0], colors.secondary[1], colors.secondary[2]);
+  doc.setTextColor(colors.primary[0], colors.primary[1], colors.primary[2]);
   doc.setFontSize(14);
-  doc.text('Essential SEO & Growth Tools', 20, y);
+  doc.text('Essential AI SEO & Optimization Tools', 20, y);
   y += 12;
   
   const tools = [
-    { name: 'Google Search Console', purpose: 'Monitor search performance and indexing issues', priority: 'Essential' },
-    { name: 'Google PageSpeed Insights', purpose: 'Test and optimize Core Web Vitals', priority: 'Essential' },
-    { name: 'Google Analytics 4', purpose: 'Track organic traffic and user behavior', priority: 'Essential' },
-    { name: 'Screaming Frog SEO Spider', purpose: 'Comprehensive technical SEO auditing', priority: 'Recommended' },
-    { name: 'Ahrefs or SEMrush', purpose: 'Keyword research and competitor analysis', priority: 'Recommended' },
-    { name: 'Schema.org Validator', purpose: 'Validate structured data implementation', priority: 'Useful' }
+    { name: 'Google Rich Results Test', purpose: 'Validate schema markup for AI understanding', priority: 'Essential' },
+    { name: 'Schema.org Validator', purpose: 'Test structured data accuracy and completeness', priority: 'Essential' },
+    { name: 'Google PageSpeed Insights', purpose: 'Optimize Core Web Vitals for AI crawlers', priority: 'Essential' },
+    { name: 'Perplexity AI', purpose: 'Test how AI engines discover and cite your content', priority: 'Recommended' },
+    { name: 'ChatGPT Search', purpose: 'Monitor AI search visibility and citation accuracy', priority: 'Recommended' },
+    { name: 'Screaming Frog SEO Spider', purpose: 'Comprehensive technical AI SEO auditing', priority: 'Useful' }
   ];
   
   doc.setFont('helvetica', 'normal');
@@ -2056,7 +2498,7 @@ function createResourcesAndNextSteps(doc, reportData, colors) {
   tools.forEach(tool => {
     if (y > 260) {
       doc.addPage();
-      addModernPageHeader(doc, 'Resources & Next Steps (Continued)', colors);
+      addModernPageHeader(doc, 'AI SEO Resources & Next Steps (Continued)', colors);
       y = 45;
     }
     
@@ -2080,16 +2522,16 @@ function createResourcesAndNextSteps(doc, reportData, colors) {
     y += 8;
   });
   
-  // Add conclusion
-  createGrowthConclusion(doc, y + 20, colors);
+  // Add AI SEO conclusion
+  createAISEOConclusion(doc, y + 20, colors);
 }
 
-function createGrowthConclusion(doc, startY, colors) {
+function createAISEOConclusion(doc, startY, colors) {
   let y = startY;
   
   if (y > 220) {
     doc.addPage();
-    addModernPageHeader(doc, 'Resources & Next Steps (Continued)', colors);
+    addModernPageHeader(doc, 'AI SEO Resources & Next Steps (Continued)', colors);
     y = 45;
   }
   
@@ -2097,19 +2539,19 @@ function createGrowthConclusion(doc, startY, colors) {
   doc.setFillColor(colors.cardBg[0], colors.cardBg[1], colors.cardBg[2]);
   doc.rect(20, y, 170, conclusionHeight, 'F');
   
-  doc.setDrawColor(colors.secondary[0], colors.secondary[1], colors.secondary[2]);
+  doc.setDrawColor(colors.primary[0], colors.primary[1], colors.primary[2]);
   doc.setLineWidth(0.5);
   doc.rect(20, y, 170, conclusionHeight, 'S');
   
   doc.setFont('helvetica', 'bold');
-  doc.setTextColor(colors.secondary[0], colors.secondary[1], colors.secondary[2]);
+  doc.setTextColor(colors.primary[0], colors.primary[1], colors.primary[2]);
   doc.setFontSize(14);
-  doc.text('Ready to Accelerate Your Organic Growth?', 105, y + 15, { align: 'center' });
+  doc.text('Ready to Dominate AI Search?', 105, y + 15, { align: 'center' });
   
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
   doc.setFontSize(10);
-  const conclusionText = 'Follow this comprehensive action plan systematically to see measurable improvements in your search rankings, organic traffic, and overall website performance. Focus on SEO fundamentals first, then expand to performance and compliance optimizations.';
+  const conclusionText = 'Follow this comprehensive AI SEO action plan systematically to achieve maximum visibility in ChatGPT, Perplexity, SearchGPT, and emerging AI search engines. Focus on schema markup and content structure first, then expand to technical and authority optimizations.';
   const maxWidth = 150;
   const conclusionLines = doc.splitTextToSize(conclusionText, maxWidth);
   doc.text(conclusionLines, 105, y + 25, { align: 'center' });
@@ -2129,19 +2571,19 @@ function createNoIssuesMessage(doc, startY, colors) {
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(colors.success[0], colors.success[1], colors.success[2]);
   doc.setFontSize(16);
-  doc.text('Outstanding Performance!', 105, y + 25, { align: 'center' });
+  doc.text('AI-Ready! Outstanding Performance!', 105, y + 25, { align: 'center' });
   
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
   doc.setFontSize(11);
-  const congratsText = 'Your website demonstrates excellent SEO, performance, and compliance practices. Continue monitoring and maintaining these high standards to stay ahead of the competition and maximize organic growth.';
+  const congratsText = 'Your website demonstrates excellent AI SEO optimization across schema markup, content quality, and trust signals. Continue monitoring and maintaining these standards to maximize AI search engine visibility and citation potential.';
   const maxWidth = 150;
   const congratsLines = doc.splitTextToSize(congratsText, maxWidth);
   doc.text(congratsLines, 105, y + 40, { align: 'center' });
 }
 
 function addModernPageHeader(doc, title, colors) {
-  doc.setFillColor(colors.secondary[0], colors.secondary[1], colors.secondary[2]);
+  doc.setFillColor(colors.primary[0], colors.primary[1], colors.primary[2]);
   doc.rect(0, 0, 210, 30, 'F');
   
   doc.setFont('helvetica', 'bold');
@@ -2150,7 +2592,7 @@ function addModernPageHeader(doc, title, colors) {
   doc.text(title, 20, 20);
   
   doc.setFontSize(10);
-  doc.text('SEO Growth Report | FounderScan', 185, 20, { align: 'right' });
+  doc.text('AI SEO Readiness Report | AISEOScan', 185, 20, { align: 'right' });
 }
 
 function addConsistentFooters(doc, reportData, colors) {
@@ -2162,13 +2604,13 @@ function addConsistentFooters(doc, reportData, colors) {
     doc.setFillColor(colors.cardBg[0], colors.cardBg[1], colors.cardBg[2]);
     doc.rect(0, 280, 210, 17, 'F');
     
-    doc.setDrawColor(colors.secondary[0], colors.secondary[1], colors.secondary[2]);
+    doc.setDrawColor(colors.primary[0], colors.primary[1], colors.primary[2]);
     doc.setLineWidth(0.5);
     doc.line(20, 280, 190, 280);
     
     doc.setFontSize(9);
-    doc.setTextColor(colors.secondary[0], colors.secondary[1], colors.secondary[2]);
-    doc.text('FounderScan SEO Growth Analysis', 20, 287);
+    doc.setTextColor(colors.primary[0], colors.primary[1], colors.primary[2]);
+    doc.text('AISEOScan AI SEO Readiness Analysis', 20, 287);
     
     doc.setTextColor(colors.textLight[0], colors.textLight[1], colors.textLight[2]);
     doc.text(`Generated on ${new Date().toLocaleDateString()}`, 105, 287, { align: 'center' });
@@ -2184,7 +2626,7 @@ function addConsistentFooters(doc, reportData, colors) {
   }
 }
 
-// Helper functions
+// Helper functions updated for AI SEO
 function getScoreColorBasedOnValue(score, colors) {
   if (score >= 80) return colors.success;
   if (score >= 60) return colors.primary;
@@ -2192,11 +2634,11 @@ function getScoreColorBasedOnValue(score, colors) {
   return colors.critical;
 }
 
-function getScoreStatus(score) {
-  if (score >= 80) return 'Excellent';
-  if (score >= 60) return 'Good';
-  if (score >= 40) return 'Fair';
-  return 'Needs Work';
+function getAIReadinessStatus(score) {
+  if (score >= 80) return 'AI-Ready';
+  if (score >= 60) return 'Good Progress';
+  if (score >= 40) return 'Needs Work';
+  return 'Not AI-Ready';
 }
 
 function getSeverityColor(severity, colors) {
@@ -2208,98 +2650,251 @@ function getSeverityColor(severity, colors) {
   }
 }
 
-
-
-function getGrowthImpactScore(issue) {
+function getAIImpactScore(issue) {
   const type = issue.type?.toLowerCase() || '';
   let score = 0;
   
-  if (type.includes('title') || type.includes('meta-description')) score += 10;
+  if (type.includes('schema') || type.includes('json-ld')) score += 10;
+  if (type.includes('title') || type.includes('meta-description')) score += 9;
   if (type.includes('h1') || type.includes('heading')) score += 8;
+  if (type.includes('faq') || type.includes('question')) score += 9;
+  if (type.includes('author') || type.includes('e-a-t')) score += 8;
   if (type.includes('alt') || type.includes('image')) score += 6;
-  if (type.includes('schema') || type.includes('structured')) score += 7;
-  if (type.includes('speed') || type.includes('performance')) score += 8;
   if (type.includes('mobile') || type.includes('responsive')) score += 7;
+  if (type.includes('speed') || type.includes('performance')) score += 7;
   if (type.includes('accessibility')) score += 6;
+  if (type.includes('voice-search') || type.includes('conversational')) score += 8;
   
   return score;
 }
 
-function getImpactAssessment(dimensionTitle, dimensionData) {
+function getAISearchImpactAssessment(dimensionTitle, dimensionData) {
   const score = dimensionData.score;
   
-  if (dimensionTitle.includes('SEO')) {
+  if (dimensionTitle.includes('AI SEO')) {
     if (score >= 80) {
-      return 'Strong SEO foundation with excellent search visibility potential. Minor optimizations can further enhance rankings.';
+      return 'Excellent AI SEO foundation with strong schema markup and content structure. Minor optimizations can further enhance AI citation potential.';
     } else if (score >= 60) {
-      return 'Good SEO structure with room for improvement. Addressing current issues can significantly boost organic traffic.';
-    } else {
-      return 'SEO requires immediate attention. Current issues are limiting search visibility and organic traffic growth potential.';
-    }
-  } else if (dimensionTitle.includes('Performance')) {
-    if (score >= 80) {
-      return 'Excellent page performance supporting good user experience and SEO rankings through Core Web Vitals.';
-    } else if (score >= 60) {
-      return 'Moderate performance with opportunities to improve user experience and search rankings through speed optimization.';
-    } else {
-      return 'Performance issues are negatively impacting user experience and likely hurting search rankings. Immediate optimization needed.';
-    }
-  } else if (dimensionTitle.includes('Compliance')) {
-    if (score >= 80) {
-      return 'Strong compliance foundation with proper legal and accessibility standards implementation.';
-    } else if (score >= 60) {
-      return 'Basic compliance in place with some areas needing attention for full legal protection and accessibility.';
-    } else {
-      return 'Compliance gaps present legal risks and may impact accessibility. Immediate attention required for user safety and legal protection.';
-    }
-  }
-  
-  return 'Analysis shows mixed results with both strengths and opportunities for improvement.';
+      return 'Good AI SEO structure with opportunities for improvement. Addressing current issues can significantly boost AI search engine visibility and citation rates.';
+   } else {
+     return 'AI SEO optimization requires immediate attention. Current gaps are limiting discoverability by ChatGPT, Perplexity, and other AI engines.';
+   }
+ } else if (dimensionTitle.includes('Technical')) {
+   if (score >= 80) {
+     return 'Excellent technical foundation supporting optimal AI crawler access and content processing efficiency.';
+   } else if (score >= 60) {
+     return 'Good technical foundation with opportunities to improve AI crawler accessibility and content processing speed.';
+   } else {
+     return 'Technical issues are hampering AI crawler efficiency and may impact content discoverability in AI search engines.';
+   }
+ } else if (dimensionTitle.includes('Trust')) {
+   if (score >= 80) {
+     return 'Strong trust and authority signals that enhance content credibility for AI engine evaluation and citation.';
+   } else if (score >= 60) {
+     return 'Basic trust signals in place with opportunities to strengthen authority indicators for better AI credibility assessment.';
+   } else {
+     return 'Missing trust signals may impact AI engine confidence in content accuracy and citation worthiness.';
+   }
+ }
+ 
+ return 'Analysis shows mixed results with both strengths and opportunities for AI search optimization improvement.';
 }
 
 function calculateScoreFromIssues(issues) {
-  if (!issues || issues.length === 0) return 100;
-  
-  let score = 100;
-  issues.forEach(issue => {
-    if (issue.severity === 'critical') {
-      score -= 20;
-    } else if (issue.severity === 'medium') {
-      score -= 10;
-    } else if (issue.severity === 'low') {
-      score -= 5;
-    }
-  });
-  
-  return Math.max(0, Math.min(100, score));
+ if (!issues || issues.length === 0) return 100;
+ 
+ let score = 100;
+ issues.forEach(issue => {
+   if (issue.severity === 'critical') {
+     score -= 20;
+   } else if (issue.severity === 'medium') {
+     score -= 10;
+   } else if (issue.severity === 'low') {
+     score -= 5;
+   }
+ });
+ 
+ return Math.max(0, Math.min(100, score));
 }
 
 function getPriorityFromSeverity(severity) {
-  switch (severity) {
-    case 'critical': return 'URGENT';
-    case 'medium': return 'HIGH';
-    case 'low': return 'MEDIUM';
-    default: return 'LOW';
-  }
+ switch (severity) {
+   case 'critical': return 'URGENT';
+   case 'medium': return 'HIGH';
+   case 'low': return 'MEDIUM';
+   default: return 'LOW';
+ }
 }
 
 function getTimeEstimate(issue) {
-  const type = issue.type?.toLowerCase() || '';
-  
-  if (type.includes('meta') || type.includes('title') || type.includes('alt')) {
-    return '15-30 minutes';
-  } else if (type.includes('compress') || type.includes('cache')) {
-    return '30-60 minutes';
-  } else if (type.includes('schema') || type.includes('consent') || type.includes('accessibility')) {
-    return '2-4 hours';
-  }
-  
-  switch (issue.severity) {
-    case 'critical': return '1-2 hours';
-    case 'medium': return '30-90 minutes';
-    case 'low': return '15-45 minutes';
-    default: return '30 minutes';
-  }
+ const type = issue.type?.toLowerCase() || '';
+ 
+ if (type.includes('schema') || type.includes('json-ld')) {
+   return '1-2 hours';
+ } else if (type.includes('meta') || type.includes('title') || type.includes('alt')) {
+   return '15-30 minutes';
+ } else if (type.includes('faq') || type.includes('content-structure')) {
+   return '2-4 hours';
+ } else if (type.includes('compress') || type.includes('cache')) {
+   return '30-60 minutes';
+ } else if (type.includes('accessibility') || type.includes('author-bio')) {
+   return '1-3 hours';
+ }
+ 
+ switch (issue.severity) {
+   case 'critical': return '1-2 hours';
+   case 'medium': return '30-90 minutes';
+   case 'low': return '15-45 minutes';
+   default: return '30 minutes';
+ }
+}
+
+function createPrioritySection(doc, title, issues, titleColor, startY, colors, description) {
+ let y = startY;
+ 
+ // Section header
+ doc.setFont('helvetica', 'bold');
+ doc.setTextColor(titleColor[0], titleColor[1], titleColor[2]);
+ doc.setFontSize(16);
+ doc.text(title, 20, y);
+ y += 12;
+ 
+ // Issue count and impact with proper text wrapping
+ doc.setFont('helvetica', 'normal');
+ doc.setTextColor(colors.textLight[0], colors.textLight[1], colors.textLight[2]);
+ doc.setFontSize(10);
+ const headerText = `${issues.length} optimization opportunities found - Estimated impact: ${description}`;
+ const headerLines = doc.splitTextToSize(headerText, 165);
+ doc.text(headerLines, 20, y);
+ y += headerLines.length * 5 + 15;
+ 
+ // Display issues with improved text handling
+ const maxIssuesPerSection = 8; // Increased from 5
+ const displayIssues = issues.slice(0, maxIssuesPerSection);
+ 
+ displayIssues.forEach((issue, index) => {
+   if (y > 250) {
+     doc.addPage();
+     addModernPageHeader(doc, 'AI SEO Priority Findings (Continued)', colors);
+     y = 45;
+   }
+   
+   y = createIssueBox(doc, issue, index + 1, y, colors, titleColor);
+ });
+ 
+ // Show remaining issues count if truncated
+ if (issues.length > maxIssuesPerSection) {
+   doc.setFont('helvetica', 'italic');
+   doc.setTextColor(colors.textLight[0], colors.textLight[1], colors.textLight[2]);
+   doc.setFontSize(9);
+   const remainingText = `... and ${issues.length - maxIssuesPerSection} more AI optimization opportunities detailed in the implementation section`;
+   const remainingLines = doc.splitTextToSize(remainingText, 165);
+   doc.text(remainingLines, 20, y);
+   y += remainingLines.length * 5;
+ }
+ 
+ y += 10;
+ return y;
+}
+
+function createIssueBox(doc, issue, number, startY, colors, severityColor) {
+ let y = startY;
+ 
+ // Calculate box height based on content with constraints
+ const maxWidth = 155;
+ const descriptionLines = doc.splitTextToSize(issue.description || 'No description available', maxWidth);
+ 
+ // Limit lines to prevent overflow
+ const displayDescLines = descriptionLines.slice(0, 2);
+ 
+ const boxHeight = Math.max(25, 15 + (displayDescLines.length * 4) + 5);
+ 
+ // Create issue container
+ doc.setFillColor(colors.lightBg[0], colors.lightBg[1], colors.lightBg[2]);
+ doc.roundedRect(20, y, 170, boxHeight, 2, 2, 'F');
+ doc.setDrawColor(severityColor[0], severityColor[1], severityColor[2]);
+ doc.setLineWidth(0.5);
+ doc.roundedRect(20, y, 170, boxHeight, 2, 2, 'S');
+ 
+ // Issue number and description
+ doc.setFont('helvetica', 'bold');
+ doc.setTextColor(severityColor[0], severityColor[1], severityColor[2]);
+ doc.setFontSize(10);
+ doc.text(`${number}.`, 25, y + 8);
+ 
+ doc.setFont('helvetica', 'bold');
+ doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
+ doc.setFontSize(10);
+ doc.text(displayDescLines, 30, y + 8);
+ 
+ return y + boxHeight + 5;
+}
+
+function displayWeeklyPlanWithProperText(doc, weekTitle, issues, weekColor, startY, colors, description) {
+ let y = startY;
+ 
+ if (y > 220) {
+   doc.addPage();
+   addModernPageHeader(doc, '30-Day AI SEO Action Plan (Continued)', colors);
+   y = 45;
+ }
+ 
+ // Week header
+ doc.setFont('helvetica', 'bold');
+ doc.setTextColor(weekColor[0], weekColor[1], weekColor[2]);
+ doc.setFontSize(14);
+ doc.text(weekTitle, 20, y);
+ y += 8;
+ 
+ // Description with proper text wrapping
+ doc.setFont('helvetica', 'normal');
+ doc.setTextColor(colors.textLight[0], colors.textLight[1], colors.textLight[2]);
+ doc.setFontSize(9);
+ const descLines = doc.splitTextToSize(description, 165);
+ doc.text(descLines, 20, y);
+ y += descLines.length * 5 + 10;
+ 
+ // Calculate dynamic box height with limits
+ const maxIssuesDisplay = 8;
+ const displayIssues = issues.slice(0, maxIssuesDisplay);
+ const boxHeight = Math.max(30, displayIssues.length * 6 + 15);
+ 
+ doc.setFillColor(colors.cardBg[0], colors.cardBg[1], colors.cardBg[2]);
+ doc.rect(20, y, 170, boxHeight, 'F');
+ 
+ doc.setDrawColor(weekColor[0], weekColor[1], weekColor[2]);
+ doc.setLineWidth(0.5);
+ doc.rect(20, y, 170, boxHeight, 'S');
+ 
+ doc.setFont('helvetica', 'normal');
+ doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
+ doc.setFontSize(9);
+ 
+ // Display issues with proper text wrapping and limits
+ displayIssues.forEach((issue, index) => {
+   const currentY = y + 8 + (index * 6);
+   if (currentY + 6 > y + boxHeight - 5) {
+     return; // Skip if would overflow
+   }
+   
+   const issueText = `• ${issue.description}`;
+   const maxWidth = 160;
+   const wrappedText = doc.splitTextToSize(issueText, maxWidth);
+   
+   // Only show first line if wrapping would occur
+   doc.text(wrappedText[0], 25, currentY);
+ });
+ 
+ // Show count if issues were truncated
+ if (issues.length > maxIssuesDisplay) {
+   doc.setFont('helvetica', 'italic');
+   doc.setTextColor(colors.textMedium[0], colors.textMedium[1], colors.textMedium[2]);
+   doc.setFontSize(8);
+   doc.text(`... and ${issues.length - maxIssuesDisplay} more AI SEO tasks`, 25, y + boxHeight - 5);
+ }
+ 
+ y += boxHeight + 15;
+ return y;
 }
 
 export { generateGrowthPdf };

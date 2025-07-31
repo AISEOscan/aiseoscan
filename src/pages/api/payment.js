@@ -25,7 +25,7 @@ export default async function handler(req, res) {
     }
     
     // Process discount code
-    let finalAmount = 1900; // $19.00 default
+    let finalAmount = 2900; // $29.00 for AI SEO analysis
     let discountInfo = null;
     
     if (discountCode && discountCode.trim()) {
@@ -36,7 +36,7 @@ export default async function handler(req, res) {
         if (discount.type === 'free') {
           finalAmount = 0;
         } else if (discount.type === 'percentage') {
-          finalAmount = Math.round(1900 * (1 - discount.discount / 100));
+          finalAmount = Math.round(2900 * (1 - discount.discount / 100));
         }
         
         discountInfo = {
@@ -44,7 +44,7 @@ export default async function handler(req, res) {
           type: discount.type,
           discount: discount.discount,
           description: discount.description,
-          originalAmount: 1900,
+          originalAmount: 2900,
           finalAmount: finalAmount
         };
         
@@ -58,7 +58,7 @@ export default async function handler(req, res) {
     const reportIds = generateReportId(); // Returns { id, publicId }
     
     // Log the preliminary scan data to help with debugging
-    console.log(`Payment API - Preliminary scan summary for ${url}:`, 
+    console.log(`AI SEO Payment API - Preliminary scan summary for ${url}:`, 
                 JSON.stringify({
                     reportId: reportIds.id,
                     publicId: reportIds.publicId,
@@ -84,7 +84,7 @@ export default async function handler(req, res) {
     
     // Ensure the previewIssues from preliminaryScan are fully preserved
     if (preliminaryScan && preliminaryScan.previewIssues && preliminaryScan.previewIssues.length > 0) {
-      console.log(`Payment API - Found ${preliminaryScan.previewIssues.length} preview issues to store`);
+      console.log(`AI SEO Payment API - Found ${preliminaryScan.previewIssues.length} preview issues to store`);
       
       // Ensure each issue has a severity if not already set
       preliminaryScan.previewIssues.forEach(issue => {
@@ -125,8 +125,8 @@ export default async function handler(req, res) {
           price_data: {
             currency: 'usd',
             product_data: {
-              name: 'Founderscan Website Analysis (FREE)',
-              description: `Free Complete Website Analysis scan for ${url}`,
+              name: 'AISEOScan AI SEO Readiness Analysis (FREE)',
+              description: `Free AI SEO readiness analysis for ${url} - ChatGPT, Perplexity & SearchGPT optimization`,
             },
             unit_amount: 0,
           },
@@ -136,8 +136,8 @@ export default async function handler(req, res) {
     } else {
       // Regular paid scan
       const productName = discountInfo ? 
-        `Founderscan Complete Website Analysis (${discountInfo.description})` : 
-        'Founderscan Complete Website Analysis';
+        `AISEOScan AI SEO Readiness Analysis (${discountInfo.description})` : 
+        'AISEOScan AI SEO Readiness Analysis';
       
       sessionData.line_items = [
         {
@@ -145,7 +145,7 @@ export default async function handler(req, res) {
             currency: 'usd',
             product_data: {
               name: productName,
-              description: `Complete Website Analysis Scan for ${url}`,
+              description: `Complete AI SEO readiness analysis for ${url} - Optimize for ChatGPT, Perplexity, SearchGPT and other AI search engines`,
             },
             unit_amount: finalAmount,
           },
@@ -158,7 +158,7 @@ export default async function handler(req, res) {
     
     return res.status(200).json({ id: session.id });
   } catch (error) {
-    console.error('Payment API error:', error);
+    console.error('AI SEO Payment API error:', error);
     return res.status(500).json({ error: 'Failed to create payment session', details: error.message });
   }
 }

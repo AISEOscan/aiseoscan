@@ -54,7 +54,7 @@ export default function ScanForm({ onScanComplete }) {
       <div className="relative z-10 text-center w-full">
         <div className="flex items-center justify-center mb-6">
           <Bot className="h-6 w-6 text-pink-400 mr-3" />
-          <h2 className="text-2xl font-bold tracking-tight">AI SEO Readiness Analysis</h2>
+          <h2 className="text-2xl font-bold tracking-tight">AI SEO Analysis</h2>
         </div>
         
         {/* What we analyze - AI SEO focused */}
