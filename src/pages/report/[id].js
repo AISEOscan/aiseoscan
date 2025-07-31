@@ -79,7 +79,8 @@ export default function ReportPage() {
       });
 
       // CRITICAL FIX: If we don't have dimensional data but have raw issues, process them
-      if (report.issues?.length > 0 && !report.security?.total) {
+     
+if (report.issues?.length > 0 && !report.seo?.total) {
         console.log('⚠️ FRONTEND - Missing dimensional data, processing raw issues...');
         const processedReport = processMultiDimensionalData(report);
         
@@ -95,7 +96,6 @@ export default function ReportPage() {
         return; // Exit early to avoid double processing
       }
       
-      // Rest of your existing debug logging...
       if (report.scanners) {
         Object.keys(report.scanners).forEach(key => {
           const issueCount = report.scanners[key]?.issues?.length || 0;

@@ -1,5 +1,6 @@
 import { jsPDF } from 'jspdf';
 import { processGrowthDimensionalData } from './categorization';
+import { processMultiDimensionalData } from './categorization';
 
 async function generateGrowthPdf(reportData) {
   try {
