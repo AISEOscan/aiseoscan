@@ -361,14 +361,15 @@ export const processMultiDimensionalData = (data) => {
     calculatedScore -= low * 1;        // -1 point per low AI SEO issue
     
     processedData[dimension].score = Math.max(0, Math.min(100, calculatedScore));
-  } else if (dimension === 'compliance' && (critical > 0 || medium > 0 || low > 0)) {
-    // FIXED: If compliance has issues, calculate real score instead of defaulting to 100
-    let calculatedScore = 100;
-    calculatedScore -= critical * 15;  // -15 points per critical compliance issue
-    calculatedScore -= medium * 10;    // -10 points per medium compliance issue
-    calculatedScore -= low * 5;        // -5 points per low compliance issue
-    
-    processedData[dimension].score = Math.max(0, Math.min(100, calculatedScore));
+  } else if (dimension === 'compliance') {
+    // Fixed scoring based on issue count for consistency across all displays
+    if (critical > 0) {
+      processedData[dimension].score = 70;
+    } else if (medium > 0 || low > 0) {
+      processedData[dimension].score = 85;
+    } else {
+      processedData[dimension].score = 100;
+    }
   } else {
     // Disabled scanners with no issues - high score since they're not running
     processedData[dimension].score = 100;

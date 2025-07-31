@@ -91,7 +91,7 @@ async function generateGrowthPdf(reportData) {
 
 // Use centralized processing for consistency
 function processGrowthDimensionalDataLocal(data) {
-  return processGrowthDimensionalData(data);
+  return processMultiDimensionalData(data);
 }
 
 // Helper functions to categorize issues by AI SEO dimension
