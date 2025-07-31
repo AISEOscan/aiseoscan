@@ -210,33 +210,34 @@ if (data.issues?.length > 0 && !data.security?.total) {
   });
 }
       
-      // Payment flow logic - FIXED: Removed manual scan call
-      if (processedData.status === 'awaiting_payment' && session_id) {
-        console.log('Payment detected but report still in awaiting_payment status. Updating session and waiting for webhook.');
-      
-        try {
-          const updateRes = await fetch('/api/update-report-payment', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              reportId: id,
-              sessionId: session_id
-            })
-          });
-      
-          if (!updateRes.ok) {
-            console.error('Failed to update report with sessionId:', await updateRes.text());
-          } else {
-            console.log('Session ID successfully updated in report.');
-          }
-        } catch (updateErr) {
-          console.error('Error updating sessionId in report:', updateErr);
-        }
-      
-        // REMOVED: Manual scan call - webhook will handle this
-        console.log('⏳ Waiting for webhook to process payment and enhance report...');
-        processedData.status = 'processing'; // Set to processing to trigger polling
-      }
+      // Payment flow logic - FIXED: Handle simplified webhook properly
+if (processedData.status === 'awaiting_payment' && session_id) {
+  console.log('Payment detected but report still in awaiting_payment status. Updating session and checking webhook status.');
+
+  try {
+    const updateRes = await fetch('/api/update-report-payment', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        reportId: id,
+        sessionId: session_id
+      })
+    });
+
+    if (!updateRes.ok) {
+      console.error('Failed to update report with sessionId:', await updateRes.text());
+    } else {
+      console.log('Session ID successfully updated in report.');
+    }
+  } catch (updateErr) {
+    console.error('Error updating sessionId in report:', updateErr);
+  }
+
+  // FIXED: Don't force processing state - let webhook handle status update
+  console.log('💳 Payment detected - webhook should update status to completed shortly...');
+  
+
+}
       
       // Update state
       if (mountedRef.current) {
@@ -246,24 +247,24 @@ if (data.issues?.length > 0 && !data.security?.total) {
       }
       
       // Polling logic (keep as-is)
-      const isCompleted = processedData.status === 'completed' || processedData.status === 'error';
-      
-      if (isCompleted) {
-        hasCompletedReportRef.current = true;
-        if (pollingInterval) {
-          console.log(`✅ Report completed - stopping polling (status: ${processedData.status})`);
-          clearInterval(pollingInterval);
-          setPollingInterval(null);
-        }
-      } else if ((processedData.status === 'processing' || processedData.status === 'awaiting_payment') && !pollingInterval && mountedRef.current) {
-        console.log('🔄 Starting polling for report updates...');
-        const interval = setInterval(() => {
-          if (mountedRef.current && !hasCompletedReportRef.current) {
-            fetchReport();
-          }
-        }, 5000);
-        setPollingInterval(interval);
-      }
+const isCompleted = processedData.status === 'completed' || processedData.status === 'error';
+
+if (isCompleted) {
+  hasCompletedReportRef.current = true;
+  if (pollingInterval) {
+    console.log(`✅ Report completed - stopping polling (status: ${processedData.status})`);
+    clearInterval(pollingInterval);
+    setPollingInterval(null);
+  }
+} else if ((processedData.status === 'processing' || processedData.status === 'awaiting_payment') && !pollingInterval && mountedRef.current) {
+  console.log('🔄 Starting polling for report updates...');
+  const interval = setInterval(() => {
+    if (mountedRef.current && !hasCompletedReportRef.current) {
+      fetchReport();
+    }
+  }, 5000);
+  setPollingInterval(interval);
+}
       
     } catch (err) {
       console.error('Error fetching report:', err);
