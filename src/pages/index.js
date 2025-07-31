@@ -259,8 +259,8 @@ export default function Home() {
             <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 via-pink-600/20 to-blue-600/20 animate-pulse"></div>
             <div className="relative z-10">
               <p className="text-pink-200 text-xl font-medium mb-2">
-                <span className="text-pink-400 font-bold">🤖 </span> 
-                The only scanner built specifically for AI search optimization - Get cited by ChatGPT, Claude, Perplexity, SearchGPT etc
+                <span className="text-pink-400 font-bold"> </span> 
+                The only scanner built specifically for AI search optimization - Get cited by ChatGPT, Claude, Perplexity, SearchGPT and other LLMs
               </p>
               <p className="text-gray-200 text-sm">
                 While others focus on old-school SEO, we analyze what AI engines actually need to cite your content
