@@ -244,14 +244,13 @@ export default function Home() {
 
           <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight leading-tight">
             <span className="bg-gradient-to-r from-pink-400 via-purple-500 to-blue-500 bg-clip-text text-transparent">
-              AI SEO Readiness
+              Is your website ready for AI search ?
             </span>
-            <br />
-            <span className="text-white text-4xl md:text-5xl font-light">Scanner</span>
+           
           </h1>
           
           <p className="text-xl text-gray-200 font-light mb-8 max-w-4xl mx-auto leading-relaxed">
-            Is your website ready for ChatGPT, Perplexity, and SearchGPT? Get a comprehensive AI SEO audit 
+             Get a complete AI SEO audit 
             and optimization plan designed for the age of AI-powered search.
           </p>
           
@@ -261,7 +260,7 @@ export default function Home() {
             <div className="relative z-10">
               <p className="text-pink-200 text-xl font-medium mb-2">
                 <span className="text-pink-400 font-bold">🤖 </span> 
-                The only scanner built specifically for AI search optimization - Get cited by ChatGPT and Perplexity
+                The only scanner built specifically for AI search optimization - Get cited by ChatGPT, Claude, Perplexity, SearchGPT etc
               </p>
               <p className="text-gray-200 text-sm">
                 While others focus on old-school SEO, we analyze what AI engines actually need to cite your content
