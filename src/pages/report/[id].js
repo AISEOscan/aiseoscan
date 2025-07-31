@@ -834,24 +834,25 @@ export default function ReportPage() {
          </div>
 
          {/* Action Button */}
-         <div className="flex justify-center">
-           <button 
-             onClick={() => router.push('/')}
-             className="bg-gray-700 hover:bg-gray-600 px-6 py-3 rounded-lg text-white font-semibold flex items-center transition-colors"
-           >
-             <ExternalLink className="h-4 w-4 mr-2" />
-             Analyze Another Website
-           </button>
-         </div>
-       </div>
-     </div>
-   </Layout>
- );
+          <div className="flex justify-center">
+            <button 
+              onClick={() => router.push('/')}
+              className="bg-gray-700 hover:bg-gray-600 px-6 py-3 rounded-lg text-white font-semibold flex items-center transition-colors"
+            >
+              <ExternalLink className="h-4 w-4 mr-2" />
+              Analyze Another Website
+            </button>
+          </div>
+        </div>
+      </div>
+      </div>
+    </Layout>
+  );
 }
 
 // Force server-side rendering to prevent build-time errors
 export async function getServerSideProps() {
- return {
-   props: {},
- };
+  return {
+    props: {},
+  };
 }
