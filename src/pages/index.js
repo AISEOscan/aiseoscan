@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import Layout from '../components/Layout';
 import ScanForm from '../components/ScanForm';
 import PaymentButton from '../components/PaymentButton';
-import { Shield, Code, Clock, Lock, Database, File, AlertTriangle, Key, CreditCard, Globe, TrendingUp, Zap, CheckCircle, Star, BarChart3, Eye, Server, Search, Users, XCircle, Activity, Timer, DollarSign } from 'lucide-react';
+import { Bot, Sparkles, Brain, Search, TrendingUp, Zap, CheckCircle, Star, BarChart3, Eye, Server, Users, XCircle, Activity, Timer, DollarSign, MessageSquare, FileText, Award, Target, Lightbulb, Globe } from 'lucide-react';
 import DynamicSEO from '../components/DynamicSEO';
 import React from 'react';
 
@@ -16,17 +16,17 @@ export default function Home() {
   const [statsIndex, setStatsIndex] = useState(0);
   const router = useRouter();
 
-  const criticalStats = [
-    { number: "73%", text: "of websites have critical vulnerabilities", color: "text-gray-300" },
-    { number: "68%", text: "lose traffic due to poor SEO", color: "text-gray-300" },
-    { number: "$200K", text: "average cost of a security breach", color: "text-gray-300" },
-    { number: "47%", text: "of users abandon slow websites", color: "text-gray-300" }
+  const aiStats = [
+    { number: "89%", text: "of searches now use AI engines like ChatGPT", color: "text-purple-300" },
+    { number: "73%", text: "of websites aren't optimized for AI citation", color: "text-pink-300" },
+    { number: "5x", text: "more traffic for AI-optimized content", color: "text-blue-300" },
+    { number: "67%", text: "of businesses worry about AI search visibility", color: "text-green-300" }
   ];
   
-  // Rotate through critical stats
+  // Rotate through AI stats
   useEffect(() => {
     const interval = setInterval(() => {
-      setStatsIndex((current) => (current + 1) % criticalStats.length);
+      setStatsIndex((current) => (current + 1) % aiStats.length);
     }, 4000);
     
     return () => clearInterval(interval);
@@ -38,329 +38,284 @@ export default function Home() {
       setIsPaymentCanceled(true);
     }
   }, [router.query]);
-  
-
-  // Handle the completion of the preliminary scan with enhanced multi-dimensional support
-const handleScanComplete = (results, scannedUrl) => {
-  // CLEAR ANY CACHED DATA FIRST
-  if (typeof window !== 'undefined') {
-    sessionStorage.removeItem('scanResults');
-    localStorage.removeItem('scanResults');
-  }
-
-  // LOG THE EXACT DATA RECEIVED (only once)
-  console.log('🔍 FREE SCAN - Exact data received:', {
-    scanId: results.scanId,
-    totalIssues: results.issues?.length,
-    security: {
-      total: results.security?.total,
-      issues: results.security?.issues?.length,
-      previewIssues: results.security?.previewIssues?.length,
-      score: results.security?.score
-    },
-    seo: {
-      total: results.seo?.total,
-      issues: results.seo?.issues?.length,
-      previewIssues: results.seo?.previewIssues?.length,
-      score: results.seo?.score
-    },
-    performance: {
-      total: results.performance?.total,
-      issues: results.performance?.issues?.length,
-      previewIssues: results.performance?.previewIssues?.length,
-      score: results.performance?.score
-    },
-    compliance: {
-      total: results.compliance?.total,
-      issues: results.compliance?.issues?.length,
-      previewIssues: results.compliance?.previewIssues?.length,
-      score: results.compliance?.score
+  // Handle the completion of the preliminary scan with enhanced AI SEO support
+  const handleScanComplete = (results, scannedUrl) => {
+    // CLEAR ANY CACHED DATA FIRST
+    if (typeof window !== 'undefined') {
+      sessionStorage.removeItem('scanResults');
+      localStorage.removeItem('scanResults');
     }
-  });
 
-  // LOG WHAT WILL BE DISPLAYED (only once)
-  console.log('🔍 FREE SCAN - What frontend will display:', {
-    security: results.security?.total || results.security?.issues?.length || 0,
-    seo: results.seo?.total || results.seo?.issues?.length || 0,
-    performance: results.performance?.total || results.performance?.issues?.length || 0,
-    compliance: results.compliance?.total || results.compliance?.issues?.length || 0
-  });
+    // LOG THE EXACT DATA RECEIVED (only once)
+    console.log('🤖 AI SEO SCAN - Exact data received:', {
+      scanId: results.scanId,
+      totalIssues: results.issues?.length,
+      aiSeoScore: results.seo?.score,
+      aiReadiness: {
+        structuredData: results.seo?.issues?.filter(i => i.type.includes('schema') || i.type.includes('json-ld')).length || 0,
+        contentQuality: results.seo?.issues?.filter(i => i.type.includes('content') || i.type.includes('faq')).length || 0,
+        technicalSEO: results.seo?.issues?.filter(i => i.type.includes('technical') || i.type.includes('mobile')).length || 0,
+        authoritySignals: results.seo?.issues?.filter(i => i.type.includes('authority') || i.type.includes('trust')).length || 0
+      }
+    });
 
-  // If this is a full scan result (has paymentSessionId), use it directly
-  if (results.paymentSessionId) {
-    console.log('Full scan results received, updating display with actual data');
+    // If this is a full scan result (has paymentSessionId), use it directly
+    if (results.paymentSessionId) {
+      console.log('Full AI SEO scan results received, updating display with actual data');
+      setScanResults(results);
+      setUrl(scannedUrl);
+      return;
+    }
+
+    // CRITICAL: Use the data exactly as received - no modifications
     setScanResults(results);
     setUrl(scannedUrl);
-    return;
-  }
+  };
 
-  // CRITICAL: Use the data exactly as received - no modifications
-  setScanResults(results);
-  setUrl(scannedUrl);
-};
-
-
-
-
-
-  // Get dimension color based on score
-  const getDimensionColor = (score) => {
-    if (score >= 80) return 'text-green-400 border-green-400 bg-green-400/10';
+  // Get AI readiness color based on score
+  const getAIReadinessColor = (score) => {
+    if (score >= 80) return 'text-emerald-400 border-emerald-400 bg-emerald-400/10';
     if (score >= 60) return 'text-blue-400 border-blue-400 bg-blue-400/10';
-    return 'text-red-400 border-red-400 bg-red-400/10';
+    if (score >= 40) return 'text-amber-400 border-amber-400 bg-amber-400/10';
+    return 'text-rose-400 border-rose-400 bg-rose-400/10';
   };
 
-  // Get overall score color and status
-  const getOverallScoreColor = (score) => {
-    if (score >= 80) return 'text-green-400';
+  // Get overall AI readiness color and status
+  const getOverallAIReadinessColor = (score) => {
+    if (score >= 80) return 'text-emerald-400';
     if (score >= 60) return 'text-blue-400';
-    return 'text-red-400';
+    if (score >= 40) return 'text-amber-400';
+    return 'text-rose-400';
   };
 
-  const getScoreStatus = (score) => {
-    if (score >= 80) return 'Excellent';
-    if (score >= 60) return 'Good';
-    if (score >= 40) return 'Fair';
-    return 'Needs Work';
+  const getAIReadinessStatus = (score) => {
+    if (score >= 80) return 'AI-Ready';
+    if (score >= 60) return 'Good Progress';
+    if (score >= 40) return 'Needs Work';
+    return 'Not AI-Ready';
   };
 
-  // Enhanced preview issue display with truncation
-  const renderPreviewIssue = (issue, index) => {
+  // Enhanced preview issue display with AI SEO focus
+  const renderAIIssuePreview = (issue, index) => {
     if (!issue || !issue.description) return null;
     
-    // Truncate description to first few words to create intrigue
+    // Truncate description for intrigue
     const words = issue.description.split(' ');
-    const truncatedDesc = words.length > 3 ? 
-      `${words.slice(0, 3).join(' ')}...` : 
+    const truncatedDesc = words.length > 4 ? 
+      `${words.slice(0, 4).join(' ')}...` : 
       issue.description;
     
     return (
       <div key={index} className="text-xs text-white flex items-start">
-        <span className="text-cyan-400 mr-1 mt-0.5 flex-shrink-0">•</span>
+        <span className="text-pink-400 mr-1 mt-0.5 flex-shrink-0">•</span>
         <span className="line-clamp-1">{truncatedDesc}</span>
       </div>
     );
   };
 
-  // Render dimension preview with enhanced styling and truncated issues
-const renderDimensionPreview = (dimension, icon, score, issues, description, totalCount = null) => {
-const colorClass = getDimensionColor(score);
-const previewIssues = issues?.slice(0, 1) || []; // Show only 1 issue for intrigue
-const actualTotal = totalCount !== null ? totalCount : (issues?.length || 0);
+  // Render AI SEO dimension preview
+  const renderAIDimensionPreview = (dimension, icon, score, issues, description, totalCount = null) => {
+    const colorClass = getAIReadinessColor(score);
+    const previewIssues = issues?.slice(0, 1) || [];
+    const actualTotal = totalCount !== null ? totalCount : (issues?.length || 0);
 
-return (
-  <div className={`backdrop-blur-sm p-4 rounded-lg border transition-all hover:scale-[1.02] ${colorClass.split(' ')[2]} ${colorClass.split(' ')[1]}`}>
-    <div className="flex items-center justify-between mb-3">
-      <div className="flex items-center">
-        {icon}
-        <div className="ml-2">
-          <h4 className="font-medium text-white">{dimension}</h4>
-          <p className="text-xs text-gray-400">{description}</p>
+    return (
+      <div className={`backdrop-blur-sm p-4 rounded-lg border transition-all hover:scale-[1.02] ${colorClass.split(' ')[2]} ${colorClass.split(' ')[1]}`}>
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center">
+            {icon}
+            <div className="ml-2">
+              <h4 className="font-medium text-white">{dimension}</h4>
+              <p className="text-xs text-gray-300">{description}</p>
+            </div>
+          </div>
+          <div className="text-right">
+            <div className={`text-2xl font-bold ${colorClass.split(' ')[0]}`}>
+              {score}
+            </div>
+            <div className="text-xs text-gray-300">/100</div>
+          </div>
         </div>
-      </div>
-      <div className="text-right">
-        <div className={`text-2xl font-bold ${colorClass.split(' ')[0]}`}>
-          {score}
-        </div>
-        <div className="text-xs text-gray-400">/100</div>
-      </div>
-    </div>
-    
-    {previewIssues.length > 0 ? (
-      <div className="space-y-2">
-        {previewIssues.map((issue, idx) => renderPreviewIssue(issue, idx))}
-        {actualTotal > 1 && (
-          <div className="text-xs text-white font-medium">
-            +{actualTotal - 1} more {actualTotal - 1 === 1 ? 'issue' : 'issues'} found
+        
+        {previewIssues.length > 0 ? (
+          <div className="space-y-2">
+            {previewIssues.map((issue, idx) => renderAIIssuePreview(issue, idx))}
+            {actualTotal > 1 && (
+              <div className="text-xs text-white font-medium">
+                +{actualTotal - 1} more AI optimization {actualTotal - 1 === 1 ? 'opportunity' : 'opportunities'}
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="text-xs text-emerald-400 flex items-center">
+            <CheckCircle className="h-3 w-3 mr-1" />
+            AI-ready!
           </div>
         )}
       </div>
-    ) : (
-      <div className="text-xs text-green-400 flex items-center">
-        <CheckCircle className="h-3 w-3 mr-1" />
-        All checks passed!
-      </div>
-    )}
-  </div>
-);
-};
+    );
+  };
 
-  // Render compact score card for the main dashboard
-
-const renderScoreCard = React.useCallback((dimension, icon, score, total, label) => {
-  const colorClass = getDimensionColor(score);
-  
-  // Reduced logging to prevent spam
-  if (dimension === 'Security') {
-    console.log(`🔍 RENDERING (once per scan):`, {
-      security: total,
-      scanId: scanResults?.scanId
-    });
-  }
-  
-  return (
-    <div className={`backdrop-blur-sm border p-4 rounded-lg text-center transition-all hover:scale-105 ${colorClass}`}>
-      <div className="flex items-center justify-center mb-2">
-        {icon}
-      </div>
-      <div className={`text-2xl font-bold ${colorClass.split(' ')[0]} mb-1`}>
-        {score}
-      </div>
-      <div className="text-xs text-white font-medium mb-1">{dimension}</div>
-      <div className="text-xs text-white">
-        {total > 0 ? `${total} ${total === 1 ? label.slice(0, -1) : label}` : 'All good!'}
-      </div>
-    </div>
-  );
-}, [scanResults?.scanId]); // Only re-render when scanId changes
-
-
-  // Generate insights based on scores
-  const generateInsights = (results) => {
-    const insights = [];
+  // Render compact AI readiness card
+  const renderAIReadinessCard = React.useCallback((dimension, icon, score, total, label) => {
+    const colorClass = getAIReadinessColor(score);
     
-    if (results.security?.score < 70) {
-      insights.push({
-        type: 'security',
-        priority: 'high',
-        message: 'Critical security vulnerabilities detected that need immediate attention',
-        icon: <Shield className="h-4 w-4 text-red-400" />
-      });
-    }
+    return (
+      <div className={`backdrop-blur-sm border p-4 rounded-lg text-center transition-all hover:scale-105 ${colorClass}`}>
+        <div className="flex items-center justify-center mb-2">
+          {icon}
+        </div>
+        <div className={`text-2xl font-bold ${colorClass.split(' ')[0]} mb-1`}>
+          {score}
+        </div>
+        <div className="text-xs text-white font-medium mb-1">{dimension}</div>
+        <div className="text-xs text-white">
+          {total > 0 ? `${total} ${total === 1 ? label.slice(0, -1) : label}` : 'AI-ready!'}
+        </div>
+      </div>
+    );
+  }, [scanResults?.scanId]);
+  // Generate AI-specific insights based on scores
+  const generateAIInsights = (results) => {
+    const insights = [];
     
     if (results.seo?.score < 60) {
       insights.push({
-        type: 'seo',
-        priority: 'medium',
-        message: 'SEO improvements could significantly boost your search rankings',
-        icon: <TrendingUp className="h-4 w-4 text-blue-400" />
+        type: 'ai-seo',
+        priority: 'high',
+        message: 'Critical AI SEO issues found - your content may not be discoverable by ChatGPT and other AI engines',
+        icon: <Bot className="h-4 w-4 text-rose-400" />
       });
     }
     
-    if (results.performance?.score < 70) {
+    if (results.seo?.score >= 60 && results.seo?.score < 80) {
       insights.push({
-        type: 'performance',
+        type: 'ai-optimization',
         priority: 'medium',
-        message: 'Performance optimizations could improve user experience',
-        icon: <Zap className="h-4 w-4 text-purple-400" />
+        message: 'Good foundation but missing key AI optimization opportunities for better citations',
+        icon: <Sparkles className="h-4 w-4 text-amber-400" />
       });
     }
     
-    if (results.compliance?.score < 80) {
+    if (results.compliance?.total > 0) {
       insights.push({
-        type: 'compliance',
-        priority: 'low',
-        message: 'Compliance improvements recommended for legal protection',
-        icon: <CheckCircle className="h-4 w-4 text-blue-400" />
+        type: 'trust-signals',
+        priority: 'medium',
+        message: 'Missing trust signals that AI engines use to evaluate content credibility',
+        icon: <Award className="h-4 w-4 text-blue-400" />
       });
     }
 
     // Add positive insights for high scores
-    if (results.security?.score >= 90) {
+    if (results.seo?.score >= 80) {
       insights.push({
-        type: 'security',
+        type: 'ai-ready',
         priority: 'positive',
-        message: 'Excellent security posture! Your site is well protected',
-        icon: <Shield className="h-4 w-4 text-green-400" />
+        message: 'Excellent AI readiness! Your content is well-optimized for AI search engines',
+        icon: <CheckCircle className="h-4 w-4 text-emerald-400" />
       });
     }
 
-    return insights.slice(0, 3); // Limit to top 3 insights
+    return insights.slice(0, 3);
   };
 
   return (
     <Layout>
-      {/* Enhanced SEO meta tags for FounderScan */}
+      {/* Enhanced SEO meta tags for AISEOScan */}
       <DynamicSEO 
-  scanResults={scanResults}
-  url={url}
-  isReportPage={false}
-/>
+        scanResults={scanResults}
+        url={url}
+        isReportPage={false}
+      />
 
       <div className="max-w-6xl mx-auto">
-        {/* Professional Hero Section */}
+        {/* AI-Focused Hero Section */}
         <div className="mb-16 text-center">
-          {/* Critical Stats Ticker */}
-          <div className="mb-8 bg-gray-900/30 border border-gray-700/50 p-4 rounded-lg backdrop-blur-sm">
+          {/* AI Stats Ticker */}
+          <div className="mb-8 bg-gradient-to-r from-purple-900/30 via-pink-900/30 to-blue-900/30 border border-purple-500/50 p-4 rounded-lg backdrop-blur-sm">
             <div className="flex items-center justify-center">
-              <AlertTriangle className="h-5 w-5 text-gray-400 mr-3 animate-pulse" />
-              <div className={`text-lg font-bold text-gray-300 transition-all duration-500`}>
-                {criticalStats[statsIndex].number}
+              <Bot className="h-5 w-5 text-pink-400 mr-3 animate-pulse" />
+              <div className={`text-lg font-bold transition-all duration-500 ${aiStats[statsIndex].color}`}>
+                {aiStats[statsIndex].number}
               </div>
-              <span className="text-gray-300 ml-2">{criticalStats[statsIndex].text}</span>
+              <span className="text-gray-200 ml-2">{aiStats[statsIndex].text}</span>
             </div>
           </div>
 
           <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight leading-tight">
-            <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
-              Complete Website Analysis
+            <span className="bg-gradient-to-r from-pink-400 via-purple-500 to-blue-500 bg-clip-text text-transparent">
+              AI SEO Readiness
             </span>
+            <br />
+            <span className="text-white text-4xl md:text-5xl font-light">Scanner</span>
           </h1>
           
-          <p className="text-xl text-white font-light mb-8 max-w-4xl mx-auto leading-relaxed">
-            Security, SEO, performance, and compliance analysis in one enterprise-grade report. 
-            Get 2 specialized PDF reports: Security analysis and Growth insights (SEO, performance, compliance).
+          <p className="text-xl text-gray-200 font-light mb-8 max-w-4xl mx-auto leading-relaxed">
+            Is your website ready for ChatGPT, Perplexity, and SearchGPT? Get a comprehensive AI SEO audit 
+            and optimization plan designed for the age of AI-powered search.
           </p>
           
-          {/* Professional Value Proposition */}
-          <div className="bg-gradient-to-r from-gray-900/80 via-blue-900/80 to-purple-900/80 backdrop-blur-md border border-blue-600/50 p-8 rounded-xl inline-block max-w-5xl mb-10">
-            <p className="text-blue-200 text-xl font-medium mb-2">
-              <span className="text-cyan-400 font-bold">&gt; </span> 
-              Get the same enterprise-grade analysis that costs $1000+ from consultants - for just $19
-            </p>
-            <p className="text-gray-300 text-sm">
-  Building with AI? We've got you covered • Modern tech stack analysis • Comprehensive growth insights
-</p>
+          {/* AI-Focused Value Proposition */}
+          <div className="bg-gradient-to-r from-purple-900/80 via-pink-900/80 to-blue-900/80 backdrop-blur-md border border-pink-500/50 p-8 rounded-xl inline-block max-w-5xl mb-10 relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 via-pink-600/20 to-blue-600/20 animate-pulse"></div>
+            <div className="relative z-10">
+              <p className="text-pink-200 text-xl font-medium mb-2">
+                <span className="text-pink-400 font-bold">🤖 </span> 
+                The only scanner built specifically for AI search optimization - Get cited by ChatGPT and Perplexity
+              </p>
+              <p className="text-gray-200 text-sm">
+                While others focus on old-school SEO, we analyze what AI engines actually need to cite your content
+              </p>
+            </div>
           </div>
           
-          {/* Enhanced Professional Value Cards */}
+          {/* AI SEO Feature Cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
-            <div className="bg-gradient-to-br from-red-900/40 to-red-800/20 backdrop-blur-sm border border-red-700/50 p-6 rounded-xl hover:scale-105 transition-all duration-300 hover:border-red-600">
-              <Shield className="h-10 w-10 text-red-400 mx-auto mb-3" />
-              <div className="text-lg font-bold text-white mb-1">Security</div>
-              <div className="text-sm text-gray-300 mb-2">Enterprise Protection</div>
-              <div className="text-xs text-red-300 bg-red-900/30 px-2 py-1 rounded">12+ Advanced Scanners</div>
+            <div className="bg-gradient-to-br from-purple-900/40 to-purple-800/20 backdrop-blur-sm border border-purple-500/50 p-6 rounded-xl hover:scale-105 transition-all duration-300 hover:border-purple-400 group">
+              <Bot className="h-10 w-10 text-purple-400 mx-auto mb-3 group-hover:animate-pulse" />
+              <div className="text-lg font-bold text-white mb-1">AI Citation</div>
+              <div className="text-sm text-gray-200 mb-2">Get Referenced</div>
+              <div className="text-xs text-purple-300 bg-purple-900/30 px-2 py-1 rounded">Schema & Structure</div>
             </div>
             
-            <div className="bg-gradient-to-br from-green-900/40 to-green-800/20 backdrop-blur-sm border border-green-700/50 p-6 rounded-xl hover:scale-105 transition-all duration-300 hover:border-green-600">
-              <TrendingUp className="h-10 w-10 text-green-400 mx-auto mb-3" />
-              <div className="text-lg font-bold text-white mb-1">SEO</div>
-              <div className="text-sm text-gray-300 mb-2">Growth Engine</div>
-              <div className="text-xs text-green-300 bg-green-900/30 px-2 py-1 rounded">Traffic & Rankings</div>
+            <div className="bg-gradient-to-br from-pink-900/40 to-pink-800/20 backdrop-blur-sm border border-pink-500/50 p-6 rounded-xl hover:scale-105 transition-all duration-300 hover:border-pink-400 group">
+              <FileText className="h-10 w-10 text-pink-400 mx-auto mb-3 group-hover:animate-pulse" />
+              <div className="text-lg font-bold text-white mb-1">Content Quality</div>
+              <div className="text-sm text-gray-200 mb-2">AI Digestible</div>
+              <div className="text-xs text-pink-300 bg-pink-900/30 px-2 py-1 rounded">FAQ & Authority</div>
             </div>
             
-            <div className="bg-gradient-to-br from-purple-900/40 to-purple-800/20 backdrop-blur-sm border border-purple-700/50 p-6 rounded-xl hover:scale-105 transition-all duration-300 hover:border-purple-600">
-              <Zap className="h-10 w-10 text-purple-400 mx-auto mb-3" />
-              <div className="text-lg font-bold text-white mb-1">Performance</div>
-              <div className="text-sm text-gray-300 mb-2">Speed & UX</div>
-              <div className="text-xs text-purple-300 bg-purple-900/30 px-2 py-1 rounded">User Retention</div>
+            <div className="bg-gradient-to-br from-blue-900/40 to-blue-800/20 backdrop-blur-sm border border-blue-500/50 p-6 rounded-xl hover:scale-105 transition-all duration-300 hover:border-blue-400 group">
+              <Zap className="h-10 w-10 text-blue-400 mx-auto mb-3 group-hover:animate-pulse" />
+              <div className="text-lg font-bold text-white mb-1">Technical SEO</div>
+              <div className="text-sm text-gray-200 mb-2">AI Crawlable</div>
+              <div className="text-xs text-blue-300 bg-blue-900/30 px-2 py-1 rounded">Speed & Mobile</div>
             </div>
             
-            <div className="bg-gradient-to-br from-blue-900/40 to-blue-800/20 backdrop-blur-sm border border-blue-700/50 p-6 rounded-xl hover:scale-105 transition-all duration-300 hover:border-blue-600">
-              <CheckCircle className="h-10 w-10 text-blue-400 mx-auto mb-3" />
-              <div className="text-lg font-bold text-white mb-1">Compliance</div>
-              <div className="text-sm text-gray-300 mb-2">Legal Shield</div>
-              <div className="text-xs text-blue-300 bg-blue-900/30 px-2 py-1 rounded">Risk Protection</div>
+            <div className="bg-gradient-to-br from-emerald-900/40 to-emerald-800/20 backdrop-blur-sm border border-emerald-500/50 p-6 rounded-xl hover:scale-105 transition-all duration-300 hover:border-emerald-400 group">
+              <Award className="h-10 w-10 text-emerald-400 mx-auto mb-3 group-hover:animate-pulse" />
+              <div className="text-lg font-bold text-white mb-1">Trust Signals</div>
+              <div className="text-sm text-gray-200 mb-2">AI Credible</div>
+              <div className="text-xs text-emerald-300 bg-emerald-900/30 px-2 py-1 rounded">E-A-T Factors</div>
             </div>
           </div>
           
-          {/* Professional Trust Indicators */}
+          {/* AI-Focused Trust Indicators */}
           <div className="flex flex-col sm:flex-row justify-center gap-6 mb-8 text-sm">
-            <div className="flex items-center justify-center text-gray-300">
-              <Timer className="h-4 w-4 mr-2 text-cyan-400" />
-              <span>60-second comprehensive analysis</span>
+            <div className="flex items-center justify-center text-gray-200">
+              <Timer className="h-4 w-4 mr-2 text-pink-400" />
+              <span>60-second AI readiness analysis</span>
             </div>
-            <div className="flex items-center justify-center text-gray-300">
-              <DollarSign className="h-4 w-4 mr-2 text-green-400" />
-              <span>Enterprise-grade insights at startup pricing</span>
+            <div className="flex items-center justify-center text-gray-200">
+              <Target className="h-4 w-4 mr-2 text-purple-400" />
+              <span>Built for ChatGPT, Perplexity & SearchGPT</span>
             </div>
-            <div className="flex items-center justify-center text-gray-300">
-              <Activity className="h-4 w-4 mr-2 text-purple-400" />
-              <span>Instant actionable recommendations</span>
+            <div className="flex items-center justify-center text-gray-200">
+              <Lightbulb className="h-4 w-4 mr-2 text-blue-400" />
+              <span>Actionable AI optimization plan</span>
             </div>
           </div>
         </div>
-        
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
           {/* Left Column - Scan Form */}
@@ -369,107 +324,136 @@ const renderScoreCard = React.useCallback((dimension, icon, score, total, label)
             
             {/* Payment Canceled Message */}
             {isPaymentCanceled && (
-              <div className="mt-4 p-4 bg-red-900/30 border border-red-600 text-red-200 rounded-md backdrop-blur-sm">
+              <div className="mt-4 p-4 bg-rose-900/30 border border-rose-500 text-rose-200 rounded-md backdrop-blur-sm">
                 <div className="flex items-center">
-                  <svg className="h-5 w-5 text-red-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                  </svg>
-                  <p>Payment was canceled. You can try again when you're ready.</p>
+                  <XCircle className="h-5 w-5 text-rose-400 mr-2" />
+                  <p>Payment was canceled. You can try again when you're ready for your AI SEO audit.</p>
                 </div>
               </div>
             )}
           </div>
           
-          {/* Right Column - Results Display */}
+          {/* Right Column - AI SEO Results Display */}
           <div>
             {scanResults ? (
-              <div className="bg-gradient-to-r from-gray-900/90 via-blue-900/90 to-purple-900/90 backdrop-blur-xl text-white rounded-xl shadow-2xl p-6 border border-cyan-900/50 relative overflow-hidden">
+              <div className="bg-gradient-to-r from-gray-900/90 via-purple-900/90 to-pink-900/90 backdrop-blur-xl text-white rounded-xl shadow-2xl p-6 border border-purple-500/50 relative overflow-hidden">
                 {/* Enhanced gradient border effect */}
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 rounded-xl opacity-30"></div>
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-pink-500 via-purple-600 to-blue-600 rounded-xl opacity-30 animate-pulse"></div>
                 
                 <div className="relative z-10">
                   {/* Header */}
                   <div className="flex items-center mb-6">
-                    <BarChart3 className="h-6 w-6 text-cyan-400 mr-3" />
-                    <h2 className="text-2xl font-bold tracking-tight">Analysis Complete</h2>
+                    <Bot className="h-6 w-6 text-pink-400 mr-3" />
+                    <h2 className="text-2xl font-bold tracking-tight">AI Readiness Analysis</h2>
                   </div>
                   
                   {/* Website Info */}
-                  <div className="mb-6 pb-4 border-b border-gray-700/50">
+                  <div className="mb-6 pb-4 border-b border-purple-500/30">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-white">Website:</span>
+                      <span className="text-gray-200">Website:</span>
                       <span className="font-medium text-white truncate ml-2">{url}</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-white">Scan ID:</span>
-                      <span className="font-mono text-sm text-cyan-300">{scanResults.scanId}</span>
+                      <span className="text-gray-200">Scan ID:</span>
+                      <span className="font-mono text-sm text-pink-300">{scanResults.scanId}</span>
                     </div>
                   </div>
                   
-                  {/* Overall Score Display */}
+                  {/* Overall AI Readiness Score */}
                   <div className="mb-6 text-center">
-                    <div className={`text-6xl font-bold ${getOverallScoreColor(scanResults.summary?.overallScore || 0)} mb-2`}>
+                    <div className={`text-6xl font-bold ${getOverallAIReadinessColor(scanResults.summary?.overallScore || 0)} mb-2`}>
                       {scanResults.summary?.overallScore || 0}
-                      <span className="text-lg text-white">/100</span>
+                      <span className="text-lg text-gray-200">/100</span>
                     </div>
-                    <div className=" text-white text-sm font-medium">
-                      Overall Score - {getScoreStatus(scanResults.summary?.overallScore || 0)}
+                    <div className="text-white text-sm font-medium">
+                      AI Readiness Score - {getAIReadinessStatus(scanResults.summary?.overallScore || 0)}
                     </div>
-                    <div className="text-xs text-white mt-1">
-                      Across Security, SEO, Performance & Compliance
+                    <div className="text-xs text-gray-200 mt-1">
+                      Optimized for ChatGPT, Perplexity & AI Search Engines
                     </div>
                   </div>
                   
-                  {/* Multi-dimensional Score Breakdown */}
-{/* Multi-dimensional Score Breakdown */}
-<div className="mb-6">
-  <h3 className="text-lg font-medium mb-4 text-white flex items-center">
-    <Star className="h-4 w-4 text-cyan-400 mr-2" />
-    Analysis Dimensions
-  </h3>
-  
-  {(() => {
-    const securityTotal = scanResults.security?.total || scanResults.security?.issues?.length || 0;
-    const seoTotal = scanResults.seo?.total || scanResults.seo?.issues?.length || 0;
-    const performanceTotal = scanResults.performance?.total || scanResults.performance?.issues?.length || 0;
-    const complianceTotal = scanResults.compliance?.total || scanResults.compliance?.issues?.length || 0;
-    
-    console.log('🔍 RENDER DEBUG - Calculated totals:', {
-      security: securityTotal,
-      seo: seoTotal,
-      performance: performanceTotal,
-      compliance: complianceTotal,
-      rawData: {
-        securityObj: scanResults.security,
-        seoObj: scanResults.seo,
-        performanceObj: scanResults.performance,
-        complianceObj: scanResults.compliance
-      }
-    });
-    
-    return (
-      <div className="grid grid-cols-2 gap-3">
-        {renderScoreCard('Security', <Shield className="h-5 w-5" />, scanResults.security?.score || 0, securityTotal, 'issues')}
-        {renderScoreCard('SEO', <TrendingUp className="h-5 w-5" />, scanResults.seo?.score || 0, seoTotal, 'opportunities')}
-        {renderScoreCard('Performance', <Zap className="h-5 w-5" />, scanResults.performance?.score || 0, performanceTotal, 'optimizations')}
-        {renderScoreCard('Compliance', <CheckCircle className="h-5 w-5" />, scanResults.compliance?.score || 0, complianceTotal, 'items')}
-      </div>
-    );
-  })()}
-</div>
-
+                  {/* AI SEO Breakdown */}
+                  <div className="mb-6">
+                    <h3 className="text-lg font-medium mb-4 text-white flex items-center">
+                      <Sparkles className="h-4 w-4 text-pink-400 mr-2" />
+                      AI SEO Analysis
+                    </h3>
+                    
+                    {(() => {
+                      const seoTotal = scanResults.seo?.total || scanResults.seo?.issues?.length || 0;
+                      const complianceTotal = scanResults.compliance?.total || scanResults.compliance?.issues?.length || 0;
+                      
+                      console.log('🔍 AI RENDER DEBUG - Calculated totals:', {
+                        seo: seoTotal,
+                        compliance: complianceTotal,
+                        rawData: {
+                          seoObj: scanResults.seo,
+                          complianceObj: scanResults.compliance
+                        }
+                      });
+                      
+                      return (
+                        <div className="grid grid-cols-1 gap-3">
+                          {/* Primary AI SEO Card */}
+                          <div className="bg-gradient-to-r from-purple-900/40 to-pink-900/40 border border-purple-500/50 p-4 rounded-lg">
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center">
+                                <Bot className="h-5 w-5 text-purple-400 mr-2" />
+                                <div>
+                                  <div className="text-white font-medium">AI SEO Optimization</div>
+                                  <div className="text-xs text-gray-300">Content structure, schema, authority</div>
+                                </div>
+                              </div>
+                              <div className="text-right">
+                                <div className={`text-2xl font-bold ${getOverallAIReadinessColor(scanResults.seo?.score || 0)}`}>
+                                  {scanResults.seo?.score || 0}
+                                </div>
+                                <div className="text-xs text-gray-300">
+                                  {seoTotal > 0 ? `${seoTotal} opportunities` : 'AI-ready!'}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          {/* Trust Signals Card (if compliance issues) */}
+                          {complianceTotal > 0 && (
+                            <div className="bg-gradient-to-r from-blue-900/40 to-emerald-900/40 border border-blue-500/50 p-4 rounded-lg">
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center">
+                                  <Award className="h-5 w-5 text-blue-400 mr-2" />
+                                  <div>
+                                    <div className="text-white font-medium">Trust Signals</div>
+                                    <div className="text-xs text-gray-300">Credibility factors for AI engines</div>
+                                  </div>
+                                </div>
+                                <div className="text-right">
+                                  <div className="text-2xl font-bold text-amber-400">
+                                    {100 - (complianceTotal * 10)}
+                                  </div>
+                                  <div className="text-xs text-gray-300">
+                                    {complianceTotal} missing signals
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })()}
+                  </div>
                   
-                  {/* Key Insights */}
-                  {generateInsights(scanResults).length > 0 && (
+                  {/* AI-Specific Insights */}
+                  {generateAIInsights(scanResults).length > 0 && (
                     <div className="mb-6">
-                      <h3 className="text-lg font-medium mb-3 text-white">Key Insights</h3>
+                      <h3 className="text-lg font-medium mb-3 text-white">AI Optimization Insights</h3>
                       <div className="space-y-2">
-                        {generateInsights(scanResults).map((insight, idx) => (
+                        {generateAIInsights(scanResults).map((insight, idx) => (
                           <div key={idx} className={`p-3 rounded-lg border-l-4 backdrop-blur-sm ${
-                            insight.priority === 'high' ? 'bg-red-900/20 border-red-600' :
-                            insight.priority === 'medium' ? 'bg-blue-900/20 border-blue-600' :
-                            insight.priority === 'positive' ? 'bg-green-900/20 border-green-600' :
-                            'bg-purple-900/20 border-purple-600'
+                            insight.priority === 'high' ? 'bg-rose-900/20 border-rose-500' :
+                            insight.priority === 'medium' ? 'bg-amber-900/20 border-amber-500' :
+                            insight.priority === 'positive' ? 'bg-emerald-900/20 border-emerald-500' :
+                            'bg-purple-900/20 border-purple-500'
                           }`}>
                             <div className="flex items-start">
                               {insight.icon}
@@ -480,299 +464,266 @@ const renderScoreCard = React.useCallback((dimension, icon, score, total, label)
                       </div>
                     </div>
                   )}
-                  
-                  
-    
-     {/* Detailed Opportunities Preview - Enhanced with truncated issues */}
-    <div className="mb-6">
-      <h3 className="text-lg font-medium mb-4 text-white">Opportunity Preview</h3>
-
-      <div className="space-y-4">
-        {/* Security Issues */}
-        {(scanResults.security?.total > 0 || scanResults.security?.issues?.length > 0) && 
-          renderDimensionPreview(
-            'Security', 
-            <Shield className="h-4 w-4 text-red-400" />, 
-            scanResults.security.score, 
-            scanResults.security.issues || [],
-            'Protect your business and users',
-            scanResults.security?.total || scanResults.security?.issues?.length || 0
-          )
-        }
-
-        {/* SEO Opportunities */}
-        {(scanResults.seo?.total > 0 || scanResults.seo?.issues?.length > 0) && 
-          renderDimensionPreview(
-            'SEO', 
-            <TrendingUp className="h-4 w-4 text-green-400" />, 
-            scanResults.seo.score, 
-            scanResults.seo.issues || [],
-            'Boost search rankings and traffic',
-            scanResults.seo?.total || scanResults.seo?.issues?.length || 0
-          )
-        }
-
-        {/* Performance Optimizations */}
-        {(scanResults.performance?.total > 0 || scanResults.performance?.issues?.length > 0) && 
-          renderDimensionPreview(
-            'Performance', 
-            <Zap className="h-4 w-4 text-purple-400" />, 
-            scanResults.performance.score, 
-            scanResults.performance.issues || [],
-            'Improve speed and user experience',
-            scanResults.performance?.total || scanResults.performance?.issues?.length || 0
-          )
-        }
-
-        {/* Compliance Items */}
-        {(scanResults.compliance?.total > 0 || scanResults.compliance?.issues?.length > 0) && 
-          renderDimensionPreview(
-            'Compliance', 
-            <CheckCircle className="h-4 w-4 text-blue-400" />, 
-            scanResults.compliance.score, 
-            scanResults.compliance.issues || [],
-            'Meet legal and accessibility standards',
-            scanResults.compliance?.total || scanResults.compliance?.issues?.length || 0
-          )
-        }
-    
-    {/* No Issues Message */}
-    {/* Conditional Performance Message */}
-{(() => {
-  const securityTotal = scanResults.security?.total || scanResults.security?.issues?.length || 0;
-  const seoTotal = scanResults.seo?.total || scanResults.seo?.issues?.length || 0;
-  const performanceTotal = scanResults.performance?.total || scanResults.performance?.issues?.length || 0;
-  const complianceTotal = scanResults.compliance?.total || scanResults.compliance?.issues?.length || 0;
-  const overallScore = scanResults.summary?.overallScore || 0;
-  
-  // Only show positive message if overall score is 85+ AND very few issues
-  const totalIssues = securityTotal + seoTotal + performanceTotal + complianceTotal;
-  
-  if (overallScore >= 85 && totalIssues <= 5) {
-    return (
-      <div className="bg-green-900/20 border border-green-700 p-4 rounded-lg text-center backdrop-blur-sm">
-        <CheckCircle className="h-8 w-8 text-green-400 mx-auto mb-2" />
-        <h4 className="text-green-400 font-medium mb-1">Excellent Performance!</h4>
-        <p className="text-sm text-gray-300">Your website is performing well across all dimensions.</p>
-      </div>
-    );
-  } else if (overallScore >= 70 && totalIssues <= 15) {
-    return (
-      <div className="bg-blue-900/20 border border-blue-700 p-4 rounded-lg text-center backdrop-blur-sm">
-        <CheckCircle className="h-8 w-8 text-blue-400 mx-auto mb-2" />
-        <h4 className="text-blue-400 font-medium mb-1">Good Foundation</h4>
-        <p className="text-sm text-gray-300">Your website has a solid foundation with some optimization opportunities.</p>
-      </div>
-    );
-  } else {
-    return (
-      <div className="bg-red-900/20 border border-red-700 p-4 rounded-lg text-center backdrop-blur-sm">
-        <AlertTriangle className="h-8 w-8 text-red-400 mx-auto mb-2" />
-        <h4 className="text-red-400 font-medium mb-1">Optimization Needed</h4>
-        <p className="text-sm text-gray-300">Multiple issues found that could impact your business growth and security.</p>
-      </div>
-    );
-  }
-})()}
-  </div>
-</div>
-                  
-                  {/* Professional CTA Section */}
-                  <div className="bg-gradient-to-r from-red-900/30 via-purple-900/30 to-blue-900/30 backdrop-blur-sm p-4 rounded-lg border border-cyan-600/50 mb-4">
-                    <div className="flex items-start">
-                      <AlertTriangle className="w-5 h-5 text-cyan-400 mr-3 mt-0.5 flex-shrink-0" />
-                      <div>
-                        <p className="text-cyan-200 text-sm font-medium mb-1">
-                          Don't Let Critical Issues Impact Your Business
-                        </p>
-                        <p className="text-gray-400 text-xs">
-                          Get detailed fix instructions, code examples, and actionable roadmaps to secure and grow your business.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <PaymentButton url={url} scanResults={scanResults} />
-                </div>
-              </div>
-            ) : (
-              /* Enhanced Empty State */
-              <div className="bg-gradient-to-r from-gray-900/90 via-blue-900/90 to-purple-900/90 backdrop-blur-xl border border-cyan-900/50 rounded-xl shadow-2xl p-8 flex flex-col items-center justify-center h-full relative overflow-hidden">
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 rounded-xl opacity-30"></div>
-                
-                <div className="relative z-10 text-center">
+                  {/* Detailed AI Opportunities Preview */}
                   <div className="mb-6">
-                    <div className="relative">
-                      <BarChart3 className="w-20 h-20 text-cyan-400 mx-auto mb-4" />
-                    </div>
-                  </div>
-                  <h3 className="text-2xl font-medium text-white mb-3 tracking-tight">Ready for Complete Analysis</h3>
-                  <p className="text-white text-center font-light mb-8 max-w-sm mx-auto">
-                    Discover critical issues and optimization opportunities across all dimensions that drive business growth
-                  </p>
-                  <div className="grid grid-cols-2 gap-4 text-xs text-white max-w-sm mx-auto">
-                    <div className="flex items-center bg-red-900/20 p-3 rounded-lg backdrop-blur-sm">
-                      <Shield className="h-4 w-4 text-red-400 mr-2" />
-                      <span>Security Threats</span>
-                    </div>
-                    <div className="flex items-center bg-green-900/20 p-3 rounded-lg backdrop-blur-sm">
-                      <TrendingUp className="h-4 w-4 text-green-400 mr-2" />
-                      <span>SEO Gaps</span>
-                    </div>
-                    <div className="flex items-center bg-purple-900/20 p-3 rounded-lg backdrop-blur-sm">
-                      <Zap className="h-4 w-4 text-purple-400 mr-2" />
-                      <span>Speed Issues</span>
-                    </div>
-                    <div className="flex items-center bg-blue-900/20 p-3 rounded-lg backdrop-blur-sm">
-                      <CheckCircle className="h-4 w-4 text-blue-400 mr-2" />
-                      <span>Legal Risks</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
+                    <h3 className="text-lg font-medium mb-4 text-white">AI Optimization Opportunities</h3>
 
-        {/* Enhanced Professional Website Analysis Section */}
+                    <div className="space-y-4">
+                      {/* AI SEO Issues */}
+                      {(scanResults.seo?.total > 0 || scanResults.seo?.issues?.length > 0) && 
+                        renderAIDimensionPreview(
+                          'AI SEO Ready', 
+                          <Bot className="h-4 w-4 text-purple-400" />, 
+                          scanResults.seo.score, 
+                          scanResults.seo.issues || [],
+                          'Optimized for AI search engines',
+                          scanResults.seo?.total || scanResults.seo?.issues?.length || 0
+                        )
+                      }
+
+                      {/* Trust & Authority Issues */}
+                      {(scanResults.compliance?.total > 0 || scanResults.compliance?.issues?.length > 0) && 
+                        renderAIDimensionPreview(
+                          'Trust Signals', 
+                          <Award className="h-4 w-4 text-emerald-400" />, 
+                          Math.max(0, 100 - ((scanResults.compliance?.total || 0) * 15)), 
+                          scanResults.compliance.issues || [],
+                          'Credibility for AI engines',
+                          scanResults.compliance?.total || scanResults.compliance?.issues?.length || 0
+                        )
+                      }
+                
+                      {/* AI Readiness Status */}
+                      {(() => {
+                        const seoTotal = scanResults.seo?.total || scanResults.seo?.issues?.length || 0;
+                        const complianceTotal = scanResults.compliance?.total || scanResults.compliance?.issues?.length || 0;
+                        const overallScore = scanResults.summary?.overallScore || 0;
+                        const totalIssues = seoTotal + complianceTotal;
+                        
+                        if (overallScore >= 85 && totalIssues <= 3) {
+                          return (
+                            <div className="bg-gradient-to-r from-emerald-900/20 via-green-900/20 to-emerald-900/20 border border-emerald-500 p-4 rounded-lg text-center backdrop-blur-sm">
+                              <Bot className="h-8 w-8 text-emerald-400 mx-auto mb-2" />
+                              <h4 className="text-emerald-400 font-medium mb-1">AI-Ready Website!</h4>
+                              <p className="text-sm text-gray-200">Your website is well-optimized for AI search engines and citation.</p>
+                            </div>
+                          );
+                        } else if (overallScore >= 70 && totalIssues <= 8) {
+                          return (
+                            <div className="bg-gradient-to-r from-blue-900/20 via-purple-900/20 to-blue-900/20 border border-blue-500 p-4 rounded-lg text-center backdrop-blur-sm">
+                              <Sparkles className="h-8 w-8 text-blue-400 mx-auto mb-2" />
+                              <h4 className="text-blue-400 font-medium mb-1">Good AI Foundation</h4>
+                              <p className="text-sm text-gray-200">Strong foundation with key AI optimization opportunities available.</p>
+                            </div>
+                          );
+                        } else {
+                          return (
+                            <div className="bg-gradient-to-r from-rose-900/20 via-pink-900/20 to-rose-900/20 border border-rose-500 p-4 rounded-lg text-center backdrop-blur-sm">
+                              <Target className="h-8 w-8 text-rose-400 mx-auto mb-2" />
+                              <h4 className="text-rose-400 font-medium mb-1">AI Optimization Needed</h4>
+                              <p className="text-sm text-gray-200">Significant opportunities to improve AI search visibility and citation potential.</p>
+                            </div>
+                          );
+                        }
+                      })()}
+                    </div>
+                  </div>
+                  
+                  {/* AI-Focused CTA Section */}
+                 <div className="bg-gradient-to-r from-purple-900/30 via-pink-900/30 to-blue-900/30 backdrop-blur-sm p-4 rounded-lg border border-pink-500/50 mb-4">
+                   <div className="flex items-start">
+                     <Bot className="w-5 h-5 text-pink-400 mr-3 mt-0.5 flex-shrink-0" />
+                     <div>
+                       <p className="text-pink-200 text-sm font-medium mb-1">
+                         Don't Let AI Search Engines Ignore Your Content
+                       </p>
+                       <p className="text-gray-300 text-xs">
+                         Get the complete AI SEO optimization plan with schema markup, content structure, and authority signals that AI engines need to cite your content.
+                       </p>
+                     </div>
+                   </div>
+                 </div>
+                 
+                 <PaymentButton url={url} scanResults={scanResults} />
+               </div>
+             </div>
+           ) : (
+             /* Enhanced Empty State - AI Focused */
+             <div className="bg-gradient-to-r from-gray-900/90 via-purple-900/90 to-pink-900/90 backdrop-blur-xl border border-purple-500/50 rounded-xl shadow-2xl p-8 flex flex-col items-center justify-center h-full relative overflow-hidden">
+               <div className="absolute -inset-0.5 bg-gradient-to-r from-pink-500 via-purple-600 to-blue-600 rounded-xl opacity-30 animate-pulse"></div>
+               
+               <div className="relative z-10 text-center">
+                 <div className="mb-6">
+                   <div className="relative">
+                     <Bot className="w-20 h-20 text-pink-400 mx-auto mb-4 animate-pulse" />
+                   </div>
+                 </div>
+                 <h3 className="text-2xl font-medium text-white mb-3 tracking-tight">Ready for AI SEO Analysis</h3>
+                 <p className="text-gray-200 text-center font-light mb-8 max-w-sm mx-auto">
+                   Discover how ready your website is for AI-powered search engines and get optimization recommendations
+                 </p>
+                 <div className="grid grid-cols-2 gap-4 text-xs text-white max-w-sm mx-auto">
+                   <div className="flex items-center bg-purple-900/20 p-3 rounded-lg backdrop-blur-sm">
+                     <FileText className="h-4 w-4 text-purple-400 mr-2" />
+                     <span>Schema Markup</span>
+                   </div>
+                   <div className="flex items-center bg-pink-900/20 p-3 rounded-lg backdrop-blur-sm">
+                     <MessageSquare className="h-4 w-4 text-pink-400 mr-2" />
+                     <span>Content Quality</span>
+                   </div>
+                   <div className="flex items-center bg-blue-900/20 p-3 rounded-lg backdrop-blur-sm">
+                     <Zap className="h-4 w-4 text-blue-400 mr-2" />
+                     <span>Technical SEO</span>
+                   </div>
+                   <div className="flex items-center bg-emerald-900/20 p-3 rounded-lg backdrop-blur-sm">
+                     <Award className="h-4 w-4 text-emerald-400 mr-2" />
+                     <span>Trust Signals</span>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           )}
+         </div>
+       </div>
+       {/* Enhanced AI SEO Analysis Section */}
         <div className="mt-20">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-white mb-4" id="features">
-              Enterprise-Grade Analysis Platform
+              Built for the Age of AI Search
             </h2>
-            <p className="text-gray-300 text-lg max-w-4xl mx-auto leading-relaxed">
-              Comprehensive analysis across all dimensions that matter for business success. 
-              Professional-grade insights that protect your business and accelerate growth.
+            <p className="text-gray-200 text-lg max-w-4xl mx-auto leading-relaxed">
+              While others focus on outdated SEO, we analyze what ChatGPT, Perplexity, and SearchGPT actually need 
+              to discover, understand, and cite your content.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Enhanced Security Analysis */}
-            <div className="bg-gradient-to-br from-gray-900/60 to-red-900/20 backdrop-blur-sm p-8 rounded-xl border border-red-800/50 hover:border-red-600/70 transition-all duration-300">
-              <div className="flex items-start">
-                <div className="bg-red-900/40 p-3 rounded-lg mr-4">
-                  <Shield className="h-8 w-8 text-red-400" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-bold text-white mb-3 text-xl">Advanced Security Scanning</h3>
-                  <p className="text-gray-300 text-sm mb-6 leading-relaxed">Enterprise-grade security analysis with 12+ specialized scanners that detect vulnerabilities others miss</p>
-                  <div className="grid grid-cols-1 gap-3">
-                    <div className="text-sm text-white flex items-center bg-gray-800/30 p-2 rounded">
-                      <span className="text-red-400 mr-3">●</span> SSL/TLS certificate validation & protocol security
-                    </div>
-                    <div className="text-sm text-white flex items-center bg-gray-800/30 p-2 rounded">
-                      <span className="text-red-400 mr-3">●</span> Security headers analysis (CSP, HSTS, X-Frame-Options)
-                    </div>
-                    <div className="text-sm text-white flex items-center bg-gray-800/30 p-2 rounded">
-                      <span className="text-red-400 mr-3">●</span> OWASP Top 10 vulnerability assessment
-                    </div>
-                    <div className="text-sm text-white flex items-center bg-gray-800/30 p-2 rounded">
-                      <span className="text-red-400 mr-3">●</span> API keys & secrets exposure scanning
-                    </div>
-                    <div className="text-sm text-white flex items-center bg-gray-800/30 p-2 rounded">
-                      <span className="text-red-400 mr-3">●</span> Database security (Supabase RLS validation)
-                    </div>
-                    <div className="text-sm text-white flex items-center bg-gray-800/30 p-2 rounded">
-                      <span className="text-red-400 mr-3">●</span> WordPress security auditing & plugin vulnerabilities
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Enhanced SEO Analysis */}
-            <div className="bg-gradient-to-br from-gray-900/60 to-green-900/20 backdrop-blur-sm p-8 rounded-xl border border-green-800/50 hover:border-green-600/70 transition-all duration-300">
-              <div className="flex items-start">
-                <div className="bg-green-900/40 p-3 rounded-lg mr-4">
-                  <TrendingUp className="h-8 w-8 text-green-400" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-bold text-white mb-3 text-xl">SEO Growth Engine</h3>
-                  <p className="text-gray-300 text-sm mb-6 leading-relaxed">Comprehensive SEO analysis to boost your search rankings and drive organic traffic</p>
-                  <div className="grid grid-cols-1 gap-3">
-                    <div className="text-sm text-white flex items-center bg-gray-800/30 p-2 rounded">
-                      <span className="text-green-400 mr-3">●</span> Meta tags & title optimization analysis
-                    </div>
-                    <div className="text-sm text-white flex items-center bg-gray-800/30 p-2 rounded">
-                      <span className="text-green-400 mr-3">●</span> Content structure & heading hierarchy review
-                    </div>
-                    <div className="text-sm text-white flex items-center bg-gray-800/30 p-2 rounded">
-                      <span className="text-green-400 mr-3">●</span> Schema markup & structured data detection
-                    </div>
-                    <div className="text-sm text-white flex items-center bg-gray-800/30 p-2 rounded">
-                      <span className="text-green-400 mr-3">●</span> Internal linking structure assessment
-                    </div>
-                    <div className="text-sm text-white flex items-center bg-gray-800/30 p-2 rounded">
-                      <span className="text-green-400 mr-3">●</span> Mobile SEO & viewport optimization
-                    </div>
-                    <div className="text-sm text-white flex items-center bg-gray-800/30 p-2 rounded">
-                      <span className="text-green-400 mr-3">●</span> Social media optimization (Open Graph, Twitter Cards)
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Enhanced Performance Analysis */}
-            <div className="bg-gradient-to-br from-gray-900/60 to-purple-900/20 backdrop-blur-sm p-8 rounded-xl border border-purple-800/50 hover:border-purple-600/70 transition-all duration-300">
+            {/* Structured Data & Schema Analysis */}
+            <div className="bg-gradient-to-br from-gray-900/60 to-purple-900/20 backdrop-blur-sm p-8 rounded-xl border border-purple-500/50 hover:border-purple-400/70 transition-all duration-300">
               <div className="flex items-start">
                 <div className="bg-purple-900/40 p-3 rounded-lg mr-4">
-                  <Zap className="h-8 w-8 text-purple-400" />
+                  <FileText className="h-8 w-8 text-purple-400" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-bold text-white mb-3 text-xl">Performance Optimization</h3>
-                  <p className="text-gray-300 text-sm mb-6 leading-relaxed">Advanced speed and user experience analysis to reduce bounce rates and improve conversions</p>
+                  <h3 className="font-bold text-white mb-3 text-xl">Structured Data & Schema Markup</h3>
+                  <p className="text-gray-200 text-sm mb-6 leading-relaxed">Critical schema markup that AI engines need to understand and cite your content</p>
                   <div className="grid grid-cols-1 gap-3">
                     <div className="text-sm text-white flex items-center bg-gray-800/30 p-2 rounded">
-                      <span className="text-purple-400 mr-3">●</span> Core Web Vitals (LCP, CLS, INP) analysis
+                      <span className="text-purple-400 mr-3">●</span> JSON-LD structured data validation & completeness
                     </div>
                     <div className="text-sm text-white flex items-center bg-gray-800/30 p-2 rounded">
-                      <span className="text-purple-400 mr-3">●</span> Page load time & mobile performance testing
+                      <span className="text-purple-400 mr-3">●</span> Article schema with author credentials & expertise
                     </div>
                     <div className="text-sm text-white flex items-center bg-gray-800/30 p-2 rounded">
-                      <span className="text-purple-400 mr-3">●</span> Image optimization & modern format usage
+                      <span className="text-purple-400 mr-3">●</span> FAQ schema for direct AI answer extraction
                     </div>
                     <div className="text-sm text-white flex items-center bg-gray-800/30 p-2 rounded">
-                      <span className="text-purple-400 mr-3">●</span> Resource compression (Gzip, Brotli) analysis
+                      <span className="text-purple-400 mr-3">●</span> Organization schema with trust indicators
                     </div>
                     <div className="text-sm text-white flex items-center bg-gray-800/30 p-2 rounded">
-                      <span className="text-purple-400 mr-3">●</span> Render-blocking resource detection
+                      <span className="text-purple-400 mr-3">●</span> Open Graph optimization for AI content sharing
                     </div>
                     <div className="text-sm text-white flex items-center bg-gray-800/30 p-2 rounded">
-                      <span className="text-purple-400 mr-3">●</span> Progressive Web App (PWA) capabilities
+                      <span className="text-purple-400 mr-3">●</span> Citation-ready schema for AI reference
                     </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Enhanced Compliance Analysis */}
-            <div className="bg-gradient-to-br from-gray-900/60 to-blue-900/20 backdrop-blur-sm p-8 rounded-xl border border-blue-800/50 hover:border-blue-600/70 transition-all duration-300">
+            {/* Content Quality & AI Digestibility */}
+            <div className="bg-gradient-to-br from-gray-900/60 to-pink-900/20 backdrop-blur-sm p-8 rounded-xl border border-pink-500/50 hover:border-pink-400/70 transition-all duration-300">
               <div className="flex items-start">
-                <div className="bg-blue-900/40 p-3 rounded-lg mr-4">
-                  <CheckCircle className="h-8 w-8 text-blue-400" />
+                <div className="bg-pink-900/40 p-3 rounded-lg mr-4">
+                  <MessageSquare className="h-8 w-8 text-pink-400" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-bold text-white mb-3 text-xl">Legal & Compliance Protection</h3>
-                  <p className="text-gray-300 text-sm mb-6 leading-relaxed">Comprehensive compliance review to protect your business from legal risks and ensure accessibility</p>
+                  <h3 className="font-bold text-white mb-3 text-xl">Content Quality & AI Digestibility</h3>
+                  <p className="text-gray-200 text-sm mb-6 leading-relaxed">Content structure and quality analysis optimized for AI comprehension and citation</p>
                   <div className="grid grid-cols-1 gap-3">
                     <div className="text-sm text-white flex items-center bg-gray-800/30 p-2 rounded">
-                      <span className="text-blue-400 mr-3">●</span> GDPR compliance indicators & data protection
+                      <span className="text-pink-400 mr-3">●</span> Heading hierarchy for AI content understanding
                     </div>
                     <div className="text-sm text-white flex items-center bg-gray-800/30 p-2 rounded">
-                      <span className="text-blue-400 mr-3">●</span> Cookie consent implementation & tracking
+                      <span className="text-pink-400 mr-3">●</span> FAQ sections and Q&A format optimization
                     </div>
                     <div className="text-sm text-white flex items-center bg-gray-800/30 p-2 rounded">
-                      <span className="text-blue-400 mr-3">●</span> Accessibility (WCAG) guidelines compliance
+                      <span className="text-pink-400 mr-3">●</span> Answer-focused content structure analysis
                     </div>
                     <div className="text-sm text-white flex items-center bg-gray-800/30 p-2 rounded">
-                      <span className="text-blue-400 mr-3">●</span> Privacy policy & terms of service validation
+                      <span className="text-pink-400 mr-3">●</span> Factual density and citation potential scoring
                     </div>
                     <div className="text-sm text-white flex items-center bg-gray-800/30 p-2 rounded">
-                      <span className="text-blue-400 mr-3">●</span> ARIA labels & screen reader compatibility
+                      <span className="text-pink-400 mr-3">●</span> Author attribution and expertise indicators
                     </div>
                     <div className="text-sm text-white flex items-center bg-gray-800/30 p-2 rounded">
-                      <span className="text-blue-400 mr-3">●</span> International compliance standards
+                      <span className="text-pink-400 mr-3">●</span> Conversational tone for voice search readiness
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Technical AI SEO Foundation */}
+            <div className="bg-gradient-to-br from-gray-900/60 to-blue-900/20 backdrop-blur-sm p-8 rounded-xl border border-blue-500/50 hover:border-blue-400/70 transition-all duration-300">
+              <div className="flex items-start">
+                <div className="bg-blue-900/40 p-3 rounded-lg mr-4">
+                  <Zap className="h-8 w-8 text-blue-400" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-bold text-white mb-3 text-xl">Technical AI SEO Foundation</h3>
+                  <p className="text-gray-200 text-sm mb-6 leading-relaxed">Technical optimization ensuring AI crawlers can efficiently access and process your content</p>
+                  <div className="grid grid-cols-1 gap-3">
+                    <div className="text-sm text-white flex items-center bg-gray-800/30 p-2 rounded">
+                      <span className="text-blue-400 mr-3">●</span> Page speed optimization for AI crawler efficiency
+                    </div>
+                    <div className="text-sm text-white flex items-center bg-gray-800/30 p-2 rounded">
+                      <span className="text-blue-400 mr-3">●</span> Mobile-first optimization for AI indexing
+                    </div>
+                    <div className="text-sm text-white flex items-center bg-gray-800/30 p-2 rounded">
+                      <span className="text-blue-400 mr-3">●</span> Semantic HTML structure for AI comprehension
+                    </div>
+                    <div className="text-sm text-white flex items-center bg-gray-800/30 p-2 rounded">
+                      <span className="text-blue-400 mr-3">●</span> Internal linking for AI content relationship mapping
+                    </div>
+                    <div className="text-sm text-white flex items-center bg-gray-800/30 p-2 rounded">
+                      <span className="text-blue-400 mr-3">●</span> Clean URL structure for AI content categorization
+                    </div>
+                    <div className="text-sm text-white flex items-center bg-gray-800/30 p-2 rounded">
+                      <span className="text-blue-400 mr-3">●</span> HTTPS and security for AI trust signals
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Authority & Trust Signals */}
+            <div className="bg-gradient-to-br from-gray-900/60 to-emerald-900/20 backdrop-blur-sm p-8 rounded-xl border border-emerald-500/50 hover:border-emerald-400/70 transition-all duration-300">
+              <div className="flex items-start">
+                <div className="bg-emerald-900/40 p-3 rounded-lg mr-4">
+                  <Award className="h-8 w-8 text-emerald-400" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-bold text-white mb-3 text-xl">Authority & Trust Signals</h3>
+                  <p className="text-gray-200 text-sm mb-6 leading-relaxed">E-A-T factors that AI engines use to evaluate content credibility and citation worthiness</p>
+                  <div className="grid grid-cols-1 gap-3">
+                    <div className="text-sm text-white flex items-center bg-gray-800/30 p-2 rounded">
+                      <span className="text-emerald-400 mr-3">●</span> About page completeness and expertise display
+                    </div>
+                    <div className="text-sm text-white flex items-center bg-gray-800/30 p-2 rounded">
+                      <span className="text-emerald-400 mr-3">●</span> Contact information and business legitimacy
+                    </div>
+                    <div className="text-sm text-white flex items-center bg-gray-800/30 p-2 rounded">
+                      <span className="text-emerald-400 mr-3">●</span> Legal pages for compliance and trust building
+                    </div>
+                    <div className="text-sm text-white flex items-center bg-gray-800/30 p-2 rounded">
+                      <span className="text-emerald-400 mr-3">●</span> Professional credentials and certifications
+                    </div>
+                    <div className="text-sm text-white flex items-center bg-gray-800/30 p-2 rounded">
+                      <span className="text-emerald-400 mr-3">●</span> Author profiles with expertise indicators
+                    </div>
+                    <div className="text-sm text-white flex items-center bg-gray-800/30 p-2 rounded">
+                      <span className="text-emerald-400 mr-3">●</span> Social proof and credibility signals
                     </div>
                   </div>
                 </div>
@@ -780,78 +731,83 @@ const renderScoreCard = React.useCallback((dimension, icon, score, total, label)
             </div>
           </div>
         </div>
-
-        {/* Professional Value Proposition Section */}
+        {/* AI-Focused Value Proposition Section */}
         <div className="mt-20">
-          <div className="bg-gradient-to-r from-gray-900/95 via-blue-900/95 to-purple-900/95 backdrop-blur-xl text-white rounded-2xl shadow-2xl p-10 border border-gray-700/30 relative overflow-hidden">
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-gray-600/30 via-gray-500/30 to-gray-400/30 rounded-2xl opacity-50"></div>
+          <div className="bg-gradient-to-r from-gray-900/95 via-purple-900/95 to-pink-900/95 backdrop-blur-xl text-white rounded-2xl shadow-2xl p-10 border border-purple-500/30 relative overflow-hidden">
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600/30 via-pink-600/30 to-blue-600/30 rounded-2xl opacity-50 animate-pulse"></div>
             
             <div className="relative z-10">
               <div className="text-center mb-10">
-                <h3 className="text-4xl font-bold mb-4">Why Professional Analysis Matters</h3>
+                <h3 className="text-4xl font-bold mb-4">Why AI SEO Optimization Matters</h3>
                 <p className="text-gray-200 mb-8 max-w-4xl mx-auto text-lg leading-relaxed">
-                  Every successful business needs a strong digital foundation. Our comprehensive analysis reveals the hidden issues that could be costing you customers, revenue, and growth opportunities.
+                  The search landscape has fundamentally changed. AI engines like ChatGPT, Perplexity, and SearchGPT are becoming 
+                  the primary way people find information. Is your content optimized for this new reality?
                 </p>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
-                <div className="bg-red-900/30 border border-red-600/50 p-6 rounded-xl text-center backdrop-blur-sm">
-                  <XCircle className="h-12 w-12 text-red-400 mx-auto mb-4" />
-                  <h4 className="font-bold text-red-300 mb-3 text-lg">Security Vulnerabilities</h4>
-                  <div className="text-3xl font-bold text-red-400 mb-2">$200K+</div>
-                  <p className="text-sm text-gray-300">Average breach cost for businesses</p>
+                <div className="bg-rose-900/30 border border-rose-500/50 p-6 rounded-xl text-center backdrop-blur-sm">
+                  <Bot className="h-12 w-12 text-rose-400 mx-auto mb-4" />
+                  <h4 className="font-bold text-rose-300 mb-3 text-lg">AI Search Revolution</h4>
+                  <div className="text-3xl font-bold text-rose-400 mb-2">89%</div>
+                  <p className="text-sm text-gray-200">Of searches now use AI engines</p>
                 </div>
                 
-                <div className="bg-blue-900/30 border border-blue-600/50 p-6 rounded-xl text-center backdrop-blur-sm">
-                  <TrendingUp className="h-12 w-12 text-blue-400 mx-auto mb-4" />
-                  <h4 className="font-bold text-blue-300 mb-3 text-lg">SEO Optimization</h4>
-                  <div className="text-3xl font-bold text-blue-400 mb-2">68%</div>
-                  <p className="text-sm text-gray-300">Of traffic comes from organic search</p>
+                <div className="bg-purple-900/30 border border-purple-500/50 p-6 rounded-xl text-center backdrop-blur-sm">
+                  <Target className="h-12 w-12 text-purple-400 mx-auto mb-4" />
+                  <h4 className="font-bold text-purple-300 mb-3 text-lg">Citation Opportunity</h4>
+                  <div className="text-3xl font-bold text-purple-400 mb-2">5x</div>
+                  <p className="text-sm text-gray-200">More traffic for AI-optimized content</p>
                 </div>
                 
-                <div className="bg-purple-900/30 border border-purple-600/50 p-6 rounded-xl text-center backdrop-blur-sm">
-                  <Zap className="h-12 w-12 text-purple-400 mx-auto mb-4" />
-                  <h4 className="font-bold text-purple-300 mb-3 text-lg">Performance Impact</h4>
-                  <div className="text-3xl font-bold text-purple-400 mb-2">47%</div>
-                  <p className="text-sm text-gray-300">Users abandon slow websites</p>
+                <div className="bg-pink-900/30 border border-pink-500/50 p-6 rounded-xl text-center backdrop-blur-sm">
+                  <Lightbulb className="h-12 w-12 text-pink-400 mx-auto mb-4" />
+                  <h4 className="font-bold text-pink-300 mb-3 text-lg">Competitive Gap</h4>
+                  <div className="text-3xl font-bold text-pink-400 mb-2">73%</div>
+                  <p className="text-sm text-gray-200">Of websites aren't AI-optimized</p>
                 </div>
               </div>
 
-              <div className="bg-gradient-to-r from-cyan-900/40 via-blue-900/40 to-purple-900/40 backdrop-blur-sm p-8 rounded-xl border border-cyan-700/50">
-                <h4 className="text-2xl font-bold text-cyan-300 mb-6 text-center">FounderScan Professional Solution</h4>
+              <div className="bg-gradient-to-r from-purple-900/40 via-pink-900/40 to-blue-900/40 backdrop-blur-sm p-8 rounded-xl border border-pink-500/50">
+                <h4 className="text-2xl font-bold text-pink-300 mb-6 text-center">AISEOScan Professional Solution</h4>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   <div className="text-center">
-                    <div className="text-3xl font-bold text-cyan-400 mb-2">$19</div>
-                    <div className="text-sm text-gray-300">One-time comprehensive analysis</div>
+                    <div className="text-3xl font-bold text-pink-400 mb-2">$29</div>
+                    <div className="text-sm text-gray-200">Complete AI SEO audit</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl font-bold text-cyan-400 mb-2">&lt; 60s</div>
-                    <div className="text-sm text-gray-300">Complete analysis time</div>
+                    <div className="text-3xl font-bold text-purple-400 mb-2">&lt; 60s</div>
+                    <div className="text-sm text-gray-200">Full AI readiness analysis</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl font-bold text-cyan-400 mb-2">Instant</div>
-                    <div className="text-sm text-gray-300">Actionable recommendations</div>
+                    <div className="text-3xl font-bold text-blue-400 mb-2">30+</div>
+                    <div className="text-sm text-gray-200">AI-specific optimization checks</div>
+                  </div>
+                </div>
+                
+                <div className="mt-8 text-center">
+                  <div className="bg-gradient-to-r from-pink-900/40 to-purple-900/40 border border-pink-500/50 p-4 rounded-lg inline-block">
+                    <p className="text-pink-200 font-medium">🚀 First-mover advantage: Optimize for AI search before your competitors</p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-        {/* Enhanced FAQ Section */}
+        {/* Enhanced AI-Focused FAQ Section */}
         <div className="mt-20">
           <h2 className="text-4xl font-bold text-white mb-8 text-center" id="faq">
-            Frequently Asked Questions
+            AI SEO Optimization Questions
           </h2>
 
           <div className="space-y-4">
-            <div className="bg-gray-900/60 backdrop-blur-sm rounded-xl border border-gray-800/50 overflow-hidden">
+            <div className="bg-gray-900/60 backdrop-blur-sm rounded-xl border border-purple-500/50 overflow-hidden">
               <button 
-                className="w-full text-left p-6 focus:outline-none flex justify-between items-center hover:bg-gray-800/30 transition-colors" 
+                className="w-full text-left p-6 focus:outline-none flex justify-between items-center hover:bg-purple-900/20 transition-colors" 
                 onClick={() => setActiveFaq(activeFaq === 0 ? null : 0)}
               >
-                <span className="font-medium text-white text-lg">What makes FounderScan different from other website analysis tools?</span>
-                <span className="text-cyan-400">
+                <span className="font-medium text-white text-lg">What makes AISEOScan different from traditional SEO tools?</span>
+                <span className="text-pink-400">
                   {activeFaq === 0 ? 
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
@@ -863,38 +819,38 @@ const renderScoreCard = React.useCallback((dimension, icon, score, total, label)
                 </span>
               </button>
               {activeFaq === 0 && (
-                <div className="p-6 pt-0 text-gray-300 border-t border-gray-800/50 bg-gray-800/20">
-                  <p className="mb-4">FounderScan is the only tool that combines enterprise-grade security scanning with comprehensive growth analysis:</p>
+                <div className="p-6 pt-0 text-gray-200 border-t border-purple-500/30 bg-purple-900/10">
+                  <p className="mb-4">AISEOScan is the only tool built specifically for the AI search revolution:</p>
                   <ul className="space-y-2 ml-4">
                     <li className="flex items-start">
-                      <span className="text-cyan-400 mr-2 mt-1">•</span>
-                      <span><strong>Advanced Security:</strong> 12+ specialized scanners detecting vulnerabilities other tools miss</span>
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span><strong>AI Citation Analysis:</strong> Check if your content is structured for ChatGPT and Perplexity citations</span>
                     </li>
                     <li className="flex items-start">
-                      <span className="text-cyan-400 mr-2 mt-1">•</span>
-                      <span><strong>SEO Analysis:</strong> Drive organic traffic and search rankings</span>
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span><strong>Schema Optimization:</strong> Validate JSON-LD and structured data for AI understanding</span>
                     </li>
                     <li className="flex items-start">
-                      <span className="text-cyan-400 mr-2 mt-1">•</span>
-                      <span><strong>Performance Optimization:</strong> Ensure fast, smooth user experience</span>
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span><strong>Content Digestibility:</strong> Analyze if your content is AI-readable and quotable</span>
                     </li>
                     <li className="flex items-start">
-                      <span className="text-cyan-400 mr-2 mt-1">•</span>
-                      <span><strong>Compliance Review:</strong> Meet legal and accessibility requirements</span>
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span><strong>Authority Signals:</strong> E-A-T factors that AI engines use for credibility assessment</span>
                     </li>
                   </ul>
-                  <p className="mt-4">Most tools focus on just one area, but we give you the complete picture with actionable insights designed specifically for founders and entrepreneurs.</p>
+                  <p className="mt-4 text-pink-200 font-medium">While traditional SEO tools focus on Google rankings, we optimize for AI search engines that are rapidly becoming the primary way people find information.</p>
                 </div>
               )}
             </div>
 
-            <div className="bg-gray-900/60 backdrop-blur-sm rounded-xl border border-gray-800/50 overflow-hidden">
+            <div className="bg-gray-900/60 backdrop-blur-sm rounded-xl border border-purple-500/50 overflow-hidden">
               <button 
-                className="w-full text-left p-6 focus:outline-none flex justify-between items-center hover:bg-gray-800/30 transition-colors" 
+                className="w-full text-left p-6 focus:outline-none flex justify-between items-center hover:bg-purple-900/20 transition-colors" 
                 onClick={() => setActiveFaq(activeFaq === 1 ? null : 1)}
               >
-                <span className="font-medium text-white text-lg">What do I get with the $19 comprehensive analysis?</span>
-                <span className="text-cyan-400">
+                <span className="font-medium text-white text-lg">What do I get with the $29 AI SEO audit?</span>
+                <span className="text-pink-400">
                   {activeFaq === 1 ? 
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
@@ -906,46 +862,46 @@ const renderScoreCard = React.useCallback((dimension, icon, score, total, label)
                 </span>
               </button>
               {activeFaq === 1 && (
-                <div className="p-6 pt-0 text-gray-300 border-t border-gray-800/50 bg-gray-800/20">
-                  <p className="mb-4">Your $19 investment includes:</p>
+                <div className="p-6 pt-0 text-gray-200 border-t border-purple-500/30 bg-purple-900/10">
+                  <p className="mb-4">Your $29 AI SEO audit includes:</p>
                   <ul className="space-y-2 ml-4">
                     <li className="flex items-start">
-                      <span className="text-cyan-400 mr-2 mt-1">•</span>
-                      <span>Complete analysis across all four critical dimensions</span>
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span><strong>30+ AI-specific SEO checks</strong> covering schema markup, content structure, and authority signals</span>
                     </li>
                     <li className="flex items-start">
-                      <span className="text-cyan-400 mr-2 mt-1">•</span>
-                      <span>Advanced security vulnerability scanning (12+ specialized scanners)</span>
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span><strong>AI Citation Readiness Score</strong> showing how likely AI engines are to reference your content</span>
                     </li>
                     <li className="flex items-start">
-                      <span className="text-cyan-400 mr-2 mt-1">•</span>
-                      <span>Detailed findings with specific fix recommendations</span>
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span><strong>Detailed implementation guides</strong> with code examples for every optimization</span>
                     </li>
                     <li className="flex items-start">
-                      <span className="text-cyan-400 mr-2 mt-1">•</span>
-                      <span>Code examples and implementation guides</span>
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span><strong>Schema markup templates</strong> for Article, FAQ, Organization, and Person schemas</span>
                     </li>
                     <li className="flex items-start">
-                      <span className="text-cyan-400 mr-2 mt-1">•</span>
-                      <span>Two specialized PDF reports: Security Report (technical) and Growth Report (business-focused)</span>
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span><strong>Content optimization recommendations</strong> for better AI comprehension and citation</span>
                     </li>
                     <li className="flex items-start">
-                      <span className="text-cyan-400 mr-2 mt-1">•</span>
-                      <span>Prioritized action plan with timelines</span>
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span><strong>Downloadable PDF report</strong> with prioritized action plan</span>
                     </li>
                   </ul>
-                  <p className="mt-4">One-time payment, no subscription. Complete value delivered immediately.</p>
+                  <p className="mt-4 text-pink-200 font-medium">One-time payment, complete AI SEO transformation roadmap delivered instantly.</p>
                 </div>
               )}
             </div>
 
-            <div className="bg-gray-900/60 backdrop-blur-sm rounded-xl border border-gray-800/50 overflow-hidden">
+            <div className="bg-gray-900/60 backdrop-blur-sm rounded-xl border border-purple-500/50 overflow-hidden">
               <button 
-                className="w-full text-left p-6 focus:outline-none flex justify-between items-center hover:bg-gray-800/30 transition-colors" 
+                className="w-full text-left p-6 focus:outline-none flex justify-between items-center hover:bg-purple-900/20 transition-colors" 
                 onClick={() => setActiveFaq(activeFaq === 2 ? null : 2)}
               >
-                <span className="font-medium text-white text-lg">How comprehensive is your security scanning?</span>
-                <span className="text-cyan-400">
+                <span className="font-medium text-white text-lg">How does AI SEO differ from traditional SEO?</span>
+                <span className="text-pink-400">
                   {activeFaq === 2 ? 
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
@@ -957,46 +913,42 @@ const renderScoreCard = React.useCallback((dimension, icon, score, total, label)
                 </span>
               </button>
               {activeFaq === 2 && (
-                <div className="p-6 pt-0 text-gray-300 border-t border-gray-800/50 bg-gray-800/20">
-                  <p className="mb-4">Our security scanning is enterprise-grade, featuring 12+ specialized scanners that detect:</p>
+                <div className="p-6 pt-0 text-gray-200 border-t border-purple-500/30 bg-purple-900/10">
+                  <p className="mb-4">AI SEO focuses on how AI engines discover, understand, and cite content:</p>
                   <ul className="space-y-2 ml-4">
                     <li className="flex items-start">
-                      <span className="text-cyan-400 mr-2 mt-1">•</span>
-                      <span><strong>SSL/TLS vulnerabilities:</strong> Certificate issues, weak protocols, HTTPS misconfigurations</span>
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span><strong>Structured Data Priority:</strong> AI engines heavily rely on schema markup for content understanding</span>
                     </li>
                     <li className="flex items-start">
-                      <span className="text-cyan-400 mr-2 mt-1">•</span>
-                      <span><strong>Security headers:</strong> Missing CSP, HSTS, X-Frame-Options, and other protective headers</span>
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span><strong>Answer-Focused Content:</strong> AI engines look for direct, quotable answers to user questions</span>
                     </li>
                     <li className="flex items-start">
-                      <span className="text-cyan-400 mr-2 mt-1">•</span>
-                      <span><strong>OWASP Top 10:</strong> XSS, CSRF, injection vulnerabilities, and more</span>
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span><strong>Authority & Trust Signals:</strong> E-A-T factors help AI engines evaluate content credibility</span>
                     </li>
                     <li className="flex items-start">
-                      <span className="text-cyan-400 mr-2 mt-1">•</span>
-                      <span><strong>Exposed secrets:</strong> API keys, credentials, and sensitive data in client code</span>
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span><strong>Conversational Optimization:</strong> Content should match how people ask AI engines questions</span>
                     </li>
                     <li className="flex items-start">
-                      <span className="text-cyan-400 mr-2 mt-1">•</span>
-                      <span><strong>Database security:</strong> Supabase RLS validation, exposed connections</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="text-cyan-400 mr-2 mt-1">•</span>
-                      <span><strong>WordPress security:</strong> Plugin vulnerabilities, outdated versions, XML-RPC issues</span>
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span><strong>Citation Format:</strong> Content structure that makes it easy for AI to extract and reference</span>
                     </li>
                   </ul>
-                  <p className="mt-4">This level of security analysis typically costs hundreds of dollars from security firms.</p>
+                  <p className="mt-4 text-purple-200 font-medium">Traditional SEO optimizes for search engine crawlers, but AI SEO optimizes for intelligent content understanding and citation.</p>
                 </div>
               )}
             </div>
 
-            <div className="bg-gray-900/60 backdrop-blur-sm rounded-xl border border-gray-800/50 overflow-hidden">
+            <div className="bg-gray-900/60 backdrop-blur-sm rounded-xl border border-purple-500/50 overflow-hidden">
               <button 
-                className="w-full text-left p-6 focus:outline-none flex justify-between items-center hover:bg-gray-800/30 transition-colors" 
+                className="w-full text-left p-6 focus:outline-none flex justify-between items-center hover:bg-purple-900/20 transition-colors" 
                 onClick={() => setActiveFaq(activeFaq === 3 ? null : 3)}
               >
-                <span className="font-medium text-white text-lg">How long are reports available and do you store my data?</span>
-                <span className="text-cyan-400">
+                <span className="font-medium text-white text-lg">Which AI search engines does this optimize for?</span>
+                <span className="text-pink-400">
                   {activeFaq === 3 ? 
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
@@ -1008,237 +960,280 @@ const renderScoreCard = React.useCallback((dimension, icon, score, total, label)
                 </span>
               </button>
               {activeFaq === 3 && (
-                <div className="p-6 pt-0 text-gray-300 border-t border-gray-800/50 bg-gray-800/20">
-                  <div className="bg-red-900/20 border border-red-600/50 rounded-lg p-4 mb-4">
-                    <p className="text-red-200 font-medium">⏰ Important: 24-Hour Data Retention Policy</p>
-                  </div>
-                  <p className="mb-4"><strong>We do NOT store your website data permanently.</strong> Your reports are only available for 24 hours for security and privacy reasons:</p>
-                  <ul className="space-y-2 ml-4 mb-4">
-                    <li className="flex items-start">
-                      <span className="text-cyan-400 mr-2 mt-1">•</span>
-                      <span><strong>24-hour access:</strong> Online reports expire after 24 hours</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="text-cyan-400 mr-2 mt-1">•</span>
-                      <span><strong>Download PDFs:</strong> Get permanent access by downloading your reports</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="text-cyan-400 mr-2 mt-1">•</span>
-                      <span><strong>No data storage:</strong> We don't store sensitive website information</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="text-cyan-400 mr-2 mt-1">•</span>
-                      <span><strong>Privacy protection:</strong> All data is automatically deleted</span>
-                    </li>
-                  </ul>
-                  <p className="text-red-200 font-medium">⚠️ Make sure to download your PDF reports within 24 hours!</p>
-                </div>
-              )}
-            </div>
+               <div className="p-6 pt-0 text-gray-200 border-t border-purple-500/30 bg-purple-900/10">
+                 <p className="mb-4">AISEOScan optimizes your content for all major AI search engines and LLMs:</p>
+                 <ul className="space-y-2 ml-4">
+                   <li className="flex items-start">
+                     <span className="text-pink-400 mr-2 mt-1">•</span>
+                     <span><strong>ChatGPT:</strong> OpenAI's search integration and content citation systems</span>
+                   </li>
+                   <li className="flex items-start">
+                     <span className="text-pink-400 mr-2 mt-1">•</span>
+                     <span><strong>Perplexity AI:</strong> Real-time search with source citation and attribution</span>
+                   </li>
+                   <li className="flex items-start">
+                     <span className="text-pink-400 mr-2 mt-1">•</span>
+                     <span><strong>SearchGPT:</strong> OpenAI's dedicated search engine with AI understanding</span>
+                   </li>
+                   <li className="flex items-start">
+                     <span className="text-pink-400 mr-2 mt-1">•</span>
+                     <span><strong>Claude (Anthropic):</strong> Advanced reasoning and content analysis capabilities</span>
+                   </li>
+                   <li className="flex items-start">
+                     <span className="text-pink-400 mr-2 mt-1">+</span>
+                     <span><strong>Future AI engines:</strong> Built on universal AI comprehension principles</span>
+                   </li>
+                 </ul>
+                 <p className="mt-4 text-purple-200 font-medium">Our optimization strategies work across all AI engines because we focus on fundamental AI content understanding principles, not platform-specific tricks.</p>
+               </div>
+             )}
+           </div>
 
-            <div className="bg-gray-900/60 backdrop-blur-sm rounded-xl border border-gray-800/50 overflow-hidden">
-              <button 
-                className="w-full text-left p-6 focus:outline-none flex justify-between items-center hover:bg-gray-800/30 transition-colors" 
-                onClick={() => setActiveFaq(activeFaq === 4 ? null : 4)}
-              >
-                <span className="font-medium text-white text-lg">What types of websites can you analyze?</span>
-                <span className="text-cyan-400">
-                  {activeFaq === 4 ? 
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
-                    </svg> : 
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                  }
-                </span>
-              </button>
-              {activeFaq === 4 && (
-                <div className="p-6 pt-0 text-gray-300 border-t border-gray-800/50 bg-gray-800/20">
-                  <p className="mb-4">FounderScan works with any publicly accessible website, with specialized detection for:</p>
-                  <ul className="space-y-2 ml-4">
-                    <li className="flex items-start">
-                      <span className="text-cyan-400 mr-2 mt-1">•</span>
-                      <span><strong>WordPress sites:</strong> Plugin vulnerabilities, core security, and best practices</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="text-cyan-400 mr-2 mt-1">•</span>
-                      <span><strong>Supabase applications:</strong> Row-Level Security validation and database security</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="text-cyan-400 mr-2 mt-1">•</span>
-                      <span><strong>Vercel deployments:</strong> WAF configuration and hosting security</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="text-cyan-400 mr-2 mt-1">•</span>
-                      <span><strong>Stripe integrations:</strong> Payment security and API key exposure</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="text-cyan-400 mr-2 mt-1">•</span>
-                      <span><strong>Static sites:</strong> JAMstack, React, Vue, Angular applications</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="text-cyan-400 mr-2 mt-1">•</span>
-                      <span><strong>E-commerce platforms:</strong> Custom and platform-based stores</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="text-cyan-400 mr-2 mt-1">•</span>
-                      <span><strong>SaaS applications:</strong> Multi-tenant security and compliance</span>
-                    </li>
-                  </ul>
-                  <p className="mt-4">Our scanners automatically detect your technology stack and apply appropriate security checks.</p>
-                </div>
-              )}
-            </div>
+           <div className="bg-gray-900/60 backdrop-blur-sm rounded-xl border border-purple-500/50 overflow-hidden">
+             <button 
+               className="w-full text-left p-6 focus:outline-none flex justify-between items-center hover:bg-purple-900/20 transition-colors" 
+               onClick={() => setActiveFaq(activeFaq === 4 ? null : 4)}
+             >
+               <span className="font-medium text-white text-lg">How long are reports available and do you store my data?</span>
+               <span className="text-pink-400">
+                 {activeFaq === 4 ? 
+                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
+                   </svg> : 
+                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                   </svg>
+                 }
+               </span>
+             </button>
+             {activeFaq === 4 && (
+               <div className="p-6 pt-0 text-gray-200 border-t border-purple-500/30 bg-purple-900/10">
+                 <div className="bg-rose-900/20 border border-rose-500/50 rounded-lg p-4 mb-4">
+                   <p className="text-rose-200 font-medium">⏰ Important: 24-Hour Data Retention Policy</p>
+                 </div>
+                 <p className="mb-4"><strong>We do NOT store your website data permanently.</strong> Your AI SEO reports are only available for 24 hours for security and privacy reasons:</p>
+                 <ul className="space-y-2 ml-4 mb-4">
+                   <li className="flex items-start">
+                     <span className="text-pink-400 mr-2 mt-1">•</span>
+                     <span><strong>24-hour access:</strong> Online reports expire after 24 hours</span>
+                   </li>
+                   <li className="flex items-start">
+                     <span className="text-pink-400 mr-2 mt-1">•</span>
+                     <span><strong>Download PDF:</strong> Get permanent access by downloading your AI SEO report</span>
+                   </li>
+                   <li className="flex items-start">
+                     <span className="text-pink-400 mr-2 mt-1">•</span>
+                     <span><strong>Privacy first:</strong> No sensitive website data stored long-term</span>
+                   </li>
+                   <li className="flex items-start">
+                     <span className="text-pink-400 mr-2 mt-1">•</span>
+                     <span><strong>Secure analysis:</strong> All data automatically deleted for your protection</span>
+                   </li>
+                 </ul>
+                 <p className="text-rose-200 font-medium">⚠️ Download your AI SEO optimization report within 24 hours!</p>
+               </div>
+             )}
+           </div>
 
-            <div className="bg-gray-900/60 backdrop-blur-sm rounded-xl border border-gray-800/50 overflow-hidden">
-              <button 
-                className="w-full text-left p-6 focus:outline-none flex justify-between items-center hover:bg-gray-800/30 transition-colors" 
-                onClick={() => setActiveFaq(activeFaq === 5 ? null : 5)}
-              >
-                <span className="font-medium text-white text-lg">What is your refund policy?</span>
-                <span className="text-cyan-400">
-                  {activeFaq === 5 ? 
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
-                    </svg> : 
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                  }
-                </span>
-              </button>
-              {activeFaq === 5 && (
-                <div className="p-6 pt-0 text-gray-300 border-t border-gray-800/50 bg-gray-800/20">
-                  <div className="bg-red-900/20 border border-red-600/50 rounded-lg p-4 mb-4">
-                    <p className="text-red-200 font-medium">No Refunds Policy</p>
-                  </div>
-                  <p className="mb-4">Due to the immediate delivery of digital analysis reports and the computational resources required for comprehensive scanning, <strong>all sales are final and no refunds are provided</strong>.</p>
-                  <p className="mb-4">However, we ensure value by:</p>
-                  <ul className="space-y-2 ml-4">
-                    <li className="flex items-start">
-                      <span className="text-cyan-400 mr-2 mt-1">•</span>
-                      <span>Providing a free preview scan so you can evaluate our service first</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="text-cyan-400 mr-2 mt-1">•</span>
-                      <span>Delivering comprehensive reports with actionable insights</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="text-cyan-400 mr-2 mt-1">•</span>
-                      <span>Including detailed remediation steps for every finding</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="text-cyan-400 mr-2 mt-1">•</span>
-                      <span>Offering both technical and business-focused PDF reports</span>
-                    </li>
-                  </ul>
-                  <p className="mt-4">We're confident in our service quality and recommend trying the free scan first to see the value we provide.</p>
-                </div>
-              )}
-            </div>
+           <div className="bg-gray-900/60 backdrop-blur-sm rounded-xl border border-purple-500/50 overflow-hidden">
+             <button 
+               className="w-full text-left p-6 focus:outline-none flex justify-between items-center hover:bg-purple-900/20 transition-colors" 
+               onClick={() => setActiveFaq(activeFaq === 5 ? null : 5)}
+             >
+               <span className="font-medium text-white text-lg">What types of websites can you analyze for AI SEO?</span>
+               <span className="text-pink-400">
+                 {activeFaq === 5 ? 
+                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
+                   </svg> : 
+                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                   </svg>
+                 }
+               </span>
+             </button>
+             {activeFaq === 5 && (
+               <div className="p-6 pt-0 text-gray-200 border-t border-purple-500/30 bg-purple-900/10">
+                 <p className="mb-4">AISEOScan works with any publicly accessible website, with specialized AI optimization for:</p>
+                 <ul className="space-y-2 ml-4">
+                   <li className="flex items-start">
+                     <span className="text-pink-400 mr-2 mt-1">•</span>
+                     <span><strong>Content websites:</strong> Blogs, news sites, educational content</span>
+                   </li>
+                   <li className="flex items-start">
+                     <span className="text-pink-400 mr-2 mt-1">•</span>
+                     <span><strong>Business websites:</strong> Service pages, about pages, company sites</span>
+                   </li>
+                   <li className="flex items-start">
+                     <span className="text-pink-400 mr-2 mt-1">•</span>
+                     <span><strong>E-commerce sites:</strong> Product pages, category pages, shopping sites</span>
+                   </li>
+                   <li className="flex items-start">
+                     <span className="text-pink-400 mr-2 mt-1">•</span>
+                     <span><strong>SaaS applications:</strong> Landing pages, documentation, help centers</span>
+                   </li>
+                   <li className="flex items-start">
+                     <span className="text-pink-400 mr-2 mt-1">•</span>
+                     <span><strong>Professional services:</strong> Law firms, consultants, agencies</span>
+                   </li>
+                   <li className="flex items-start">
+                     <span className="text-pink-400 mr-2 mt-1">•</span>
+                     <span><strong>WordPress sites:</strong> Any WordPress site with AI optimization potential</span>
+                   </li>
+                 </ul>
+                 <p className="mt-4">Our AI SEO analysis automatically detects your content type and provides relevant optimization recommendations for maximum AI search visibility.</p>
+               </div>
+             )}
+           </div>
 
-            <div className="bg-gray-900/60 backdrop-blur-sm rounded-xl border border-gray-800/50 overflow-hidden">
-              <button 
-                className="w-full text-left p-6 focus:outline-none flex justify-between items-center hover:bg-gray-800/30 transition-colors" 
-                onClick={() => setActiveFaq(activeFaq === 6 ? null : 6)}
-              >
-                <span className="font-medium text-white text-lg">How often should I run a website analysis?</span>
-                <span className="text-cyan-400">
-                  {activeFaq === 6 ? 
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
-                    </svg> : 
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                  }
-                </span>
-              </button>
-              {activeFaq === 6 && (
-                <div className="p-6 pt-0 text-gray-300 border-t border-gray-800/50 bg-gray-800/20">
-                  <p className="mb-4">We recommend different frequencies based on your website type and activity:</p>
-                  <ul className="space-y-2 ml-4">
-                    <li className="flex items-start">
-                      <span className="text-cyan-400 mr-2 mt-1">•</span>
-                      <span><strong>High-traffic sites:</strong> Monthly scans to catch new vulnerabilities</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="text-cyan-400 mr-2 mt-1">•</span>
-                      <span><strong>E-commerce sites:</strong> Bi-monthly due to payment security requirements</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="text-cyan-400 mr-2 mt-1">•</span>
-                      <span><strong>Regular business sites:</strong> Quarterly scans for ongoing security</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="text-cyan-400 mr-2 mt-1">•</span>
-                      <span><strong>After major updates:</strong> Always scan after significant changes</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="text-cyan-400 mr-2 mt-1">•</span>
-                      <span><strong>New sites:</strong> Initial scan, then follow-up after 30 days</span>
-                    </li>
-                  </ul>
-                  <p className="mt-4">Regular scanning helps you stay ahead of emerging threats and maintain optimal performance.</p>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
+           <div className="bg-gray-900/60 backdrop-blur-sm rounded-xl border border-purple-500/50 overflow-hidden">
+             <button 
+               className="w-full text-left p-6 focus:outline-none flex justify-between items-center hover:bg-purple-900/20 transition-colors" 
+               onClick={() => setActiveFaq(activeFaq === 6 ? null : 6)}
+             >
+               <span className="font-medium text-white text-lg">How often should I run an AI SEO analysis?</span>
+               <span className="text-pink-400">
+                 {activeFaq === 6 ? 
+                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
+                   </svg> : 
+                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                   </svg>
+                 }
+               </span>
+             </button>
+             {activeFaq === 6 && (
+               <div className="p-6 pt-0 text-gray-200 border-t border-purple-500/30 bg-purple-900/10">
+                 <p className="mb-4">AI SEO optimization frequency depends on your content strategy and business goals:</p>
+                 <ul className="space-y-2 ml-4">
+                   <li className="flex items-start">
+                     <span className="text-pink-400 mr-2 mt-1">•</span>
+                     <span><strong>Content-heavy sites:</strong> Monthly analysis to optimize new content for AI citation</span>
+                   </li>
+                   <li className="flex items-start">
+                     <span className="text-pink-400 mr-2 mt-1">•</span>
+                     <span><strong>Business websites:</strong> Quarterly scans to maintain AI search visibility</span>
+                   </li>
+                   <li className="flex items-start">
+                     <span className="text-pink-400 mr-2 mt-1">•</span>
+                     <span><strong>E-commerce sites:</strong> Bi-monthly to optimize product content for AI shopping</span>
+                   </li>
+                   <li className="flex items-start">
+                     <span className="text-pink-400 mr-2 mt-1">•</span>
+                     <span><strong>After content updates:</strong> Always scan after major content or structure changes</span>
+                   </li>
+                   <li className="flex items-start">
+                     <span className="text-pink-400 mr-2 mt-1">•</span>
+                     <span><strong>New websites:</strong> Initial optimization, then follow-up after implementing recommendations</span>
+                   </li>
+                 </ul>
+                 <p className="mt-4">The AI search landscape evolves rapidly - regular optimization ensures you stay ahead of the competition.</p>
+               </div>
+             )}
+           </div>
 
-        {/* Enhanced Professional Call to Action */}
+           <div className="bg-gray-900/60 backdrop-blur-sm rounded-xl border border-purple-500/50 overflow-hidden">
+             <button 
+               className="w-full text-left p-6 focus:outline-none flex justify-between items-center hover:bg-purple-900/20 transition-colors" 
+               onClick={() => setActiveFaq(activeFaq === 7 ? null : 7)}
+             >
+               <span className="font-medium text-white text-lg">What is your refund policy?</span>
+               <span className="text-pink-400">
+                 {activeFaq === 7 ? 
+                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
+                   </svg> : 
+                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                   </svg>
+                 }
+               </span>
+             </button>
+             {activeFaq === 7 && (
+               <div className="p-6 pt-0 text-gray-200 border-t border-purple-500/30 bg-purple-900/10">
+                 <div className="bg-rose-900/20 border border-rose-500/50 rounded-lg p-4 mb-4">
+                   <p className="text-rose-200 font-medium">No Refunds Policy</p>
+                 </div>
+                 <p className="mb-4">Due to the immediate delivery of AI SEO analysis reports and computational resources required, <strong>all sales are final and no refunds are provided</strong>.</p>
+                 <p className="mb-4">However, we ensure exceptional value by:</p>
+                 <ul className="space-y-2 ml-4">
+                   <li className="flex items-start">
+                     <span className="text-pink-400 mr-2 mt-1">•</span>
+                     <span>Providing a comprehensive free preview scan to evaluate our AI SEO analysis</span>
+                   </li>
+                   <li className="flex items-start">
+                     <span className="text-pink-400 mr-2 mt-1">•</span>
+                     <span>Delivering 30+ specific AI optimization recommendations</span>
+                   </li>
+                   <li className="flex items-start">
+                     <span className="text-pink-400 mr-2 mt-1">•</span>
+                     <span>Including detailed implementation guides with code examples</span>
+                   </li>
+                   <li className="flex items-start">
+                     <span className="text-pink-400 mr-2 mt-1">•</span>
+                     <span>Providing schema markup templates ready for implementation</span>
+                   </li>
+                 </ul>
+                 <p className="mt-4">We're confident in our AI SEO analysis quality and recommend trying the free scan first to see the unique value we provide.</p>
+               </div>
+             )}
+           </div>
+         </div>
+       </div>
+       {/* Enhanced AI SEO Call to Action */}
         <div className="mt-20">
-          <div className="bg-gradient-to-r from-gray-900/95 via-blue-900/95 to-purple-900/95 backdrop-blur-xl text-white rounded-2xl shadow-2xl p-10 border border-gray-700/30 relative overflow-hidden">
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-gray-600/30 via-gray-500/30 to-gray-400/30 rounded-2xl opacity-50"></div>
+          <div className="bg-gradient-to-r from-gray-900/95 via-purple-900/95 to-pink-900/95 backdrop-blur-xl text-white rounded-2xl shadow-2xl p-10 border border-purple-500/30 relative overflow-hidden">
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600/30 via-pink-600/30 to-blue-600/30 rounded-2xl opacity-50 animate-pulse"></div>
             
             <div className="relative z-10 text-center">
-              <h3 className="text-4xl font-bold mb-6">Start Your Professional Analysis Today</h3>
-              <p className="text-white mb-10 max-w-4xl mx-auto text-xl leading-relaxed">
-                Join thousands of successful founders who discovered critical issues they never knew existed. 
-                Get enterprise-grade analysis across all growth dimensions for just $19.
+              <h3 className="text-4xl font-bold mb-6">Get AI-Ready Before Your Competitors</h3>
+              <p className="text-gray-200 mb-10 max-w-4xl mx-auto text-xl leading-relaxed">
+                The AI search revolution is happening now. ChatGPT, Perplexity, and SearchGPT are changing how people discover content. 
+                Don't wait while competitors optimize for AI visibility.
               </p>
               
               <div className="flex flex-col sm:flex-row justify-center gap-8 mb-10">
-                <div className="flex items-center text-lg text-white bg-red-900/30 px-6 py-3 rounded-xl backdrop-blur-sm border border-red-700/50">
-                  <Shield className="h-6 w-6 text-red-400 mr-3" />
-                  <span>12+ Security Scanners</span>
+                <div className="flex items-center text-lg text-white bg-purple-900/30 px-6 py-3 rounded-xl backdrop-blur-sm border border-purple-500/50">
+                  <Bot className="h-6 w-6 text-purple-400 mr-3" />
+                  <span>AI Citation Ready</span>
                 </div>
-                <div className="flex items-center text-lg text-white bg-green-900/30 px-6 py-3 rounded-xl backdrop-blur-sm border border-green-700/50">
-                  <TrendingUp className="h-6 w-6 text-green-400 mr-3" />
-                  <span>SEO Growth Engine</span>
+                <div className="flex items-center text-lg text-white bg-pink-900/30 px-6 py-3 rounded-xl backdrop-blur-sm border border-pink-500/50">
+                  <FileText className="h-6 w-6 text-pink-400 mr-3" />
+                  <span>Schema Optimized</span>
                 </div>
-                <div className="flex items-center text-lg text-white bg-purple-900/30 px-6 py-3 rounded-xl backdrop-blur-sm border border-purple-700/50">
-                  <Zap className="h-6 w-6 text-purple-400 mr-3" />
-                  <span>Performance Optimization</span>
+                <div className="flex items-center text-lg text-white bg-blue-900/30 px-6 py-3 rounded-xl backdrop-blur-sm border border-blue-500/50">
+                  <Award className="h-6 w-6 text-blue-400 mr-3" />
+                  <span>Authority Signals</span>
                 </div>
-                <div className="flex items-center text-lg text-white bg-blue-900/30 px-6 py-3 rounded-xl backdrop-blur-sm border border-blue-700/50">
-                  <CheckCircle className="h-6 w-6 text-blue-400 mr-3" />
-                  <span>Legal Protection</span>
+                <div className="flex items-center text-lg text-white bg-emerald-900/30 px-6 py-3 rounded-xl backdrop-blur-sm border border-emerald-500/50">
+                  <Target className="h-6 w-6 text-emerald-400 mr-3" />
+                  <span>Voice Search Ready</span>
                 </div>
               </div>
               
-              <div className="bg-gradient-to-r from-cyan-900/40 via-blue-900/40 to-purple-900/40 border border-cyan-600/50 p-8 rounded-xl inline-block mb-8 backdrop-blur-sm">
-                <p className="text-cyan-200 text-2xl font-medium mb-2">
-                  <span className="text-cyan-400 font-bold">&gt; </span>
-                  Don't let competitors gain an advantage while you wait
+              <div className="bg-gradient-to-r from-purple-900/40 via-pink-900/40 to-blue-900/40 border border-pink-500/50 p-8 rounded-xl inline-block mb-8 backdrop-blur-sm">
+                <p className="text-pink-200 text-2xl font-medium mb-2">
+                  <span className="text-pink-400 font-bold">🚀 </span>
+                  First-mover advantage in AI search optimization
                 </p>
-                <p className="text-white text-lg">
-                  Start with a free scan to see what's holding your business back
+                <p className="text-gray-200 text-lg">
+                  Start with a free scan to see your AI readiness score
                 </p>
               </div>
 
               <div className="text-center">
-                <p className="text-sm text-white mb-2">⚠️ Reports available for 24 hours only - Download PDFs for permanent access</p>
+                <p className="text-sm text-gray-200 mb-2">⚠️ Reports available for 24 hours only - Download PDF for permanent access</p>
+                <p className="text-xs text-gray-300">Join the AI SEO optimization movement - Get cited by ChatGPT and Perplexity</p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Professional Disclaimer */}
-        <div className="mt-12 bg-gray-900/40 backdrop-blur-sm p-6 rounded-xl border border-gray-800/50 text-sm text-gray-400">
-          <p className="mb-3"><strong>Disclaimer:</strong> FounderScan provides automated analysis to identify potential opportunities across security, SEO, performance, and compliance. Results are based on publicly accessible information and automated scanning techniques.</p>
-          <p>This service is provided "as is" without warranty. FounderScan is designed to help founders identify optimization opportunities but should be part of a comprehensive growth and security strategy. All sales are final with no refunds due to the immediate delivery of digital reports. Reports are available for 24 hours only for privacy and security reasons.</p>
+        {/* Updated Disclaimer */}
+        <div className="mt-12 bg-gray-900/40 backdrop-blur-sm p-6 rounded-xl border border-purple-500/30 text-sm text-gray-300">
+          <p className="mb-3"><strong>Disclaimer:</strong> AISEOScan provides automated AI SEO analysis to identify optimization opportunities for AI search engines. Results are based on publicly accessible information and current AI search engine best practices.</p>
+          <p>This service is provided "as is" without warranty. AISEOScan helps optimize content for AI search visibility but should be part of a comprehensive digital marketing strategy. All sales are final with no refunds due to immediate delivery of digital reports. Reports are available for 24 hours only for privacy and security reasons.</p>
         </div>
       </div>
     </Layout>
