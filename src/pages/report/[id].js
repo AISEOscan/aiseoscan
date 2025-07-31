@@ -148,16 +148,36 @@ export default function ReportPage() {
       if (!mountedRef.current) return;
       
       console.log('📡 FRONTEND - Report data received from API:', {
-        status: data.status,
-        hasIssues: !!data.issues,
-        issuesCount: data.issues?.length || 0,
-        hasDimensionalData: {
-          security: !!data.security?.total,
-          seo: !!data.seo?.total,
-          performance: !!data.performance?.total,
-          compliance: !!data.compliance?.total
-        }
-      });
+  status: data.status,
+  hasIssues: !!data.issues,
+  issuesCount: data.issues?.length || 0,
+  hasDimensionalData: {
+    security: !!data.security?.total,
+    seo: !!data.seo?.total,
+    performance: !!data.performance?.total,
+    compliance: !!data.compliance?.total
+  }
+});
+
+console.log('🔍 DETAILED API DATA:', {
+  fullData: data,
+  hasPreliminiaryScan: !!data.preliminaryScan,
+  preliminaryIssues: data.preliminaryScan?.issues?.length || 0,
+  preliminaryPreviewIssues: data.preliminaryScan?.previewIssues?.length || 0,
+  directIssues: data.issues?.length || 0,
+  status: data.status,
+  dataKeys: Object.keys(data),
+  preliminaryScanKeys: data.preliminaryScan ? Object.keys(data.preliminaryScan) : 'No preliminaryScan'
+});
+
+// CRITICAL: Check if we need to extract issues from preliminaryScan
+if (data.preliminaryScan?.issues && !data.issues) {
+  console.log('🔧 FRONTEND - Found issues in preliminaryScan, extracting to main issues array');
+  data.issues = data.preliminaryScan.issues;
+} else if (data.preliminaryScan?.previewIssues && !data.issues) {
+  console.log('🔧 FRONTEND - Found previewIssues in preliminaryScan, extracting to main issues array');
+  data.issues = data.preliminaryScan.previewIssues;
+}
       
       // Enhanced data processing for multi-dimensional reports
       let processedData = data;
@@ -274,10 +294,10 @@ export default function ReportPage() {
   }, [id, fetchReport]);
 
   // Handle PDF download
-  const handleDownload = async (type = 'ai-seo') => {
-    if (!id) return;
-    window.location.href = `/api/report/${id}/download?type=${type}`;
-  };
+  const handleDownload = async (type = 'growth') => {
+  if (!id) return;
+  window.location.href = `/api/report/${id}/download?type=${type}`;
+};
 
   // Get dimension color based on score - Updated for AI SEO
   const getScoreColor = (score) => {
@@ -625,23 +645,17 @@ export default function ReportPage() {
               </div>
             )}
             
-            {/* Download Buttons */}
-            <div className="flex gap-4 justify-center">
-              <button 
-                onClick={() => handleDownload('ai-seo')}
-                className="bg-pink-600 hover:bg-pink-500 px-6 py-3 rounded-lg text-white font-semibold flex items-center transition-colors"
-              >
-                <Bot className="h-4 w-4 mr-2" />
-                Download AI SEO Report
-              </button>
-              <button 
-                onClick={() => handleDownload('optimization')}
-                className="bg-purple-600 hover:bg-purple-500 px-6 py-3 rounded-lg text-white font-semibold flex items-center transition-colors"
-              >
-                <Sparkles className="h-4 w-4 mr-2" />
-                Download Optimization Guide
-              </button>
-            </div>
+            {/* Download Button */}
+<div className="flex justify-center">
+  <button 
+    onClick={() => handleDownload('growth')}
+    className="bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 px-8 py-4 rounded-lg text-white font-semibold flex items-center transition-colors shadow-lg"
+  >
+    <Bot className="h-5 w-5 mr-2" />
+    Download Complete AI SEO Report
+  </button>
+</div>
+            
 
          {/* Overall Score */}
          <div className="text-center mb-8">
