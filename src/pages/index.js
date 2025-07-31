@@ -250,7 +250,7 @@ export default function Home() {
           </h1>
           
           <p className="text-xl text-gray-200 font-light mb-8 max-w-4xl mx-auto leading-relaxed">
-             Get a complete AI SEO audit 
+             If ChatGPT can’t find you, neither can your customers. Get a complete AI SEO audit 
             and optimization plan designed for the age of AI-powered search.
           </p>
           
