@@ -485,7 +485,7 @@ export default function Home() {
                         renderAIDimensionPreview(
                           'Trust Signals', 
                           <Award className="h-4 w-4 text-emerald-400" />, 
-                          Math.max(0, 100 - ((scanResults.compliance?.total || 0) * 15)), 
+                          scanResults.compliance?.score || 85, 
                           scanResults.compliance.issues || [],
                           'Credibility for AI engines',
                           scanResults.compliance?.total || scanResults.compliance?.issues?.length || 0
