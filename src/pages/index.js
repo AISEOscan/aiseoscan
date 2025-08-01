@@ -307,7 +307,7 @@ export default function Home() {
             </div>
             <div className="flex items-center justify-center text-gray-200">
               <Target className="h-4 w-4 mr-2 text-purple-400" />
-              <span>Built for ChatGPT, Perplexity & SearchGPT</span>
+              <span>Built for ChatGPT, Claude, Perplexity & other LLMs</span>
             </div>
             <div className="flex items-center justify-center text-gray-200">
               <Lightbulb className="h-4 w-4 mr-2 text-blue-400" />
@@ -428,8 +428,8 @@ export default function Home() {
                                 </div>
                                 <div className="text-right">
                                   <div className="text-2xl font-bold text-amber-400">
-                                    {100 - (complianceTotal * 10)}
-                                  </div>
+  {scanResults.compliance?.score || 85}
+</div>
                                   <div className="text-xs text-gray-300">
                                     {complianceTotal} missing signals
                                   </div>

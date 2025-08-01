@@ -89,7 +89,7 @@ export default function PaymentButton({ url, scanResults }) {
         onClick={handleClick}
         disabled={isLoading}
       >
-        {isLoading ? 'Loading...' : 'Get Full Report ($19)'}
+        {isLoading ? 'Loading...' : 'Get Full Report ($29)'}
       </button>
       
       {error && (
