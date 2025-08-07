@@ -589,7 +589,7 @@ const getTotalLowIssues = (report) => {
           </svg>
           <h2 className="text-2xl font-bold text-white mb-2">Processing Your AI SEO Analysis</h2>
           <p className="text-gray-400 mb-4">
-            We're running a comprehensive AI readiness analysis of {report?.url || 'your website'} for ChatGPT, Perplexity, and SearchGPT optimization.<br />
+            We're running a comprehensive AI readiness analysis of {report?.url || 'your website'} for ChatGPT, Claude, Perplexity, and other LLMs optimization.<br />
             This should take less than a minute.
           </p>
           <div className="w-full max-w-md mx-auto bg-gray-800 rounded-full h-2.5 mb-6">
@@ -631,7 +631,7 @@ const getTotalLowIssues = (report) => {
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold mb-2 flex items-center justify-center">
               <Bot className="h-8 w-8 text-pink-400 mr-3" />
-              AI SEO Readiness Report
+              AI SEO Report
             </h1>
             <p className="text-gray-300">Website: <span className="text-pink-400">{report?.url || 'Loading...'}</span></p>
             <p className="text-gray-400 text-sm mb-6">
@@ -672,7 +672,7 @@ const getTotalLowIssues = (report) => {
              AI Readiness Score - {getScoreStatus(report?.summary?.overallScore || 0)}
            </div>
            <div className="text-gray-400">
-             Comprehensive AI SEO analysis for ChatGPT, Perplexity & SearchGPT optimization
+             Comprehensive AI SEO analysis for ChatGPT, Claude, Perplexity & other LLMs optimization
            </div>
          </div>
 
