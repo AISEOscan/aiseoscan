@@ -1535,5 +1535,27 @@ async function generateGrowthPdf(reportData) {
   }
 }
 
+// Add these missing functions at the end of the file:
+
+function createSimplifiedSummary(doc, processedData, consolidatedIssues, pdfScores, colors) {
+  // Use the createExecutiveSummary function but with this name
+  createExecutiveSummary(doc, processedData, consolidatedIssues, pdfScores, colors);
+}
+
+function createImplementationGuide(doc, consolidatedIssues, colors) {
+  // Use the createImplementationFromReportData function but with this name  
+  createImplementationFromReportData(doc, consolidatedIssues, colors);
+}
+
+function createActionPlan(doc, consolidatedIssues, colors) {
+  // Use the createSimpleActionPlan function but with this name
+  createSimpleActionPlan(doc, consolidatedIssues, colors);
+}
+
+function addProfessionalFooters(doc, processedData, colors) {
+  // Use the addCleanFooters function but with this name
+  addCleanFooters(doc, processedData, colors);
+}
+
 // Export the main function
 export { generateGrowthPdf };
