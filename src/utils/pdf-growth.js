@@ -407,15 +407,37 @@ function createReportPageIssueDetail(doc, issue, number, startY, severityColor) 
   doc.setFillColor(severityColor[0], severityColor[1], severityColor[2]);
   doc.rect(20, y, 3, 20, 'F');
   
-  // Issue description - EXACT same as report page (line 448)
+  // Issue description - SHOW FULL TEXT instead of truncating
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(COLORS.textDark[0], COLORS.textDark[1], COLORS.textDark[2]);
   doc.setFontSize(9);
   const description = issue.description || 'Optimization opportunity';
-  const shortDesc = description.length > 70 ? description.substring(0, 67) + '...' : description;
-  doc.text(`${number}. ${shortDesc}`, 27, y + 12);
   
-  y += 25;
+  // REMOVE TRUNCATION - Show full description with proper text wrapping
+  const fullDescription = `${number}. ${description}`;
+  const descriptionLines = doc.splitTextToSize(fullDescription, 160); // Allow text wrapping
+  
+  // Calculate container height based on actual text length
+  const descriptionHeight = Math.max(20, descriptionLines.length * 4 + 8);
+  
+  // Update container to fit full text
+  doc.setFillColor(COLORS.cardBg[0], COLORS.cardBg[1], COLORS.cardBg[2]);
+  doc.roundedRect(20, y, 170, descriptionHeight, 3, 3, 'F');
+  doc.setDrawColor(severityColor[0], severityColor[1], severityColor[2]);
+  doc.setLineWidth(0.5);
+  doc.roundedRect(20, y, 170, descriptionHeight, 3, 3, 'S');
+  
+  // Redraw severity indicator with correct height
+  doc.setFillColor(severityColor[0], severityColor[1], severityColor[2]);
+  doc.rect(20, y, 3, descriptionHeight, 'F');
+  
+  // Display full description text
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(COLORS.textDark[0], COLORS.textDark[1], COLORS.textDark[2]);
+  doc.setFontSize(9);
+  doc.text(descriptionLines, 27, y + 6);
+  
+  y += descriptionHeight + 5;
   
   // CRITICAL: Fix details - EXACT same as report page (lines 451-470)
   if (issue.fix) {
@@ -428,14 +450,16 @@ function createReportPageIssueDetail(doc, issue, number, startY, severityColor) 
       y += 12;
     }
     
-    // Fix description - EXACT same as report page (line 453)
+    // Fix description - SHOW FULL TEXT instead of truncating
     if (issue.fix.description) {
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(COLORS.textMedium[0], COLORS.textMedium[1], COLORS.textMedium[2]);
       doc.setFontSize(9);
-      const descLines = doc.splitTextToSize(issue.fix.description, 165);
-      doc.text(descLines, 20, y);
-      y += descLines.length * 4 + 8;
+      // REMOVE TRUNCATION - Show full fix description
+      const fullFixDescription = issue.fix.description;
+      const fixDescLines = doc.splitTextToSize(fullFixDescription, 165);
+      doc.text(fixDescLines, 20, y);
+      y += fixDescLines.length * 4 + 8;
     }
     
     // CRITICAL: Code block - EXACT same as report page (lines 454-468)
@@ -456,49 +480,49 @@ function addReportPageCodeBlock(doc, code, startY) {
   }
   
   const codeLines = code.split('\n');
-  // REMOVE THE ARTIFICIAL LIMIT - Show ALL lines instead of slice(0, 15)
   const displayLines = codeLines; // Show complete code
-  const codeHeight = Math.max(30, displayLines.length * 3 + 15);
   
-  // Page break check
-  if (y + codeHeight > 250) {
+  // BIGGER FONT = MORE LINES NEEDED - Increase spacing for readability
+  const lineHeight = 4; // Increased from 3 to 4 for bigger font
+  const codeHeight = Math.max(40, displayLines.length * lineHeight + 20);
+  
+  // Page break check with more conservative height
+  if (y + codeHeight > 240) {
     doc.addPage();
     addHeader(doc, 'Issues & Optimization Instructions (Continued)');
     y = 40;
   }
   
-  // Code container - EXACT same as report page bg-gray-800 (line 456)
-  doc.setFillColor(31, 41, 55); // bg-gray-800 from report page
+  // Code container
+  doc.setFillColor(31, 41, 55); // bg-gray-800
   doc.roundedRect(20, y, 170, codeHeight, 3, 3, 'F');
   doc.setDrawColor(COLORS.border[0], COLORS.border[1], COLORS.border[2]);
   doc.setLineWidth(0.5);
   doc.roundedRect(20, y, 170, codeHeight, 3, 3, 'S');
   
-  // Code header - EXACT same as report page (lines 457-460)
+  // Code header
   doc.setFont('helvetica', 'bold');
-  doc.setTextColor(156, 163, 175); // text-gray-400 from report page
-  doc.setFontSize(8);
-  doc.text('Implementation Code', 25, y + 10);
+  doc.setTextColor(156, 163, 175); // text-gray-400
+  doc.setFontSize(9); // Slightly bigger header font
+  doc.text('Implementation Code', 25, y + 12);
   
-
+  // BIGGER, MORE READABLE CODE FONT
   doc.setFont('courier', 'normal');
-  doc.setTextColor(209, 213, 219); // text-gray-300 from report page
-  doc.setFontSize(6);
+  doc.setTextColor(209, 213, 219); // text-gray-300
+  doc.setFontSize(8); // INCREASED from 6 to 8 for much better readability
   
-  // SHOW ALL LINES - Remove artificial truncation
+  // Display all lines with bigger font and spacing
   displayLines.forEach((line, index) => {
-    const yPos = y + 15 + (index * 3);
-    if (yPos < y + codeHeight - 3) {
-      // Handle long lines but show complete code
-      const maxChars = 85;
+    const yPos = y + 18 + (index * lineHeight); // Increased spacing
+    if (yPos < y + codeHeight - 5) {
+      // Adjust character limit for bigger font
+      const maxChars = 75; // Reduced from 85 to accommodate bigger font
       const displayLine = line.length > maxChars ? line.substring(0, maxChars - 3) + '...' : line;
       doc.text(displayLine, 25, yPos);
     }
   });
   
-
-  
-  return y + codeHeight + 8;
+  return y + codeHeight + 10;
 }
 
 
