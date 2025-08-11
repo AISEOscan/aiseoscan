@@ -19,8 +19,7 @@ const COLORS = {
   textLight: [107, 114, 128],    
 };
 
-// SIMPLE DATA EXTRACTION - Exact same as report page
-// FORCE EXACT SAME DATA AS REPORT PAGE
+
 function getReportData(reportData) {
   console.log('🔍 PDF - Input data keys:', Object.keys(reportData));
   console.log('🔍 PDF - Has seo.issues?', !!reportData.seo?.issues);
@@ -448,7 +447,7 @@ function createReportPageIssueDetail(doc, issue, number, startY, severityColor) 
   return y + 10;
 }
 
-// EXACT REPLICA OF REPORT PAGE CODE BLOCK (lines 454-468)
+
 function addReportPageCodeBlock(doc, code, startY) {
   let y = startY;
   
@@ -457,7 +456,8 @@ function addReportPageCodeBlock(doc, code, startY) {
   }
   
   const codeLines = code.split('\n');
-  const displayLines = codeLines.slice(0, 15); // Limit for PDF
+  // REMOVE THE ARTIFICIAL LIMIT - Show ALL lines instead of slice(0, 15)
+  const displayLines = codeLines; // Show complete code
   const codeHeight = Math.max(30, displayLines.length * 3 + 15);
   
   // Page break check
@@ -480,37 +480,29 @@ function addReportPageCodeBlock(doc, code, startY) {
   doc.setFontSize(8);
   doc.text('Implementation Code', 25, y + 10);
   
-  // "Copy Code" text - EXACT same as report page (line 461)
-  doc.setTextColor(244, 114, 182); // text-pink-400 from report page
-  doc.setFontSize(7);
-  doc.text('Copy from PDF', 185, y + 10, { align: 'right' });
-  
-  // Code content - EXACT same as report page (lines 464-468)
+
   doc.setFont('courier', 'normal');
   doc.setTextColor(209, 213, 219); // text-gray-300 from report page
   doc.setFontSize(6);
   
+  // SHOW ALL LINES - Remove artificial truncation
   displayLines.forEach((line, index) => {
     const yPos = y + 15 + (index * 3);
     if (yPos < y + codeHeight - 3) {
-      // Handle long lines
+      // Handle long lines but show complete code
       const maxChars = 85;
       const displayLine = line.length > maxChars ? line.substring(0, maxChars - 3) + '...' : line;
       doc.text(displayLine, 25, yPos);
     }
   });
   
-  // Show truncation indicator if needed
-  if (codeLines.length > displayLines.length) {
-    doc.setFont('helvetica', 'italic');
-    doc.setTextColor(156, 163, 175); // text-gray-400
-    doc.setFontSize(6);
-    const remaining = codeLines.length - displayLines.length;
-    doc.text(`... and ${remaining} more lines`, 25, y + codeHeight - 3);
-  }
+
   
   return y + codeHeight + 8;
 }
+
+
+
 // ACTION PLAN - EXACT same as report page structure
 function createActionPlan(doc, reportData) {
   doc.addPage();
