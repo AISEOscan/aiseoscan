@@ -96,6 +96,8 @@ function addFooter(doc, pageNum, totalPages, url) {
   doc.text(shortUrl, 105, 290, { align: 'center' });
 }
 // SIMPLE, CLEAN COVER PAGE
+
+
 function createCoverPage(doc, reportData) {
   // White background
   doc.setFillColor(COLORS.white[0], COLORS.white[1], COLORS.white[2]);
@@ -135,19 +137,21 @@ function createCoverPage(doc, reportData) {
   // Scores - simple layout
   displayScores(doc, reportData.scores);
   
-  // Footer
+  // Footer - MOVED UP to create more space
   doc.setFillColor(COLORS.cardBg[0], COLORS.cardBg[1], COLORS.cardBg[2]);
-  doc.rect(0, 260, 210, 37, 'F');
+  doc.rect(0, 245, 210, 52, 'F'); // Increased height from 37 to 52, moved up from 260 to 245
   
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(COLORS.primary[0], COLORS.primary[1], COLORS.primary[2]);
   doc.setFontSize(16);
-  doc.text('AISEOScan', 105, 275, { align: 'center' });
+  doc.text('AISEOScan', 105, 265, { align: 'center' }); // Moved up from 275 to 265
   
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(10);
   doc.setTextColor(COLORS.textMedium[0], COLORS.textMedium[1], COLORS.textMedium[2]);
-  doc.text('Professional AI SEO Analysis Platform', 105, 285, { align: 'center' });
+  doc.text('Professional AI SEO Analysis Platform', 105, 275, { align: 'center' }); // Moved up from 285 to 275
+  
+  
 }
 
 // SIMPLE SCORE DISPLAY
@@ -632,6 +636,9 @@ function createActionPlan(doc, reportData) {
   });
 }
 
+// FIXED: src/utils/pdf-growth.js
+// Update the createWeekSection function around line 650
+
 function createWeekSection(doc, weekTitle, description, tasks, weekColor, startY) {
   let y = startY;
   
@@ -656,9 +663,12 @@ function createWeekSection(doc, weekTitle, description, tasks, weekColor, startY
   doc.text(descLines, 20, y);
   y += descLines.length * 3 + 8;
   
-  // Tasks
-  const maxTasks = Math.min(5, tasks.length); // Prevent overflow
+  
+  
+  const maxTasks = tasks.length; // Show ALL tasks, no limit
+  
   for (let i = 0; i < maxTasks; i++) {
+    // Check for page break for each task
     if (y > 250) {
       doc.addPage();
       addHeader(doc, '30-Day Implementation Timeline (Continued)');
@@ -680,27 +690,55 @@ function createWeekSection(doc, weekTitle, description, tasks, weekColor, startY
     doc.setFontSize(7);
     doc.text((i + 1).toString(), 26, y + 6, { align: 'center' });
     
-    // Task description
+    // Task description - SHOW FULL TEXT, no truncation
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(COLORS.textDark[0], COLORS.textDark[1], COLORS.textDark[2]);
     doc.setFontSize(8);
-    const taskText = tasks[i].length > 80 ? tasks[i].substring(0, 77) + '...' : tasks[i];
-    doc.text(taskText, 32, y + 6);
     
-    y += 12;
+    // REMOVE TRUNCATION - Show complete task text
+    const taskText = tasks[i]; // Show full task text, no character limit
+    const taskLines = doc.splitTextToSize(taskText, 135); // Allow text wrapping
+    
+    // Adjust box height if text wraps
+    if (taskLines.length > 1) {
+      const boxHeight = Math.max(10, taskLines.length * 3 + 4);
+      
+      // Redraw box with correct height
+      doc.setFillColor(COLORS.white[0], COLORS.white[1], COLORS.white[2]);
+      doc.roundedRect(20, y, 170, boxHeight, 2, 2, 'F');
+      doc.setDrawColor(weekColor[0], weekColor[1], weekColor[2]);
+      doc.setLineWidth(0.3);
+      doc.roundedRect(20, y, 170, boxHeight, 2, 2, 'S');
+      
+      // Redraw task number
+      doc.setFillColor(weekColor[0], weekColor[1], weekColor[2]);
+      doc.circle(26, y + 5, 2.5, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(7);
+      doc.text((i + 1).toString(), 26, y + 6, { align: 'center' });
+      
+      // Display wrapped text
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(COLORS.textDark[0], COLORS.textDark[1], COLORS.textDark[2]);
+      doc.setFontSize(8);
+      doc.text(taskLines, 32, y + 4);
+      
+      y += boxHeight + 2;
+    } else {
+      // Single line text
+      doc.text(taskText, 32, y + 6);
+      y += 12;
+    }
   }
   
-  // Show remaining count if truncated
-  if (tasks.length > maxTasks) {
-    doc.setFont('helvetica', 'italic');
-    doc.setTextColor(COLORS.textLight[0], COLORS.textLight[1], COLORS.textLight[2]);
-    doc.setFontSize(7);
-    doc.text(`... and ${tasks.length - maxTasks} more tasks (see complete list in issues section)`, 25, y);
-    y += 8;
-  }
+
   
   return y + 15;
 }
+
+
+
 // MAIN PDF GENERATION FUNCTION - EXACT same data processing as report page
 async function generateGrowthPdf(reportData) {
   try {
