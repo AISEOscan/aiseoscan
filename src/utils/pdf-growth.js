@@ -20,16 +20,34 @@ const COLORS = {
 };
 
 // SIMPLE DATA EXTRACTION - Exact same as report page
-function getReportData(processedData) {
-  // Apply same processing as report page if needed
-  let finalData = processedData;
-  if (processedData.issues?.length > 0 && !processedData.seo?.total) {
-    finalData = processMultiDimensionalData(processedData);
+// FORCE EXACT SAME DATA AS REPORT PAGE
+function getReportData(reportData) {
+  console.log('🔍 PDF - Input data keys:', Object.keys(reportData));
+  console.log('🔍 PDF - Has seo.issues?', !!reportData.seo?.issues);
+  console.log('🔍 PDF - Has compliance.issues?', !!reportData.compliance?.issues);
+  
+  // If we don't have processed seo/compliance data, process it
+  let processedData = reportData;
+  if (!reportData.seo?.issues || !reportData.compliance?.issues) {
+    console.log('🔧 PDF - Missing processed data, applying processMultiDimensionalData');
+    processedData = processMultiDimensionalData(reportData);
   }
   
-  // Extract issues exactly like report page
-  const seoIssues = finalData.seo?.issues || [];
-  const complianceIssues = finalData.compliance?.issues || [];
+  // Extract issues from the EXACT same source as report page
+  const seoIssues = processedData.seo?.issues || [];
+  const complianceIssues = processedData.compliance?.issues || [];
+  
+  console.log('🔍 PDF - Extracted issues:', {
+    seoCount: seoIssues.length,
+    complianceCount: complianceIssues.length,
+    firstSeoIssue: seoIssues[0] ? {
+      type: seoIssues[0].type,
+      hasFixTitle: !!seoIssues[0].fix?.title,
+      hasFixCode: !!seoIssues[0].fix?.code,
+      fixTitle: seoIssues[0].fix?.title?.substring(0, 50)
+    } : 'none'
+  });
+  
   const allIssues = [...seoIssues, ...complianceIssues];
   
   return {
@@ -40,11 +58,11 @@ function getReportData(processedData) {
       all: allIssues
     },
     scores: {
-      aiSeo: finalData.seo?.score || 0,
-      trustSignals: finalData.compliance?.score || 0,
-      overall: finalData.summary?.overallScore || 0
+      aiSeo: processedData.seo?.score || 0,
+      trustSignals: processedData.compliance?.score || 0,
+      overall: processedData.summary?.overallScore || 0
     },
-    url: finalData.url
+    url: processedData.url
   };
 }
 
