@@ -28,41 +28,61 @@ const COLORS = {
   textLight: [107, 114, 128],    // #6b7280
 };
 
-// EXACT DATA EXTRACTION - Same as report page
+// EXACT SAME data extraction as report page
 function extractReportPageData(processedData) {
-  console.log('🔍 PDF - Extracting data exactly like report page');
+  console.log('🔍 PDF - Using EXACT same data as report page');
   
-  // Use EXACT same sources as report page
-  const seoIssues = processedData.seo?.issues || [];
-  const complianceIssues = processedData.compliance?.issues || [];
+  // EXACT same processing as report page
+  let finalData = processedData;
   
-  // Combine issues - same as report page
-  const allIssues = [...seoIssues, ...complianceIssues];
+  // Apply the SAME fallback processing as report page
+  if (processedData.issues?.length > 0 && !processedData.seo?.total) {
+    console.log('🔧 PDF - Processing data exactly like report page');
+    finalData = processMultiDimensionalData(processedData);
+  }
   
-  // Categorize by severity - same logic as report page
+  // EXACT same issue extraction as report page lines 629-645
+  const seoIssues = finalData.seo?.issues || [];
+  const complianceIssues = finalData.compliance?.issues || [];
+  
+  console.log('📊 PDF - Extracted issues:', {
+    seoCount: seoIssues.length,
+    complianceCount: complianceIssues.length,
+    seoSample: seoIssues[0] ? {
+      type: seoIssues[0].type,
+      hasFix: !!seoIssues[0].fix,
+      hasCode: !!seoIssues[0].fix?.code
+    } : 'none',
+    complianceSample: complianceIssues[0] ? {
+      type: complianceIssues[0].type,
+      hasFix: !!complianceIssues[0].fix,
+      hasCode: !!complianceIssues[0].fix?.code
+    } : 'none'
+  });
+  
+  // EXACT same filtering as report page (lines 654-672)
   const issues = {
-    critical: allIssues.filter(issue => issue.severity === 'critical'),
-    medium: allIssues.filter(issue => issue.severity === 'medium'),
-    low: allIssues.filter(issue => issue.severity === 'low'),
-    all: allIssues
+    critical: [
+      ...(seoIssues.filter(issue => issue.severity === 'critical')),
+      ...(complianceIssues.filter(issue => issue.severity === 'critical'))
+    ],
+    medium: [
+      ...(seoIssues.filter(issue => issue.severity === 'medium')),
+      ...(complianceIssues.filter(issue => issue.severity === 'medium'))
+    ],
+    low: [
+      ...(seoIssues.filter(issue => issue.severity === 'low')),
+      ...(complianceIssues.filter(issue => issue.severity === 'low'))
+    ],
+    all: [...seoIssues, ...complianceIssues]
   };
   
   // EXACT same scores as report page
   const scores = {
-    aiSeo: processedData.seo?.score || 0,
-    trustSignals: processedData.compliance?.score || 0,
-    overall: processedData.summary?.overallScore || 0
+    aiSeo: finalData.seo?.score || 0,
+    trustSignals: finalData.compliance?.score || 0,
+    overall: finalData.summary?.overallScore || 0
   };
-  
-  console.log('✅ PDF Data extracted:', {
-    scores,
-    totalIssues: issues.all.length,
-    breakdown: {
-      critical: issues.critical.length,
-      medium: issues.medium.length,
-      low: issues.low.length
-    }
-  });
   
   return { issues, scores };
 }
@@ -569,245 +589,127 @@ function createPrioritySection(doc, title, sectionIssues, titleColor, startY) {
 }
 
 // EXACT REPLICA: IssueDetail component from report page
-// CRITICAL FIX: Issue detail with COMPLETE code implementation
+// SIMPLIFIED: Replicate report page IssueDetail component exactly
 function createIssueDetailWithFullCode(doc, issue, number, startY, severityColor) {
   let y = startY;
   
-  // Issue header container
-  const headerHeight = 20;
-  doc.setFillColor(COLORS.white[0], COLORS.white[1], COLORS.white[2]);
+  // Issue header
+  const headerHeight = 25;
+  doc.setFillColor(COLORS.cardBg[0], COLORS.cardBg[1], COLORS.cardBg[2]);
   doc.roundedRect(20, y, 170, headerHeight, 3, 3, 'F');
   doc.setDrawColor(severityColor[0], severityColor[1], severityColor[2]);
   doc.setLineWidth(1);
   doc.roundedRect(20, y, 170, headerHeight, 3, 3, 'S');
   
-  // Severity indicator - left border
+  // Left border like report page
   doc.setFillColor(severityColor[0], severityColor[1], severityColor[2]);
   doc.rect(20, y, 4, headerHeight, 'F');
   
-  // Issue description
+  // Issue description - EXACT same as report page
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(COLORS.textDark[0], COLORS.textDark[1], COLORS.textDark[2]);
   doc.setFontSize(10);
   const description = issue.description || 'Optimization opportunity';
-  const shortDesc = description.length > 80 ? description.substring(0, 77) + '...' : description;
-  doc.text(`${number}. ${shortDesc}`, 28, y + 12);
+  doc.text(`${number}. ${description}`, 28, y + 15);
   
-  // Time estimate
-  doc.setFont('helvetica', 'normal');  
-  doc.setTextColor(COLORS.textLight[0], COLORS.textLight[1], COLORS.textLight[2]);
-  doc.setFontSize(8);
-  const timeEstimate = getTimeEstimate(issue);
-  const dimension = getDimensionFromIssue(issue);
-  doc.text(`${timeEstimate} • ${dimension}`, 185, y + 12, { align: 'right' });
+  y += headerHeight + 10;
   
-  y += headerHeight + 8;
-  
-  // CRITICAL: Full fix implementation with complete code
+  // CRITICAL: Show fix details EXACTLY like report page IssueDetail
   if (issue.fix) {
-    y = addCompleteCodeImplementation(doc, issue.fix, y);
+    // Fix title (like report page line 451)
+    if (issue.fix.title) {
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(COLORS.textDark[0], COLORS.textDark[1], COLORS.textDark[2]);
+      doc.setFontSize(12);
+      doc.text(issue.fix.title, 20, y);
+      y += 15;
+    }
+    
+    // Fix description (like report page line 452)
+    if (issue.fix.description) {
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(COLORS.textMedium[0], COLORS.textMedium[1], COLORS.textMedium[2]);
+      doc.setFontSize(10);
+      const descLines = doc.splitTextToSize(issue.fix.description, 165);
+      doc.text(descLines, 20, y);
+      y += descLines.length * 5 + 10;
+    }
+    
+    // Code block EXACTLY like report page (lines 453-468)
+    if (issue.fix.code) {
+      y = addReportPageCodeBlock(doc, issue.fix.code, y);
+    }
+  } else {
+    // No fix available
+    doc.setFont('helvetica', 'italic');
+    doc.setTextColor(COLORS.textLight[0], COLORS.textLight[1], COLORS.textLight[2]);
+    doc.setFontSize(9);
+    doc.text('Implementation details will be provided in full analysis.', 20, y);
+    y += 15;
   }
   
-  y += 10;
-  return y;
+  return y + 15;
 }
 
-// CRITICAL: Complete code implementation - THE MOST IMPORTANT PART
-function addCompleteCodeImplementation(doc, fix, startY) {
+// EXACT replication of report page code block (lines 453-468)
+function addReportPageCodeBlock(doc, code, startY) {
   let y = startY;
   
-  // Fix title
-  if (fix.title) {
-    doc.setFont('helvetica', 'bold');
-    doc.setTextColor(COLORS.textDark[0], COLORS.textDark[1], COLORS.textDark[2]);
-    doc.setFontSize(12);
-    doc.text(fix.title, 20, y);
-    y += 12;
+  if (!code || code.trim().length === 0) {
+    return y;
   }
-  
-  // Fix description  
-  if (fix.description) {
-    doc.setFont('helvetica', 'normal');
-    doc.setTextColor(COLORS.textMedium[0], COLORS.textMedium[1], COLORS.textMedium[2]);
-    doc.setFontSize(10);
-    const descLines = doc.splitTextToSize(fix.description, 165);
-    doc.text(descLines, 20, y);
-    y += descLines.length * 5 + 10;
-  }
-  
-  // CRITICAL: Complete code block implementation
-  if (fix.code) {
-    y = addFullCodeBlock(doc, fix.code, y);
-  }
-  
-  return y;
-}
-
-// CRITICAL: Full code block with complete implementation
-function addFullCodeBlock(doc, code, startY) {
-  let y = startY;
   
   const codeLines = code.split('\n');
-  const linesPerPage = 25; // Show more lines per section
+  const codeHeight = Math.min(60, codeLines.length * 3 + 20);
   
-  let currentLineIndex = 0;
-  let sectionNumber = 1;
-  
-  while (currentLineIndex < codeLines.length) {
-    const remainingLines = codeLines.length - currentLineIndex;
-    const linesToShow = Math.min(linesPerPage, remainingLines);
-    const currentSection = codeLines.slice(currentLineIndex, currentLineIndex + linesToShow);
-    const codeBoxHeight = Math.max(40, currentSection.length * 3.5 + 25);
-    
-    // Check page break
-    if (y + codeBoxHeight > 250) {
-      doc.addPage();
-      addProfessionalHeader(doc, 'Issues & Optimization Instructions (Continued)');
-      y = 50;
-    }
-    
-    // Code container with professional styling
-    doc.setFillColor(248, 250, 252); // Very light gray
-    doc.roundedRect(20, y, 170, codeBoxHeight, 5, 5, 'F');
-    doc.setDrawColor(COLORS.primary[0], COLORS.primary[1], COLORS.primary[2]);
-    doc.setLineWidth(1);
-    doc.roundedRect(20, y, 170, codeBoxHeight, 5, 5, 'S');
-    
-    // Code header
-    doc.setFont('helvetica', 'bold');
-    doc.setTextColor(COLORS.primary[0], COLORS.primary[1], COLORS.primary[2]);
-    doc.setFontSize(10);
-    const headerText = codeLines.length > linesPerPage && sectionNumber > 1 ? 
-      `Implementation Code (Part ${sectionNumber})` : 'Implementation Code';
-    doc.text(headerText, 25, y + 12);
-    
-    // "Copy and implement" instruction
-    doc.setTextColor(COLORS.textMedium[0], COLORS.textMedium[1], COLORS.textMedium[2]);
-    doc.setFontSize(8);
-    doc.text('Copy this code and implement on your website', 185, y + 12, { align: 'right' });
-    
-    // CRITICAL: Complete code content with proper formatting
-    doc.setFont('courier', 'normal');
-    doc.setTextColor(COLORS.textDark[0], COLORS.textDark[1], COLORS.textDark[2]);
-    doc.setFontSize(7); // Smaller font to fit more code
-    
-    currentSection.forEach((line, lineIndex) => {
-      const yPos = y + 18 + (lineIndex * 3.5);
-      if (yPos < y + codeBoxHeight - 5) {
-        // Handle long lines properly
-        if (line.length > 90) {
-          // Split very long lines
-          const firstPart = line.substring(0, 87) + '...';
-          doc.text(firstPart, 25, yPos);
-          if (line.length > 150 && lineIndex < currentSection.length - 1) {
-            // Continue on next line if space allows
-            const continuation = '   ' + line.substring(87, 174);
-            doc.text(continuation, 25, yPos + 3.5);
-          }
-        } else {
-          doc.text(line, 25, yPos);
-        }
-      }
-    });
-    
-    // Show continuation indicator
-    if (currentLineIndex + linesToShow < codeLines.length) {
-      doc.setFont('helvetica', 'italic');
-      doc.setTextColor(COLORS.textLight[0], COLORS.textLight[1], COLORS.textLight[2]);
-      doc.setFontSize(8);
-      const remaining = codeLines.length - (currentLineIndex + linesToShow);
-      doc.text(`(${remaining} more lines continue below...)`, 25, y + codeBoxHeight - 8);
-    }
-    
-    y += codeBoxHeight + 10;
-    currentLineIndex += linesToShow;
-    sectionNumber++;
+  // Page break check
+  if (y + codeHeight > 250) {
+    doc.addPage();
+    addProfessionalHeader(doc, 'Issues & Optimization Instructions (Continued)');
+    y = 50;
   }
   
-  return y;
+  // Code container - EXACT same styling as report page bg-gray-800
+  doc.setFillColor(31, 41, 55); // bg-gray-800 from report page
+  doc.roundedRect(20, y, 170, codeHeight, 5, 5, 'F');
+  doc.setDrawColor(COLORS.border[0], COLORS.border[1], COLORS.border[2]);
+  doc.setLineWidth(0.5);
+  doc.roundedRect(20, y, 170, codeHeight, 5, 5, 'S');
+  
+  // Header - EXACT same as report page
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(156, 163, 175); // text-gray-400 from report page
+  doc.setFontSize(8);
+  doc.text('Implementation Code', 25, y + 10);
+  
+  // "Copy Code" text
+  doc.setTextColor(244, 114, 182); // text-pink-400 from report page
+  doc.text('Copy from PDF', 185, y + 10, { align: 'right' });
+  
+  // Code content - EXACT same as report page
+  doc.setFont('courier', 'normal');
+  doc.setTextColor(209, 213, 219); // text-gray-300 from report page
+  doc.setFontSize(6);
+  
+  const maxLines = Math.min(15, codeLines.length);
+  for (let i = 0; i < maxLines; i++) {
+    const line = codeLines[i];
+    const displayLine = line.length > 80 ? line.substring(0, 77) + '...' : line;
+    doc.text(displayLine, 25, y + 15 + (i * 3));
+  }
+  
+  // Show if truncated
+  if (codeLines.length > maxLines) {
+    doc.setFont('helvetica', 'italic');
+    doc.setTextColor(156, 163, 175);
+    doc.setFontSize(7);
+    doc.text(`... ${codeLines.length - maxLines} more lines`, 25, y + codeHeight - 5);
+  }
+  
+  return y + codeHeight + 10;
 }
 
-// EXACT MATCH: Code block from report page IssueDetail component  
-function addCodeBlock(doc, fix, startY) {
-  let y = startY;
-  
-  // Fix title - SAME as report page issue.fix.title
-  if (fix.title) {
-    doc.setFont('helvetica', 'bold');
-    doc.setTextColor(COLORS.textDark[0], COLORS.textDark[1], COLORS.textDark[2]);
-    doc.setFontSize(12);
-    doc.text(fix.title, 20, y);
-    y += 10;
-  }
-  
-  // Fix description - SAME as report page issue.fix.description  
-  if (fix.description) {
-    doc.setFont('helvetica', 'normal');
-    doc.setTextColor(COLORS.textMedium[0], COLORS.textMedium[1], COLORS.textMedium[2]);
-    doc.setFontSize(10);
-    const descLines = doc.splitTextToSize(fix.description, 165);
-    doc.text(descLines, 20, y);
-    y += descLines.length * 5 + 8;
-  }
-  
-  // Code block - Professional light theme (not dark like web)
-  if (fix.code) {
-    const codeLines = fix.code.split('\n');
-    const maxDisplayLines = 20; // More lines for PDF
-    const displayLines = codeLines.slice(0, maxDisplayLines);
-    const codeBoxHeight = Math.max(35, displayLines.length * 4 + 20);
-    
-    // Check if code block fits on page
-    if (y + codeBoxHeight > 270) {
-      doc.addPage();
-      addProfessionalHeader(doc, 'Issues & Optimization Instructions (Continued)');
-      y = 50;
-    }
-    
-    // Code container - Professional light theme
-    doc.setFillColor(248, 250, 252); // Very light gray background
-    doc.roundedRect(20, y, 170, codeBoxHeight, 5, 5, 'F');
-    doc.setDrawColor(COLORS.border[0], COLORS.border[1], COLORS.border[2]);
-    doc.setLineWidth(1);
-    doc.roundedRect(20, y, 170, codeBoxHeight, 5, 5, 'S');
-    
-    // Code header - Professional styling
-    doc.setFont('helvetica', 'bold');
-    doc.setTextColor(COLORS.primary[0], COLORS.primary[1], COLORS.primary[2]);
-    doc.setFontSize(10);
-    doc.text('Implementation Code', 25, y + 12);
-    
-    // "Copy from PDF" text - Professional note
-    doc.setTextColor(COLORS.textLight[0], COLORS.textLight[1], COLORS.textLight[2]);
-    doc.setFontSize(8);
-    doc.text('Copy and implement this code', 185, y + 12, { align: 'right' });
-    
-    // Code content - Professional monospace styling
-    doc.setFont('courier', 'normal');
-    doc.setTextColor(COLORS.textDark[0], COLORS.textDark[1], COLORS.textDark[2]);
-    doc.setFontSize(8); // Readable size for PDF
-    
-    displayLines.forEach((line, index) => {
-      if (y + 18 + (index * 4) < y + codeBoxHeight - 8) {
-        // Trim very long lines but keep readable
-        const trimmedLine = line.length > 85 ? line.substring(0, 82) + '...' : line;
-        doc.text(trimmedLine, 25, y + 18 + (index * 4));
-      }
-    });
-    
-    // Show truncation indicator if needed
-    if (codeLines.length > maxDisplayLines) {
-      doc.setFont('helvetica', 'italic');
-      doc.setTextColor(COLORS.textLight[0], COLORS.textLight[1], COLORS.textLight[2]);
-      doc.setFontSize(8);
-      doc.text(`... and ${codeLines.length - maxDisplayLines} more lines (see full code in implementation guide)`, 25, y + codeBoxHeight - 5);
-    }
-    
-    y += codeBoxHeight + 10;
-  }
-  
-  return y;
-}
+
 
 // Helper function for time estimates
 function getTimeEstimate(issue) {
@@ -1056,7 +958,7 @@ function addProfessionalFooters(doc, reportData) {
 }
 
 // MAIN PDF GENERATION COMPLETION
-// Continue the main function from Part 1:
+
 
     // Create all PDF sections
     createProfessionalCover(doc, processedData, scores);
