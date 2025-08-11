@@ -406,8 +406,7 @@ export async function getAllReports() {
   }
 }
 
-// Normalize scan results to ensure consistency
-// Normalize scan results to ensure consistency - MINIMAL VERSION
+
 function normalizeResults(reportData) {
   if (!reportData) return reportData;
   
@@ -438,7 +437,7 @@ function normalizeResults(reportData) {
     normalizedData.scanners = {};
   }
   
-  // CRITICAL: Don't modify or reprocess the issues array!
+
   // Let processMultiDimensionalData() handle all categorization
   
   return normalizedData;

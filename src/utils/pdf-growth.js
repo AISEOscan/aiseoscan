@@ -1,738 +1,544 @@
 import { jsPDF } from 'jspdf';
 import { processMultiDimensionalData } from './categorization';
 
+// PROFESSIONAL COLOR SCHEME - Very dark purple, minimal pink
+const COLORS = {
+  // Primary brand - very dark purple for maximum professionalism
+  primary: [76, 29, 149],        // #4c1d95 - purple-950
+  primaryLight: [88, 28, 135],   // #581c87 - purple-900
+  
+  // Accent - dark pink used very sparingly
+  accent: [136, 19, 55],         // #881337 - rose-900
+  
+  // Status colors - professional shades
+  success: [6, 95, 70],          // #065f46 - emerald-800
+  warning: [146, 64, 14],        // #92400e - amber-800
+  critical: [127, 29, 29],       // #7f1d1d - red-900
+  info: [30, 64, 175],           // #1e40af - blue-800
+  
+  // Professional backgrounds - clean and light
+  white: [255, 255, 255],
+  lightBg: [249, 250, 251],      // #f9fafb
+  cardBg: [243, 244, 246],       // #f3f4f6
+  border: [209, 213, 219],       // #d1d5db
+  
+  // Professional text colors
+  textDark: [17, 24, 39],        // #111827
+  textMedium: [75, 85, 99],      // #4b5563
+  textLight: [107, 114, 128],    // #6b7280
+};
 
-
-// FIXED: Extract issues with consistent data structure
-function extractConsolidatedIssues(processedData) {
+// EXACT DATA EXTRACTION - Same as report page
+function extractReportPageData(processedData) {
+  console.log('🔍 PDF - Extracting data exactly like report page');
+  
+  // Use EXACT same sources as report page
+  const seoIssues = processedData.seo?.issues || [];
+  const complianceIssues = processedData.compliance?.issues || [];
+  
+  // Combine issues - same as report page
+  const allIssues = [...seoIssues, ...complianceIssues];
+  
+  // Categorize by severity - same logic as report page
   const issues = {
-    critical: [],
-    medium: [],
-    low: [],
-    all: []
+    critical: allIssues.filter(issue => issue.severity === 'critical'),
+    medium: allIssues.filter(issue => issue.severity === 'medium'),
+    low: allIssues.filter(issue => issue.severity === 'low'),
+    all: allIssues
   };
   
-  // Consolidate all issues from all scanners
-  const allSources = [
-    ...(processedData.seo?.issues || []),
-    ...(processedData.performance?.issues || []),
-    ...(processedData.compliance?.issues || [])
-  ];
+  // EXACT same scores as report page
+  const scores = {
+    aiSeo: processedData.seo?.score || 0,
+    trustSignals: processedData.compliance?.score || 0,
+    overall: processedData.summary?.overallScore || 0
+  };
   
-  allSources.forEach(issue => {
-    const enhancedIssue = {
-      ...issue,
-      dimension: getDimensionFromIssue(issue),
-      priority: getPriorityFromSeverity(issue.severity),
-      timeEstimate: getTimeEstimate(issue)
-    };
-    
-    issues[issue.severity]?.push(enhancedIssue);
-    issues.all.push(enhancedIssue);
+  console.log('✅ PDF Data extracted:', {
+    scores,
+    totalIssues: issues.all.length,
+    breakdown: {
+      critical: issues.critical.length,
+      medium: issues.medium.length,
+      low: issues.low.length
+    }
   });
   
-  return issues;
+  return { issues, scores };
 }
 
-function getDimensionFromIssue(issue) {
-  const type = issue.type?.toLowerCase() || '';
-  
-  if (type.includes('seo') || type.includes('schema') || type.includes('meta') || 
-      type.includes('title') || type.includes('heading') || type.includes('content')) {
-    return 'AI SEO';
-  }
-  
-  if (type.includes('performance') || type.includes('speed') || type.includes('mobile') ||
-      type.includes('technical') || type.includes('compress')) {
-    return 'Technical';
-  }
-  
-  return 'Trust Signals';
-}
-// SIMPLIFIED: Professional cover page with correct scores
-function createProfessionalCoverPage(doc, reportData, scores, colors) {
-  // Clean background
-  doc.setFillColor(colors.lightBg[0], colors.lightBg[1], colors.lightBg[2]);
+// MAIN PDF GENERATION FUNCTION
+async function generateGrowthPdf(reportData) {
+  try {
+    console.log('🔍 PDF Generation - Starting with data:', {
+      status: reportData.status,
+      url: reportData.url,
+      hasSeoData: !!reportData.seo?.score,
+      hasComplianceData: !!reportData.compliance?.score
+    });
+    
+    const doc = new jsPDF({
+      orientation: 'portrait',
+      unit: 'mm',
+      format: 'a4'
+    });
+    
+    // Process data exactly like report page
+    let processedData = reportData;
+    if (reportData.issues?.length > 0 && !reportData.seo?.total) {
+      console.log('🔧 PDF - Processing with processMultiDimensionalData()');
+      processedData = processMultiDimensionalData(reportData);
+    }
+    
+    // Extract data using exact same logic as report page
+    const { issues, scores } = extractReportPageData(processedData);
+    // PROFESSIONAL COVER PAGE
+function createProfessionalCover(doc, reportData, scores) {
+  // Clean white background
+  doc.setFillColor(COLORS.white[0], COLORS.white[1], COLORS.white[2]);
   doc.rect(0, 0, 210, 297, 'F');
   
-  // Professional header
-  doc.setFillColor(colors.primary[0], colors.primary[1], colors.primary[2]);
-  doc.rect(0, 0, 210, 60, 'F');
+  // Professional header - very dark purple
+  doc.setFillColor(COLORS.primary[0], COLORS.primary[1], COLORS.primary[2]);
+  doc.rect(0, 0, 210, 80, 'F');
   
-  // Main title
+  // Main title - white text on dark purple
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(255, 255, 255);
-  doc.setFontSize(28);
-  doc.text('AI SEO ANALYSIS REPORT', 105, 25, { align: 'center' });
+  doc.setFontSize(36);
+  doc.text('AI SEO ANALYSIS', 105, 35, { align: 'center' });
   
-  doc.setFontSize(14);
-  doc.text('Optimization for AI Search Engines', 105, 45, { align: 'center' });
+  doc.setFontSize(18);
+  doc.setFont('helvetica', 'normal');
+  doc.text('Professional Website Optimization Report', 105, 55, { align: 'center' });
   
-  // Website and date
-  doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
-  doc.setFontSize(20);
-  doc.text('Website Analysis', 105, 85, { align: 'center' });
+  // Website information
+  doc.setTextColor(COLORS.textDark[0], COLORS.textDark[1], COLORS.textDark[2]);
+  doc.setFontSize(22);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Website Analysis', 105, 110, { align: 'center' });
   
+  // URL with proper handling
   doc.setFontSize(16);
-  doc.setTextColor(colors.primary[0], colors.primary[1], colors.primary[2]);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(COLORS.primary[0], COLORS.primary[1], COLORS.primary[2]);
   
-  // Handle URL properly
-  const urlText = reportData.url || 'Unknown URL';
-  const maxUrlWidth = 160;
-  let urlLines;
-  
-  if (urlText.length > 40) {
-    urlLines = doc.splitTextToSize(urlText, maxUrlWidth);
-  } else {
-    urlLines = [urlText];
-  }
-  
-  let urlY = 105;
+  const url = reportData.url || 'Unknown URL';
+  const urlLines = doc.splitTextToSize(url, 160);
+  let urlY = 130;
   urlLines.forEach((line, index) => {
     doc.text(line, 105, urlY + (index * 8), { align: 'center' });
   });
   
-  // Scan date
-  const scanDate = new Date().toLocaleDateString('en-US', {
+  // Analysis date
+  doc.setFontSize(12);
+  doc.setTextColor(COLORS.textLight[0], COLORS.textLight[1], COLORS.textLight[2]);
+  const date = new Date().toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
   });
+  doc.text(`Analysis Date: ${date}`, 105, urlY + (urlLines.length * 8) + 20, { align: 'center' });
   
-  doc.setFontSize(12);
-  doc.setTextColor(colors.textLight[0], colors.textLight[1], colors.textLight[2]);
-  doc.text(`Analysis Date: ${scanDate}`, 105, urlY + (urlLines.length * 8) + 15, { align: 'center' });
-  
-  // CORRECTED: Display scores using SAME data as homepage
-  displayProfessionalScores(doc, scores, 105, 150, colors);
+  // Display scores exactly as report page shows them
+  displayReportPageScores(doc, scores, 105, 170);
   
   // Professional footer
-  doc.setFillColor(colors.cardBg[0], colors.cardBg[1], colors.cardBg[2]);
-  doc.rect(0, 260, 210, 37, 'F');
+  doc.setFillColor(COLORS.cardBg[0], COLORS.cardBg[1], COLORS.cardBg[2]);
+  doc.rect(0, 270, 210, 27, 'F');
   
   doc.setFont('helvetica', 'bold');
-  doc.setTextColor(colors.primary[0], colors.primary[1], colors.primary[2]);
-  doc.setFontSize(18);
-  doc.text('AISEOScan', 105, 275, { align: 'center' });
+  doc.setTextColor(COLORS.primary[0], COLORS.primary[1], COLORS.primary[2]);
+  doc.setFontSize(20);
+  doc.text('AISEOScan', 105, 285, { align: 'center' });
   
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(11);
-  doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
-  doc.text('Professional AI SEO Analysis Platform', 105, 285, { align: 'center' });
+  doc.setTextColor(COLORS.textMedium[0], COLORS.textMedium[1], COLORS.textMedium[2]);
+  doc.text('Professional AI SEO Analysis Platform', 105, 292, { align: 'center' });
 }
 
-// UPDATED: Professional score display with correct values
-function displayProfessionalScores(doc, scores, x, y, colors) {
-  const boxWidth = 45;
-  const boxHeight = 35;
-  const spacing = 15;
-  const startX = x - (2 * boxWidth + spacing) / 2; // FIXED: Changed from 3 to 2 dimensions
-  
-  const dimensions = [
-    { key: 'aiSeo', label: 'AI SEO', color: colors.primary },
-    { key: 'trustSignals', label: 'Trust Signals', color: colors.success }
-  ]; // FIXED: Added missing closing bracket
-  
-  dimensions.forEach((dimension, index) => {
-    const boxX = startX + index * (boxWidth + spacing);
-    
-    // Professional card design
-    doc.setFillColor(255, 255, 255);
-    doc.roundedRect(boxX, y, boxWidth, boxHeight, 3, 3, 'F');
-    doc.setDrawColor(dimension.color[0], dimension.color[1], dimension.color[2]);
-    doc.setLineWidth(1);
-    doc.roundedRect(boxX, y, boxWidth, boxHeight, 3, 3, 'S');
-    
-    // Score with professional styling
-    doc.setFont('helvetica', 'bold');
-    doc.setTextColor(dimension.color[0], dimension.color[1], dimension.color[2]);
-    doc.setFontSize(22);
-    doc.text(scores[dimension.key].toString(), boxX + boxWidth/2, y + 20, { align: 'center' });
-    
-    doc.setFontSize(9);
-    doc.text(dimension.label, boxX + boxWidth/2, y + 28, { align: 'center' });
-  });
-  
-  // Overall score
-  const overallY = y + 50;
-  const overallBoxWidth = 70;
-  const overallBoxHeight = 40;
-  const overallBoxX = x - overallBoxWidth/2;
-  
-  // Get color based on score
-  const overallColor = getReportPageScoreColor(scores.overall, colors); // FIXED: Use correct function name
-  
-  doc.setFillColor(overallColor[0], overallColor[1], overallColor[2], 0.1);
-  doc.roundedRect(overallBoxX, overallY, overallBoxWidth, overallBoxHeight, 5, 5, 'F');
-  doc.setDrawColor(overallColor[0], overallColor[1], overallColor[2]);
-  doc.setLineWidth(1.5);
-  doc.roundedRect(overallBoxX, overallY, overallBoxWidth, overallBoxHeight, 5, 5, 'S');
-  
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(overallColor[0], overallColor[1], overallColor[2]);
-  doc.setFontSize(32);
-  doc.text(scores.overall.toString(), x, overallY + 22, { align: 'center' });
-  
-  doc.setFontSize(12);
-  doc.text('Overall AI Readiness', x, overallY + 32, { align: 'center' });
-}
-
-function getScoreColor(score, colors) {
-  if (score >= 80) return colors.success;
-  if (score >= 60) return colors.primary;
-  if (score >= 40) return colors.warning;
-  return colors.critical;
-}
-// SIMPLIFIED: Clean executive summary with key findings only
-function createExecutiveSummary(doc, reportData, issues, scores, colors) {
-  addProfessionalHeader(doc, 'Executive Summary', colors);
-  
-  let y = 50;
-  
-  // Overall assessment with proper scoring - FIXED: Use same status text as report page
-  const overallScore = scores.overall;
-  let status, statusColor, recommendation;
-  
-  if (overallScore >= 80) {
-    status = 'AI-Ready'; // FIXED: Match report page getScoreStatus()
-    statusColor = colors.success;
-    recommendation = 'Excellent AI optimization. Focus on monitoring and maintenance.';
-  } else if (overallScore >= 60) {
-    status = 'Good Progress'; // FIXED: Match report page getScoreStatus()
-    statusColor = colors.primary;
-    recommendation = 'Strong foundation with key optimization opportunities.';
-  } else if (overallScore >= 40) {
-    status = 'Needs Work'; // FIXED: Match report page getScoreStatus()
-    statusColor = colors.warning;
-    recommendation = 'Requires focused AI SEO improvements for better visibility.';
-  } else {
-    status = 'Not AI-Ready'; // FIXED: Match report page getScoreStatus()
-    statusColor = colors.critical;
-    recommendation = 'Immediate AI SEO optimization needed for AI discoverability.';
-  }
-  
-  // Score summary box
-  doc.setFillColor(255, 255, 255);
-  doc.roundedRect(20, y, 170, 45, 5, 5, 'F');
-  doc.setDrawColor(statusColor[0], statusColor[1], statusColor[2]);
-  doc.setLineWidth(1);
-  doc.roundedRect(20, y, 170, 45, 5, 5, 'S');
-  
-  // Score display
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(statusColor[0], statusColor[1], statusColor[2]);
-  doc.setFontSize(36);
-  doc.text(`${overallScore}`, 50, y + 25);
-  
-  doc.setFontSize(12);
-  doc.text('/100', 85, y + 25);
-  doc.setFontSize(14);
-  doc.text(status, 50, y + 35);
-  
-  // Recommendation
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
-  doc.setFontSize(11);
-  const recLines = doc.splitTextToSize(recommendation, 80);
-  doc.text(recLines, 110, y + 20);
-  
-  y += 60;
-  
-  // Key findings
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(colors.primary[0], colors.primary[1], colors.primary[2]);
-  doc.setFontSize(16);
-  doc.text('Key Findings', 20, y);
-  y += 15;
-  
-  // Dimension breakdown - FIXED: Use correct dimension filtering
-  const dimensions = [
-    {
-      name: 'AI SEO Optimization',
-      score: scores.aiSeo,
-      issues: issues.all.filter(i => i.dimension === 'AI SEO').length, // FIXED: Use i.dimension instead of function
-      color: colors.primary
-    },
-    {
-      name: 'Trust & Authority Signals', 
-      score: scores.trustSignals,
-      issues: issues.all.filter(i => i.dimension === 'Trust Signals').length, // FIXED: Use i.dimension instead of function
-      color: colors.success
-    }
-  ];
-  
-  dimensions.forEach(dimension => {
-    if (y > 240) {
-      doc.addPage();
-      addProfessionalHeader(doc, 'Executive Summary (Continued)', colors); // FIXED: Use correct function name
-      y = 50;
-    }
-    
-    // Dimension box
-    doc.setFillColor(colors.cardBg[0], colors.cardBg[1], colors.cardBg[2]);
-    doc.roundedRect(20, y, 170, 30, 3, 3, 'F');
-    doc.setDrawColor(dimension.color[0], dimension.color[1], dimension.color[2]);
-    doc.setLineWidth(0.5);
-    doc.roundedRect(20, y, 170, 30, 3, 3, 'S');
-    
-    // Dimension info
-    doc.setFont('helvetica', 'bold');
-    doc.setTextColor(dimension.color[0], dimension.color[1], dimension.color[2]);
-    doc.setFontSize(14);
-    doc.text(dimension.name, 25, y + 12);
-    
-    // Score
-    doc.setFontSize(20);
-    doc.text(dimension.score.toString(), 160, y + 15);
-    doc.setFontSize(10);
-    doc.text('/100', 175, y + 15);
-    
-    // Issues count
-    doc.setFont('helvetica', 'normal');
-    doc.setTextColor(colors.textLight[0], colors.textLight[1], colors.textLight[2]);
-    doc.setFontSize(10);
-    doc.text(`${dimension.issues} optimization opportunities`, 25, y + 22);
-    
-    y += 35;
-  });
-  
-  // Priority summary
-  y += 10;
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(colors.primary[0], colors.primary[1], colors.primary[2]);
-  doc.setFontSize(14);
-  doc.text('Priority Summary', 20, y);
-  y += 12;
-  
-  const priorityItems = [
-    { label: 'Critical Issues', count: issues.critical.length, color: colors.critical },
-    { label: 'Medium Priority', count: issues.medium.length, color: colors.warning },
-    { label: 'Enhancement Opportunities', count: issues.low.length, color: colors.accent }
-  ];
-  
-  priorityItems.forEach(item => {
-    if (item.count > 0) {
-      doc.setFont('helvetica', 'normal');
-      doc.setTextColor(item.color[0], item.color[1], item.color[2]);
-      doc.setFontSize(11);
-      doc.text(`• ${item.count} ${item.label}`, 25, y);
-      y += 8;
-    }
-  });
-}
-
-// ADDED: Missing helper function
-function addProfessionalHeader(doc, title, colors) {
-  doc.setFillColor(colors.primary[0], colors.primary[1], colors.primary[2]);
-  doc.rect(0, 0, 210, 25, 'F');
-  
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(255, 255, 255);
-  doc.setFontSize(14);
-  doc.text(title, 20, 16);
-  
-  doc.setFontSize(9);
-  doc.text('AISEOScan Professional Report', 185, 16, { align: 'right' });
-}
-// SIMPLIFIED: Clean issues list by priority
-function createIssuesList(doc, issues, colors) {
-  addProfessionalHeader(doc, 'Issues & Opportunities', colors);
-  
-  let y = 50;
-  
-  // Introduction
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
-  doc.setFontSize(11);
-  doc.text('Issues are prioritized by impact on AI search engine visibility and citation potential.', 20, y);
-  y += 20;
-  
-  // Critical Issues
-  if (issues.critical.length > 0) {
-    y = createIssueSection(doc, 'Critical Issues (Fix Immediately)', issues.critical, colors.critical, y, colors);
-  }
-  
-  // Medium Issues
-  if (issues.medium.length > 0) {
-    if (y > 220) {
-      doc.addPage();
-      addProfessionalHeader(doc, 'Issues & Opportunities (Continued)', colors);
-      y = 50;
-    }
-    y = createIssueSection(doc, 'Medium Priority Issues', issues.medium, colors.warning, y, colors);
-  }
-  
-  // Low Issues
-  if (issues.low.length > 0) {
-    if (y > 220) {
-      doc.addPage();
-      addProfessionalHeader(doc, 'Issues & Opportunities (Continued)', colors);
-      y = 50;
-    }
-    y = createIssueSection(doc, 'Enhancement Opportunities', issues.low, colors.accent, y, colors);
-  }
-  
-  // No issues message
-  if (issues.all.length === 0) {
-    doc.setFillColor(colors.success[0], colors.success[1], colors.success[2], 0.1);
-    doc.roundedRect(20, y, 170, 40, 5, 5, 'F');
-    doc.setDrawColor(colors.success[0], colors.success[1], colors.success[2]);
-    doc.setLineWidth(1);
-    doc.roundedRect(20, y, 170, 40, 5, 5, 'S');
-    
-    doc.setFont('helvetica', 'bold');
-    doc.setTextColor(colors.success[0], colors.success[1], colors.success[2]);
-    doc.setFontSize(16);
-    doc.text('Excellent! No Issues Found', 105, y + 20, { align: 'center' });
-    
-    doc.setFont('helvetica', 'normal');
-    doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
-    doc.setFontSize(11);
-    doc.text('Your website is well-optimized for AI search engines.', 105, y + 30, { align: 'center' });
-  }
-}
-
-function createIssueSection(doc, title, sectionIssues, titleColor, startY, colors) {
-  let y = startY;
-  
-  // Section header
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(titleColor[0], titleColor[1], titleColor[2]);
-  doc.setFontSize(16);
-  doc.text(title, 20, y);
-  y += 8;
-  
-  // Issue count
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(colors.textLight[0], colors.textLight[1], colors.textLight[2]);
-  doc.setFontSize(10);
-  doc.text(`${sectionIssues.length} issues found`, 20, y);
-  y += 15;
-  
-  // Display issues (limit to prevent overflow)
-  const displayIssues = sectionIssues.slice(0, 6);
-  
-  displayIssues.forEach((issue, index) => {
-    if (y > 250) {
-      doc.addPage();
-      addProfessionalHeader(doc, 'Issues & Opportunities (Continued)', colors);
-      y = 50;
-    }
-    
-    y = createCleanIssueItem(doc, issue, index + 1, y, colors, titleColor);
-  });
-  
-  // Show remaining count if truncated
-  if (sectionIssues.length > 6) {
-    doc.setFont('helvetica', 'italic');
-    doc.setTextColor(colors.textLight[0], colors.textLight[1], colors.textLight[2]);
-    doc.setFontSize(9);
-    doc.text(`... and ${sectionIssues.length - 6} more issues with solutions in implementation guide`, 20, y);
-    y += 10;
-  }
-  
-  y += 15;
-  return y;
-}
-
-function createCleanIssueItem(doc, issue, number, startY, colors, severityColor) {
-  let y = startY;
-  
-  // Calculate height based on description
-  const maxWidth = 140;
-  const description = issue.fix?.title || issue.description || 'Optimization opportunity';
-  const descLines = doc.splitTextToSize(description, maxWidth);
-  const boxHeight = Math.max(20, 10 + (descLines.length * 5));
-  
-  // Issue container
-  doc.setFillColor(colors.lightBg[0], colors.lightBg[1], colors.lightBg[2]);
-  doc.roundedRect(20, y, 170, boxHeight, 2, 2, 'F');
-  doc.setDrawColor(severityColor[0], severityColor[1], severityColor[2]);
-  doc.setLineWidth(0.5);
-  doc.roundedRect(20, y, 170, boxHeight, 2, 2, 'S');
-  
-  // Priority indicator
-  doc.setFillColor(severityColor[0], severityColor[1], severityColor[2]);
-  doc.rect(20, y, 3, boxHeight, 'F');
-  
-  // Issue number and description
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(severityColor[0], severityColor[1], severityColor[2]);
-  doc.setFontSize(10);
-  doc.text(`${number}.`, 28, y + 8);
-  
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
-  doc.setFontSize(10);
-  doc.text(descLines, 35, y + 8);
-  
-  // Time estimate and dimension
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(colors.textLight[0], colors.textLight[1], colors.textLight[2]);
-  doc.setFontSize(8);
-  doc.text(`${issue.timeEstimate} • ${issue.dimension}`, 165, y + 8, { align: 'right' });
-  
-  return y + boxHeight + 3;
-}
-
-
-// FIXED: Extract issues using SAME structure as report page
-function extractReportPageIssues(processedData) {
-  const issues = {
-    critical: [],
-    medium: [],
-    low: [],
-    all: []
-  };
-  
-  // Use EXACT same issue sources as report page
-  const seoIssues = processedData.seo?.issues || [];
-  const complianceIssues = processedData.compliance?.issues || [];
-  
-  console.log('🔍 PDF Issue Extraction:', {
-    seoIssuesCount: seoIssues.length,
-    complianceIssuesCount: complianceIssues.length
-  });
-  
-  // Combine all issues - same as report page
-  const allIssues = [...seoIssues, ...complianceIssues];
-  
-  allIssues.forEach(issue => {
-    const enhancedIssue = {
-      ...issue,
-      dimension: issue.type?.includes('seo') || issue.type?.includes('schema') || 
-                 issue.type?.includes('meta') || issue.type?.includes('heading') ? 
-                 'AI SEO' : 'Trust Signals',
-      priority: getPriorityFromSeverity(issue.severity),
-      timeEstimate: getTimeEstimate(issue)
-    };
-    
-    issues[issue.severity]?.push(enhancedIssue);
-    issues.all.push(enhancedIssue);
-  });
-  
-  console.log('🔍 PDF Issues Categorized:', {
-    critical: issues.critical.length,
-    medium: issues.medium.length,
-    low: issues.low.length,
-    total: issues.all.length
-  });
-  
-  return issues;
-}
-// SIMPLIFIED: Clean professional cover page
-function createCleanCoverPage(doc, reportData, scores, colors) {
-  // Background
-  doc.setFillColor(colors.lightBg[0], colors.lightBg[1], colors.lightBg[2]);
-  doc.rect(0, 0, 210, 297, 'F');
-  
-  // Header
-  doc.setFillColor(colors.primary[0], colors.primary[1], colors.primary[2]);
-  doc.rect(0, 0, 210, 50, 'F');
-  
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(255, 255, 255);
-  doc.setFontSize(24);
-  doc.text('AI SEO Analysis Report', 105, 30, { align: 'center' });
-  
-  // Website URL
-  doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
-  doc.setFontSize(18);
-  doc.text('Website Analysis', 105, 75, { align: 'center' });
-  
-  doc.setFontSize(14);
-  doc.setTextColor(colors.primary[0], colors.primary[1], colors.primary[2]);
-  const url = reportData.url || 'Unknown URL';
-  const urlLines = doc.splitTextToSize(url, 160);
-  urlLines.forEach((line, index) => {
-    doc.text(line, 105, 95 + (index * 8), { align: 'center' });
-  });
-  
-  // Date
-  doc.setFontSize(12);
-  doc.setTextColor(colors.textLight[0], colors.textLight[1], colors.textLight[2]);
-  const date = new Date().toLocaleDateString();
-  doc.text(`Analysis Date: ${date}`, 105, 95 + (urlLines.length * 8) + 15, { align: 'center' });
-  
-  // EXACT same scores as report page
-  displayReportPageScores(doc, scores, 105, 140, colors);
-  
-  // Footer
-  doc.setFillColor(colors.cardBg[0], colors.cardBg[1], colors.cardBg[2]);
-  doc.rect(0, 260, 210, 37, 'F');
-  
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(colors.primary[0], colors.primary[1], colors.primary[2]);
-  doc.setFontSize(16);
-  doc.text('AISEOScan', 105, 275, { align: 'center' });
-  
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(10);
-  doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
-  doc.text('Professional AI SEO Analysis Platform', 105, 285, { align: 'center' });
-}
-
-// CORRECTED: Display scores exactly as report page shows them
-function displayReportPageScores(doc, scores, x, y, colors) {
+// DISPLAY SCORES - Exact same as report page
+function displayReportPageScores(doc, scores, x, y) {
   // Two main dimensions - same as report page
   const dimensions = [
-    { key: 'aiSeo', label: 'AI SEO', color: colors.primary },
-    { key: 'trustSignals', label: 'Trust Signals', color: colors.success }
+    { key: 'aiSeo', label: 'AI SEO', color: COLORS.primary },
+    { key: 'trustSignals', label: 'Trust Signals', color: COLORS.success }
   ];
   
-  const boxWidth = 60;
-  const boxHeight = 40;
-  const spacing = 20;
+  const boxWidth = 65;
+  const boxHeight = 45;
+  const spacing = 25;
   const startX = x - (2 * boxWidth + spacing) / 2;
   
   dimensions.forEach((dimension, index) => {
     const boxX = startX + index * (boxWidth + spacing);
     
-    // Score box
-    doc.setFillColor(255, 255, 255);
+    // Professional score box
+    doc.setFillColor(COLORS.white[0], COLORS.white[1], COLORS.white[2]);
     doc.roundedRect(boxX, y, boxWidth, boxHeight, 5, 5, 'F');
     doc.setDrawColor(dimension.color[0], dimension.color[1], dimension.color[2]);
-    doc.setLineWidth(1);
+    doc.setLineWidth(1.5);
     doc.roundedRect(boxX, y, boxWidth, boxHeight, 5, 5, 'S');
     
     // Score
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(dimension.color[0], dimension.color[1], dimension.color[2]);
-    doc.setFontSize(20);
-    doc.text(scores[dimension.key].toString(), boxX + boxWidth/2, y + 22, { align: 'center' });
+    doc.setFontSize(26);
+    doc.text(scores[dimension.key].toString(), boxX + boxWidth/2, y + 25, { align: 'center' });
     
     // Label
-    doc.setFontSize(10);
-    doc.text(dimension.label, boxX + boxWidth/2, y + 32, { align: 'center' });
+    doc.setFontSize(11);
+    doc.text(dimension.label, boxX + boxWidth/2, y + 35, { align: 'center' });
   });
   
   // Overall score - prominent display
-  const overallY = y + 55;
-  const overallBox = 80;
+  const overallY = y + 60;
+  const overallBox = 85;
   const overallX = x - overallBox/2;
   
-  const overallColor = getReportPageScoreColor(scores.overall, colors);
+  const overallColor = getScoreColor(scores.overall);
   
-  doc.setFillColor(overallColor[0], overallColor[1], overallColor[2], 0.1);
-  doc.roundedRect(overallX, overallY, overallBox, 50, 8, 8, 'F');
+  doc.setFillColor(COLORS.white[0], COLORS.white[1], COLORS.white[2]);
+  doc.roundedRect(overallX, overallY, overallBox, 55, 8, 8, 'F');
   doc.setDrawColor(overallColor[0], overallColor[1], overallColor[2]);
   doc.setLineWidth(2);
-  doc.roundedRect(overallX, overallY, overallBox, 50, 8, 8, 'S');
+  doc.roundedRect(overallX, overallY, overallBox, 55, 8, 8, 'S');
   
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(overallColor[0], overallColor[1], overallColor[2]);
-  doc.setFontSize(28);
-  doc.text(scores.overall.toString(), x, overallY + 25, { align: 'center' });
+  doc.setFontSize(32);
+  doc.text(scores.overall.toString(), x, overallY + 30, { align: 'center' });
   
-  doc.setFontSize(11);
-  doc.text('Overall AI Readiness', x, overallY + 38, { align: 'center' });
+  doc.setFontSize(12);
+  doc.text('Overall AI Readiness', x, overallY + 45, { align: 'center' });
 }
 
-// SAME color logic as report page
-function getReportPageScoreColor(score, colors) {
-  if (score >= 80) return colors.success;    // emerald-400
-  if (score >= 60) return colors.primary;    // blue-400  
-  if (score >= 40) return colors.warning;    // amber-400
-  return colors.critical;                    // rose-400
+// Score color logic - same as report page
+function getScoreColor(score) {
+  if (score >= 80) return COLORS.success;    // emerald
+  if (score >= 60) return COLORS.info;       // blue  
+  if (score >= 40) return COLORS.warning;    // amber
+  return COLORS.critical;                    // red
 }
-// EXACT MATCH: Create issues list using same structure as report page
-function createDirectIssuesList(doc, issues, colors) {
-  addCleanHeader(doc, 'Issues & Optimization Instructions', colors);
+// EXECUTIVE SUMMARY - Clean and professional
+function createExecutiveSummary(doc, reportData, issues, scores) {
+  doc.addPage();
+  addProfessionalHeader(doc, 'Executive Summary');
+  
+  let y = 50;
+  
+  // Overall assessment with same status text as report page
+  const overallScore = scores.overall;
+  let status, statusColor, recommendation;
+  
+  if (overallScore >= 80) {
+    status = 'AI-Ready';
+    statusColor = COLORS.success;
+    recommendation = 'Excellent AI optimization. Focus on monitoring and maintenance of current high standards.';
+  } else if (overallScore >= 60) {
+    status = 'Good Progress';
+    statusColor = COLORS.info;
+    recommendation = 'Strong foundation with key optimization opportunities to reach AI-ready status.';
+  } else if (overallScore >= 40) {
+    status = 'Needs Work';
+    statusColor = COLORS.warning;
+    recommendation = 'Requires focused AI SEO improvements for better AI search engine visibility.';
+  } else {
+    status = 'Not AI-Ready';
+    statusColor = COLORS.critical;
+    recommendation = 'Immediate AI SEO optimization needed for AI search engine discoverability.';
+  }
+  
+  // Main score summary box
+  doc.setFillColor(COLORS.white[0], COLORS.white[1], COLORS.white[2]);
+  doc.roundedRect(20, y, 170, 50, 8, 8, 'F');
+  doc.setDrawColor(statusColor[0], statusColor[1], statusColor[2]);
+  doc.setLineWidth(1.5);
+  doc.roundedRect(20, y, 170, 50, 8, 8, 'S');
+  
+  // Score display
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(statusColor[0], statusColor[1], statusColor[2]);
+  doc.setFontSize(42);
+  doc.text(`${overallScore}`, 55, y + 30);
+  
+  doc.setFontSize(14);
+  doc.text('/100', 95, y + 30);
+  doc.setFontSize(16);
+  doc.text(status, 55, y + 42);
+  
+  // Recommendation
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(COLORS.textDark[0], COLORS.textDark[1], COLORS.textDark[2]);
+  doc.setFontSize(11);
+  const recLines = doc.splitTextToSize(recommendation, 85);
+  doc.text(recLines, 115, y + 25);
+  
+  y += 65;
+  
+  // Key findings section
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(COLORS.primary[0], COLORS.primary[1], COLORS.primary[2]);
+  doc.setFontSize(18);
+  doc.text('Key Findings', 20, y);
+  y += 15;
+  
+  // Dimension breakdown - exact same as report page
+  const dimensions = [
+    {
+      name: 'AI SEO Optimization',
+      score: scores.aiSeo,
+      issues: issues.all.filter(i => getDimensionFromIssue(i) === 'AI SEO').length,
+      color: COLORS.primary,
+      description: 'Schema markup, content structure, and AI citation readiness'
+    },
+    {
+      name: 'Trust Signals', 
+      score: scores.trustSignals,
+      issues: issues.all.filter(i => getDimensionFromIssue(i) === 'Trust Signals').length,
+      color: COLORS.success,
+      description: 'E-A-T factors and credibility indicators for AI engines'
+    }
+  ];
+  
+  dimensions.forEach(dimension => {
+    if (y > 230) {
+      doc.addPage();
+      addProfessionalHeader(doc, 'Executive Summary (Continued)');
+      y = 50;
+    }
+    
+    // Dimension summary box
+    doc.setFillColor(COLORS.cardBg[0], COLORS.cardBg[1], COLORS.cardBg[2]);
+    doc.roundedRect(20, y, 170, 35, 5, 5, 'F');
+    doc.setDrawColor(dimension.color[0], dimension.color[1], dimension.color[2]);
+    doc.setLineWidth(1);
+    doc.roundedRect(20, y, 170, 35, 5, 5, 'S');
+    
+    // Dimension info
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(dimension.color[0], dimension.color[1], dimension.color[2]);
+    doc.setFontSize(16);
+    doc.text(dimension.name, 25, y + 12);
+    
+    // Score
+    doc.setFontSize(24);
+    doc.text(dimension.score.toString(), 155, y + 15);
+    doc.setFontSize(10);
+    doc.text('/100', 175, y + 15);
+    
+    // Description and issues count
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(COLORS.textMedium[0], COLORS.textMedium[1], COLORS.textMedium[2]);
+    doc.setFontSize(9);
+    doc.text(dimension.description, 25, y + 22);
+    doc.setFontSize(10);
+    doc.text(`${dimension.issues} optimization opportunities found`, 25, y + 30);
+    
+    y += 42;
+  });
+  
+  // Priority action summary
+  y += 10;
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(COLORS.primary[0], COLORS.primary[1], COLORS.primary[2]);
+  doc.setFontSize(16);
+  doc.text('Priority Action Items', 20, y);
+  y += 12;
+  
+  const priorityItems = [
+    { 
+      label: 'Critical Issues (Fix Immediately)', 
+      count: issues.critical.length, 
+      color: COLORS.critical,
+      description: 'Issues blocking AI citation readiness'
+    },
+    { 
+      label: 'Medium Priority (This Month)', 
+      count: issues.medium.length, 
+      color: COLORS.warning,
+      description: 'AI optimization opportunities'
+    },
+    { 
+      label: 'Enhancement Opportunities', 
+      count: issues.low.length, 
+      color: COLORS.info,
+      description: 'AI search visibility improvements'
+    }
+  ];
+  
+  priorityItems.forEach(item => {
+    if (item.count > 0) {
+      // Priority item box
+      doc.setFillColor(COLORS.white[0], COLORS.white[1], COLORS.white[2]);
+      doc.roundedRect(20, y, 170, 20, 3, 3, 'F');
+      doc.setDrawColor(item.color[0], item.color[1], item.color[2]);
+      doc.setLineWidth(0.5);
+      doc.roundedRect(20, y, 170, 20, 3, 3, 'S');
+      
+      // Priority indicator bar
+      doc.setFillColor(item.color[0], item.color[1], item.color[2]);
+      doc.rect(20, y, 4, 20, 'F');
+      
+      // Item info
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(item.color[0], item.color[1], item.color[2]);
+      doc.setFontSize(12);
+      doc.text(`${item.count}`, 30, y + 8);
+      
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(COLORS.textDark[0], COLORS.textDark[1], COLORS.textDark[2]);
+      doc.setFontSize(11);
+      doc.text(item.label, 45, y + 8);
+      
+      doc.setTextColor(COLORS.textMedium[0], COLORS.textMedium[1], COLORS.textMedium[2]);
+      doc.setFontSize(9);
+      doc.text(item.description, 45, y + 15);
+      
+      y += 25;
+    }
+  });
+  
+  // No issues message
+  if (issues.all.length === 0) {
+    doc.setFillColor(COLORS.success[0], COLORS.success[1], COLORS.success[2], 0.1);
+    doc.roundedRect(20, y, 170, 40, 8, 8, 'F');
+    doc.setDrawColor(COLORS.success[0], COLORS.success[1], COLORS.success[2]);
+    doc.setLineWidth(1.5);
+    doc.roundedRect(20, y, 170, 40, 8, 8, 'S');
+    
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(COLORS.success[0], COLORS.success[1], COLORS.success[2]);
+    doc.setFontSize(18);
+    doc.text('Excellent! AI-Ready Status', 105, y + 20, { align: 'center' });
+    
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(COLORS.textDark[0], COLORS.textDark[1], COLORS.textDark[2]);
+    doc.setFontSize(12);
+    doc.text('Your website is excellently optimized for AI search engines and citation.', 105, y + 32, { align: 'center' });
+  }
+}
+
+// Helper function to determine issue dimension (same logic as report page)
+function getDimensionFromIssue(issue) {
+  const type = issue.type?.toLowerCase() || '';
+  
+  if (type.includes('seo') || type.includes('schema') || type.includes('meta') || 
+      type.includes('title') || type.includes('heading') || type.includes('content') ||
+      type.includes('json-ld') || type.includes('faq') || type.includes('structured')) {
+    return 'AI SEO';
+  }
+  
+  return 'Trust Signals';
+}
+
+// Professional header function
+function addProfessionalHeader(doc, title) {
+  doc.setFillColor(COLORS.primary[0], COLORS.primary[1], COLORS.primary[2]);
+  doc.rect(0, 0, 210, 30, 'F');
+  
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(16);
+  doc.text(title, 20, 18);
+  
+  doc.setFontSize(10);
+  doc.text('AISEOScan Professional Report', 185, 18, { align: 'right' });
+}
+// ISSUES LIST - Exact same priority grouping as report page
+function createIssuesList(doc, issues) {
+  doc.addPage();
+  addProfessionalHeader(doc, 'Issues & Optimization Instructions');
   
   let y = 50;
   
   // Introduction
   doc.setFont('helvetica', 'normal');
-  doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
+  doc.setTextColor(COLORS.textDark[0], COLORS.textDark[1], COLORS.textDark[2]);
   doc.setFontSize(11);
   doc.text('Complete list of optimization opportunities with step-by-step implementation code.', 20, y);
   y += 20;
   
-  // EXACT SAME PRIORITY ORDER as report page IssueDetail components
+  // EXACT SAME PRIORITY ORDER as report page
   
   // 🚨 Critical Issues (Fix Immediately) - SAME as report page
-  const criticalIssues = [
-    ...(issues.all.filter(issue => issue.severity === 'critical'))
-  ];
+  const criticalIssues = issues.critical;
   
   if (criticalIssues.length > 0) {
-    y = createPriorityIssueSection(doc, '🚨 Critical Issues (Fix Immediately)', criticalIssues, colors.critical, y, colors);
+    y = createPrioritySection(doc, '🚨 Critical Issues (Fix Immediately)', criticalIssues, COLORS.critical, y);
   }
   
   // ⚠️ Medium Priority Issues - SAME as report page  
-  const mediumIssues = [
-    ...(issues.all.filter(issue => issue.severity === 'medium'))
-  ];
+  const mediumIssues = issues.medium;
   
   if (mediumIssues.length > 0) {
     if (y > 220) {
       doc.addPage();
-      addCleanHeader(doc, 'Issues & Optimization Instructions (Continued)', colors);
+      addProfessionalHeader(doc, 'Issues & Optimization Instructions (Continued)');
       y = 50;
     }
-    y = createPriorityIssueSection(doc, '⚠️ Medium Priority Issues', mediumIssues, colors.warning, y, colors);
+    y = createPrioritySection(doc, '⚠️ Medium Priority Issues', mediumIssues, COLORS.warning, y);
   }
   
   // 💡 AI Optimization Opportunities - SAME as report page
-  const lowIssues = [
-    ...(issues.all.filter(issue => issue.severity === 'low'))
-  ];
+  const lowIssues = issues.low;
   
   if (lowIssues.length > 0) {
     if (y > 220) {
       doc.addPage();
-      addCleanHeader(doc, 'Issues & Optimization Instructions (Continued)', colors);
+      addProfessionalHeader(doc, 'Issues & Optimization Instructions (Continued)');
       y = 50;
     }
-    y = createPriorityIssueSection(doc, '💡 AI Optimization Opportunities', lowIssues, colors.accent, y, colors);
+    y = createPrioritySection(doc, '💡 AI Optimization Opportunities', lowIssues, COLORS.info, y);
   }
   
   // No issues - SAME as report page success message
   if (issues.all.length === 0) {
-    doc.setFillColor(colors.success[0], colors.success[1], colors.success[2], 0.1);
+    doc.setFillColor(COLORS.success[0], COLORS.success[1], COLORS.success[2], 0.1);
     doc.roundedRect(20, y, 170, 50, 8, 8, 'F');
-    doc.setDrawColor(colors.success[0], colors.success[1], colors.success[2]);
-    doc.setLineWidth(1);
+    doc.setDrawColor(COLORS.success[0], COLORS.success[1], COLORS.success[2]);
+    doc.setLineWidth(1.5);
     doc.roundedRect(20, y, 170, 50, 8, 8, 'S');
     
     doc.setFont('helvetica', 'bold');
-    doc.setTextColor(colors.success[0], colors.success[1], colors.success[2]);
-    doc.setFontSize(18);
+    doc.setTextColor(COLORS.success[0], COLORS.success[1], COLORS.success[2]);
+    doc.setFontSize(20);
     doc.text('AI-Ready!', 105, y + 25, { align: 'center' });
     
     doc.setFont('helvetica', 'normal');
-    doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
+    doc.setTextColor(COLORS.textDark[0], COLORS.textDark[1], COLORS.textDark[2]);
     doc.setFontSize(12);
     doc.text('Your website is excellently optimized for AI search engines and citation.', 105, y + 35, { align: 'center' });
   }
 }
 
-function createPriorityIssueSection(doc, title, sectionIssues, titleColor, startY, colors) {
+function createPrioritySection(doc, title, sectionIssues, titleColor, startY) {
   let y = startY;
   
   // Section header - SAME styling as report page
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(titleColor[0], titleColor[1], titleColor[2]);
-  doc.setFontSize(16);
+  doc.setFontSize(18);
   doc.text(title, 20, y);
   y += 15;
   
   // Issue count
   doc.setFont('helvetica', 'normal');
-  doc.setTextColor(colors.textLight[0], colors.textLight[1], colors.textLight[2]);
+  doc.setTextColor(COLORS.textLight[0], COLORS.textLight[1], COLORS.textLight[2]);
   doc.setFontSize(10);
   doc.text(`${sectionIssues.length} issues found`, 20, y);
   y += 15;
   
   // Display each issue - SAME as report page IssueDetail component
   sectionIssues.forEach((issue, index) => {
-    if (y > 200) { // Page break with more room for code
+    if (y > 180) { // Page break with room for code
       doc.addPage();
-      addCleanHeader(doc, 'Issues & Optimization Instructions (Continued)', colors);
+      addProfessionalHeader(doc, 'Issues & Optimization Instructions (Continued)');
       y = 50;
     }
     
-    y = createReportPageIssueDetail(doc, issue, index + 1, y, colors, titleColor);
+    y = createIssueDetail(doc, issue, index + 1, y, titleColor);
   });
   
   y += 20;
@@ -740,379 +546,146 @@ function createPriorityIssueSection(doc, title, sectionIssues, titleColor, start
 }
 
 // EXACT REPLICA: IssueDetail component from report page
-function createReportPageIssueDetail(doc, issue, number, startY, colors, severityColor) {
+function createIssueDetail(doc, issue, number, startY, severityColor) {
   let y = startY;
   
   // Calculate space needed - includes code if present
   const hasCode = issue.fix && issue.fix.code;
   const baseHeight = 25;
-  const codeHeight = hasCode ? Math.min(60, (issue.fix.code.split('\n').length * 3) + 15) : 0;
-  const totalHeight = baseHeight + codeHeight;
+  const estimatedCodeHeight = hasCode ? Math.min(80, (issue.fix.code.split('\n').length * 3) + 20) : 0;
+  const totalHeight = baseHeight + estimatedCodeHeight;
   
   // Check if we need a new page for the complete issue
   if (y + totalHeight > 250) {
     doc.addPage();
-    addCleanHeader(doc, 'Issues & Optimization Instructions (Continued)', colors);
+    addProfessionalHeader(doc, 'Issues & Optimization Instructions (Continued)');
     y = 50;
   }
   
   // Issue container - SAME styling as report page
-  doc.setFillColor(colors.lightBg[0], colors.lightBg[1], colors.lightBg[2]);
-  doc.roundedRect(20, y, 170, baseHeight, 3, 3, 'F');
+  doc.setFillColor(COLORS.cardBg[0], COLORS.cardBg[1], COLORS.cardBg[2]);
+  doc.roundedRect(20, y, 170, baseHeight, 5, 5, 'F');
   doc.setDrawColor(severityColor[0], severityColor[1], severityColor[2]);
-  doc.setLineWidth(0.5);
-  doc.roundedRect(20, y, 170, baseHeight, 3, 3, 'S');
+  doc.setLineWidth(1);
+  doc.roundedRect(20, y, 170, baseHeight, 5, 5, 'S');
   
   // Severity indicator - left border like report page
   doc.setFillColor(severityColor[0], severityColor[1], severityColor[2]);
-  doc.rect(20, y, 3, baseHeight, 'F');
+  doc.rect(20, y, 4, baseHeight, 'F');
   
   // Issue description - SAME as report page issue.description
   doc.setFont('helvetica', 'bold');
-  doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
+  doc.setTextColor(COLORS.textDark[0], COLORS.textDark[1], COLORS.textDark[2]);
   doc.setFontSize(11);
   const description = issue.description || 'Optimization opportunity';
   const descLines = doc.splitTextToSize(`${number}. ${description}`, 140);
-  doc.text(descLines, 28, y + 8);
+  doc.text(descLines, 28, y + 10);
   
-  // Dimension and time estimate - right side
+  // Issue type in smaller text
   doc.setFont('helvetica', 'normal');  
-  doc.setTextColor(colors.textLight[0], colors.textLight[1], colors.textLight[2]);
+  doc.setTextColor(COLORS.textLight[0], COLORS.textLight[1], COLORS.textLight[2]);
   doc.setFontSize(8);
-  doc.text(`${issue.timeEstimate} • ${issue.dimension}`, 185, y + 8, { align: 'right' });
+  const timeEstimate = getTimeEstimate(issue);
+  const dimension = getDimensionFromIssue(issue);
+  doc.text(`${timeEstimate} • ${dimension}`, 185, y + 10, { align: 'right' });
   
-  y += baseHeight + 3;
+  y += baseHeight + 5;
   
   // CRITICAL: Code implementation - EXACT same as report page issue.fix.code
   if (hasCode) {
-    y = addReportPageCodeBlock(doc, issue.fix, y, colors);
-  }
-  
-  y += 5;
-  return y;
-}
-
-// EXACT MATCH: Code block from report page IssueDetail component  
-function addReportPageCodeBlock(doc, fix, startY, colors) {
-  let y = startY;
-  
-  // Fix title - SAME as report page issue.fix.title
-  if (fix.title) {
-    doc.setFont('helvetica', 'bold');
-    doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
-    doc.setFontSize(11);
-    doc.text(fix.title, 20, y);
-    y += 8;
-  }
-  
-  // Fix description - SAME as report page issue.fix.description  
-  if (fix.description) {
-    doc.setFont('helvetica', 'normal');
-    doc.setTextColor(colors.textMedium[0], colors.textMedium[1], colors.textMedium[2]);
-    doc.setFontSize(10);
-    const descLines = doc.splitTextToSize(fix.description, 165);
-    doc.text(descLines, 20, y);
-    y += descLines.length * 5 + 5;
-  }
-  
-  // Code block - EXACT same styling as report page
-  if (fix.code) {
-    const codeLines = fix.code.split('\n');
-    const maxDisplayLines = 15; // Prevent overflow
-    const displayLines = codeLines.slice(0, maxDisplayLines);
-    const codeBoxHeight = Math.max(30, displayLines.length * 3.5 + 15);
-    
-    // Code container - SAME dark theme as report page
-    doc.setFillColor(31, 41, 55); // bg-gray-800 from report page
-    doc.roundedRect(20, y, 170, codeBoxHeight, 3, 3, 'F');
-    doc.setDrawColor(colors.textLight[0], colors.textLight[1], colors.textLight[2]);
-    doc.setLineWidth(0.3);
-    doc.roundedRect(20, y, 170, codeBoxHeight, 3, 3, 'S');
-    
-    // Code header - SAME as report page "Implementation Code" 
-    doc.setFont('helvetica', 'bold');
-    doc.setTextColor(156, 163, 175); // text-gray-400 from report page
-    doc.setFontSize(8);
-    doc.text('Implementation Code', 25, y + 8);
-    
-    // "Copy Code" text - SAME as report page
-    doc.setTextColor(244, 114, 182); // text-pink-400 from report page  
-    doc.text('Copy from PDF', 185, y + 8, { align: 'right' });
-    
-    // Code content - LARGER font for readability (IMPROVED from report page)
-    doc.setFont('courier', 'normal');
-    doc.setTextColor(209, 213, 219); // text-gray-300 from report page
-    doc.setFontSize(8); // INCREASED from 6 for better readability
-    
-    displayLines.forEach((line, index) => {
-      if (y + 15 + (index * 3.5) < y + codeBoxHeight - 5) {
-        // Trim long lines but keep readable
-        const trimmedLine = line.length > 70 ? line.substring(0, 67) + '...' : line;
-        doc.text(trimmedLine, 25, y + 15 + (index * 3.5));
-      }
-    });
-    
-    // Show truncation indicator if needed
-    if (codeLines.length > maxDisplayLines) {
-      doc.setFont('helvetica', 'italic');
-      doc.setTextColor(156, 163, 175);
-      doc.setFontSize(7);
-      doc.text(`... and ${codeLines.length - maxDisplayLines} more lines`, 25, y + codeBoxHeight - 8);
-    }
-    
-    y += codeBoxHeight + 8;
-  }
-  
-  return y;
-}
-// COMPREHENSIVE: Full implementation guide with ALL code from report page
-function createImplementationFromReportData(doc, issues, colors) {
-  addCleanHeader(doc, 'Complete Implementation Guide', colors);
-  
-  let y = 50;
-  
-  // Introduction
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
-  doc.setFontSize(11);
-  doc.text('Step-by-step implementation instructions with complete code examples for all issues.', 20, y);
-  y += 20;
-  
-  // Group issues by type for better organization
-  const groupedIssues = groupIssuesByType(issues.all);
-  
-  Object.keys(groupedIssues).forEach(groupName => {
-    if (y > 200) {
-      doc.addPage();
-      addCleanHeader(doc, 'Complete Implementation Guide (Continued)', colors);
-      y = 50;
-    }
-    
-    y = createImplementationGroup(doc, groupName, groupedIssues[groupName], y, colors);
-  });
-}
-
-function groupIssuesByType(allIssues) {
-  const groups = {
-    'Schema & Structured Data': [],
-    'Content Optimization': [], 
-    'Technical SEO': [],
-    'Trust & Authority': [],
-    'Other Optimizations': []
-  };
-  
-  allIssues.forEach(issue => {
-    const type = issue.type?.toLowerCase() || '';
-    
-    if (type.includes('schema') || type.includes('json-ld') || type.includes('structured')) {
-      groups['Schema & Structured Data'].push(issue);
-    } else if (type.includes('meta') || type.includes('title') || type.includes('heading') || type.includes('content')) {
-      groups['Content Optimization'].push(issue);
-    } else if (type.includes('performance') || type.includes('mobile') || type.includes('technical')) {
-      groups['Technical SEO'].push(issue);
-    } else if (type.includes('trust') || type.includes('authority') || type.includes('contact') || type.includes('about')) {
-      groups['Trust & Authority'].push(issue);
-    } else {
-      groups['Other Optimizations'].push(issue);
-    }
-  });
-  
-  // Remove empty groups
-  Object.keys(groups).forEach(key => {
-    if (groups[key].length === 0) {
-      delete groups[key];
-    }
-  });
-  
-  return groups;
-}
-
-function createImplementationGroup(doc, groupName, groupIssues, startY, colors) {
-  let y = startY;
-  
-  // Group header
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(colors.primary[0], colors.primary[1], colors.primary[2]);
-  doc.setFontSize(14);
-  doc.text(groupName, 20, y);
-  y += 12;
-  
-  // Issue count
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(colors.textLight[0], colors.textLight[1], colors.textLight[2]);
-  doc.setFontSize(10);
-  doc.text(`${groupIssues.length} implementation tasks`, 20, y);
-  y += 15;
-  
-  // Show each implementation
-  groupIssues.forEach((issue, index) => {
-    if (y > 180) {
-      doc.addPage();
-      addCleanHeader(doc, 'Complete Implementation Guide (Continued)', colors);
-      y = 50;
-    }
-    
-    y = createFullImplementationTask(doc, issue, index + 1, y, colors);
-  });
-  
-  y += 15;
-  return y;
-}
-
-function createFullImplementationTask(doc, issue, taskNumber, startY, colors) {
-  let y = startY;
-  
-  // Task header with priority
-  doc.setFont('helvetica', 'bold');
-  const priorityColor = getSeverityColorArray(issue.severity, colors);
-  doc.setTextColor(priorityColor[0], priorityColor[1], priorityColor[2]);
-  doc.setFontSize(12);
-  
-  const taskTitle = issue.fix?.title || issue.description || `Task ${taskNumber}`;
-  const titleLines = doc.splitTextToSize(`${taskNumber}. ${taskTitle}`, 140);
-  doc.text(titleLines, 20, y);
-  y += titleLines.length * 6 + 3;
-  
-  // Priority and time
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(colors.textLight[0], colors.textLight[1], colors.textLight[2]);
-  doc.setFontSize(9);
-  doc.text(`Priority: ${issue.priority} • Time: ${issue.timeEstimate} • ${issue.dimension}`, 20, y);
-  y += 10;
-  
-  // Implementation description
-  if (issue.fix?.description) {
-    doc.setFont('helvetica', 'normal');
-    doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
-    doc.setFontSize(10);
-    const descLines = doc.splitTextToSize(issue.fix.description, 165);
-    doc.text(descLines, 20, y);
-    y += descLines.length * 5 + 8;
-  }
-  
-  // FULL CODE IMPLEMENTATION - bigger and more readable
-  if (issue.fix?.code) {
-    y = addLargeCodeBlock(doc, issue.fix.code, y, colors);
+    y = addCodeBlock(doc, issue.fix, y);
   }
   
   y += 8;
   return y;
 }
 
-// IMPROVED: Larger, more readable code blocks
-function addLargeCodeBlock(doc, code, startY, colors) {
+// EXACT MATCH: Code block from report page IssueDetail component  
+function addCodeBlock(doc, fix, startY) {
   let y = startY;
   
-  const codeLines = code.split('\n');
-  const linesPerPage = 20; // More lines per page
+  // Fix title - SAME as report page issue.fix.title
+  if (fix.title) {
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(COLORS.textDark[0], COLORS.textDark[1], COLORS.textDark[2]);
+    doc.setFontSize(12);
+    doc.text(fix.title, 20, y);
+    y += 10;
+  }
   
-  let currentLineIndex = 0;
-  while (currentLineIndex < codeLines.length) {
-    const remainingLines = codeLines.length - currentLineIndex;
-    const linesToShow = Math.min(linesPerPage, remainingLines);
-    const currentSection = codeLines.slice(currentLineIndex, currentLineIndex + linesToShow);
-    const codeBoxHeight = Math.max(40, currentSection.length * 4 + 20); // More space per line
+  // Fix description - SAME as report page issue.fix.description  
+  if (fix.description) {
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(COLORS.textMedium[0], COLORS.textMedium[1], COLORS.textMedium[2]);
+    doc.setFontSize(10);
+    const descLines = doc.splitTextToSize(fix.description, 165);
+    doc.text(descLines, 20, y);
+    y += descLines.length * 5 + 8;
+  }
+  
+  // Code block - Professional light theme (not dark like web)
+  if (fix.code) {
+    const codeLines = fix.code.split('\n');
+    const maxDisplayLines = 20; // More lines for PDF
+    const displayLines = codeLines.slice(0, maxDisplayLines);
+    const codeBoxHeight = Math.max(35, displayLines.length * 4 + 20);
     
-    // Check page break
-    if (y + codeBoxHeight > 260) {
+    // Check if code block fits on page
+    if (y + codeBoxHeight > 270) {
       doc.addPage();
-      addCleanHeader(doc, 'Complete Implementation Guide (Continued)', colors);
+      addProfessionalHeader(doc, 'Issues & Optimization Instructions (Continued)');
       y = 50;
     }
     
-    // Code container - professional styling
-    doc.setFillColor(31, 41, 55); // Dark background
-    doc.roundedRect(20, y, 170, codeBoxHeight, 3, 3, 'F');
-    doc.setDrawColor(colors.primary[0], colors.primary[1], colors.primary[2]);
-    doc.setLineWidth(0.5);
-    doc.roundedRect(20, y, 170, codeBoxHeight, 3, 3, 'S');
+    // Code container - Professional light theme
+    doc.setFillColor(248, 250, 252); // Very light gray background
+    doc.roundedRect(20, y, 170, codeBoxHeight, 5, 5, 'F');
+    doc.setDrawColor(COLORS.border[0], COLORS.border[1], COLORS.border[2]);
+    doc.setLineWidth(1);
+    doc.roundedRect(20, y, 170, codeBoxHeight, 5, 5, 'S');
     
-    // Header
+    // Code header - Professional styling
     doc.setFont('helvetica', 'bold');
-    doc.setTextColor(colors.primary[0], colors.primary[1], colors.primary[2]);
-    doc.setFontSize(9);
-    const headerText = currentLineIndex === 0 ? 'Complete Implementation Code' : 'Implementation Code (continued)';
-    doc.text(headerText, 25, y + 10);
+    doc.setTextColor(COLORS.primary[0], COLORS.primary[1], COLORS.primary[2]);
+    doc.setFontSize(10);
+    doc.text('Implementation Code', 25, y + 12);
     
-    // Code content - LARGER font
+    // "Copy from PDF" text - Professional note
+    doc.setTextColor(COLORS.textLight[0], COLORS.textLight[1], COLORS.textLight[2]);
+    doc.setFontSize(8);
+    doc.text('Copy and implement this code', 185, y + 12, { align: 'right' });
+    
+    // Code content - Professional monospace styling
     doc.setFont('courier', 'normal');
-    doc.setTextColor(209, 213, 219);
-    doc.setFontSize(9); // INCREASED from 6 to 9 for readability
+    doc.setTextColor(COLORS.textDark[0], COLORS.textDark[1], COLORS.textDark[2]);
+    doc.setFontSize(8); // Readable size for PDF
     
-    currentSection.forEach((line, lineIndex) => {
-      const yPos = y + 16 + (lineIndex * 4); // More space between lines
-      if (yPos < y + codeBoxHeight - 5) {
-        // Better line trimming - keep more content
-        const trimmedLine = line.length > 80 ? line.substring(0, 77) + '...' : line;
-        doc.text(trimmedLine, 25, yPos);
+    displayLines.forEach((line, index) => {
+      if (y + 18 + (index * 4) < y + codeBoxHeight - 8) {
+        // Trim very long lines but keep readable
+        const trimmedLine = line.length > 85 ? line.substring(0, 82) + '...' : line;
+        doc.text(trimmedLine, 25, y + 18 + (index * 4));
       }
     });
     
-    y += codeBoxHeight + 5;
-    currentLineIndex += linesToShow;
+    // Show truncation indicator if needed
+    if (codeLines.length > maxDisplayLines) {
+      doc.setFont('helvetica', 'italic');
+      doc.setTextColor(COLORS.textLight[0], COLORS.textLight[1], COLORS.textLight[2]);
+      doc.setFontSize(8);
+      doc.text(`... and ${codeLines.length - maxDisplayLines} more lines (see full code in implementation guide)`, 25, y + codeBoxHeight - 5);
+    }
+    
+    y += codeBoxHeight + 10;
   }
   
   return y;
 }
 
-// Helper functions
-function getSeverityColorArray(severity, colors) {
-  switch (severity) {
-    case 'critical': return colors.critical;
-    case 'medium': return colors.warning;
-    case 'low': return colors.accent;
-    default: return colors.textMedium;
-  }
-}
-
-function addCleanHeader(doc, title, colors) {
-  doc.setFillColor(colors.primary[0], colors.primary[1], colors.primary[2]);
-  doc.rect(0, 0, 210, 25, 'F');
-  
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(255, 255, 255);
-  doc.setFontSize(14);
-  doc.text(title, 20, 16);
-  
-  doc.setFontSize(9);
-  doc.text('AISEOScan Professional Report', 185, 16, { align: 'right' });
-}
-
-function addCleanFooters(doc, reportData, colors) {
-  const pageCount = doc.internal.getNumberOfPages();
-  
-  for (let i = 1; i <= pageCount; i++) {
-    doc.setPage(i);
-    
-    // Footer line
-    doc.setDrawColor(colors.primary[0], colors.primary[1], colors.primary[2]);
-    doc.setLineWidth(0.5);
-    doc.line(20, 285, 190, 285);
-    
-    // Footer content
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(8);
-    doc.setTextColor(colors.textLight[0], colors.textLight[1], colors.textLight[2]);
-    
-    doc.text('AISEOScan AI SEO Analysis', 20, 290);
-    doc.text(`Generated: ${new Date().toLocaleDateString()}`, 105, 290, { align: 'center' });
-    doc.text(`Page ${i} of ${pageCount}`, 190, 290, { align: 'right' });
-  }
-}
-// Helper functions for consistent behavior
-function getPriorityFromSeverity(severity) {
-  switch (severity) {
-    case 'critical': return 'URGENT';
-    case 'medium': return 'HIGH';
-    case 'low': return 'MEDIUM';
-    default: return 'LOW';
-  }
-}
-
+// Helper function for time estimates
 function getTimeEstimate(issue) {
   const type = issue.type?.toLowerCase() || '';
   
-  // SAME time estimates as original scanner logic
   if (type.includes('schema') || type.includes('json-ld')) {
     return '1-2 hours';
   } else if (type.includes('meta') || type.includes('title') || type.includes('alt')) {
@@ -1133,78 +706,99 @@ function getTimeEstimate(issue) {
     default: return '30 minutes';
   }
 }
-
-// CRITICAL: Simple action plan page
-function createSimpleActionPlan(doc, issues, colors) {
-  addCleanHeader(doc, '30-Day Action Plan', colors);
+// 30-DAY ACTION PLAN
+function createActionPlan(doc, issues) {
+  doc.addPage();
+  addProfessionalHeader(doc, '30-Day Implementation Timeline');
   
   let y = 50;
   
   // Introduction
   doc.setFont('helvetica', 'normal');
-  doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
+  doc.setTextColor(COLORS.textDark[0], COLORS.textDark[1], COLORS.textDark[2]);
   doc.setFontSize(11);
-  doc.text('Prioritized implementation timeline for maximum AI SEO impact.', 20, y);
+  doc.text('Prioritized implementation timeline for maximum AI SEO impact and measurable results.', 20, y);
   y += 25;
   
   // Week-by-week breakdown
-  const actionPlan = createSimpleWeeklyPlan(issues);
+  const actionPlan = createWeeklyPlan(issues);
   
   // Week 1: Critical Issues
   if (actionPlan.week1.length > 0) {
-    y = displaySimpleWeek(doc, 'Week 1: Fix Critical Issues', actionPlan.week1, colors.critical, y, colors);
+    y = displayWeek(doc, 'Week 1: Fix Critical Issues', actionPlan.week1, COLORS.critical, y, 
+      'Address blocking issues that prevent AI engines from properly understanding your content.');
   }
   
   // Week 2: Medium Issues  
   if (actionPlan.week2.length > 0) {
-    y = displaySimpleWeek(doc, 'Week 2: Medium Priority', actionPlan.week2, colors.warning, y, colors);
+    y = displayWeek(doc, 'Week 2: Medium Priority Optimization', actionPlan.week2, COLORS.warning, y,
+      'Implement improvements that enhance AI search visibility and citation potential.');
   }
   
   // Week 3: Low Issues
   if (actionPlan.week3.length > 0) {
-    y = displaySimpleWeek(doc, 'Week 3: Enhancements', actionPlan.week3, colors.accent, y, colors);
+    y = displayWeek(doc, 'Week 3: Enhancement Opportunities', actionPlan.week3, COLORS.info, y,
+      'Fine-tune optimizations for maximum AI search engine performance.');
   }
   
   // Week 4: Monitoring
-  y = displaySimpleWeek(doc, 'Week 4: Monitor & Optimize', [
-    { description: 'Test all implementations in Google Rich Results Test' },
-    { description: 'Monitor AI search visibility and citation rates' },
-    { description: 'Validate schema markup with Schema.org validator' },
-    { description: 'Track Core Web Vitals and performance metrics' }
-  ], colors.success, y, colors);
+  y = displayWeek(doc, 'Week 4: Monitor & Validate', [
+    { description: 'Test all schema markup implementations using Google Rich Results Test' },
+    { description: 'Monitor AI search visibility and citation rates across platforms' },
+    { description: 'Validate structured data with Schema.org validator' },
+    { description: 'Track Core Web Vitals and overall performance metrics' },
+    { description: 'Document baseline metrics for ongoing optimization' }
+  ], COLORS.success, y, 'Ensure implementations are working correctly and establish success metrics.');
   
-  // Success metrics
+  // Expected Results Timeline
   y += 15;
   if (y > 200) {
     doc.addPage();
-    addCleanHeader(doc, '30-Day Action Plan (Continued)', colors);
+    addProfessionalHeader(doc, '30-Day Implementation Timeline (Continued)');
     y = 50;
   }
   
   doc.setFont('helvetica', 'bold');
-  doc.setTextColor(colors.primary[0], colors.primary[1], colors.primary[2]);
-  doc.setFontSize(14);
-  doc.text('Expected Results', 20, y);
+  doc.setTextColor(COLORS.primary[0], COLORS.primary[1], COLORS.primary[2]);
+  doc.setFontSize(16);
+  doc.text('Expected Results Timeline', 20, y);
   y += 15;
   
-  const results = [
-    'Week 1-2: Schema markup improvements show in Rich Results testing',
-    'Week 2-3: Better content structure improves AI comprehension',
-    'Month 2: Increased citations in AI search engine responses',
-    'Month 3-6: Significant improvement in AI search visibility'
+  const resultsTimeline = [
+    { period: 'Week 1-2', result: 'Schema markup improvements visible in Google Rich Results testing tools' },
+    { period: 'Week 2-3', result: 'Enhanced content structure improves AI engine content comprehension' },
+    { period: 'Month 2', result: 'Increased citations and references in AI search engine responses' },
+    { period: 'Month 3-6', result: 'Significant improvement in AI search visibility and organic traffic growth' }
   ];
   
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
-  doc.setFontSize(10);
-  
-  results.forEach(result => {
-    doc.text(`• ${result}`, 25, y);
-    y += 8;
+  resultsTimeline.forEach(timeline => {
+    // Timeline item
+    doc.setFillColor(COLORS.cardBg[0], COLORS.cardBg[1], COLORS.cardBg[2]);
+    doc.roundedRect(20, y, 170, 18, 3, 3, 'F');
+    doc.setDrawColor(COLORS.primary[0], COLORS.primary[1], COLORS.primary[2]);
+    doc.setLineWidth(0.5);
+    doc.roundedRect(20, y, 170, 18, 3, 3, 'S');
+    
+    // Period indicator
+    doc.setFillColor(COLORS.primary[0], COLORS.primary[1], COLORS.primary[2]);
+    doc.rect(20, y, 3, 18, 'F');
+    
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(COLORS.primary[0], COLORS.primary[1], COLORS.primary[2]);
+    doc.setFontSize(10);
+    doc.text(timeline.period, 28, y + 8);
+    
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(COLORS.textDark[0], COLORS.textDark[1], COLORS.textDark[2]);
+    doc.setFontSize(9);
+    const resultLines = doc.splitTextToSize(timeline.result, 130);
+    doc.text(resultLines, 70, y + 8);
+    
+    y += 22;
   });
 }
 
-function createSimpleWeeklyPlan(issues) {
+function createWeeklyPlan(issues) {
   const plan = {
     week1: [], // Critical
     week2: [], // Medium  
@@ -1226,12 +820,12 @@ function createSimpleWeeklyPlan(issues) {
   return plan;
 }
 
-function displaySimpleWeek(doc, weekTitle, weekTasks, weekColor, startY, colors) {
+function displayWeek(doc, weekTitle, weekTasks, weekColor, startY, weekDescription) {
   let y = startY;
   
-  if (y > 220) {
+  if (y > 200) {
     doc.addPage();
-    addCleanHeader(doc, '30-Day Action Plan (Continued)', colors);
+    addProfessionalHeader(doc, '30-Day Implementation Timeline (Continued)');
     y = 50;
   }
   
@@ -1242,149 +836,121 @@ function displaySimpleWeek(doc, weekTitle, weekTasks, weekColor, startY, colors)
   doc.text(weekTitle, 20, y);
   y += 12;
   
+  // Week description
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(COLORS.textMedium[0], COLORS.textMedium[1], COLORS.textMedium[2]);
+  doc.setFontSize(9);
+  const descLines = doc.splitTextToSize(weekDescription, 160);
+  doc.text(descLines, 20, y);
+  y += descLines.length * 4 + 8;
+  
   if (weekTasks.length === 0) {
     doc.setFont('helvetica', 'italic');
-    doc.setTextColor(colors.textLight[0], colors.textLight[1], colors.textLight[2]);
+    doc.setTextColor(COLORS.textLight[0], COLORS.textLight[1], COLORS.textLight[2]);
     doc.setFontSize(10);
-    doc.text('No tasks for this week - continue monitoring', 25, y);
-    y += 10;
+    doc.text('No tasks for this week - continue with monitoring and maintenance', 25, y);
+    y += 12;
   } else {
     // Task list
     const maxTasks = 6; // Prevent overflow
     const displayTasks = weekTasks.slice(0, maxTasks);
     
-    displayTasks.forEach(task => {
+    displayTasks.forEach((task, index) => {
+      // Task item
+      doc.setFillColor(COLORS.white[0], COLORS.white[1], COLORS.white[2]);
+      doc.roundedRect(20, y, 170, 12, 2, 2, 'F');
+      doc.setDrawColor(weekColor[0], weekColor[1], weekColor[2]);
+      doc.setLineWidth(0.3);
+      doc.roundedRect(20, y, 170, 12, 2, 2, 'S');
+      
+      // Task number
+      doc.setFillColor(weekColor[0], weekColor[1], weekColor[2]);
+      doc.circle(27, y + 6, 3, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8);
+      doc.text((index + 1).toString(), 27, y + 7, { align: 'center' });
+      
+      // Task description
       doc.setFont('helvetica', 'normal');
-      doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
-      doc.setFontSize(10);
-      const taskLines = doc.splitTextToSize(`• ${task.description}`, 160);
-      doc.text(taskLines, 25, y);
-      y += taskLines.length * 5 + 2;
+      doc.setTextColor(COLORS.textDark[0], COLORS.textDark[1], COLORS.textDark[2]);
+      doc.setFontSize(9);
+      const taskLines = doc.splitTextToSize(task.description, 150);
+      doc.text(taskLines[0], 35, y + 7); // Show only first line to fit
+      
+      y += 15;
     });
     
     if (weekTasks.length > maxTasks) {
       doc.setFont('helvetica', 'italic');
-      doc.setTextColor(colors.textLight[0], colors.textLight[1], colors.textLight[2]);
-      doc.setFontSize(9);
-      doc.text(`... and ${weekTasks.length - maxTasks} more tasks`, 25, y);
-      y += 8;
+      doc.setTextColor(COLORS.textLight[0], COLORS.textLight[1], COLORS.textLight[2]);
+      doc.setFontSize(8);
+      doc.text(`... and ${weekTasks.length - maxTasks} more tasks (see complete list in issues section)`, 25, y);
+      y += 10;
     }
   }
   
-  y += 15;
+  y += 20;
   return y;
 }
 
-// FINAL: Updated main function with all components
-async function generateGrowthPdf(reportData) {
-  try {
-    console.log('🔍 PDF Generation - Starting with data:', {
-      status: reportData.status,
-      url: reportData.url,
-      hasSeoData: !!reportData.seo?.score,
-      hasComplianceData: !!reportData.compliance?.score
-    });
+// PROFESSIONAL FOOTER FOR ALL PAGES
+function addProfessionalFooters(doc, reportData) {
+  const pageCount = doc.internal.getNumberOfPages();
+  
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i);
     
-    const doc = new jsPDF({
-      orientation: 'portrait',
-      unit: 'mm', 
-      format: 'a4'
-    });
+    // Footer separator line
+    doc.setDrawColor(COLORS.border[0], COLORS.border[1], COLORS.border[2]);
+    doc.setLineWidth(0.5);
+    doc.line(20, 285, 190, 285);
     
-    // Professional color scheme (no pink)
-    const colors = {
-      primary: [30, 64, 175],         // Professional blue
-      secondary: [30, 41, 59],        // Dark slate
-      accent: [59, 130, 246],         // Light blue
-      success: [16, 185, 129],        // Emerald
-      warning: [245, 158, 11],        // Amber
-      critical: [220, 38, 38],        // Professional red
-      text: [15, 23, 42],
-      textLight: [71, 85, 105],
-      textMedium: [100, 116, 139],
-      lightBg: [248, 250, 252],
-      cardBg: [241, 245, 249]
-    };
+    // Footer content
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.setTextColor(COLORS.textLight[0], COLORS.textLight[1], COLORS.textLight[2]);
     
-    // CRITICAL: Use exact same processing as report page
-    let processedData = reportData;
+    // Left: Company info
+    doc.text('AISEOScan Professional AI SEO Analysis', 20, 290);
     
-    if (reportData.issues?.length > 0 && !reportData.seo?.total) {
-      console.log('🔧 PDF - Processing with processMultiDimensionalData()');
-      processedData = processMultiDimensionalData(reportData);
+    // Center: Website
+    const website = reportData.url || 'Website Analysis';
+    const shortUrl = website.length > 40 ? website.substring(0, 37) + '...' : website;
+    doc.text(shortUrl, 105, 290, { align: 'center' });
+    
+    // Right: Page number
+    doc.text(`Page ${i} of ${pageCount}`, 190, 290, { align: 'right' });
+    
+    // Bottom line: Date and confidentiality
+    doc.setFontSize(7);
+    doc.text(`Generated: ${new Date().toLocaleDateString()} | Confidential Report`, 105, 294, { align: 'center' });
+  }
+}
+
+// MAIN PDF GENERATION COMPLETION
+// Continue the main function from Part 1:
+
+    // Create all PDF sections
+    createProfessionalCover(doc, processedData, scores);
+    createExecutiveSummary(doc, processedData, issues, scores);
+    createIssuesList(doc, issues);
+    
+    // Only add action plan if there are issues to address
+    if (issues.all.length > 0) {
+      createActionPlan(doc, issues);
     }
     
-    // Extract issues - same structure as report page
-    const consolidatedIssues = extractReportPageIssues(processedData);
+    // Add professional footers to all pages
+    addProfessionalFooters(doc, processedData);
     
-    // Exact same scores as report page
-    const pdfScores = {
-      aiSeo: processedData.seo?.score || 0,
-      trustSignals: processedData.compliance?.score || 0,
-      overall: processedData.summary?.overallScore || Math.round(
-        ((processedData.seo?.score || 0) * 0.75) + 
-        ((processedData.compliance?.score || 0) * 0.25)
-      )
-    };
-    
-    console.log('✅ PDF Final Data:', {
-      scores: pdfScores,
-      totalIssues: consolidatedIssues.all.length,
-      critical: consolidatedIssues.critical.length,
-      medium: consolidatedIssues.medium.length,
-      low: consolidatedIssues.low.length
-    });
-    
-    // Create clean, professional PDF
-    createCleanCoverPage(doc, processedData, pdfScores, colors);
-    
-    doc.addPage();
-    createSimplifiedSummary(doc, processedData, consolidatedIssues, pdfScores, colors);
-    
-    doc.addPage(); 
-    createDirectIssuesList(doc, consolidatedIssues, colors);
-    
-    // Only add implementation guide if there are issues
-    if (consolidatedIssues.all.length > 0) {
-      doc.addPage();
-      createImplementationFromReportData(doc, consolidatedIssues, colors);
-      
-      doc.addPage();
-      createSimpleActionPlan(doc, consolidatedIssues, colors);
-    }
-    
-    // Professional footers
-    addCleanFooters(doc, processedData, colors);
-    
-    console.log('✅ PDF Generation Complete');
+    console.log('✅ PDF Generation Complete - Professional AI SEO Report');
     return doc.output('arraybuffer');
     
   } catch (error) {
     console.error('❌ PDF Generation Error:', error);
     throw new Error('Failed to generate PDF: ' + error.message);
   }
-}
-
-// Add these missing functions at the end of the file:
-
-function createSimplifiedSummary(doc, processedData, consolidatedIssues, pdfScores, colors) {
-  // Use the createExecutiveSummary function but with this name
-  createExecutiveSummary(doc, processedData, consolidatedIssues, pdfScores, colors);
-}
-
-function createImplementationGuide(doc, consolidatedIssues, colors) {
-  // Use the createImplementationFromReportData function but with this name  
-  createImplementationFromReportData(doc, consolidatedIssues, colors);
-}
-
-function createActionPlan(doc, consolidatedIssues, colors) {
-  // Use the createSimpleActionPlan function but with this name
-  createSimpleActionPlan(doc, consolidatedIssues, colors);
-}
-
-function addProfessionalFooters(doc, processedData, colors) {
-  // Use the addCleanFooters function but with this name
-  addCleanFooters(doc, processedData, colors);
 }
 
 // Export the main function
