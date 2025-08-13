@@ -56,9 +56,7 @@ export default async function handler(req, res) {
       };
     }
     
-    // ===== REMOVE THE PROBLEMATIC FALLBACK CODE =====
-    // DELETE the entire section that was creating generic fix objects (lines 22-65 in original)
-    // This was overwriting the rich fix objects with generic placeholders
+    
     
     console.log(`Final report data for PDF:`, {
       url: reportForPdf.url,
@@ -69,25 +67,28 @@ export default async function handler(req, res) {
     });
     
     // Generate the appropriate PDF based on type
-    let pdfBuffer;
-    let filename;
-    
-    try {
-      if (type === 'growth') {
-        console.log('Generating growth PDF with rich fix objects...');
-        pdfBuffer = await generateGrowthPdf(reportForPdf);
-        filename = `founderscan-growth-report-${id}.pdf`;
-      } else {
-        console.log('Generating security PDF...');
-        pdfBuffer = await generatePdf(reportForPdf);
-        filename = `founderscan-security-report-${id}.pdf`;
-      }
-      console.log('PDF generation completed successfully');
-    } catch (pdfError) {
-      console.error('PDF generation failed:', pdfError);
-      console.error('PDF error stack:', pdfError.stack);
-      throw pdfError;
-    }
+  // Generate the appropriate PDF based on type
+let pdfBuffer;
+let filename;
+
+try {
+  if (type === 'growth') {
+    console.log('Generating growth PDF with rich fix objects...');
+    pdfBuffer = await generateGrowthPdf(reportForPdf);
+    // CHANGED: From "founderscan-growth-report" to "aiseoscan-ai-seo-report"
+    filename = `aiseoscan-ai-seo-report-${id}.pdf`;
+  } else {
+    console.log('Generating security PDF...');
+    pdfBuffer = await generatePdf(reportForPdf);
+    // CHANGED: From "founderscan-security-report" to "aiseoscan-security-report"  
+    filename = `aiseoscan-security-report-${id}.pdf`;
+  }
+  console.log('PDF generation completed successfully');
+} catch (pdfError) {
+  console.error('PDF generation failed:', pdfError);
+  console.error('PDF error stack:', pdfError.stack);
+  throw pdfError;
+}
     
     // Set the content type and disposition headers
     res.setHeader('Content-Type', 'application/pdf');

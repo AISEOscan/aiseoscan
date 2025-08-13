@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import Layout from '../../components/Layout';
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Bot, MessageSquare, Zap, Award, BarChart3, Star, AlertTriangle, AlertCircle, Info, Clock, Download, ExternalLink, ChevronDown, ChevronUp, Code, FileText, Sparkles } from 'lucide-react';
+import { Bot, MessageSquare, Zap, Award, BarChart3, Star, AlertTriangle, AlertCircle, Info, Clock, Download, ExternalLink, ChevronDown, ChevronUp, Code, FileText, Sparkles, Check } from 'lucide-react';
 import { processMultiDimensionalData } from '../../utils/categorization';
 
 console.log('🔍 COMPONENT RENDER - ReportPage mounted/rendered');
@@ -19,6 +19,7 @@ export default function ReportPage() {
   
   const [expandedDimensions, setExpandedDimensions] = useState({});
   const [expandedIssues, setExpandedIssues] = useState({});
+  const [copiedItems, setCopiedItems] = useState(new Set());
 
   const isProcessingRef = useRef(false);
   const hasCompletedReportRef = useRef(false);
@@ -458,52 +459,108 @@ const getTotalLowIssues = (report) => {
   };
 
   // Issue Detail Component with expand/collapse
-  const IssueDetail = ({ issue, issueId }) => {
-    const isExpanded = expandedIssues[issueId];
-    
-    return (
-      <div className={`border rounded-lg p-3 ${getSeverityColor(issue.severity)}`}>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center">
-            {getSeverityIcon(issue.severity)}
-            <span className="ml-2 text-sm font-medium">{issue.description}</span>
-          </div>
-          <button
-            onClick={() => toggleIssue(issueId)}
-            className="text-gray-400 hover:text-white transition-colors"
-          >
-            {isExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-          </button>
-        </div>
-        
-        {isExpanded && issue.fix && (
-          <div className="mt-3 border-t border-gray-600 pt-3">
-            <h4 className="text-sm font-semibold text-white mb-2">{issue.fix.title}</h4>
-            <p className="text-sm text-gray-300 mb-3">{issue.fix.description}</p>
-            {issue.fix.code && (
-              <div className="bg-gray-800 rounded-md p-3">
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center">
-                    <Code className="h-4 w-4 text-gray-400 mr-2" />
-                    <span className="text-xs text-gray-400">Implementation Code</span>
-                  </div>
-                  <button 
-                    onClick={() => navigator.clipboard.writeText(issue.fix.code)}
-                    className="text-xs text-pink-400 hover:text-pink-300 transition-colors"
-                  >
-                    Copy Code
-                  </button>
-                </div>
-                <pre className="text-xs text-gray-300 overflow-x-auto whitespace-pre-wrap">
-                  <code>{issue.fix.code}</code>
-                </pre>
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-    );
+  
+  // Issue Detail Component with expand/collapse
+const IssueDetail = ({ issue, issueId }) => {
+  const isExpanded = expandedIssues[issueId];
+  const isCopied = copiedItems.has(issueId);
+  
+  // Copy code function with visual feedback
+  const handleCopyCode = async (code, itemId) => {
+    try {
+      await navigator.clipboard.writeText(code);
+      
+      // Add item to copied set
+      setCopiedItems(prev => new Set([...prev, itemId]));
+      
+      // Remove the checkmark after 3 seconds
+      setTimeout(() => {
+        setCopiedItems(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(itemId);
+          return newSet;
+        });
+      }, 3000);
+      
+    } catch (err) {
+      console.error('Failed to copy code:', err);
+      // Fallback for older browsers
+      const textArea = document.createElement('textarea');
+      textArea.value = code;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      
+      // Still show success feedback
+      setCopiedItems(prev => new Set([...prev, itemId]));
+      setTimeout(() => {
+        setCopiedItems(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(itemId);
+          return newSet;
+        });
+      }, 3000);
+    }
   };
+  
+  return (
+    <div className={`border rounded-lg p-3 ${getSeverityColor(issue.severity)}`}>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center">
+          {getSeverityIcon(issue.severity)}
+          <span className="ml-2 text-sm font-medium">{issue.description}</span>
+        </div>
+        <button
+          onClick={() => toggleIssue(issueId)}
+          className="text-gray-400 hover:text-white transition-colors"
+        >
+          {isExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+        </button>
+      </div>
+      
+      {isExpanded && issue.fix && (
+        <div className="mt-3 border-t border-gray-600 pt-3">
+          <h4 className="text-sm font-semibold text-white mb-2">{issue.fix.title}</h4>
+          <p className="text-sm text-gray-300 mb-3">{issue.fix.description}</p>
+          {issue.fix.code && (
+            <div className="bg-gray-800 rounded-md p-3">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center">
+                  <Code className="h-4 w-4 text-gray-400 mr-2" />
+                  <span className="text-xs text-gray-400">Implementation Code</span>
+                </div>
+                <button 
+                  onClick={() => handleCopyCode(issue.fix.code, issueId)}
+                  className={`text-xs transition-all duration-200 flex items-center ${
+                    isCopied 
+                      ? 'text-emerald-400' 
+                      : 'text-pink-400 hover:text-pink-300'
+                  }`}
+                >
+                  {isCopied ? (
+                    <>
+                      <Check className="h-3 w-3 mr-1" />
+                      Copied!
+                    </>
+                  ) : (
+                    'Copy Code'
+                  )}
+                </button>
+              </div>
+              <pre className="text-xs text-gray-300 overflow-x-auto whitespace-pre-wrap">
+                <code>{issue.fix.code}</code>
+              </pre>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
+
+
   // Render loading state
   if (loading) {
     return (
