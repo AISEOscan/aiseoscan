@@ -458,7 +458,7 @@ const getTotalLowIssues = (report) => {
     );
   };
 
-  // Issue Detail Component with expand/collapse
+  
   
   // Issue Detail Component with expand/collapse
 const IssueDetail = ({ issue, issueId }) => {
@@ -736,7 +736,7 @@ const IssueDetail = ({ issue, issueId }) => {
          {/* Analysis Dimensions */}
          <div className="mb-8">
            <h2 className="text-2xl font-bold mb-6 flex items-center">
-             <span className="text-pink-400 mr-2">🤖</span>
+             <span className="text-pink-400 mr-2"></span>
              AI SEO Analysis Dimensions
            </h2>
            <div className="grid md:grid-cols-2 gap-6">
