@@ -11,12 +11,13 @@ export default function DynamicSEO({
   // Generate dynamic content based on scan results
   const generateDynamicMeta = () => {
     if (!scanResults) {
-      return {
-        title: "AISEOScan - AI SEO Readiness Scanner for ChatGPT, Perplexity & SearchGPT",
-        description: "AI SEO readiness scanner - Optimize your website for ChatGPT, Perplexity, SearchGPT and other AI search engines. Get comprehensive schema markup, content quality, and authority signal analysis for $29.",
-        keywords: "AI SEO scanner, ChatGPT optimization, Perplexity SEO, SearchGPT ready, schema markup, AI citation, content optimization, AI search engines, voice search SEO, structured data audit"
-      };
-    }
+  return {
+    title: "AISEOScan - Complete AI SEO audit",
+    description: "Is your website ready for AI search? If ChatGPT can’t find you, neither can your customers. Get a complete AI SEO audit and optimization plan designed for the age of AI-powered search.",
+    keywords: "AI SEO scanner, ChatGPT optimization, Perplexity SEO, SearchGPT ready, schema markup, AI citation, content optimization, AI search engines, voice search SEO, structured data audit"
+  };
+}
+
 
     const overallScore = scanResults.summary?.overallScore || 0;
     const seoIssues = scanResults.seo?.total || scanResults.seo?.issues?.length || 0;

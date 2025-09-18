@@ -1230,10 +1230,26 @@ export default function Home() {
         </div>
 
         {/* Updated Disclaimer */}
-        <div className="mt-12 bg-gray-900/40 backdrop-blur-sm p-6 rounded-xl border border-purple-500/30 text-sm text-gray-300">
-          <p className="mb-3"><strong>Disclaimer:</strong> AISEOScan provides automated AI SEO analysis to identify optimization opportunities for AI search engines. Results are based on publicly accessible information and current AI search engine best practices.</p>
-          <p>This service is provided "as is" without warranty. AISEOScan helps optimize content for AI search visibility but should be part of a comprehensive digital marketing strategy. All sales are final with no refunds due to immediate delivery of digital reports. Reports are available for 24 hours only for privacy and security reasons.</p>
-        </div>
+        {/* Updated Disclaimer (hidden from search engines) */}
+<div 
+  className="mt-12 bg-gray-900/40 backdrop-blur-sm p-6 rounded-xl border border-purple-500/30 text-sm text-gray-300"
+  data-nosnippet
+>
+  <p className="mb-3">
+    <strong>Disclaimer:</strong> AISEOScan provides automated AI SEO analysis 
+    to identify optimization opportunities for AI search engines. Results are 
+    based on publicly accessible information and current AI search engine 
+    best practices.
+  </p>
+  <p>
+    This service is provided "as is" without warranty. AISEOScan helps optimize 
+    content for AI search visibility but should be part of a comprehensive 
+    digital marketing strategy. All sales are final with no refunds due to 
+    immediate delivery of digital reports. Reports are available for 24 hours 
+    only for privacy and security reasons.
+  </p>
+</div>
+
       </div>
     </Layout>
   );
