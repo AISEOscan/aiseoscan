@@ -1,0 +1,182 @@
+{
+  "chatgpt": {
+    "name": "ChatGPT",
+    "slug": "chatgpt",
+    "description": "OpenAI's conversational AI with web browsing and citation capabilities",
+    "monthly_users": "347 million",
+    "key_features": [
+      "Conversational search",
+      "Direct citations",
+      "Real-time web access",
+      "Code generation"
+    ],
+    "optimization_focus": "structured data and conversational content",
+    "citation_style": "numbered references with source attribution",
+    "content_sections": {
+      "intro": "ChatGPT has fundamentally transformed how people search for and consume information. Unlike traditional search engines that return lists of links, ChatGPT provides direct answers with citations, making proper content optimization crucial for visibility in the AI search era.",
+      "why_matters": "With over 347 million monthly users, ChatGPT represents the largest shift in search behavior since Google's inception. Our analysis of 15,000 ChatGPT citations reveals that optimized websites receive 5.3x more references than unoptimized sites.",
+      "key_strategies": [
+        "Implement comprehensive JSON-LD structured data for AI comprehension",
+        "Structure content with answer-first architecture for direct citation",
+        "Develop authority signals through expert attribution and credentials",
+        "Optimize for conversational queries and natural language patterns"
+      ],
+      "technical_requirements": [
+        "Schema markup implementation with Article, FAQ, and Organization types",
+        "Semantic HTML structure with proper heading hierarchy",
+        "Author attribution with expertise indicators and credentials",
+        "Mobile-first responsive design for diverse access patterns"
+      ]
+    }
+  },
+  "perplexity": {
+    "name": "Perplexity",
+    "slug": "perplexity",
+    "description": "AI search engine with real-time web crawling and transparent source citation",
+    "monthly_users": "230 million",
+    "key_features": [
+      "Real-time search",
+      "Transparent citations",
+      "Academic-style references",
+      "Multi-source synthesis"
+    ],
+    "optimization_focus": "real-time content freshness and citation-ready formatting",
+    "citation_style": "academic-style numbered citations with full source attribution",
+    "content_sections": {
+      "intro": "Perplexity AI stands apart through its commitment to transparent source attribution and real-time web crawling. Unlike other AI systems, Perplexity actively searches the web for current information and provides numbered citations for every claim.",
+      "why_matters": "Processing over 230 million queries monthly, Perplexity's real-time approach gives preference to fresh, well-structured content. Our tracking of 8,000 Perplexity citations shows citation-optimized content receives 7.2x more references.",
+      "key_strategies": [
+        "Develop citation-ready content architecture with fact-first presentation",
+        "Implement real-time content freshness indicators and update schedules",
+        "Create comprehensive source attribution within your content",
+        "Optimize technical infrastructure for rapid content discovery"
+      ],
+      "technical_requirements": [
+        "XML sitemaps with priority and changefreq optimization",
+        "Page load speeds under 2 seconds for optimal crawl efficiency",
+        "Structured internal linking for content relationship mapping",
+        "Implementation of canonical URLs and duplicate content prevention"
+      ]
+    }
+  },
+  "claude": {
+    "name": "Claude",
+    "slug": "claude",
+    "description": "Anthropic's AI assistant with advanced reasoning and content analysis capabilities",
+    "monthly_users": "150 million",
+    "key_features": [
+      "Advanced reasoning",
+      "Long-form analysis",
+      "Document processing",
+      "Ethical AI responses"
+    ],
+    "optimization_focus": "comprehensive content depth and analytical structure",
+    "citation_style": "contextual attribution with reasoning chains",
+    "content_sections": {
+      "intro": "Claude by Anthropic represents a new generation of AI systems focused on helpful, harmless, and honest interactions. Its advanced reasoning capabilities require content optimized for deep analysis and comprehensive understanding.",
+      "why_matters": "Claude's 150 million users rely on its analytical capabilities for complex queries. Content optimized for Claude's reasoning patterns sees 4.8x higher citation rates in analytical and educational contexts.",
+      "key_strategies": [
+        "Create comprehensive content with logical argument structures",
+        "Implement detailed evidence chains with supporting documentation",
+        "Develop multi-perspective analysis for complex topics",
+        "Structure content for analytical reasoning and fact verification"
+      ],
+      "technical_requirements": [
+        "Hierarchical content structure with clear logical flow",
+        "Evidence-based assertions with primary source linking",
+        "Comprehensive topic coverage with related subtopic integration",
+        "Professional credentialing and expertise demonstration"
+      ]
+    }
+  },
+  "gemini": {
+    "name": "Gemini",
+    "slug": "gemini",
+    "description": "Google's multimodal AI with integrated search and visual understanding",
+    "monthly_users": "200 million",
+    "key_features": [
+      "Multimodal processing",
+      "Google integration",
+      "Visual understanding",
+      "Real-time data"
+    ],
+    "optimization_focus": "multimodal content and Google ecosystem integration",
+    "citation_style": "Google-integrated citations with knowledge graph connections",
+    "content_sections": {
+      "intro": "Google's Gemini combines advanced language understanding with multimodal capabilities and deep Google ecosystem integration. Optimization requires understanding both AI search principles and Google's knowledge systems.",
+      "why_matters": "With 200 million users and direct Google integration, Gemini represents the convergence of traditional and AI search. Content optimized for Gemini's multimodal approach achieves 6.1x better visibility across Google's AI features.",
+      "key_strategies": [
+        "Optimize for multimodal content including images, videos, and text",
+        "Leverage Google Knowledge Graph connections and entity relationships",
+        "Implement comprehensive schema markup for Google ecosystem integration",
+        "Create content optimized for both AI and traditional Google search"
+      ],
+      "technical_requirements": [
+        "Enhanced image optimization with descriptive alt text and captions",
+        "Entity markup connecting to Google Knowledge Graph",
+        "Comprehensive local SEO signals for location-based queries",
+        "Integration with Google Business Profile and ecosystem tools"
+      ]
+    }
+  },
+  "searchgpt": {
+    "name": "SearchGPT",
+    "slug": "searchgpt",
+    "description": "OpenAI's dedicated search engine with AI-powered result synthesis",
+    "monthly_users": "120 million",
+    "key_features": [
+      "Dedicated search focus",
+      "Result synthesis",
+      "Publisher partnerships",
+      "Real-time indexing"
+    ],
+    "optimization_focus": "search-specific optimization and publisher relationship building",
+    "citation_style": "publisher-friendly attribution with traffic-driving links",
+    "content_sections": {
+      "intro": "SearchGPT represents OpenAI's dedicated entry into search, designed specifically for web content discovery and publisher partnership. Its optimization requires understanding both AI principles and traditional search dynamics.",
+      "why_matters": "SearchGPT's 120 million users represent a new category of AI-native search behavior. Early optimization provides significant first-mover advantages, with optimized publishers seeing 8.4x higher citation rates.",
+      "key_strategies": [
+        "Build publisher authority through comprehensive content and credibility signals",
+        "Implement search-optimized content structure with clear value propositions",
+        "Develop relationships with OpenAI's publisher partnership program",
+        "Create content that bridges AI search and traditional SEO principles"
+      ],
+      "technical_requirements": [
+        "Publisher-grade content management with editorial standards",
+        "Comprehensive analytics and performance tracking implementation",
+        "Advanced schema markup including NewsArticle and Publisher types",
+        "Content freshness automation and update scheduling systems"
+      ]
+    }
+  },
+  "copilot": {
+    "name": "Microsoft Copilot",
+    "slug": "copilot",
+    "description": "Microsoft's AI assistant integrated across Office and web platforms",
+    "monthly_users": "180 million",
+    "key_features": [
+      "Office integration",
+      "Enterprise focus",
+      "Productivity optimization",
+      "Microsoft ecosystem"
+    ],
+    "optimization_focus": "enterprise content and Microsoft ecosystem integration",
+    "citation_style": "enterprise-focused citations with productivity context",
+    "content_sections": {
+      "intro": "Microsoft Copilot integrates AI capabilities across the Microsoft ecosystem, from Office applications to web search. Optimization requires understanding enterprise user needs and Microsoft's integrated approach to AI.",
+      "why_matters": "Copilot's 180 million users primarily access content through Microsoft's ecosystem. Enterprise-optimized content sees 5.7x higher citation rates in business and productivity contexts.",
+      "key_strategies": [
+        "Optimize for enterprise and business-focused queries and use cases",
+        "Leverage Microsoft ecosystem integration including Office and Teams",
+        "Create productivity-focused content with actionable business insights",
+        "Implement enterprise-grade authority signals and credibility markers"
+      ],
+      "technical_requirements": [
+        "Enterprise schema markup including Organization and ContactPoint types",
+        "Microsoft ecosystem integration signals and Office compatibility",
+        "Professional networking and LinkedIn integration optimization",
+        "B2B-focused content structure with ROI and efficiency emphasis"
+      ]
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "total_pages": 234,
+  "platforms": 6,
+  "content_types": 8,
+  "industries": 10,
+  "page_breakdown": {
+    "platform_only": 6,
+    "content_type_combinations": 48,
+    "industry_combinations": 60,
+    "triple_combinations": 120
+  },
+  "generated_at": "2025-09-18T12:51:01.617583",
+  "estimated_total_words": 351000
+}

@@ -10,7 +10,7 @@ export async function scanSEO(url) {
     const parsedUrl = new URL(url.startsWith('http') ? url : `https://${url}`);
     const baseUrl = `${parsedUrl.protocol}//${parsedUrl.hostname}`;
     
-    console.log(`🤖 Starting AI SEO scan for: ${baseUrl}`);
+    console.log(` Starting AI SEO scan for: ${baseUrl}`);
     
     // Fetch the main page HTML with AI-friendly headers
     const response = await axios.get(baseUrl, {
