@@ -108,7 +108,7 @@ export default function ScanForm({ onScanComplete }) {
               className="w-full bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 px-6 py-3 rounded-lg text-white font-bold transition-all duration-200 shadow-lg shadow-pink-900/20 border border-pink-600/50 backdrop-blur-sm"
               disabled={isLoading}
             >
-              {isLoading ? 'Analyzing AI SEO Readiness...' : 'Start AI SEO Analysis- Try it for FREE '}
+              {isLoading ? 'Analyzing AI SEO Readiness...' : 'Get FREE AISEO Score '}
             </button>
             
             <p className="text-xs text-white text-center">
