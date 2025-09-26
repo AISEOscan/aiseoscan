@@ -246,11 +246,10 @@ export default function Home() {
             <span className="bg-gradient-to-r from-pink-400 via-purple-500 to-blue-500 bg-clip-text text-transparent">
               Is your website ready for AI search ?
             </span>
-           
           </h1>
           
           <p className="text-xl text-gray-200 font-light mb-8 max-w-4xl mx-auto leading-relaxed">
-             If ChatGPT can’t find you, neither can your customers. Get a complete AI SEO audit 
+             If ChatGPT can't find you, neither can your customers. Get a complete AI SEO audit 
             and optimization plan designed for the age of AI-powered search.
           </p>
           
@@ -393,198 +392,133 @@ export default function Home() {
                       });
                       
                       return (
-                        <div className="grid grid-cols-1 gap-3">
-                          {/* Primary AI SEO Card */}
-                          <div className="bg-gradient-to-r from-purple-900/40 to-pink-900/40 border border-purple-500/50 p-4 rounded-lg">
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center">
-                                <Bot className="h-5 w-5 text-purple-400 mr-2" />
-                                <div>
-                                  <div className="text-white font-medium">AI SEO Optimization</div>
-                                  <div className="text-xs text-gray-300">Content structure, schema, authority</div>
-                                </div>
-                              </div>
-                              <div className="text-right">
-                                <div className={`text-2xl font-bold ${getOverallAIReadinessColor(scanResults.seo?.score || 0)}`}>
-                                  {scanResults.seo?.score || 0}
-                                </div>
-                                <div className="text-xs text-gray-300">
-                                  {seoTotal > 0 ? `${seoTotal} opportunities` : 'AI-ready!'}
-                                </div>
+                        <div className="space-y-4">
+                          {/* Detailed AI Opportunities Preview */}
+                          <div className="mb-6">
+                            <h3 className="text-lg font-medium mb-4 text-white">AI Optimization Opportunities</h3>
+
+                            <div className="space-y-4">
+                              {/* AI SEO Issues */}
+                              {(scanResults.seo?.total > 0 || scanResults.seo?.issues?.length > 0) && 
+                                renderAIDimensionPreview(
+                                  'AI SEO Ready', 
+                                  <Bot className="h-4 w-4 text-purple-400" />, 
+                                  scanResults.seo.score, 
+                                  scanResults.seo.issues || [],
+                                  'Optimized for AI search engines',
+                                  scanResults.seo?.total || scanResults.seo?.issues?.length || 0
+                                )
+                              }
+
+                              {/* Trust & Authority Issues */}
+                              {(scanResults.compliance?.total > 0 || scanResults.compliance?.issues?.length > 0) && 
+                                renderAIDimensionPreview(
+                                  'Trust Signals', 
+                                  <Award className="h-4 w-4 text-emerald-400" />, 
+                                  scanResults.compliance?.score || 85, 
+                                  scanResults.compliance.issues || [],
+                                  'Credibility for AI engines',
+                                  scanResults.compliance?.total || scanResults.compliance?.issues?.length || 0
+                                )
+                              }
+
+                              {/* AI Readiness Status */}
+                              {(() => {
+                                const seoTotal = scanResults.seo?.total || scanResults.seo?.issues?.length || 0;
+                                const complianceTotal = scanResults.compliance?.total || scanResults.compliance?.issues?.length || 0;
+                                const overallScore = scanResults.summary?.overallScore || 0;
+                                const totalIssues = seoTotal + complianceTotal;
+                                
+                                if (overallScore >= 85 && totalIssues <= 3) {
+                                  return (
+                                    <div className="bg-gradient-to-r from-emerald-900/20 via-green-900/20 to-emerald-900/20 border border-emerald-500 p-4 rounded-lg text-center backdrop-blur-sm">
+                                      <Bot className="h-8 w-8 text-emerald-400 mx-auto mb-2" />
+                                      <h4 className="text-emerald-400 font-medium mb-1">AI-Ready Website!</h4>
+                                      <p className="text-sm text-gray-200">Your website is well-optimized for AI search engines and citation.</p>
+                                    </div>
+                                  );
+                                } else if (overallScore >= 70 && totalIssues <= 8) {
+                                  return (
+                                    <div className="bg-gradient-to-r from-blue-900/20 via-purple-900/20 to-blue-900/20 border border-blue-500 p-4 rounded-lg text-center backdrop-blur-sm">
+                                      <Sparkles className="h-8 w-8 text-blue-400 mx-auto mb-2" />
+                                      <h4 className="text-blue-400 font-medium mb-1">Good AI Foundation</h4>
+                                      <p className="text-sm text-gray-200">Strong foundation with key AI optimization opportunities available.</p>
+                                    </div>
+                                  );
+                                } else {
+                                  return (
+                                    <div className="bg-gradient-to-r from-rose-900/20 via-pink-900/20 to-rose-900/20 border border-rose-500 p-4 rounded-lg text-center backdrop-blur-sm">
+                                      <Target className="h-8 w-8 text-rose-400 mx-auto mb-2" />
+                                      <h4 className="text-rose-400 font-medium mb-1">AI Optimization Needed</h4>
+                                      <p className="text-sm text-gray-200">Significant opportunities to improve AI search visibility and citation potential.</p>
+                                    </div>
+                                  );
+                                }
+                              })()}
+                            </div>
+                          </div>
+                          
+                          {/* AI-Focused CTA Section */}
+                          <div className="bg-gradient-to-r from-purple-900/30 via-pink-900/30 to-blue-900/30 backdrop-blur-sm p-4 rounded-lg border border-pink-500/50 mb-4">
+                            <div className="flex items-start">
+                              <Bot className="w-5 h-5 text-pink-400 mr-3 mt-0.5 flex-shrink-0" />
+                              <div>
+                                <p className="text-pink-200 text-sm font-medium mb-1">
+                                  Don't Let AI Search Engines Ignore Your Content
+                                </p>
+                                <p className="text-gray-300 text-xs">
+                                  Get the complete AI SEO optimization plan with schema markup, content structure, and authority signals that AI engines need to cite your content.
+                                </p>
                               </div>
                             </div>
                           </div>
                           
-                          {/* Trust Signals Card (if compliance issues) */}
-                          {complianceTotal > 0 && (
-                            <div className="bg-gradient-to-r from-blue-900/40 to-emerald-900/40 border border-blue-500/50 p-4 rounded-lg">
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center">
-                                  <Award className="h-5 w-5 text-blue-400 mr-2" />
-                                  <div>
-                                    <div className="text-white font-medium">Trust Signals</div>
-                                    <div className="text-xs text-gray-300">Credibility factors for AI engines</div>
-                                  </div>
-                                </div>
-                                <div className="text-right">
-                                  <div className="text-2xl font-bold text-amber-400">
-  {scanResults.compliance?.score || 85}
-</div>
-                                  <div className="text-xs text-gray-300">
-                                    {complianceTotal} missing signals
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          )}
+                          <PaymentButton url={url} scanResults={scanResults} />
                         </div>
                       );
                     })()}
                   </div>
-                  
-                  {/* AI-Specific Insights */}
-                  {generateAIInsights(scanResults).length > 0 && (
-                    <div className="mb-6">
-                      <h3 className="text-lg font-medium mb-3 text-white">AI Optimization Insights</h3>
-                      <div className="space-y-2">
-                        {generateAIInsights(scanResults).map((insight, idx) => (
-                          <div key={idx} className={`p-3 rounded-lg border-l-4 backdrop-blur-sm ${
-                            insight.priority === 'high' ? 'bg-rose-900/20 border-rose-500' :
-                            insight.priority === 'medium' ? 'bg-amber-900/20 border-amber-500' :
-                            insight.priority === 'positive' ? 'bg-emerald-900/20 border-emerald-500' :
-                            'bg-purple-900/20 border-purple-500'
-                          }`}>
-                            <div className="flex items-start">
-                              {insight.icon}
-                              <p className="text-sm text-white ml-2 flex-1">{insight.message}</p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                  {/* Detailed AI Opportunities Preview */}
-                  <div className="mb-6">
-                    <h3 className="text-lg font-medium mb-4 text-white">AI Optimization Opportunities</h3>
-
-                    <div className="space-y-4">
-                      {/* AI SEO Issues */}
-                      {(scanResults.seo?.total > 0 || scanResults.seo?.issues?.length > 0) && 
-                        renderAIDimensionPreview(
-                          'AI SEO Ready', 
-                          <Bot className="h-4 w-4 text-purple-400" />, 
-                          scanResults.seo.score, 
-                          scanResults.seo.issues || [],
-                          'Optimized for AI search engines',
-                          scanResults.seo?.total || scanResults.seo?.issues?.length || 0
-                        )
-                      }
-
-                      {/* Trust & Authority Issues */}
-                      {(scanResults.compliance?.total > 0 || scanResults.compliance?.issues?.length > 0) && 
-                        renderAIDimensionPreview(
-                          'Trust Signals', 
-                          <Award className="h-4 w-4 text-emerald-400" />, 
-                          scanResults.compliance?.score || 85, 
-                          scanResults.compliance.issues || [],
-                          'Credibility for AI engines',
-                          scanResults.compliance?.total || scanResults.compliance?.issues?.length || 0
-                        )
-                      }
+                </div>
+              </div>
+            ) : (
+              /* Enhanced Empty State - AI Focused */
+              <div className="bg-gradient-to-r from-gray-900/90 via-purple-900/90 to-pink-900/90 backdrop-blur-xl border border-purple-500/50 rounded-xl shadow-2xl p-8 flex flex-col items-center justify-center h-full relative overflow-hidden">
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-pink-500 via-purple-600 to-blue-600 rounded-xl opacity-30 animate-pulse"></div>
                 
-                      {/* AI Readiness Status */}
-                      {(() => {
-                        const seoTotal = scanResults.seo?.total || scanResults.seo?.issues?.length || 0;
-                        const complianceTotal = scanResults.compliance?.total || scanResults.compliance?.issues?.length || 0;
-                        const overallScore = scanResults.summary?.overallScore || 0;
-                        const totalIssues = seoTotal + complianceTotal;
-                        
-                        if (overallScore >= 85 && totalIssues <= 3) {
-                          return (
-                            <div className="bg-gradient-to-r from-emerald-900/20 via-green-900/20 to-emerald-900/20 border border-emerald-500 p-4 rounded-lg text-center backdrop-blur-sm">
-                              <Bot className="h-8 w-8 text-emerald-400 mx-auto mb-2" />
-                              <h4 className="text-emerald-400 font-medium mb-1">AI-Ready Website!</h4>
-                              <p className="text-sm text-gray-200">Your website is well-optimized for AI search engines and citation.</p>
-                            </div>
-                          );
-                        } else if (overallScore >= 70 && totalIssues <= 8) {
-                          return (
-                            <div className="bg-gradient-to-r from-blue-900/20 via-purple-900/20 to-blue-900/20 border border-blue-500 p-4 rounded-lg text-center backdrop-blur-sm">
-                              <Sparkles className="h-8 w-8 text-blue-400 mx-auto mb-2" />
-                              <h4 className="text-blue-400 font-medium mb-1">Good AI Foundation</h4>
-                              <p className="text-sm text-gray-200">Strong foundation with key AI optimization opportunities available.</p>
-                            </div>
-                          );
-                        } else {
-                          return (
-                            <div className="bg-gradient-to-r from-rose-900/20 via-pink-900/20 to-rose-900/20 border border-rose-500 p-4 rounded-lg text-center backdrop-blur-sm">
-                              <Target className="h-8 w-8 text-rose-400 mx-auto mb-2" />
-                              <h4 className="text-rose-400 font-medium mb-1">AI Optimization Needed</h4>
-                              <p className="text-sm text-gray-200">Significant opportunities to improve AI search visibility and citation potential.</p>
-                            </div>
-                          );
-                        }
-                      })()}
+                <div className="relative z-10 text-center">
+                  <div className="mb-6">
+                    <div className="relative">
+                      <Bot className="w-20 h-20 text-pink-400 mx-auto mb-4 animate-pulse" />
                     </div>
                   </div>
-                  
-                  {/* AI-Focused CTA Section */}
-                 <div className="bg-gradient-to-r from-purple-900/30 via-pink-900/30 to-blue-900/30 backdrop-blur-sm p-4 rounded-lg border border-pink-500/50 mb-4">
-                   <div className="flex items-start">
-                     <Bot className="w-5 h-5 text-pink-400 mr-3 mt-0.5 flex-shrink-0" />
-                     <div>
-                       <p className="text-pink-200 text-sm font-medium mb-1">
-                         Don't Let AI Search Engines Ignore Your Content
-                       </p>
-                       <p className="text-gray-300 text-xs">
-                         Get the complete AI SEO optimization plan with schema markup, content structure, and authority signals that AI engines need to cite your content.
-                       </p>
-                     </div>
-                   </div>
-                 </div>
-                 
-                 <PaymentButton url={url} scanResults={scanResults} />
-               </div>
-             </div>
-           ) : (
-             /* Enhanced Empty State - AI Focused */
-             <div className="bg-gradient-to-r from-gray-900/90 via-purple-900/90 to-pink-900/90 backdrop-blur-xl border border-purple-500/50 rounded-xl shadow-2xl p-8 flex flex-col items-center justify-center h-full relative overflow-hidden">
-               <div className="absolute -inset-0.5 bg-gradient-to-r from-pink-500 via-purple-600 to-blue-600 rounded-xl opacity-30 animate-pulse"></div>
-               
-               <div className="relative z-10 text-center">
-                 <div className="mb-6">
-                   <div className="relative">
-                     <Bot className="w-20 h-20 text-pink-400 mx-auto mb-4 animate-pulse" />
-                   </div>
-                 </div>
-                 <h3 className="text-2xl font-medium text-white mb-3 tracking-tight">Ready for AI SEO Analysis</h3>
-                 <p className="text-gray-200 text-center font-light mb-8 max-w-sm mx-auto">
-                   Discover how ready your website is for AI-powered search engines and get optimization recommendations
-                 </p>
-                 <div className="grid grid-cols-2 gap-4 text-xs text-white max-w-sm mx-auto">
-                   <div className="flex items-center bg-purple-900/20 p-3 rounded-lg backdrop-blur-sm">
-                     <FileText className="h-4 w-4 text-purple-400 mr-2" />
-                     <span>Schema Markup</span>
-                   </div>
-                   <div className="flex items-center bg-pink-900/20 p-3 rounded-lg backdrop-blur-sm">
-                     <MessageSquare className="h-4 w-4 text-pink-400 mr-2" />
-                     <span>Content Quality</span>
-                   </div>
-                   <div className="flex items-center bg-blue-900/20 p-3 rounded-lg backdrop-blur-sm">
-                     <Zap className="h-4 w-4 text-blue-400 mr-2" />
-                     <span>Technical SEO</span>
-                   </div>
-                   <div className="flex items-center bg-emerald-900/20 p-3 rounded-lg backdrop-blur-sm">
-                     <Award className="h-4 w-4 text-emerald-400 mr-2" />
-                     <span>Trust Signals</span>
-                   </div>
-                 </div>
-               </div>
-             </div>
-           )}
-         </div>
-       </div>
-       {/* Enhanced AI SEO Analysis Section */}
+                  <h3 className="text-2xl font-medium text-white mb-3 tracking-tight">Ready for AI SEO Analysis</h3>
+                  <p className="text-gray-200 text-center font-light mb-8 max-w-sm mx-auto">
+                    Discover how ready your website is for AI-powered search engines and get optimization recommendations
+                  </p>
+                  <div className="grid grid-cols-2 gap-4 text-xs text-white max-w-sm mx-auto">
+                    <div className="flex items-center bg-purple-900/20 p-3 rounded-lg backdrop-blur-sm">
+                      <FileText className="h-4 w-4 text-purple-400 mr-2" />
+                      <span>Schema Markup</span>
+                    </div>
+                    <div className="flex items-center bg-pink-900/20 p-3 rounded-lg backdrop-blur-sm">
+                      <MessageSquare className="h-4 w-4 text-pink-400 mr-2" />
+                      <span>Content Quality</span>
+                    </div>
+                    <div className="flex items-center bg-blue-900/20 p-3 rounded-lg backdrop-blur-sm">
+                      <Zap className="h-4 w-4 text-blue-400 mr-2" />
+                      <span>Technical SEO</span>
+                    </div>
+                    <div className="flex items-center bg-emerald-900/20 p-3 rounded-lg backdrop-blur-sm">
+                      <Award className="h-4 w-4 text-emerald-400 mr-2" />
+                      <span>Trust Signals</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+        {/* Enhanced AI SEO Analysis Section */}
         <div className="mt-20">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-white mb-4" id="features">
@@ -786,7 +720,7 @@ export default function Home() {
                 
                 <div className="mt-8 text-center">
                   <div className="bg-gradient-to-r from-pink-900/40 to-purple-900/40 border border-pink-500/50 p-4 rounded-lg inline-block">
-                    <p className="text-pink-200 font-medium">🚀 First-mover advantage: Optimize for AI search before your competitors</p>
+                    <p className="text-pink-200 font-medium">First-mover advantage: Optimize for AI search before your competitors</p>
                   </div>
                 </div>
               </div>
@@ -959,228 +893,228 @@ export default function Home() {
                 </span>
               </button>
               {activeFaq === 3 && (
-               <div className="p-6 pt-0 text-gray-200 border-t border-purple-500/30 bg-purple-900/10">
-                 <p className="mb-4">AISEOScan optimizes your content for all major AI search engines and LLMs:</p>
-                 <ul className="space-y-2 ml-4">
-                   <li className="flex items-start">
-                     <span className="text-pink-400 mr-2 mt-1">•</span>
-                     <span><strong>ChatGPT:</strong> OpenAI's search integration and content citation systems</span>
-                   </li>
-                   <li className="flex items-start">
-                     <span className="text-pink-400 mr-2 mt-1">•</span>
-                     <span><strong>Perplexity AI:</strong> Real-time search with source citation and attribution</span>
-                   </li>
-                   <li className="flex items-start">
-                     <span className="text-pink-400 mr-2 mt-1">•</span>
-                     <span><strong>SearchGPT:</strong> OpenAI's dedicated search engine with AI understanding</span>
-                   </li>
-                   <li className="flex items-start">
-                     <span className="text-pink-400 mr-2 mt-1">•</span>
-                     <span><strong>Claude (Anthropic):</strong> Advanced reasoning and content analysis capabilities</span>
-                   </li>
-                   <li className="flex items-start">
-                     <span className="text-pink-400 mr-2 mt-1">+</span>
-                     <span><strong>Future AI engines:</strong> Built on universal AI comprehension principles</span>
-                   </li>
-                 </ul>
-                 <p className="mt-4 text-purple-200 font-medium">Our optimization strategies work across all AI engines because we focus on fundamental AI content understanding principles, not platform-specific tricks.</p>
-               </div>
-             )}
-           </div>
+                <div className="p-6 pt-0 text-gray-200 border-t border-purple-500/30 bg-purple-900/10">
+                  <p className="mb-4">AISEOScan optimizes your content for all major AI search engines and LLMs:</p>
+                  <ul className="space-y-2 ml-4">
+                    <li className="flex items-start">
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span><strong>ChatGPT:</strong> OpenAI's search integration and content citation systems</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span><strong>Perplexity AI:</strong> Real-time search with source citation and attribution</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span><strong>SearchGPT:</strong> OpenAI's dedicated search engine with AI understanding</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span><strong>Claude (Anthropic):</strong> Advanced reasoning and content analysis capabilities</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-pink-400 mr-2 mt-1">+</span>
+                      <span><strong>Future AI engines:</strong> Built on universal AI comprehension principles</span>
+                    </li>
+                  </ul>
+                  <p className="mt-4 text-purple-200 font-medium">Our optimization strategies work across all AI engines because we focus on fundamental AI content understanding principles, not platform-specific tricks.</p>
+                </div>
+              )}
+            </div>
 
-           <div className="bg-gray-900/60 backdrop-blur-sm rounded-xl border border-purple-500/50 overflow-hidden">
-             <button 
-               className="w-full text-left p-6 focus:outline-none flex justify-between items-center hover:bg-purple-900/20 transition-colors" 
-               onClick={() => setActiveFaq(activeFaq === 4 ? null : 4)}
-             >
-               <span className="font-medium text-white text-lg">How long are reports available and do you store my data?</span>
-               <span className="text-pink-400">
-                 {activeFaq === 4 ? 
-                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
-                   </svg> : 
-                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                   </svg>
-                 }
-               </span>
-             </button>
-             {activeFaq === 4 && (
-               <div className="p-6 pt-0 text-gray-200 border-t border-purple-500/30 bg-purple-900/10">
-                 <div className="bg-rose-900/20 border border-rose-500/50 rounded-lg p-4 mb-4">
-                   <p className="text-rose-200 font-medium">⏰ Important: 24-Hour Data Retention Policy</p>
-                 </div>
-                 <p className="mb-4"><strong>We do NOT store your website data permanently.</strong> Your AI SEO reports are only available for 24 hours for security and privacy reasons:</p>
-                 <ul className="space-y-2 ml-4 mb-4">
-                   <li className="flex items-start">
+            <div className="bg-gray-900/60 backdrop-blur-sm rounded-xl border border-purple-500/50 overflow-hidden">
+              <button 
+                className="w-full text-left p-6 focus:outline-none flex justify-between items-center hover:bg-purple-900/20 transition-colors" 
+                onClick={() => setActiveFaq(activeFaq === 4 ? null : 4)}
+              >
+                <span className="font-medium text-white text-lg">How long are reports available and do you store my data?</span>
+                <span className="text-pink-400">
+                  {activeFaq === 4 ? 
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
+                    </svg> : 
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  }
+                </span>
+              </button>
+              {activeFaq === 4 && (
+                <div className="p-6 pt-0 text-gray-200 border-t border-purple-500/30 bg-purple-900/10">
+                  <div className="bg-rose-900/20 border border-rose-500/50 rounded-lg p-4 mb-4">
+                    <p className="text-rose-200 font-medium">Important: 24-Hour Data Retention Policy</p>
+                  </div>
+                  <p className="mb-4"><strong>We do NOT store your website data permanently.</strong> Your AI SEO reports are only available for 24 hours for security and privacy reasons:</p>
+                  <ul className="space-y-2 ml-4 mb-4">
+                    <li className="flex items-start">
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span><strong>24-hour access:</strong> Online reports expire after 24 hours</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span><strong>Download PDF:</strong> Get permanent access by downloading your AI SEO report</span>
+                    </li>
+                    <li className="flex items-start">
                      <span className="text-pink-400 mr-2 mt-1">•</span>
-                     <span><strong>24-hour access:</strong> Online reports expire after 24 hours</span>
-                   </li>
-                   <li className="flex items-start">
-                     <span className="text-pink-400 mr-2 mt-1">•</span>
-                     <span><strong>Download PDF:</strong> Get permanent access by downloading your AI SEO report</span>
-                   </li>
-                   <li className="flex items-start">
-                     <span className="text-pink-400 mr-2 mt-1">•</span>
-                     <span><strong>Privacy first:</strong> No sensitive website data stored long-term</span>
-                   </li>
-                   <li className="flex items-start">
-                     <span className="text-pink-400 mr-2 mt-1">•</span>
-                     <span><strong>Secure analysis:</strong> All data automatically deleted for your protection</span>
-                   </li>
-                 </ul>
-                 <p className="text-rose-200 font-medium">⚠️ Download your AI SEO optimization report within 24 hours!</p>
-               </div>
-             )}
-           </div>
+                      <span><strong>Privacy first:</strong> No sensitive website data stored long-term</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span><strong>Secure analysis:</strong> All data automatically deleted for your protection</span>
+                    </li>
+                  </ul>
+                  <p className="text-rose-200 font-medium">Download your AI SEO optimization report within 24 hours!</p>
+                </div>
+              )}
+            </div>
 
-           <div className="bg-gray-900/60 backdrop-blur-sm rounded-xl border border-purple-500/50 overflow-hidden">
-             <button 
-               className="w-full text-left p-6 focus:outline-none flex justify-between items-center hover:bg-purple-900/20 transition-colors" 
-               onClick={() => setActiveFaq(activeFaq === 5 ? null : 5)}
-             >
-               <span className="font-medium text-white text-lg">What types of websites can you analyze for AI SEO?</span>
-               <span className="text-pink-400">
-                 {activeFaq === 5 ? 
-                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
-                   </svg> : 
-                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                   </svg>
-                 }
-               </span>
-             </button>
-             {activeFaq === 5 && (
-               <div className="p-6 pt-0 text-gray-200 border-t border-purple-500/30 bg-purple-900/10">
-                 <p className="mb-4">AISEOScan works with any publicly accessible website, with specialized AI optimization for:</p>
-                 <ul className="space-y-2 ml-4">
-                   <li className="flex items-start">
-                     <span className="text-pink-400 mr-2 mt-1">•</span>
-                     <span><strong>Content websites:</strong> Blogs, news sites, educational content</span>
-                   </li>
-                   <li className="flex items-start">
-                     <span className="text-pink-400 mr-2 mt-1">•</span>
-                     <span><strong>Business websites:</strong> Service pages, about pages, company sites</span>
-                   </li>
-                   <li className="flex items-start">
-                     <span className="text-pink-400 mr-2 mt-1">•</span>
-                     <span><strong>E-commerce sites:</strong> Product pages, category pages, shopping sites</span>
-                   </li>
-                   <li className="flex items-start">
-                     <span className="text-pink-400 mr-2 mt-1">•</span>
-                     <span><strong>SaaS applications:</strong> Landing pages, documentation, help centers</span>
-                   </li>
-                   <li className="flex items-start">
-                     <span className="text-pink-400 mr-2 mt-1">•</span>
-                     <span><strong>Professional services:</strong> Law firms, consultants, agencies</span>
-                   </li>
-                   <li className="flex items-start">
-                     <span className="text-pink-400 mr-2 mt-1">•</span>
-                     <span><strong>WordPress sites:</strong> Any WordPress site with AI optimization potential</span>
-                   </li>
-                 </ul>
-                 <p className="mt-4">Our AI SEO analysis automatically detects your content type and provides relevant optimization recommendations for maximum AI search visibility.</p>
-               </div>
-             )}
-           </div>
+            <div className="bg-gray-900/60 backdrop-blur-sm rounded-xl border border-purple-500/50 overflow-hidden">
+              <button 
+                className="w-full text-left p-6 focus:outline-none flex justify-between items-center hover:bg-purple-900/20 transition-colors" 
+                onClick={() => setActiveFaq(activeFaq === 5 ? null : 5)}
+              >
+                <span className="font-medium text-white text-lg">What types of websites can you analyze for AI SEO?</span>
+                <span className="text-pink-400">
+                  {activeFaq === 5 ? 
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
+                    </svg> : 
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  }
+                </span>
+              </button>
+              {activeFaq === 5 && (
+                <div className="p-6 pt-0 text-gray-200 border-t border-purple-500/30 bg-purple-900/10">
+                  <p className="mb-4">AISEOScan works with any publicly accessible website, with specialized AI optimization for:</p>
+                  <ul className="space-y-2 ml-4">
+                    <li className="flex items-start">
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span><strong>Content websites:</strong> Blogs, news sites, educational content</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span><strong>Business websites:</strong> Service pages, about pages, company sites</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span><strong>E-commerce sites:</strong> Product pages, category pages, shopping sites</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span><strong>SaaS applications:</strong> Landing pages, documentation, help centers</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span><strong>Professional services:</strong> Law firms, consultants, agencies</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span><strong>WordPress sites:</strong> Any WordPress site with AI optimization potential</span>
+                    </li>
+                  </ul>
+                  <p className="mt-4">Our AI SEO analysis automatically detects your content type and provides relevant optimization recommendations for maximum AI search visibility.</p>
+                </div>
+              )}
+            </div>
 
-           <div className="bg-gray-900/60 backdrop-blur-sm rounded-xl border border-purple-500/50 overflow-hidden">
-             <button 
-               className="w-full text-left p-6 focus:outline-none flex justify-between items-center hover:bg-purple-900/20 transition-colors" 
-               onClick={() => setActiveFaq(activeFaq === 6 ? null : 6)}
-             >
-               <span className="font-medium text-white text-lg">How often should I run an AI SEO analysis?</span>
-               <span className="text-pink-400">
-                 {activeFaq === 6 ? 
-                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
-                   </svg> : 
-                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                   </svg>
-                 }
-               </span>
-             </button>
-             {activeFaq === 6 && (
-               <div className="p-6 pt-0 text-gray-200 border-t border-purple-500/30 bg-purple-900/10">
-                 <p className="mb-4">AI SEO optimization frequency depends on your content strategy and business goals:</p>
-                 <ul className="space-y-2 ml-4">
-                   <li className="flex items-start">
-                     <span className="text-pink-400 mr-2 mt-1">•</span>
-                     <span><strong>Content-heavy sites:</strong> Monthly analysis to optimize new content for AI citation</span>
-                   </li>
-                   <li className="flex items-start">
-                     <span className="text-pink-400 mr-2 mt-1">•</span>
-                     <span><strong>Business websites:</strong> Quarterly scans to maintain AI search visibility</span>
-                   </li>
-                   <li className="flex items-start">
-                     <span className="text-pink-400 mr-2 mt-1">•</span>
-                     <span><strong>E-commerce sites:</strong> Bi-monthly to optimize product content for AI shopping</span>
-                   </li>
-                   <li className="flex items-start">
-                     <span className="text-pink-400 mr-2 mt-1">•</span>
-                     <span><strong>After content updates:</strong> Always scan after major content or structure changes</span>
-                   </li>
-                   <li className="flex items-start">
-                     <span className="text-pink-400 mr-2 mt-1">•</span>
-                     <span><strong>New websites:</strong> Initial optimization, then follow-up after implementing recommendations</span>
-                   </li>
-                 </ul>
-                 <p className="mt-4">The AI search landscape evolves rapidly - regular optimization ensures you stay ahead of the competition.</p>
-               </div>
-             )}
-           </div>
+            <div className="bg-gray-900/60 backdrop-blur-sm rounded-xl border border-purple-500/50 overflow-hidden">
+              <button 
+                className="w-full text-left p-6 focus:outline-none flex justify-between items-center hover:bg-purple-900/20 transition-colors" 
+                onClick={() => setActiveFaq(activeFaq === 6 ? null : 6)}
+              >
+                <span className="font-medium text-white text-lg">How often should I run an AI SEO analysis?</span>
+                <span className="text-pink-400">
+                  {activeFaq === 6 ? 
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
+                    </svg> : 
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  }
+                </span>
+              </button>
+              {activeFaq === 6 && (
+                <div className="p-6 pt-0 text-gray-200 border-t border-purple-500/30 bg-purple-900/10">
+                  <p className="mb-4">AI SEO optimization frequency depends on your content strategy and business goals:</p>
+                  <ul className="space-y-2 ml-4">
+                    <li className="flex items-start">
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span><strong>Content-heavy sites:</strong> Monthly analysis to optimize new content for AI citation</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span><strong>Business websites:</strong> Quarterly scans to maintain AI search visibility</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span><strong>E-commerce sites:</strong> Bi-monthly to optimize product content for AI shopping</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span><strong>After content updates:</strong> Always scan after major content or structure changes</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span><strong>New websites:</strong> Initial optimization, then follow-up after implementing recommendations</span>
+                    </li>
+                  </ul>
+                  <p className="mt-4">The AI search landscape evolves rapidly - regular optimization ensures you stay ahead of the competition.</p>
+                </div>
+              )}
+            </div>
 
-           <div className="bg-gray-900/60 backdrop-blur-sm rounded-xl border border-purple-500/50 overflow-hidden">
-             <button 
-               className="w-full text-left p-6 focus:outline-none flex justify-between items-center hover:bg-purple-900/20 transition-colors" 
-               onClick={() => setActiveFaq(activeFaq === 7 ? null : 7)}
-             >
-               <span className="font-medium text-white text-lg">What is your refund policy?</span>
-               <span className="text-pink-400">
-                 {activeFaq === 7 ? 
-                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
-                   </svg> : 
-                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                   </svg>
-                 }
-               </span>
-             </button>
-             {activeFaq === 7 && (
-               <div className="p-6 pt-0 text-gray-200 border-t border-purple-500/30 bg-purple-900/10">
-                 <div className="bg-rose-900/20 border border-rose-500/50 rounded-lg p-4 mb-4">
-                   <p className="text-rose-200 font-medium">No Refunds Policy</p>
-                 </div>
-                 <p className="mb-4">Due to the immediate delivery of AI SEO analysis reports and computational resources required, <strong>all sales are final and no refunds are provided</strong>.</p>
-                 <p className="mb-4">However, we ensure exceptional value by:</p>
-                 <ul className="space-y-2 ml-4">
-                   <li className="flex items-start">
-                     <span className="text-pink-400 mr-2 mt-1">•</span>
-                     <span>Providing a comprehensive free preview scan to evaluate our AI SEO analysis</span>
-                   </li>
-                   <li className="flex items-start">
-                     <span className="text-pink-400 mr-2 mt-1">•</span>
-                     <span>Delivering 30+ specific AI optimization recommendations</span>
-                   </li>
-                   <li className="flex items-start">
-                     <span className="text-pink-400 mr-2 mt-1">•</span>
-                     <span>Including detailed implementation guides with code examples</span>
-                   </li>
-                   <li className="flex items-start">
-                     <span className="text-pink-400 mr-2 mt-1">•</span>
-                     <span>Providing schema markup templates ready for implementation</span>
-                   </li>
-                 </ul>
-                 <p className="mt-4">We're confident in our AI SEO analysis quality and recommend trying the free scan first to see the unique value we provide.</p>
-               </div>
-             )}
-           </div>
-         </div>
-       </div>
-       {/* Enhanced AI SEO Call to Action */}
+            <div className="bg-gray-900/60 backdrop-blur-sm rounded-xl border border-purple-500/50 overflow-hidden">
+              <button 
+                className="w-full text-left p-6 focus:outline-none flex justify-between items-center hover:bg-purple-900/20 transition-colors" 
+                onClick={() => setActiveFaq(activeFaq === 7 ? null : 7)}
+              >
+                <span className="font-medium text-white text-lg">What is your refund policy?</span>
+                <span className="text-pink-400">
+                  {activeFaq === 7 ? 
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
+                    </svg> : 
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  }
+                </span>
+              </button>
+              {activeFaq === 7 && (
+                <div className="p-6 pt-0 text-gray-200 border-t border-purple-500/30 bg-purple-900/10">
+                  <div className="bg-rose-900/20 border border-rose-500/50 rounded-lg p-4 mb-4">
+                    <p className="text-rose-200 font-medium">No Refunds Policy</p>
+                  </div>
+                  <p className="mb-4">Due to the immediate delivery of AI SEO analysis reports and computational resources required, <strong>all sales are final and no refunds are provided</strong>.</p>
+                  <p className="mb-4">However, we ensure exceptional value by:</p>
+                  <ul className="space-y-2 ml-4">
+                    <li className="flex items-start">
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span>Providing a comprehensive free preview scan to evaluate our AI SEO analysis</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span>Delivering 30+ specific AI optimization recommendations</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span>Including detailed implementation guides with code examples</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-pink-400 mr-2 mt-1">•</span>
+                      <span>Providing schema markup templates ready for implementation</span>
+                    </li>
+                  </ul>
+                  <p className="mt-4">We're confident in our AI SEO analysis quality and recommend trying the free scan first to see the unique value we provide.</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+        {/* Enhanced AI SEO Call to Action */}
         <div className="mt-20">
           <div className="bg-gradient-to-r from-gray-900/95 via-purple-900/95 to-pink-900/95 backdrop-blur-xl text-white rounded-2xl shadow-2xl p-10 border border-purple-500/30 relative overflow-hidden">
             <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600/30 via-pink-600/30 to-blue-600/30 rounded-2xl opacity-50 animate-pulse"></div>
@@ -1213,7 +1147,7 @@ export default function Home() {
               
               <div className="bg-gradient-to-r from-purple-900/40 via-pink-900/40 to-blue-900/40 border border-pink-500/50 p-8 rounded-xl inline-block mb-8 backdrop-blur-sm">
                 <p className="text-pink-200 text-2xl font-medium mb-2">
-                  <span className="text-pink-400 font-bold">🚀 </span>
+                  <span className="text-pink-400 font-bold"> </span>
                   First-mover advantage in AI search optimization
                 </p>
                 <p className="text-gray-200 text-lg">
@@ -1222,7 +1156,7 @@ export default function Home() {
               </div>
 
               <div className="text-center">
-                <p className="text-sm text-gray-200 mb-2">⚠️ Reports available for 24 hours only - Download PDF for permanent access</p>
+                <p className="text-sm text-gray-200 mb-2">Reports available for 24 hours only - Download PDF for permanent access</p>
                 <p className="text-xs text-gray-300">Join the AI SEO optimization movement - Get cited by ChatGPT and Perplexity</p>
               </div>
             </div>
@@ -1230,26 +1164,24 @@ export default function Home() {
         </div>
 
         {/* Updated Disclaimer */}
-        {/* Updated Disclaimer (hidden from search engines) */}
-<div 
-  className="mt-12 bg-gray-900/40 backdrop-blur-sm p-6 rounded-xl border border-purple-500/30 text-sm text-gray-300"
-  data-nosnippet
->
-  <p className="mb-3">
-    <strong>Disclaimer:</strong> AISEOScan provides automated AI SEO analysis 
-    to identify optimization opportunities for AI search engines. Results are 
-    based on publicly accessible information and current AI search engine 
-    best practices.
-  </p>
-  <p>
-    This service is provided "as is" without warranty. AISEOScan helps optimize 
-    content for AI search visibility but should be part of a comprehensive 
-    digital marketing strategy. All sales are final with no refunds due to 
-    immediate delivery of digital reports. Reports are available for 24 hours 
-    only for privacy and security reasons.
-  </p>
-</div>
-
+        <div 
+          className="mt-12 bg-gray-900/40 backdrop-blur-sm p-6 rounded-xl border border-purple-500/30 text-sm text-gray-300"
+          data-nosnippet
+        >
+          <p className="mb-3">
+            <strong>Disclaimer:</strong> AISEOScan provides automated AI SEO analysis 
+            to identify optimization opportunities for AI search engines. Results are 
+            based on publicly accessible information and current AI search engine 
+            best practices.
+          </p>
+          <p>
+            This service is provided "as is" without warranty. AISEOScan helps optimize 
+            content for AI search visibility but should be part of a comprehensive 
+            digital marketing strategy. All sales are final with no refunds due to 
+            immediate delivery of digital reports. Reports are available for 24 hours 
+            only for privacy and security reasons.
+          </p>
+        </div>
       </div>
     </Layout>
   );
