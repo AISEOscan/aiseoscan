@@ -1,0 +1,80 @@
+{
+  "implementation": {
+    "name": "Implementation Guide",
+    "slug": "implementation",
+    "description": "Step-by-step technical implementation instructions",
+    "focus_areas": [
+      "Code examples",
+      "Testing procedures",
+      "Validation methods",
+      "Integration steps"
+    ],
+    "difficulty_level": "Intermediate",
+    "content_approach": "Practical, hands-on guidance with real-world examples"
+  },
+  "troubleshooting": {
+    "name": "Troubleshooting Guide",
+    "slug": "troubleshooting",
+    "description": "Common problems and technical solutions",
+    "focus_areas": [
+      "Error identification",
+      "Debug processes",
+      "Fix procedures",
+      "Prevention strategies"
+    ],
+    "difficulty_level": "Advanced",
+    "content_approach": "Problem-solving focused with diagnostic techniques"
+  },
+  "optimization": {
+    "name": "Optimization Strategies",
+    "slug": "optimization",
+    "description": "Performance and effectiveness improvement techniques",
+    "focus_areas": [
+      "Performance tuning",
+      "Best practices",
+      "Advanced techniques",
+      "Monitoring"
+    ],
+    "difficulty_level": "Advanced",
+    "content_approach": "Strategic guidance for maximum effectiveness"
+  },
+  "testing": {
+    "name": "Testing and Validation",
+    "slug": "testing",
+    "description": "Quality assurance and validation procedures",
+    "focus_areas": [
+      "Testing tools",
+      "Validation methods",
+      "Quality metrics",
+      "Monitoring"
+    ],
+    "difficulty_level": "Intermediate",
+    "content_approach": "Systematic approach to quality assurance"
+  },
+  "integration": {
+    "name": "Integration Guide",
+    "slug": "integration",
+    "description": "Connecting with existing systems and workflows",
+    "focus_areas": [
+      "System compatibility",
+      "Workflow integration",
+      "Tool connections",
+      "Automation"
+    ],
+    "difficulty_level": "Advanced",
+    "content_approach": "Comprehensive integration strategies"
+  },
+  "maintenance": {
+    "name": "Maintenance and Updates",
+    "slug": "maintenance",
+    "description": "Ongoing management and maintenance procedures",
+    "focus_areas": [
+      "Update procedures",
+      "Monitoring",
+      "Performance tracking",
+      "Issue prevention"
+    ],
+    "difficulty_level": "Intermediate",
+    "content_approach": "Proactive maintenance strategies"
+  }
+}

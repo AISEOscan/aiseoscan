@@ -28,21 +28,42 @@ export default function PSEOPage({ pageData }) {
 
 export const getStaticPaths = async () => {
   try {
-    // Read the generated pages data
-    const dataPath = path.join(process.cwd(), 'src', 'data', 'pseo', 'all-pages.json')
-    const pagesData = JSON.parse(fs.readFileSync(dataPath, 'utf8'))
+    const originalPagesPath = path.join(process.cwd(), 'src', 'data', 'pseo', 'all-pages.json')
+    const technicalPagesPath = path.join(process.cwd(), 'src', 'data', 'pseo', 'technical-pages.json')
+    
+    let allPages = []
+    
+    // Load original pages
+    try {
+      const originalPages = JSON.parse(fs.readFileSync(originalPagesPath, 'utf8'))
+      allPages = [...originalPages]
+      console.log('✅ Loaded original pages:', originalPages.length)
+    } catch (error) {
+      console.error('❌ Error loading original pages:', error.message)
+    }
+    
+    // Load technical pages
+    try {
+      const technicalPages = JSON.parse(fs.readFileSync(technicalPagesPath, 'utf8'))
+      allPages = [...allPages, ...technicalPages]
+      console.log('✅ Loaded technical pages:', technicalPages.length)
+      console.log('📝 Sample technical slugs:', technicalPages.slice(0, 5).map(p => p.slug))
+    } catch (error) {
+      console.error('❌ Error loading technical pages:', error.message)
+    }
 
-    // Generate paths for all PSEO pages
-    const paths = pagesData.map(page => ({
+    console.log('🔢 Total pages for build:', allPages.length)
+
+    const paths = allPages.map(page => ({
       params: { slug: page.slug }
     }))
 
     return {
       paths,
-      fallback: false // Return 404 for non-existent pages
+      fallback: false
     }
   } catch (error) {
-    console.error('Error loading PSEO pages:', error)
+    console.error('❌ Critical error in getStaticPaths:', error)
     return {
       paths: [],
       fallback: false
@@ -52,12 +73,30 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async ({ params }) => {
   try {
-    // Read the generated pages data
-    const dataPath = path.join(process.cwd(), 'src', 'data', 'pseo', 'all-pages.json')
-    const pagesData = JSON.parse(fs.readFileSync(dataPath, 'utf8'))
+    // Read both original pages and new technical pages
+    const originalPagesPath = path.join(process.cwd(), 'src', 'data', 'pseo', 'all-pages.json')
+    const technicalPagesPath = path.join(process.cwd(), 'src', 'data', 'pseo', 'technical-pages.json')
+    
+    let allPages = []
+    
+    // Load original pages
+    try {
+      const originalPages = JSON.parse(fs.readFileSync(originalPagesPath, 'utf8'))
+      allPages = [...originalPages]
+    } catch (error) {
+      console.warn('Could not load original pages:', error.message)
+    }
+    
+    // Load technical pages  
+    try {
+      const technicalPages = JSON.parse(fs.readFileSync(technicalPagesPath, 'utf8'))
+      allPages = [...allPages, ...technicalPages]
+    } catch (error) {
+      console.warn('Could not load technical pages:', error.message)
+    }
 
     // Find the specific page data
-    const pageData = pagesData.find(page => page.slug === params.slug)
+    const pageData = allPages.find(page => page.slug === params.slug)
 
     if (!pageData) {
       return {
