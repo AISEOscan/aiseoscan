@@ -364,7 +364,7 @@ export default function Home() {
                       <span className="text-lg text-gray-200">/100</span>
                     </div>
                     <div className="text-white text-sm font-medium">
-                      AI Overall Score - Across Multiple Subscores - {getAIReadinessStatus(scanResults.summary?.overallScore || 0)}
+                      AI Overall Score - Across Multiple Categories - {getAIReadinessStatus(scanResults.summary?.overallScore || 0)}
                     </div>
                     <div className="text-xs text-gray-200 mt-1">
                       Optimized for ChatGPT, Perplexity & AI Search Engines
@@ -467,8 +467,7 @@ export default function Home() {
     Don't Let AI Search Engines Ignore Your Content
   </p>
   <p className="text-gray-100 text-sm font-medium leading-relaxed">
-    Get the complete AI SEO plan with detailed implementation guides, 
-    code examples, and schema markup templates that AI engines need to cite your content.
+    Get the complete AI SEO plan with detailed implementation guides that AI engines need to cite your content.
   </p>
 </div>
                             </div>
