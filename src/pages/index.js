@@ -364,7 +364,7 @@ export default function Home() {
                       <span className="text-lg text-gray-200">/100</span>
                     </div>
                     <div className="text-white text-sm font-medium">
-                      AI Readiness Score - {getAIReadinessStatus(scanResults.summary?.overallScore || 0)}
+                      AI Overall Score - Across Multiple Subscores - {getAIReadinessStatus(scanResults.summary?.overallScore || 0)}
                     </div>
                     <div className="text-xs text-gray-200 mt-1">
                       Optimized for ChatGPT, Perplexity & AI Search Engines
@@ -375,7 +375,7 @@ export default function Home() {
                   <div className="mb-6">
                     <h3 className="text-lg font-medium mb-4 text-white flex items-center">
                       <Sparkles className="h-4 w-4 text-pink-400 mr-2" />
-                      AI SEO Analysis
+                      AI SEO Analysis- Main Subscores
                     </h3>
                     
                     {(() => {
