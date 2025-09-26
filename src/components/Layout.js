@@ -6,9 +6,17 @@ export default function Layout({ children, title = 'AISEOScan - AI SEO Readiness
  return (
    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-purple-950 to-pink-950 font-sans text-white">
      <Head>
-       <title>{title}</title>
-       <meta name="description" content="AI SEO readiness scanner - Optimize your website for ChatGPT, Perplexity, SearchGPT and other AI search engines. Get comprehensive schema markup, content quality, and authority signal analysis." />
-     </Head>
+      <title>{title}</title>
+      <meta
+        name="description"
+        content="AI SEO report - Optimize your website for ChatGPT, Perplexity, SearchGPT and other AI search engines. Get comprehensive schema markup, content quality, and authority signal analysis."
+      />
+
+      {/* Favicon declarations */}
+      <link rel="icon" href="/favicon.png" type="image/png" />
+      <link rel="shortcut icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    </Head>
 
      <header className="bg-gray-950/80 backdrop-blur-xl border-b border-purple-500/30 shadow-2xl">
        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
