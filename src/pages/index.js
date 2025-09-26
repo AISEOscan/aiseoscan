@@ -395,7 +395,7 @@ export default function Home() {
                         <div className="space-y-4">
                           {/* Detailed AI Opportunities Preview */}
                           <div className="mb-6">
-                            <h3 className="text-lg font-medium mb-4 text-white">AI Optimization Opportunities</h3>
+                            <h3 className="text-lg font-medium mb-4 text-white"></h3>
 
                             <div className="space-y-4">
                               {/* AI SEO Issues */}
@@ -467,7 +467,7 @@ export default function Home() {
                                   Don't Let AI Search Engines Ignore Your Content
                                 </p>
                                 <p className="text-gray-300 text-xs">
-                                  Get the complete AI SEO optimization plan with schema markup, content structure, and authority signals that AI engines need to cite your content.
+                                  Get the complete AI SEO Detailed implementation guides with code examples for every optimization that AI engines need to cite your content.
                                 </p>
                               </div>
                             </div>
