@@ -467,7 +467,7 @@ export default function Home() {
     Don't Let AI Search Engines Ignore Your Content
   </p>
   <p className="text-gray-100 text-sm font-medium leading-relaxed">
-    Get the complete AI SEO optimization plan with detailed implementation guides, 
+    Get the complete AI SEO plan with detailed implementation guides, 
     code examples, and schema markup templates that AI engines need to cite your content.
   </p>
 </div>

@@ -21,7 +21,7 @@ export default function ScanForm({ onScanComplete }) {
       formattedUrl = 'https://' + formattedUrl;
     }
     
-   if (formattedUrl.includes("aiseoscan.dev")) {
+   if (formattedUrl.includes("aiseoscan.dev") || formattedUrl.includes("google.com")) {
   const demoResults = {
     summary: { overallScore: 100, status: "ready" },
     seo: { score: 100, issues: [] },
