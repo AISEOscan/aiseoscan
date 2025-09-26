@@ -14,7 +14,7 @@ export default function DynamicSEO({
   return {
     title: "AISEOScan - Complete AI SEO audit",
     description: "Is your website ready for AI search? If ChatGPT can’t find you, neither can your customers. Get a complete AI SEO audit and optimization plan designed for the age of AI-powered search.",
-    keywords: "AI SEO scanner, ChatGPT optimization, Perplexity SEO, SearchGPT ready, schema markup, AI citation, content optimization, AI search engines, voice search SEO, structured data audit"
+    keywords: "AISEO , SEO Checker, ChatGPT SEO, Perplexity SEO, SearchGPT SEO, schema markup, AI SEO, content optimization, AI search , AISEO Humanizer, free SEO, Site analyzer"
   };
 }
 

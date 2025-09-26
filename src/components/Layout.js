@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { Bot } from 'lucide-react';
 
-export default function Layout({ children, title = 'AISEOScan - AI SEO Readiness Scanner for ChatGPT & Perplexity' }) {
+export default function Layout({ children, title = 'AISEO Scanner - FREE SEO Score' }) {
  return (
    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-purple-950 to-pink-950 font-sans text-white">
      <Head>
