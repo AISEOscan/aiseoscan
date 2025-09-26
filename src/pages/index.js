@@ -463,13 +463,14 @@ export default function Home() {
                             <div className="flex items-start">
                               <Bot className="w-5 h-5 text-pink-400 mr-3 mt-0.5 flex-shrink-0" />
                               <div>
-                                <p className="text-pink-200 text-sm font-medium mb-1">
-                                  Don't Let AI Search Engines Ignore Your Content
-                                </p>
-                                <p className="text-gray-300 text-xs">
-                                  Get the complete AI SEO Detailed implementation guides with code examples for every optimization that AI engines need to cite your content.
-                                </p>
-                              </div>
+  <p className="text-pink-100 text-base font-bold mb-2 tracking-wide">
+    Don't Let AI Search Engines Ignore Your Content
+  </p>
+  <p className="text-gray-100 text-sm font-medium leading-relaxed">
+    Get the complete AI SEO optimization plan with detailed implementation guides, 
+    code examples, and schema markup templates that AI engines need to cite your content.
+  </p>
+</div>
                             </div>
                           </div>
                           
