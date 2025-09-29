@@ -413,7 +413,7 @@ export const processMultiDimensionalData = (data) => {
   
   // FIXED: Give compliance proper weight if it has issues, minimal weight if disabled
   const complianceWeight = (processedData.compliance.critical > 0 || processedData.compliance.medium > 0 || processedData.compliance.low > 0) ? 0.15 : 0.05;
-  const complianceScore = processedData.security.score * complianceWeight;
+  const complianceScore = processedData.compliance.score * complianceWeight;
   
   const calculatedOverallScore = Math.round(securityScore + seoScore + performanceScore + complianceScore);
   
