@@ -3,7 +3,7 @@
 
 import Stripe from 'stripe';
 import { buffer } from 'micro';
-import { getReport, storeReport } from '../../utils/report';
+import { getReport, storeReport, storeToken } from '../../utils/report';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -40,6 +40,32 @@ export default async function handler(req, res) {
     console.log('🔄 WEBHOOK: Processing checkout.session.completed');
     
     const session = event.data.object;
+
+    // NEW: Check if this is a package purchase
+    if (session.metadata?.type === 'package') {
+      console.log('📦 WEBHOOK: Package purchase detected');
+      
+      const { token, credits, packageId, amount } = session.metadata;
+      const email = session.customer_email || session.customer_details?.email;
+      
+      const success = await storeToken({
+        token,
+        credits: parseInt(credits),
+        purchased_amount: parseFloat(amount),
+        package_type: packageId,
+        email: email  // ADD EMAIL HERE
+      });
+
+      if (success) {
+        console.log(`✅ WEBHOOK: Token ${token} stored with ${credits} credits for ${email}`);
+      } else {
+        console.error(`❌ WEBHOOK: Failed to store token ${token}`);
+      }
+      
+      return; // Exit early for package purchases
+    }
+
+    // EXISTING: Single report payment processing
     const reportId = session.metadata?.reportId;
     const publicId = session.metadata?.publicId;
     const url = session.metadata?.url;
