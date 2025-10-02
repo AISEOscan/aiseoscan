@@ -53,32 +53,32 @@ export default function PaymentButton({ url, scanResults }) {
 
   // NEW: Handle token usage
   const handleUseCredit = async () => {
-    setIsLoading(true);
-    setError(null);
+  setIsLoading(true);
+  setError(null);
 
-    try {
-      const res = await fetch('/api/use-token', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          token: tokenInfo.token,
-          publicId: scanResults.reportId 
-        })
-      });
+  try {
+    const res = await fetch('/api/use-token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        token: tokenInfo.token,
+        publicId: scanResults.reportId
+      })
+    });
 
-      const data = await res.json();
+    const data = await res.json();
 
-      if (!res.ok) {
-        throw new Error(data.error || 'Failed to use credit');
-      }
-
-      // Reload page to show unlocked report
-      window.location.reload();
-    } catch (err) {
-      setError(err.message);
-      setIsLoading(false);
+    if (!res.ok) {
+      throw new Error(data.error || 'Failed to use credit');
     }
-  };
+
+    // Redirect to the report page (same as after payment)
+    window.location.href = `/report/${scanResults.reportId}`;
+  } catch (err) {
+    setError(err.message);
+    setIsLoading(false);
+  }
+};
 
   // EXISTING: Regular payment handler (unchanged)
   const handleClick = async () => {
