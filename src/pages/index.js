@@ -266,6 +266,110 @@ export default function Home() {
               </p>
             </div>
           </div>
+
+          {/* NEW: Agency Packages Section */}
+        <div className="mt-20" id="packages">
+          <div className="bg-gradient-to-r from-gray-900/95 via-purple-900/95 to-pink-900/95 backdrop-blur-xl text-white rounded-2xl shadow-2xl p-10 border border-purple-500/30 relative overflow-hidden">
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600/30 via-pink-600/30 to-blue-600/30 rounded-2xl opacity-50 animate-pulse"></div>
+            
+            <div className="relative z-10">
+              <div className="text-center mb-10">
+                <h2 className="text-4xl font-bold mb-4">Agency & Bulk Packages</h2>
+                <p className="text-gray-200 mb-2 max-w-3xl mx-auto text-lg">
+                  Scan multiple client websites? Save up to 45% with bulk credit packages.
+                </p>
+                <p className="text-pink-300 text-sm">
+                  Perfect for agencies, consultants, and businesses managing multiple websites
+                </p>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                {/* Starter Pack */}
+                <div className="bg-gradient-to-br from-purple-900/40 to-purple-800/20 backdrop-blur-sm border border-purple-500/50 p-6 rounded-xl hover:scale-105 transition-all">
+                  <div className="text-center mb-4">
+                    <div className="text-3xl font-bold text-white mb-1">$119</div>
+                    <div className="text-purple-300 text-sm font-medium mb-2">5 Scans</div>
+                    <div className="text-emerald-400 text-xs font-bold">Save 18%</div>
+                  </div>
+                  <div className="text-center text-sm text-gray-200 mb-4">
+                    $23.80 per scan
+                  </div>
+                  <ul className="space-y-2 text-xs text-gray-200 mb-4">
+                    <li className="flex items-center">
+                      <span className="text-purple-400 mr-2">✓</span>
+                      Perfect for testing
+                    </li>
+                    <li className="flex items-center">
+                      <span className="text-purple-400 mr-2">✓</span>
+                      Credits never expire
+                    </li>
+                  </ul>
+                </div>
+
+                {/* Agency Pack - Popular */}
+                <div className="bg-gradient-to-br from-pink-900/60 to-purple-900/60 backdrop-blur-sm border-2 border-pink-500/70 p-6 rounded-xl hover:scale-105 transition-all relative">
+                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                    <span className="bg-gradient-to-r from-pink-500 to-purple-500 text-white px-3 py-1 rounded-full text-xs font-bold">
+                      MOST POPULAR
+                    </span>
+                  </div>
+                  <div className="text-center mb-4 mt-2">
+                    <div className="text-3xl font-bold text-white mb-1">$199</div>
+                    <div className="text-pink-300 text-sm font-medium mb-2">10 Scans</div>
+                    <div className="text-emerald-400 text-xs font-bold">Save 31%</div>
+                  </div>
+                  <div className="text-center text-sm text-gray-200 mb-4">
+                    $19.90 per scan
+                  </div>
+                  <ul className="space-y-2 text-xs text-gray-200 mb-4">
+                    <li className="flex items-center">
+                      <span className="text-pink-400 mr-2">✓</span>
+                      Best for agencies
+                    </li>
+                    <li className="flex items-center">
+                      <span className="text-pink-400 mr-2">✓</span>
+                      Unlimited time to use
+                    </li>
+                  </ul>
+                </div>
+
+                {/* Pro Pack */}
+                <div className="bg-gradient-to-br from-blue-900/40 to-blue-800/20 backdrop-blur-sm border border-blue-500/50 p-6 rounded-xl hover:scale-105 transition-all">
+                  <div className="text-center mb-4">
+                    <div className="text-3xl font-bold text-white mb-1">$399</div>
+                    <div className="text-blue-300 text-sm font-medium mb-2">25 Scans</div>
+                    <div className="text-emerald-400 text-xs font-bold">Save 45%</div>
+                  </div>
+                  <div className="text-center text-sm text-gray-200 mb-4">
+                    $15.96 per scan
+                  </div>
+                  <ul className="space-y-2 text-xs text-gray-200 mb-4">
+                    <li className="flex items-center">
+                      <span className="text-blue-400 mr-2">✓</span>
+                      Maximum savings
+                    </li>
+                    <li className="flex items-center">
+                      <span className="text-blue-400 mr-2">✓</span>
+                      For power users
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="text-center">
+                <a
+                  href="/buy-credits"
+                  className="inline-block bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-bold px-8 py-4 rounded-lg transition-all shadow-lg shadow-pink-500/50 text-lg"
+                >
+                  View All Packages →
+                </a>
+                <p className="mt-4 text-sm text-gray-300">
+                  Get your unique link instantly • No expiration • Use anytime
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
           
           {/* AI SEO Feature Cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">

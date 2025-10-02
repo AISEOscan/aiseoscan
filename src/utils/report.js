@@ -442,3 +442,139 @@ function normalizeResults(reportData) {
   
   return normalizedData;
 }
+
+// ============================================
+// TOKEN MANAGEMENT FUNCTIONS (for agency packages)
+// Added for bulk credit system - does not affect existing report functionality
+// ============================================
+
+/**
+ * Get token data by token string
+ * @param {string} token - The token to look up
+ * @returns {Object|null} Token data with credits, or null if not found
+ */
+export async function getToken(token) {
+  if (!supabase) {
+    console.error('Supabase not available for token lookup');
+    return null;
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from('tokens')
+      .select('credits')
+      .eq('token', token)
+      .single();
+
+    if (error || !data) {
+      console.log(`Token ${token} not found or error:`, error?.message);
+      return null;
+    }
+
+    console.log(`Token ${token} has ${data.credits} credits`);
+    return data;
+  } catch (error) {
+    console.error('Error getting token:', error);
+    return null;
+  }
+}
+
+/**
+ * Use a token credit to unlock a report
+ * @param {string} token - The token to use
+ * @param {string} publicId - The report public ID to unlock
+ * @returns {Object} Result object with success status and remaining credits
+ */
+export async function useToken(token, publicId) {
+  if (!supabase) {
+    console.error('Supabase not available for token usage');
+    return { success: false, error: 'Database unavailable' };
+  }
+
+  try {
+    // Get current credits
+    const tokenData = await getToken(token);
+    
+    if (!tokenData || tokenData.credits <= 0) {
+      return { success: false, error: 'Invalid or expired token' };
+    }
+
+    // Deduct credit
+    const { error: updateError } = await supabase
+      .from('tokens')
+      .update({ credits: tokenData.credits - 1 })
+      .eq('token', token);
+
+    if (updateError) {
+      console.error('Error updating token credits:', updateError);
+      throw updateError;
+    }
+
+    console.log(`Deducted 1 credit from token ${token}. Remaining: ${tokenData.credits - 1}`);
+
+    // Get and update report
+    const report = await getReport(publicId);
+    if (!report) {
+      // Rollback: add credit back
+      await supabase.from('tokens').update({ credits: tokenData.credits }).eq('token', token);
+      return { success: false, error: 'Report not found' };
+    }
+
+    const updatedReport = {
+      ...report,
+      status: 'completed',
+      completedAt: new Date().toISOString(),
+      paymentConfirmed: true,
+      paidWithToken: token
+    };
+
+    const storedPublicId = await storeReport(updatedReport);
+    console.log(`Report ${storedPublicId} unlocked with token ${token}`);
+
+    return {
+      success: true,
+      creditsRemaining: tokenData.credits - 1
+    };
+  } catch (error) {
+    console.error('Error using token:', error);
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * Store a new token after package purchase
+ * @param {Object} tokenData - Token data to store
+ * @param {string} tokenData.token - The token string
+ * @param {number} tokenData.credits - Number of credits
+ * @param {number} tokenData.purchased_amount - Amount paid
+ * @param {string} tokenData.package_type - Package type (starter/agency/pro)
+ * @returns {boolean} Success status
+ */
+export async function storeToken(tokenData) {
+  if (!supabase) {
+    console.error('Supabase not available for token storage');
+    return false;
+  }
+
+  try {
+    const { error } = await supabase
+      .from('tokens')
+      .insert({
+        token: tokenData.token,
+        credits: tokenData.credits,
+        purchased_amount: tokenData.purchased_amount,
+        package_type: tokenData.package_type
+      });
+
+    if (error) {
+      console.error('Supabase error storing token:', error);
+      throw error;
+    }
+    
+    console.log(`Token ${tokenData.token} stored with ${tokenData.credits} credits`);
+    return true;
+  } catch (error) {
+    console.error('Error storing token:', error);
+    return false;
+  }
+}
