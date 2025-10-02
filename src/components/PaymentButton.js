@@ -62,7 +62,7 @@ export default function PaymentButton({ url, scanResults }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           token: tokenInfo.token,
-          publicId: scanResults.publicId
+          publicId: scanResults.reportId 
         })
       });
 
