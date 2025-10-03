@@ -858,14 +858,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="mt-8 text-center">
-        <a
-          href="#scan-form"
-          className="inline-block bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-bold px-8 py-4 rounded-lg transition-all shadow-lg shadow-pink-500/50 text-lg"
-        >
-          Try It Free on Your Website
-        </a>
-      </div>
+      
     </div>
   </div>
 </div>
