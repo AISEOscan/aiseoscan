@@ -818,7 +818,7 @@ export default function Home() {
 </div>
 
 {/* Video Demo Section */}
-<div className="mt-20">
+<div id="demo" className="mt-20">
   <div className="bg-gradient-to-r from-gray-900/95 via-purple-900/95 to-pink-900/95 backdrop-blur-xl rounded-2xl border border-purple-500/50 p-10 relative overflow-hidden">
     <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600/30 via-pink-600/30 to-blue-600/30 rounded-2xl opacity-50 animate-pulse"></div>
     
