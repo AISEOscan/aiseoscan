@@ -7,7 +7,13 @@
   },
   "redirects": [
     {
-      "source": "https://www.aiseoscan.dev/:path*",
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.aiseoscan.dev"
+        }
+      ],
       "destination": "https://aiseoscan.dev/:path*",
       "permanent": true
     }
