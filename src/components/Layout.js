@@ -61,21 +61,34 @@ export default function Layout({ children, title = 'AISEO Scanner - FREE SEO Sco
      </main>
 
      <footer className="bg-gray-950/80 backdrop-blur-xl border-t border-purple-500/30 mt-12">
-       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-         <div className="flex flex-col md:flex-row justify-between items-center">
-           <p className="text-center text-gray-300 text-sm font-light">
-             &copy; {new Date().getFullYear()} AISEOScan. All rights reserved.
-           </p>
-           <div className="mt-2 md:mt-0 flex items-center space-x-4 text-xs text-gray-400">
-             <span className="bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent font-medium">
-               AI SEO optimization platform
-             </span>
-             <span>•</span>
-             <span>ChatGPT • Perplexity • SearchGPT Ready</span>
-           </div>
-         </div>
-       </div>
-     </footer>
+  <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+      <p className="text-center text-gray-300 text-sm font-light">
+        &copy; {new Date().getFullYear()} AISEOScan. All rights reserved.
+      </p>
+      
+      <div className="flex flex-col md:flex-row items-center gap-4 text-xs text-gray-400">
+        <div className="flex items-center space-x-4">
+          <span className="bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent font-medium">
+            AI SEO optimization platform
+          </span>
+          <span>•</span>
+          <span>ChatGPT • Perplexity • SearchGPT Ready</span>
+        </div>
+        
+        <div className="flex items-center space-x-3">
+          <span className="hidden md:inline">•</span>
+          <Link 
+            href="/ai-seo-guides"
+            className="text-purple-400 hover:text-purple-300 transition-colors font-medium"
+          >
+            AI SEO Guides
+          </Link>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
    </div>
  );
 }
