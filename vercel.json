@@ -1,8 +1,15 @@
 {
-    "functions": {
-      "pages/api/**/*": {
-        "memory": 1024,
-        "maxDuration": 60
-      }
+  "functions": {
+    "pages/api/**/*": {
+      "memory": 1024,
+      "maxDuration": 60
     }
-  }
+  },
+  "redirects": [
+    {
+      "source": "https://www.aiseoscan.dev/:path*",
+      "destination": "https://aiseoscan.dev/:path*",
+      "permanent": true
+    }
+  ]
+}
