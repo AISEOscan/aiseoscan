@@ -1,0 +1,309 @@
+{
+  "tools": {
+    "name": "AI SEO Tools",
+    "slug": "tools",
+    "keywords": [
+      "ai seo tools",
+      "best ai seo tools",
+      "ai tools for seo"
+    ],
+    "search_volume": 3600,
+    "cpc": 11.58,
+    "intent": "commercial",
+    "description": "Comprehensive AI-powered tools for optimizing website visibility in ChatGPT, Perplexity, Claude, and other AI search engines",
+    "main_benefit": "Automate and scale AI search optimization with specialized tools designed for the new era of AI-powered discovery",
+    "key_features": [
+      "Schema markup validation and implementation",
+      "AI citation tracking and monitoring",
+      "Content optimization for AI comprehension",
+      "Authority signal analysis and recommendations",
+      "Real-time AI search performance tracking"
+    ],
+    "user_challenges": [
+      "Manual AI SEO optimization is time-consuming and complex",
+      "Tracking AI citations across multiple platforms manually",
+      "Understanding which content gets cited by AI systems",
+      "Implementing technical requirements across large sites"
+    ],
+    "tool_categories": [
+      "Schema markup generators and validators",
+      "AI citation tracking platforms",
+      "Content optimization analyzers",
+      "Authority signal audit tools",
+      "Performance monitoring dashboards"
+    ]
+  },
+  "optimization": {
+    "name": "AI SEO Optimization",
+    "slug": "optimization",
+    "keywords": [
+      "ai seo optimization",
+      "optimize for ai search",
+      "ai search optimization"
+    ],
+    "search_volume": 720,
+    "cpc": 10.31,
+    "intent": "transactional",
+    "description": "Strategic optimization techniques to maximize your website's visibility and citation rate in AI-powered search engines",
+    "main_benefit": "Systematically improve your content's discoverability and citation frequency across ChatGPT, Perplexity, Claude, and emerging AI platforms",
+    "key_features": [
+      "Multi-platform AI optimization strategies",
+      "Content structure optimization for AI parsing",
+      "Technical SEO for AI crawlers",
+      "Authority building for AI trust signals",
+      "Citation-ready content formatting"
+    ],
+    "user_challenges": [
+      "AI search algorithms differ significantly from traditional SEO",
+      "Each AI platform has unique optimization requirements",
+      "Measuring AI SEO success is complex",
+      "Balancing traditional and AI SEO strategies"
+    ],
+    "optimization_areas": [
+      "Content architecture and information hierarchy",
+      "Schema markup and structured data implementation",
+      "Authority signals and trust indicators",
+      "Technical performance and accessibility",
+      "Citation-friendly content formatting"
+    ]
+  },
+  "content-generator": {
+    "name": "AI SEO Content Generator",
+    "slug": "content-generator",
+    "keywords": [
+      "ai seo content generator",
+      "ai seo content writer",
+      "ai content for seo"
+    ],
+    "search_volume": 420,
+    "cpc": 9.1,
+    "intent": "transactional",
+    "description": "AI-powered content generation tools optimized specifically for AI search engine visibility and citation",
+    "main_benefit": "Create content that AI systems understand, trust, and cite using specialized generation tools built for the AI search era",
+    "key_features": [
+      "AI-optimized content templates",
+      "Citation-ready formatting automation",
+      "Schema markup integration",
+      "Authority signal embedding",
+      "Multi-platform optimization profiles"
+    ],
+    "user_challenges": [
+      "Generic AI content generators don't optimize for AI citations",
+      "Maintaining quality while scaling content production",
+      "Ensuring AI-generated content gets cited by AI systems",
+      "Balancing automation with authenticity"
+    ],
+    "generator_types": [
+      "Blog post generators with AI SEO optimization",
+      "Product description generators for e-commerce",
+      "FAQ generators with schema integration",
+      "Technical documentation generators",
+      "Landing page generators with authority signals"
+    ]
+  },
+  "analyzer": {
+    "name": "AI SEO Analyzer",
+    "slug": "analyzer",
+    "keywords": [
+      "ai seo analyzer",
+      "ai seo analysis",
+      "ai seo audit"
+    ],
+    "search_volume": 180,
+    "cpc": 14.6,
+    "intent": "transactional",
+    "description": "Comprehensive analysis tools that evaluate and score your website's optimization for AI search engines",
+    "main_benefit": "Get actionable insights into your AI search performance with detailed analysis of schema markup, content quality, and authority signals",
+    "key_features": [
+      "Multi-dimensional AI SEO scoring",
+      "Schema markup validation",
+      "Content quality assessment",
+      "Authority signal evaluation",
+      "Competitive AI visibility analysis"
+    ],
+    "user_challenges": [
+      "Understanding AI SEO performance without proper analytics",
+      "Identifying specific optimization opportunities",
+      "Comparing AI visibility against competitors",
+      "Tracking improvement over time"
+    ],
+    "analysis_categories": [
+      "Technical AI SEO audit (schema, structure, performance)",
+      "Content quality assessment for AI comprehension",
+      "Authority and trust signal evaluation",
+      "Citation tracking across AI platforms",
+      "Competitive positioning analysis"
+    ]
+  },
+  "keyword-research": {
+    "name": "AI SEO Keyword Research",
+    "slug": "keyword-research",
+    "keywords": [
+      "ai seo keyword research",
+      "ai seo keyword generator",
+      "keywords for ai search"
+    ],
+    "search_volume": 240,
+    "cpc": 8.03,
+    "intent": "commercial",
+    "description": "Specialized keyword research for AI search optimization, focusing on conversational queries and citation opportunities",
+    "main_benefit": "Discover keywords and topics that AI systems actively search for and cite, rather than traditional search engine optimization",
+    "key_features": [
+      "Conversational query analysis",
+      "AI citation opportunity identification",
+      "Question-based keyword mapping",
+      "Topic cluster recommendations",
+      "Multi-platform keyword targeting"
+    ],
+    "user_challenges": [
+      "AI search behavior differs from traditional search",
+      "Conversational queries are harder to predict",
+      "Traditional keyword tools don't track AI citations",
+      "Understanding intent behind AI queries"
+    ],
+    "research_approaches": [
+      "Conversational query pattern analysis",
+      "AI citation reverse engineering",
+      "Question-answer mapping",
+      "Topic authority gap analysis",
+      "Semantic relationship mapping"
+    ]
+  },
+  "services": {
+    "name": "AI SEO Services",
+    "slug": "services",
+    "keywords": [
+      "ai seo services",
+      "ai seo agency",
+      "ai seo company",
+      "ai seo consultant"
+    ],
+    "search_volume": 1330,
+    "cpc": 11.46,
+    "intent": "commercial",
+    "description": "Professional AI SEO services and consulting to optimize your website for ChatGPT, Perplexity, Claude, and emerging AI platforms",
+    "main_benefit": "Partner with AI SEO experts who understand the technical and strategic requirements for maximizing visibility in AI-powered search",
+    "key_features": [
+      "Comprehensive AI SEO audits",
+      "Multi-platform optimization strategies",
+      "Technical implementation support",
+      "Content optimization services",
+      "Ongoing performance monitoring"
+    ],
+    "user_challenges": [
+      "Internal teams lack AI SEO expertise",
+      "Complex technical requirements",
+      "Keeping up with rapidly evolving AI platforms",
+      "Measuring and proving ROI"
+    ],
+    "service_types": [
+      "AI SEO audits and assessments",
+      "Schema markup implementation",
+      "Content optimization and creation",
+      "Technical AI SEO consulting",
+      "Ongoing optimization management"
+    ]
+  },
+  "software": {
+    "name": "AI SEO Software",
+    "slug": "software",
+    "keywords": [
+      "ai seo software",
+      "ai seo platform",
+      "generative ai seo software"
+    ],
+    "search_volume": 690,
+    "cpc": 12.65,
+    "intent": "commercial",
+    "description": "Enterprise-grade software platforms for managing and optimizing AI search visibility at scale",
+    "main_benefit": "Centralized platform for managing AI SEO across your entire web presence with automation, analytics, and team collaboration",
+    "key_features": [
+      "Centralized AI SEO management",
+      "Automated optimization workflows",
+      "Multi-site management capabilities",
+      "Team collaboration tools",
+      "Enterprise-grade analytics"
+    ],
+    "user_challenges": [
+      "Managing AI SEO across multiple properties",
+      "Coordinating team efforts on AI optimization",
+      "Scaling optimization efforts efficiently",
+      "Integrating with existing tech stacks"
+    ],
+    "software_categories": [
+      "All-in-one AI SEO platforms",
+      "Schema management systems",
+      "AI citation tracking software",
+      "Content optimization platforms",
+      "Performance monitoring dashboards"
+    ]
+  },
+  "small-business": {
+    "name": "AI SEO for Small Business",
+    "slug": "small-business",
+    "keywords": [
+      "ai seo tools for small business",
+      "ai seo small business",
+      "affordable ai seo"
+    ],
+    "search_volume": 390,
+    "cpc": 14.62,
+    "intent": "commercial",
+    "description": "Affordable and effective AI SEO solutions designed specifically for small businesses with limited resources",
+    "main_benefit": "Compete with larger competitors in AI search results using cost-effective strategies and tools tailored for small business budgets",
+    "key_features": [
+      "Budget-friendly AI SEO tools",
+      "Simplified optimization workflows",
+      "DIY implementation guides",
+      "Small business-focused strategies",
+      "High-ROI quick wins"
+    ],
+    "user_challenges": [
+      "Limited budgets for expensive enterprise tools",
+      "Small teams with multiple responsibilities",
+      "Lack of technical expertise in-house",
+      "Need for quick, measurable results"
+    ],
+    "small_business_approaches": [
+      "Free and low-cost AI SEO tools",
+      "Priority optimization areas for quick wins",
+      "DIY implementation strategies",
+      "Local business AI optimization",
+      "Affordable service provider options"
+    ]
+  },
+  "shopify": {
+    "name": "AI SEO for Shopify",
+    "slug": "shopify",
+    "keywords": [
+      "ai seo for shopify",
+      "shopify ai seo",
+      "optimize shopify for ai search"
+    ],
+    "search_volume": 110,
+    "cpc": 8.74,
+    "intent": "commercial",
+    "description": "Specialized AI SEO strategies and tools for Shopify stores to maximize product discoverability in AI search",
+    "main_benefit": "Optimize your Shopify store for AI-powered shopping assistants and product search across ChatGPT, Perplexity, and emerging AI platforms",
+    "key_features": [
+      "Shopify-specific schema implementation",
+      "Product page optimization for AI",
+      "E-commerce citation strategies",
+      "Shopify app integrations",
+      "Product feed optimization"
+    ],
+    "user_challenges": [
+      "Shopify's limitations for advanced SEO",
+      "Product page template restrictions",
+      "Scaling optimization across large catalogs",
+      "Competing in AI shopping results"
+    ],
+    "shopify_strategies": [
+      "Product schema markup for Shopify",
+      "Collection page optimization",
+      "Review and rating optimization",
+      "Product description AI formatting",
+      "Shopify app recommendations for AI SEO"
+    ]
+  }
+}

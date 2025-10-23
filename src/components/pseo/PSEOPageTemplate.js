@@ -179,51 +179,99 @@ export default function PSEOPageTemplate({ pageData }) {
 
       {/* Technical Implementation Section */}
       {technical_implementation && (
-        <div className="bg-gradient-to-r from-gray-900/60 to-blue-900/20 backdrop-blur-sm p-8 rounded-xl border border-blue-500/50 mb-8">
-          <div className="flex items-start mb-6">
-            <Server className="h-8 w-8 text-blue-400 mr-4 mt-1 flex-shrink-0" />
-            <div>
-              <h3 className="text-2xl font-bold text-white mb-4">{technical_implementation.title}</h3>
-            </div>
-          </div>
+  <div className="bg-gradient-to-r from-gray-900/60 to-blue-900/20 backdrop-blur-sm p-8 rounded-xl border border-blue-500/50 mb-8">
+    <div className="flex items-start mb-6">
+      <Server className="h-8 w-8 text-blue-400 mr-4 mt-1 flex-shrink-0" />
+      <div>
+        <h3 className="text-2xl font-bold text-white mb-4">{technical_implementation.title}</h3>
+        {technical_implementation.introduction && (
+          <p className="text-gray-200 mb-4">{technical_implementation.introduction}</p>
+        )}
+      </div>
+    </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
-            <div>
-              <h4 className="font-semibold text-blue-400 mb-4">Core Technical Requirements:</h4>
-              <ul className="space-y-3">
-                {technical_implementation.core_requirements.map((req, index) => (
-                  <li key={index} className="flex items-start text-gray-300">
-                    <Zap className="h-4 w-4 text-blue-400 mr-2 mt-1 flex-shrink-0" />
-                    <span>{req}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold text-blue-400 mb-4">Schema Markup Implementation:</h4>
-              <ul className="space-y-3">
-                {technical_implementation.schema_markup.implementation_guide.map((guide, index) => (
-                  <li key={index} className="flex items-start text-gray-300">
-                    <FileText className="h-4 w-4 text-pink-400 mr-2 mt-1 flex-shrink-0" />
-                    <span>{guide}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          <div className="bg-blue-900/20 p-4 rounded border-l-4 border-blue-400">
-            <h4 className="font-semibold text-blue-300 mb-3">Priority Schema Types:</h4>
-            <div className="flex flex-wrap gap-2">
-              {technical_implementation.schema_markup.primary_schemas.map((schema, index) => (
-                <span key={index} className="px-3 py-1 bg-blue-800/30 border border-blue-600/50 rounded-full text-blue-200 text-sm">
-                  {schema}
-                </span>
-              ))}
-            </div>
-          </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
+      {/* Core Requirements - handles both old and new structure */}
+      {technical_implementation.core_requirements && (
+        <div>
+          <h4 className="font-semibold text-blue-400 mb-4">Core Technical Requirements:</h4>
+          <ul className="space-y-3">
+            {technical_implementation.core_requirements.map((req, index) => (
+              <li key={index} className="flex items-start text-gray-300">
+                <Zap className="h-4 w-4 text-blue-400 mr-2 mt-1 flex-shrink-0" />
+                <span>{req}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
+
+      {/* Content Structure - new use case pages */}
+      {technical_implementation.content_structure && (
+        <div>
+          <h4 className="font-semibold text-blue-400 mb-4">{technical_implementation.content_structure.title}</h4>
+          <ul className="space-y-3">
+            {technical_implementation.content_structure.requirements.map((req, index) => (
+              <li key={index} className="flex items-start text-gray-300">
+                <Zap className="h-4 w-4 text-blue-400 mr-2 mt-1 flex-shrink-0" />
+                <span>{req}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* Schema Markup - handles both structures */}
+      {technical_implementation.schema_markup && (
+        <div>
+          <h4 className="font-semibold text-blue-400 mb-4">
+            {technical_implementation.schema_markup.title || "Schema Markup Implementation:"}
+          </h4>
+          {technical_implementation.schema_markup.importance && (
+            <p className="text-gray-300 text-sm mb-3">{technical_implementation.schema_markup.importance}</p>
+          )}
+          <ul className="space-y-3">
+            {technical_implementation.schema_markup.implementation_guide?.map((guide, index) => (
+              <li key={index} className="flex items-start text-gray-300">
+                <FileText className="h-4 w-4 text-pink-400 mr-2 mt-1 flex-shrink-0" />
+                <span>{guide}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+
+    {/* Performance Requirements - new use case pages */}
+    {technical_implementation.performance_requirements && (
+      <div className="mb-6">
+        <h4 className="font-semibold text-blue-400 mb-4">{technical_implementation.performance_requirements.title}</h4>
+        <ul className="space-y-3">
+          {technical_implementation.performance_requirements.requirements.map((req, index) => (
+            <li key={index} className="flex items-start text-gray-300">
+              <Zap className="h-4 w-4 text-emerald-400 mr-2 mt-1 flex-shrink-0" />
+              <span>{req}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    {/* Priority Schema Types */}
+    {technical_implementation.schema_markup?.primary_schemas && (
+      <div className="bg-blue-900/20 p-4 rounded border-l-4 border-blue-400">
+        <h4 className="font-semibold text-blue-300 mb-3">Priority Schema Types:</h4>
+        <div className="flex flex-wrap gap-2">
+          {technical_implementation.schema_markup.primary_schemas.map((schema, index) => (
+            <span key={index} className="px-3 py-1 bg-blue-800/30 border border-blue-600/50 rounded-full text-blue-200 text-sm">
+              {schema}
+            </span>
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+)}
 
       {/* Best Practices Section */}
       {best_practices && (
@@ -369,7 +417,7 @@ export default function PSEOPageTemplate({ pageData }) {
             <a href="/" className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-8 py-3 rounded-lg font-semibold hover:from-pink-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105">
               Start Your AI SEO Analysis
             </a>
-            <a href="#features" className="bg-gray-800 text-white px-8 py-3 rounded-lg font-semibold hover:bg-gray-700 transition-all duration-300 border border-gray-600">
+            <a href="/" className="bg-gray-800 text-white px-8 py-3 rounded-lg font-semibold hover:bg-gray-700 transition-all duration-300 border border-gray-600">
               Explore AI SEO Features
             </a>
           </div>

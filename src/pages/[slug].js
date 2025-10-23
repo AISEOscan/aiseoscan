@@ -30,6 +30,7 @@ export const getStaticPaths = async () => {
   try {
     const originalPagesPath = path.join(process.cwd(), 'src', 'data', 'pseo', 'all-pages.json')
     const technicalPagesPath = path.join(process.cwd(), 'src', 'data', 'pseo', 'technical-pages.json')
+    const usecasePagesPath = path.join(process.cwd(), 'src', 'data', 'pseo', 'usecase-pages.json')
     
     let allPages = []
     
@@ -50,6 +51,16 @@ export const getStaticPaths = async () => {
       console.log('📝 Sample technical slugs:', technicalPages.slice(0, 5).map(p => p.slug))
     } catch (error) {
       console.error('❌ Error loading technical pages:', error.message)
+    }
+
+    // Load use case pages (NEW)
+    try {
+      const usecasePages = JSON.parse(fs.readFileSync(usecasePagesPath, 'utf8'))
+      allPages = [...allPages, ...usecasePages]
+      console.log('✅ Loaded use case pages:', usecasePages.length)
+      console.log('📝 Sample usecase slugs:', usecasePages.slice(0, 5).map(p => p.slug))
+    } catch (error) {
+      console.error('❌ Error loading use case pages:', error.message)
     }
 
     console.log('🔢 Total pages for build:', allPages.length)
@@ -73,9 +84,10 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async ({ params }) => {
   try {
-    // Read both original pages and new technical pages
+    // Read all page sources
     const originalPagesPath = path.join(process.cwd(), 'src', 'data', 'pseo', 'all-pages.json')
     const technicalPagesPath = path.join(process.cwd(), 'src', 'data', 'pseo', 'technical-pages.json')
+    const usecasePagesPath = path.join(process.cwd(), 'src', 'data', 'pseo', 'usecase-pages.json')
     
     let allPages = []
     
@@ -93,6 +105,14 @@ export const getStaticProps = async ({ params }) => {
       allPages = [...allPages, ...technicalPages]
     } catch (error) {
       console.warn('Could not load technical pages:', error.message)
+    }
+
+    // Load use case pages (NEW)
+    try {
+      const usecasePages = JSON.parse(fs.readFileSync(usecasePagesPath, 'utf8'))
+      allPages = [...allPages, ...usecasePages]
+    } catch (error) {
+      console.warn('Could not load use case pages:', error.message)
     }
 
     // Find the specific page data
