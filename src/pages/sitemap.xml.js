@@ -1,12 +1,13 @@
 export default function Sitemap() {}
 
 export async function getServerSideProps({ res }) {
-  // Load BOTH page sources like [slug].js does
+  // Load ALL three page sources
   const allPages = await import('../data/pseo/all-pages.json')
   const technicalPages = await import('../data/pseo/technical-pages.json')
+  const usecasePages = await import('../data/pseo/usecase-pages.json')
   
   // Combine all pages
-  const combinedPages = [...allPages.default, ...technicalPages.default]
+  const combinedPages = [...allPages.default, ...technicalPages.default, ...usecasePages.default]
   
   // Get current date for lastmod
   const currentDate = new Date().toISOString()
@@ -27,10 +28,10 @@ export async function getServerSideProps({ res }) {
         <priority>0.8</priority>
       </url>`).join('')}
     </urlset>`
-
+  
   res.setHeader('Content-Type', 'text/xml')
   res.write(sitemap)
   res.end()
-
+  
   return { props: {} }
 }
