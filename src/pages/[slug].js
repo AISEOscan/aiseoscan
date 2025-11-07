@@ -49,104 +49,11 @@ export default function PSEOPage({ pageData }) {
 }
 
 export const getStaticPaths = async () => {
-  try {
-    const originalPagesPath = path.join(process.cwd(), 'src', 'data', 'pseo', 'all-pages.json')
-    const technicalPagesPath = path.join(process.cwd(), 'src', 'data', 'pseo', 'technical-pages.json')
-    const usecasePagesPath = path.join(process.cwd(), 'src', 'data', 'pseo', 'usecase-pages.json')
-    const industryPagesPath = path.join(process.cwd(), 'src', 'data', 'pseo', 'industry-pages.json')
-    const industryPlatformPagesPath = path.join(process.cwd(), 'src', 'data', 'pseo', 'industry-platform-pages.json')
-    
-    let allPages = []
-    
-    // Load original pages
-    try {
-      const originalPages = JSON.parse(fs.readFileSync(originalPagesPath, 'utf8'))
-      allPages = [...originalPages]
-      console.log('✅ Loaded original pages:', originalPages.length)
-    } catch (error) {
-      console.error('❌ Error loading original pages:', error.message)
-    }
-    
-    // Load technical pages
-    try {
-      const technicalPages = JSON.parse(fs.readFileSync(technicalPagesPath, 'utf8'))
-      allPages = [...allPages, ...technicalPages]
-      console.log('✅ Loaded technical pages:', technicalPages.length)
-      console.log('📝 Sample technical slugs:', technicalPages.slice(0, 5).map(p => p.slug))
-    } catch (error) {
-      console.error('❌ Error loading technical pages:', error.message)
-    }
-
-    // Load use case pages
-    try {
-      const usecasePages = JSON.parse(fs.readFileSync(usecasePagesPath, 'utf8'))
-      allPages = [...allPages, ...usecasePages]
-      console.log('✅ Loaded use case pages:', usecasePages.length)
-      console.log('📝 Sample usecase slugs:', usecasePages.slice(0, 5).map(p => p.slug))
-    } catch (error) {
-      console.error('❌ Error loading use case pages:', error.message)
-    }
-
-    // Load industry pages
-    try {
-      const industryPages = JSON.parse(fs.readFileSync(industryPagesPath, 'utf8'))
-      allPages = [...allPages, ...industryPages]
-      console.log('✅ Loaded industry pages:', industryPages.length)
-      console.log('📝 Sample industry slugs:', industryPages.slice(0, 5).map(p => p.slug))
-    } catch (error) {
-      console.error('❌ Error loading industry pages:', error.message)
-    }
-
-    // Load industry-platform pages (PHASE 2A)
-    try {
-      const industryPlatformPages = JSON.parse(fs.readFileSync(industryPlatformPagesPath, 'utf8'))
-      allPages = [...allPages, ...industryPlatformPages]
-      console.log('✅ Loaded industry-platform pages:', industryPlatformPages.length)
-      console.log('📝 Sample industry-platform slugs:', industryPlatformPages.slice(0, 5).map(p => p.slug))
-    } catch (error) {
-      console.error('❌ Error loading industry-platform pages:', error.message)
-    }
-
-    // Load industry-location pages (PHASE 2B) - Split into 6 chunks
-    try {
-      let industryLocationPages = []
-      for (let i = 1; i <= 6; i++) {
-        try {
-          const chunkPath = path.join(process.cwd(), 'src', 'data', 'pseo', `industry-location-pages-${i}.json`)
-          const chunk = JSON.parse(fs.readFileSync(chunkPath, 'utf8'))
-          industryLocationPages = [...industryLocationPages, ...chunk]
-          console.log(`✅ Loaded location chunk ${i}:`, chunk.length)
-        } catch (chunkError) {
-          console.warn(`⚠️ Could not load location chunk ${i}:`, chunkError.message)
-        }
-      }
-      allPages = [...allPages, ...industryLocationPages]
-      console.log('✅ Total industry-location pages:', industryLocationPages.length)
-      if (industryLocationPages.length > 0) {
-        console.log('📝 Sample location slugs:', industryLocationPages.slice(0, 5).map(p => p.slug))
-      }
-    } catch (error) {
-      console.error('❌ Error loading industry-location pages:', error.message)
-    }
-
-    console.log('🔢 Total pages for build:', allPages.length)
-
-    const paths = allPages.map(page => ({
-      params: { slug: page.slug }
-    }))
-
-    return {
-      paths,
-      fallback: false
-    }
-  } catch (error) {
-    console.error('❌ Critical error in getStaticPaths:', error)
      return {
-     paths,
-     fallback: 'blocking'  
+       paths: [],
+       fallback: 'blocking'
+     }
    }
-  }
-}
 
 export const getStaticProps = async ({ params }) => {
   try {
