@@ -141,10 +141,10 @@ export const getStaticPaths = async () => {
     }
   } catch (error) {
     console.error('❌ Critical error in getStaticPaths:', error)
-    return {
-      paths: [],
-      fallback: false
-    }
+     return {
+     paths,
+     fallback: 'blocking'  
+   }
   }
 }
 
