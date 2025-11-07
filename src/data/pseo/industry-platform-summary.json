@@ -1,0 +1,29 @@
+{
+  "generated_at": "2025-11-07T16:34:27.596343",
+  "total_pages": 1100,
+  "industries_count": 110,
+  "platforms_count": 10,
+  "by_platform": {
+    "wordpress": 110,
+    "shopify": 110,
+    "wix": 110,
+    "squarespace": 110,
+    "webflow": 110,
+    "custom-html": 110,
+    "nextjs": 110,
+    "laravel": 110,
+    "django": 110,
+    "magento": 110
+  },
+  "by_category": {
+    "Business Services": 150,
+    "Healthcare & Wellness": 120,
+    "Retail & E-commerce": 150,
+    "Food & Hospitality": 100,
+    "Education & Training": 100,
+    "Technology & SaaS": 120,
+    "Home Services": 120,
+    "Creative & Media": 100,
+    "Specialized Industries": 140
+  }
+}

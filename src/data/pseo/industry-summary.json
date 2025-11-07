@@ -1,0 +1,23 @@
+{
+  "generated_at": "2025-11-06T10:36:07.553460",
+  "total_pages": 440,
+  "industries_count": 110,
+  "content_types_count": 4,
+  "by_content_type": {
+    "guide": 110,
+    "mistakes": 110,
+    "checklist": 110,
+    "best-practices": 110
+  },
+  "by_category": {
+    "Business Services": 60,
+    "Healthcare & Wellness": 48,
+    "Retail & E-commerce": 60,
+    "Food & Hospitality": 40,
+    "Education & Training": 40,
+    "Technology & SaaS": 48,
+    "Home Services": 48,
+    "Creative & Media": 40,
+    "Specialized Industries": 56
+  }
+}

@@ -1,0 +1,450 @@
+{
+  "article": {
+    "name": "Article Schema",
+    "slug": "article-schema",
+    "description": "Schema markup for articles and blog posts to enhance AI comprehension",
+    "use_cases": [
+      "Blog posts",
+      "News articles",
+      "Technical guides",
+      "Case studies"
+    ],
+    "required_properties": [
+      "headline",
+      "author",
+      "datePublished",
+      "publisher"
+    ],
+    "ai_benefits": [
+      "Enhanced content categorization for AI search engines",
+      "Improved author attribution and E-A-T signals",
+      "Better content freshness detection",
+      "Clear article structure recognition"
+    ],
+    "implementation_complexity": "Medium",
+    "common_mistakes": [
+      "Missing required author information",
+      "Incorrect date formatting",
+      "Missing publisher schema",
+      "Incomplete nested organization data"
+    ]
+  },
+  "faq": {
+    "name": "FAQ Schema",
+    "slug": "faq-schema",
+    "description": "Structured data for frequently asked questions to enable direct AI answers",
+    "use_cases": [
+      "FAQ pages",
+      "Help documentation",
+      "Product Q&A",
+      "Support pages"
+    ],
+    "required_properties": [
+      "mainEntity",
+      "name",
+      "acceptedAnswer"
+    ],
+    "ai_benefits": [
+      "Direct answer extraction for AI search engines",
+      "Enhanced voice search optimization",
+      "Improved featured snippet eligibility",
+      "Better question-answer matching"
+    ],
+    "implementation_complexity": "Easy",
+    "common_mistakes": [
+      "Poorly formatted questions",
+      "Missing answer content",
+      "Incorrect nesting structure",
+      "Overly long answer text"
+    ]
+  },
+  "organization": {
+    "name": "Organization Schema",
+    "slug": "organization-schema",
+    "description": "Business entity markup for authority and credibility signals",
+    "use_cases": [
+      "Company pages",
+      "About pages",
+      "Contact pages",
+      "Business profiles"
+    ],
+    "required_properties": [
+      "name",
+      "url",
+      "logo",
+      "contactPoint"
+    ],
+    "ai_benefits": [
+      "Enhanced business entity recognition",
+      "Improved local search visibility",
+      "Better brand authority establishment",
+      "Clear business relationship mapping"
+    ],
+    "implementation_complexity": "Medium",
+    "common_mistakes": [
+      "Missing contact information",
+      "Incorrect logo specifications",
+      "Incomplete address data",
+      "Missing social media profiles"
+    ]
+  },
+  "person": {
+    "name": "Person Schema",
+    "slug": "person-schema",
+    "description": "Individual profile markup for author attribution and expertise",
+    "use_cases": [
+      "Author pages",
+      "Team profiles",
+      "Expert bios",
+      "Speaker profiles"
+    ],
+    "required_properties": [
+      "name",
+      "jobTitle",
+      "worksFor",
+      "url"
+    ],
+    "ai_benefits": [
+      "Enhanced author authority recognition",
+      "Improved E-A-T signal strength",
+      "Better expert attribution",
+      "Clear professional relationship mapping"
+    ],
+    "implementation_complexity": "Easy",
+    "common_mistakes": [
+      "Incomplete professional information",
+      "Missing credentials and qualifications",
+      "Incorrect job title formatting",
+      "Missing social proof elements"
+    ]
+  },
+  "product": {
+    "name": "Product Schema",
+    "slug": "product-schema",
+    "description": "E-commerce product markup for shopping and comparison queries",
+    "use_cases": [
+      "Product pages",
+      "Shopping listings",
+      "Catalog items",
+      "Service offerings"
+    ],
+    "required_properties": [
+      "name",
+      "description",
+      "brand",
+      "offers"
+    ],
+    "ai_benefits": [
+      "Enhanced product discovery in AI shopping",
+      "Improved price comparison accuracy",
+      "Better product feature matching",
+      "Clear availability and inventory signals"
+    ],
+    "implementation_complexity": "High",
+    "common_mistakes": [
+      "Missing price and availability data",
+      "Incomplete product specifications",
+      "Poor review integration",
+      "Incorrect brand information"
+    ]
+  },
+  "service": {
+    "name": "Service Schema",
+    "slug": "service-schema",
+    "description": "Service offering markup for business and professional services",
+    "use_cases": [
+      "Service pages",
+      "Professional offerings",
+      "Consulting services",
+      "Support services"
+    ],
+    "required_properties": [
+      "name",
+      "provider",
+      "serviceType",
+      "areaServed"
+    ],
+    "ai_benefits": [
+      "Enhanced service discovery and matching",
+      "Improved local service visibility",
+      "Better service area targeting",
+      "Clear service capability communication"
+    ],
+    "implementation_complexity": "Medium",
+    "common_mistakes": [
+      "Vague service descriptions",
+      "Missing geographic targeting",
+      "Incomplete provider information",
+      "Poor service categorization"
+    ]
+  },
+  "review": {
+    "name": "Review Schema",
+    "slug": "review-schema",
+    "description": "Customer review markup for trust signals and social proof",
+    "use_cases": [
+      "Review pages",
+      "Testimonials",
+      "Product reviews",
+      "Service ratings"
+    ],
+    "required_properties": [
+      "itemReviewed",
+      "author",
+      "reviewRating",
+      "reviewBody"
+    ],
+    "ai_benefits": [
+      "Enhanced trust signal recognition",
+      "Improved sentiment analysis accuracy",
+      "Better review aggregation",
+      "Clear rating and feedback integration"
+    ],
+    "implementation_complexity": "Medium",
+    "common_mistakes": [
+      "Fake or manipulated reviews",
+      "Missing review dates",
+      "Incomplete rating scales",
+      "Poor author attribution"
+    ]
+  },
+  "breadcrumblist": {
+    "name": "BreadcrumbList Schema",
+    "slug": "breadcrumblist-schema",
+    "description": "Navigation hierarchy markup for site structure understanding",
+    "use_cases": [
+      "Navigation breadcrumbs",
+      "Category hierarchies",
+      "Site structure",
+      "Content organization"
+    ],
+    "required_properties": [
+      "itemListElement",
+      "position",
+      "name",
+      "item"
+    ],
+    "ai_benefits": [
+      "Enhanced site structure understanding",
+      "Improved content categorization",
+      "Better navigation context",
+      "Clear content hierarchy mapping"
+    ],
+    "implementation_complexity": "Easy",
+    "common_mistakes": [
+      "Incorrect position ordering",
+      "Missing intermediate levels",
+      "Broken link references",
+      "Inconsistent naming conventions"
+    ]
+  },
+  "website": {
+    "name": "WebSite Schema",
+    "slug": "website-schema",
+    "description": "Website entity markup for search functionality and site recognition",
+    "use_cases": [
+      "Homepage",
+      "Site-wide markup",
+      "Search integration",
+      "Brand recognition"
+    ],
+    "required_properties": [
+      "name",
+      "url",
+      "potentialAction"
+    ],
+    "ai_benefits": [
+      "Enhanced site entity recognition",
+      "Improved brand authority signals",
+      "Better search functionality integration",
+      "Clear site purpose communication"
+    ],
+    "implementation_complexity": "Easy",
+    "common_mistakes": [
+      "Missing search action markup",
+      "Incorrect URL specifications",
+      "Poor site name consistency",
+      "Missing alternate language versions"
+    ]
+  },
+  "localbusiness": {
+    "name": "LocalBusiness Schema",
+    "slug": "localbusiness-schema",
+    "description": "Local business markup for geographic and location-based searches",
+    "use_cases": [
+      "Local business pages",
+      "Store locations",
+      "Service areas",
+      "Contact pages"
+    ],
+    "required_properties": [
+      "name",
+      "address",
+      "telephone",
+      "openingHours"
+    ],
+    "ai_benefits": [
+      "Enhanced local search visibility",
+      "Improved location-based recommendations",
+      "Better business hours integration",
+      "Clear geographic targeting"
+    ],
+    "implementation_complexity": "Medium",
+    "common_mistakes": [
+      "Inconsistent NAP information",
+      "Missing business hours",
+      "Incorrect address formatting",
+      "Poor category classification"
+    ]
+  },
+  "course": {
+    "name": "Course Schema",
+    "slug": "course-schema",
+    "description": "Educational course markup for learning and training content",
+    "use_cases": [
+      "Online courses",
+      "Training programs",
+      "Educational content",
+      "Certification programs"
+    ],
+    "required_properties": [
+      "name",
+      "description",
+      "provider",
+      "courseCode"
+    ],
+    "ai_benefits": [
+      "Enhanced educational content discovery",
+      "Improved course recommendation matching",
+      "Better learning path integration",
+      "Clear skill and competency mapping"
+    ],
+    "implementation_complexity": "High",
+    "common_mistakes": [
+      "Missing course prerequisites",
+      "Incomplete instructor information",
+      "Poor course outcome descriptions",
+      "Missing certification details"
+    ]
+  },
+  "event": {
+    "name": "Event Schema",
+    "slug": "event-schema",
+    "description": "Event markup for conferences, webinars, and scheduled activities",
+    "use_cases": [
+      "Conferences",
+      "Webinars",
+      "Workshops",
+      "Meetings"
+    ],
+    "required_properties": [
+      "name",
+      "startDate",
+      "location",
+      "organizer"
+    ],
+    "ai_benefits": [
+      "Enhanced event discovery and recommendations",
+      "Improved calendar integration",
+      "Better event categorization",
+      "Clear scheduling and availability communication"
+    ],
+    "implementation_complexity": "Medium",
+    "common_mistakes": [
+      "Incorrect date and time formatting",
+      "Missing timezone information",
+      "Incomplete venue details",
+      "Poor event categorization"
+    ]
+  },
+  "recipe": {
+    "name": "Recipe Schema",
+    "slug": "recipe-schema",
+    "description": "Recipe markup for cooking and food-related content",
+    "use_cases": [
+      "Recipe pages",
+      "Cooking guides",
+      "Food blogs",
+      "Nutrition content"
+    ],
+    "required_properties": [
+      "name",
+      "recipeIngredient",
+      "recipeInstructions",
+      "nutrition"
+    ],
+    "ai_benefits": [
+      "Enhanced recipe discovery and matching",
+      "Improved cooking assistant integration",
+      "Better dietary restriction filtering",
+      "Clear nutritional information communication"
+    ],
+    "implementation_complexity": "High",
+    "common_mistakes": [
+      "Missing nutritional information",
+      "Incomplete ingredient lists",
+      "Poor instruction formatting",
+      "Missing cooking times and temperatures"
+    ]
+  },
+  "videoobject": {
+    "name": "VideoObject Schema",
+    "slug": "videoobject-schema",
+    "description": "Video content markup for multimedia search optimization",
+    "use_cases": [
+      "Video pages",
+      "Tutorial content",
+      "Entertainment videos",
+      "Educational media"
+    ],
+    "required_properties": [
+      "name",
+      "description",
+      "thumbnailUrl",
+      "uploadDate"
+    ],
+    "ai_benefits": [
+      "Enhanced video content discovery",
+      "Improved multimedia search integration",
+      "Better video recommendation matching",
+      "Clear content categorization and tagging"
+    ],
+    "implementation_complexity": "Medium",
+    "common_mistakes": [
+      "Missing video transcripts",
+      "Poor thumbnail optimization",
+      "Incomplete video metadata",
+      "Missing duration and quality information"
+    ]
+  },
+  "imageobject": {
+    "name": "ImageObject Schema",
+    "slug": "imageobject-schema",
+    "description": "Image content markup for visual search and accessibility",
+    "use_cases": [
+      "Image galleries",
+      "Product photos",
+      "Visual content",
+      "Infographics"
+    ],
+    "required_properties": [
+      "contentUrl",
+      "name",
+      "description",
+      "author"
+    ],
+    "ai_benefits": [
+      "Enhanced visual search optimization",
+      "Improved image accessibility",
+      "Better visual content categorization",
+      "Clear image rights and attribution"
+    ],
+    "implementation_complexity": "Easy",
+    "common_mistakes": [
+      "Missing alt text descriptions",
+      "Poor image quality optimization",
+      "Incomplete copyright information",
+      "Missing visual content context"
+    ]
+  }
+}

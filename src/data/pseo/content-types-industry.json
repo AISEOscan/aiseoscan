@@ -1,0 +1,40 @@
+{
+  "content_types": [
+    {
+      "id": "guide",
+      "name": "How to Improve AI SEO",
+      "url_pattern": "ai-seo-{industry_slug}",
+      "title_pattern": "How to Improve AI SEO for {industry_name} | Complete 2025 Guide",
+      "meta_description_pattern": "{industry_name} AI SEO optimization guide. Get your free AI search readiness score + 20-page report with exact code fixes for ChatGPT, Perplexity & SearchGPT visibility.",
+      "headline_pattern": "How to Improve AI SEO Score for {industry_name} Websites",
+      "word_count_target": 1800
+    },
+    {
+      "id": "mistakes",
+      "name": "Common AI SEO Mistakes",
+      "url_pattern": "ai-seo-mistakes-{industry_slug}",
+      "title_pattern": "Common AI SEO Mistakes in {industry_name} | Avoid These Errors",
+      "meta_description_pattern": "Avoid critical AI SEO mistakes that hurt {industry_name} websites. Free audit shows exactly what's wrong + how to fix it. Get instant report.",
+      "headline_pattern": "Common AI SEO Mistakes {industry_name} Websites Make",
+      "word_count_target": 1500
+    },
+    {
+      "id": "checklist",
+      "name": "AI SEO Checklist",
+      "url_pattern": "ai-seo-checklist-{industry_slug}",
+      "title_pattern": "AI SEO Checklist for {industry_name} Websites | Step-by-Step Guide",
+      "meta_description_pattern": "Complete AI SEO checklist for {industry_name}. Optimize for ChatGPT, Perplexity, SearchGPT. Free website scan + detailed implementation guide.",
+      "headline_pattern": "Complete AI SEO Checklist for {industry_name}",
+      "word_count_target": 1600
+    },
+    {
+      "id": "best-practices",
+      "name": "Best Practices",
+      "url_pattern": "ai-seo-best-practices-{industry_slug}",
+      "title_pattern": "{industry_name} AI SEO Best Practices 2025 | Expert Guide",
+      "meta_description_pattern": "Expert AI SEO best practices for {industry_name}. Proven strategies to rank higher in AI search. Free analysis + implementation roadmap.",
+      "headline_pattern": "{industry_name} AI SEO Best Practices for 2025",
+      "word_count_target": 1700
+    }
+  ]
+}

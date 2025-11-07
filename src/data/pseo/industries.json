@@ -1,0 +1,232 @@
+{
+  "technology": {
+    "name": "Technology Companies",
+    "slug": "technology",
+    "description": "Software companies, tech startups, and IT service providers",
+    "common_queries": [
+      "API documentation",
+      "Integration guides",
+      "Security features",
+      "Scalability"
+    ],
+    "ai_optimization_focus": [
+      "Technical documentation optimization for developer queries",
+      "API and integration content for automated development assistance",
+      "Security and compliance information for enterprise decision-making",
+      "Performance and scalability data for technical evaluation"
+    ],
+    "key_content_areas": [
+      "Product features",
+      "Technical documentation",
+      "Security compliance",
+      "Integration capabilities"
+    ]
+  },
+  "retail": {
+    "name": "Retail & Consumer Goods",
+    "slug": "retail",
+    "description": "Retail stores, consumer brands, and product manufacturers",
+    "common_queries": [
+      "Product comparisons",
+      "Store locations",
+      "Availability",
+      "Reviews"
+    ],
+    "ai_optimization_focus": [
+      "Product information optimization for comparison and recommendation queries",
+      "Inventory and availability integration for real-time shopping assistance",
+      "Review and rating aggregation for AI-powered product recommendations",
+      "Local store information for location-based shopping queries"
+    ],
+    "key_content_areas": [
+      "Product catalogs",
+      "Store information",
+      "Customer reviews",
+      "Brand story"
+    ]
+  },
+  "manufacturing": {
+    "name": "Manufacturing & Industrial",
+    "slug": "manufacturing",
+    "description": "Manufacturing companies, industrial suppliers, and B2B equipment providers",
+    "common_queries": [
+      "Product specifications",
+      "Technical documentation",
+      "Supplier capabilities",
+      "Certifications"
+    ],
+    "ai_optimization_focus": [
+      "Detailed product specification content for procurement and sourcing queries",
+      "Capability and certification information for supplier evaluation",
+      "Technical documentation for industrial application matching",
+      "Quality and compliance data for regulatory and safety requirements"
+    ],
+    "key_content_areas": [
+      "Product specifications",
+      "Manufacturing capabilities",
+      "Quality certifications",
+      "Technical support"
+    ]
+  },
+  "nonprofit": {
+    "name": "Non-Profit Organizations",
+    "slug": "nonprofit",
+    "description": "Charitable organizations, foundations, and social impact initiatives",
+    "common_queries": [
+      "Mission information",
+      "Donation processes",
+      "Impact measurement",
+      "Volunteer opportunities"
+    ],
+    "ai_optimization_focus": [
+      "Mission and impact content for donor and volunteer matching",
+      "Program information for funding and partnership opportunities",
+      "Impact measurement and reporting for transparency and accountability",
+      "Volunteer opportunity content for community engagement"
+    ],
+    "key_content_areas": [
+      "Mission and values",
+      "Program information",
+      "Impact reports",
+      "Volunteer opportunities"
+    ]
+  },
+  "hospitality": {
+    "name": "Hospitality & Tourism",
+    "slug": "hospitality",
+    "description": "Hotels, restaurants, travel services, and entertainment venues",
+    "common_queries": [
+      "Availability",
+      "Amenities",
+      "Location details",
+      "Reviews and ratings"
+    ],
+    "ai_optimization_focus": [
+      "Availability and booking integration for real-time reservation systems",
+      "Detailed amenity and service information for preference matching",
+      "Location and accessibility data for travel planning assistance",
+      "Review aggregation and sentiment analysis for recommendation systems"
+    ],
+    "key_content_areas": [
+      "Property amenities",
+      "Location information",
+      "Booking systems",
+      "Guest reviews"
+    ]
+  },
+  "automotive": {
+    "name": "Automotive Industry",
+    "slug": "automotive",
+    "description": "Car dealerships, auto manufacturers, and automotive service providers",
+    "common_queries": [
+      "Vehicle specifications",
+      "Pricing information",
+      "Service locations",
+      "Maintenance schedules"
+    ],
+    "ai_optimization_focus": [
+      "Vehicle specification and feature content for comparison and matching",
+      "Pricing and financing information for purchase decision support",
+      "Service location and capability data for maintenance assistance",
+      "Parts and accessory information for automotive enhancement queries"
+    ],
+    "key_content_areas": [
+      "Vehicle specifications",
+      "Pricing and financing",
+      "Service locations",
+      "Parts and accessories"
+    ]
+  },
+  "energy": {
+    "name": "Energy & Utilities",
+    "slug": "energy",
+    "description": "Utility companies, renewable energy providers, and energy service companies",
+    "common_queries": [
+      "Service areas",
+      "Rate information",
+      "Sustainability programs",
+      "Outage updates"
+    ],
+    "ai_optimization_focus": [
+      "Service area and coverage information for utility matching",
+      "Rate and pricing structure content for cost comparison",
+      "Sustainability and renewable energy program information",
+      "Service status and outage information for real-time updates"
+    ],
+    "key_content_areas": [
+      "Service coverage",
+      "Rate structures",
+      "Sustainability programs",
+      "Service status"
+    ]
+  },
+  "agriculture": {
+    "name": "Agriculture & Food Production",
+    "slug": "agriculture",
+    "description": "Farms, food producers, and agricultural service providers",
+    "common_queries": [
+      "Product sourcing",
+      "Seasonal availability",
+      "Certification standards",
+      "Distribution networks"
+    ],
+    "ai_optimization_focus": [
+      "Product and crop information for sourcing and procurement queries",
+      "Seasonal availability and harvest schedule content",
+      "Certification and quality standard information for compliance verification",
+      "Distribution and logistics capability content for supply chain optimization"
+    ],
+    "key_content_areas": [
+      "Product information",
+      "Seasonal schedules",
+      "Quality certifications",
+      "Distribution capabilities"
+    ]
+  },
+  "construction": {
+    "name": "Construction & Architecture",
+    "slug": "construction",
+    "description": "Construction companies, architectural firms, and building service providers",
+    "common_queries": [
+      "Project portfolios",
+      "Service capabilities",
+      "Material specifications",
+      "Timeline estimates"
+    ],
+    "ai_optimization_focus": [
+      "Project portfolio and capability content for contractor evaluation",
+      "Service area and specialization information for project matching",
+      "Material and specification data for construction planning",
+      "Timeline and cost estimation content for project scoping"
+    ],
+    "key_content_areas": [
+      "Project portfolios",
+      "Service capabilities",
+      "Material expertise",
+      "Cost and timeline information"
+    ]
+  },
+  "entertainment": {
+    "name": "Entertainment & Media",
+    "slug": "entertainment",
+    "description": "Entertainment companies, media producers, and content creators",
+    "common_queries": [
+      "Content catalogs",
+      "Event schedules",
+      "Artist information",
+      "Streaming availability"
+    ],
+    "ai_optimization_focus": [
+      "Content catalog and metadata optimization for discovery and recommendation",
+      "Event and schedule information for entertainment planning",
+      "Artist and creator information for fan and industry queries",
+      "Platform and availability data for content consumption guidance"
+    ],
+    "key_content_areas": [
+      "Content catalogs",
+      "Event information",
+      "Artist profiles",
+      "Platform availability"
+    ]
+  }
+}

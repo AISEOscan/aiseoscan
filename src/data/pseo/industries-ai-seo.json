@@ -1,0 +1,1434 @@
+{
+  "industries": [
+    {
+      "id": "law-firms",
+      "name": "Law Firms",
+      "slug": "law-firms",
+      "category": "Business Services",
+      "description": "Legal services and law practices",
+      "keywords": ["legal", "attorney", "lawyer", "law practice"],
+      "stats": {
+        "ai_growth": "280%",
+        "industry_adoption": "67%",
+        "visibility_impact": "+145%"
+      }
+    },
+    {
+      "id": "accounting-firms",
+      "name": "Accounting Firms",
+      "slug": "accounting-firms",
+      "category": "Business Services",
+      "description": "Accounting and financial services",
+      "keywords": ["accounting", "CPA", "bookkeeping", "tax services"],
+      "stats": {
+        "ai_growth": "245%",
+        "industry_adoption": "58%",
+        "visibility_impact": "+128%"
+      }
+    },
+    {
+      "id": "consulting-services",
+      "name": "Consulting Services",
+      "slug": "consulting-services",
+      "category": "Business Services",
+      "description": "Business consulting and advisory services",
+      "keywords": ["consulting", "business advisory", "strategy"],
+      "stats": {
+        "ai_growth": "265%",
+        "industry_adoption": "71%",
+        "visibility_impact": "+152%"
+      }
+    },
+    {
+      "id": "real-estate",
+      "name": "Real Estate Agencies",
+      "slug": "real-estate",
+      "category": "Business Services",
+      "description": "Real estate agencies and property services",
+      "keywords": ["real estate", "property", "realtor", "housing"],
+      "stats": {
+        "ai_growth": "310%",
+        "industry_adoption": "64%",
+        "visibility_impact": "+167%"
+      }
+    },
+    {
+      "id": "insurance",
+      "name": "Insurance Companies",
+      "slug": "insurance",
+      "category": "Business Services",
+      "description": "Insurance providers and agencies",
+      "keywords": ["insurance", "coverage", "policy", "insurance agency"],
+      "stats": {
+        "ai_growth": "235%",
+        "industry_adoption": "52%",
+        "visibility_impact": "+118%"
+      }
+    },
+    {
+      "id": "marketing-agencies",
+      "name": "Marketing Agencies",
+      "slug": "marketing-agencies",
+      "category": "Business Services",
+      "description": "Digital and traditional marketing services",
+      "keywords": ["marketing", "advertising", "digital marketing"],
+      "stats": {
+        "ai_growth": "325%",
+        "industry_adoption": "82%",
+        "visibility_impact": "+189%"
+      }
+    },
+    {
+      "id": "financial-advisors",
+      "name": "Financial Advisors",
+      "slug": "financial-advisors",
+      "category": "Business Services",
+      "description": "Financial planning and advisory services",
+      "keywords": ["financial advisor", "wealth management", "investment"],
+      "stats": {
+        "ai_growth": "255%",
+        "industry_adoption": "61%",
+        "visibility_impact": "+138%"
+      }
+    },
+    {
+      "id": "recruiting-agencies",
+      "name": "Recruiting Agencies",
+      "slug": "recruiting-agencies",
+      "category": "Business Services",
+      "description": "Recruitment and staffing services",
+      "keywords": ["recruiting", "staffing", "talent acquisition"],
+      "stats": {
+        "ai_growth": "270%",
+        "industry_adoption": "68%",
+        "visibility_impact": "+142%"
+      }
+    },
+    {
+      "id": "business-coaching",
+      "name": "Business Coaching",
+      "slug": "business-coaching",
+      "category": "Business Services",
+      "description": "Business coaching and mentorship services",
+      "keywords": ["business coach", "executive coaching", "leadership"],
+      "stats": {
+        "ai_growth": "240%",
+        "industry_adoption": "56%",
+        "visibility_impact": "+125%"
+      }
+    },
+    {
+      "id": "event-planning",
+      "name": "Event Planning",
+      "slug": "event-planning",
+      "category": "Business Services",
+      "description": "Event planning and coordination services",
+      "keywords": ["event planning", "wedding planner", "event coordinator"],
+      "stats": {
+        "ai_growth": "220%",
+        "industry_adoption": "49%",
+        "visibility_impact": "+112%"
+      }
+    },
+    {
+      "id": "photography",
+      "name": "Photography Studios",
+      "slug": "photography",
+      "category": "Business Services",
+      "description": "Professional photography services",
+      "keywords": ["photography", "photographer", "photo studio"],
+      "stats": {
+        "ai_growth": "230%",
+        "industry_adoption": "53%",
+        "visibility_impact": "+119%"
+      }
+    },
+    {
+      "id": "web-design",
+      "name": "Web Design Agencies",
+      "slug": "web-design",
+      "category": "Business Services",
+      "description": "Web design and development services",
+      "keywords": ["web design", "website development", "UX design"],
+      "stats": {
+        "ai_growth": "340%",
+        "industry_adoption": "86%",
+        "visibility_impact": "+198%"
+      }
+    },
+    {
+      "id": "pr-firms",
+      "name": "PR Firms",
+      "slug": "pr-firms",
+      "category": "Business Services",
+      "description": "Public relations and communications",
+      "keywords": ["public relations", "PR agency", "communications"],
+      "stats": {
+        "ai_growth": "260%",
+        "industry_adoption": "65%",
+        "visibility_impact": "+135%"
+      }
+    },
+    {
+      "id": "architecture",
+      "name": "Architectural Firms",
+      "slug": "architecture",
+      "category": "Business Services",
+      "description": "Architectural design and planning services",
+      "keywords": ["architecture", "architect", "building design"],
+      "stats": {
+        "ai_growth": "225%",
+        "industry_adoption": "48%",
+        "visibility_impact": "+108%"
+      }
+    },
+    {
+      "id": "engineering",
+      "name": "Engineering Services",
+      "slug": "engineering",
+      "category": "Business Services",
+      "description": "Engineering consulting and services",
+      "keywords": ["engineering", "structural engineering", "civil engineering"],
+      "stats": {
+        "ai_growth": "248%",
+        "industry_adoption": "57%",
+        "visibility_impact": "+127%"
+      }
+    },
+    {
+      "id": "medical-practices",
+      "name": "Medical Practices",
+      "slug": "medical-practices",
+      "category": "Healthcare & Wellness",
+      "description": "General medical practices and clinics",
+      "keywords": ["medical practice", "doctor", "clinic", "healthcare"],
+      "stats": {
+        "ai_growth": "290%",
+        "industry_adoption": "72%",
+        "visibility_impact": "+158%"
+      }
+    },
+    {
+      "id": "dental-clinics",
+      "name": "Dental Clinics",
+      "slug": "dental-clinics",
+      "category": "Healthcare & Wellness",
+      "description": "Dental practices and oral health services",
+      "keywords": ["dentist", "dental clinic", "orthodontist"],
+      "stats": {
+        "ai_growth": "275%",
+        "industry_adoption": "69%",
+        "visibility_impact": "+148%"
+      }
+    },
+    {
+      "id": "mental-health",
+      "name": "Mental Health Services",
+      "slug": "mental-health",
+      "category": "Healthcare & Wellness",
+      "description": "Mental health and therapy services",
+      "keywords": ["therapist", "counseling", "mental health", "psychology"],
+      "stats": {
+        "ai_growth": "315%",
+        "industry_adoption": "76%",
+        "visibility_impact": "+172%"
+      }
+    },
+    {
+      "id": "physical-therapy",
+      "name": "Physical Therapy",
+      "slug": "physical-therapy",
+      "category": "Healthcare & Wellness",
+      "description": "Physical therapy and rehabilitation services",
+      "keywords": ["physical therapy", "PT", "rehabilitation"],
+      "stats": {
+        "ai_growth": "268%",
+        "industry_adoption": "63%",
+        "visibility_impact": "+141%"
+      }
+    },
+    {
+      "id": "veterinary",
+      "name": "Veterinary Clinics",
+      "slug": "veterinary",
+      "category": "Healthcare & Wellness",
+      "description": "Veterinary care and animal health services",
+      "keywords": ["veterinary", "vet", "animal hospital", "pet care"],
+      "stats": {
+        "ai_growth": "258%",
+        "industry_adoption": "60%",
+        "visibility_impact": "+133%"
+      }
+    },
+    {
+      "id": "chiropractic",
+      "name": "Chiropractors",
+      "slug": "chiropractic",
+      "category": "Healthcare & Wellness",
+      "description": "Chiropractic care and services",
+      "keywords": ["chiropractor", "chiropractic", "spine care"],
+      "stats": {
+        "ai_growth": "252%",
+        "industry_adoption": "59%",
+        "visibility_impact": "+130%"
+      }
+    },
+    {
+      "id": "optometry",
+      "name": "Optometry",
+      "slug": "optometry",
+      "category": "Healthcare & Wellness",
+      "description": "Eye care and optometry services",
+      "keywords": ["optometrist", "eye doctor", "vision care"],
+      "stats": {
+        "ai_growth": "242%",
+        "industry_adoption": "55%",
+        "visibility_impact": "+123%"
+      }
+    },
+    {
+      "id": "dermatology",
+      "name": "Dermatology",
+      "slug": "dermatology",
+      "category": "Healthcare & Wellness",
+      "description": "Dermatology and skin care services",
+      "keywords": ["dermatologist", "skin care", "dermatology"],
+      "stats": {
+        "ai_growth": "285%",
+        "industry_adoption": "70%",
+        "visibility_impact": "+155%"
+      }
+    },
+    {
+      "id": "plastic-surgery",
+      "name": "Plastic Surgery",
+      "slug": "plastic-surgery",
+      "category": "Healthcare & Wellness",
+      "description": "Cosmetic and plastic surgery services",
+      "keywords": ["plastic surgery", "cosmetic surgery", "aesthetic medicine"],
+      "stats": {
+        "ai_growth": "295%",
+        "industry_adoption": "73%",
+        "visibility_impact": "+162%"
+      }
+    },
+    {
+      "id": "urgent-care",
+      "name": "Urgent Care Centers",
+      "slug": "urgent-care",
+      "category": "Healthcare & Wellness",
+      "description": "Urgent care and walk-in clinics",
+      "keywords": ["urgent care", "walk-in clinic", "immediate care"],
+      "stats": {
+        "ai_growth": "278%",
+        "industry_adoption": "68%",
+        "visibility_impact": "+150%"
+      }
+    },
+    {
+      "id": "medical-spas",
+      "name": "Medical Spas",
+      "slug": "medical-spas",
+      "category": "Healthcare & Wellness",
+      "description": "Medical spa and aesthetic services",
+      "keywords": ["medical spa", "medspa", "aesthetic treatments"],
+      "stats": {
+        "ai_growth": "305%",
+        "industry_adoption": "75%",
+        "visibility_impact": "+168%"
+      }
+    },
+    {
+      "id": "nutrition",
+      "name": "Nutrition & Dietetics",
+      "slug": "nutrition",
+      "category": "Healthcare & Wellness",
+      "description": "Nutrition counseling and dietetic services",
+      "keywords": ["nutritionist", "dietitian", "nutrition counseling"],
+      "stats": {
+        "ai_growth": "265%",
+        "industry_adoption": "62%",
+        "visibility_impact": "+139%"
+      }
+    },
+    {
+      "id": "fashion-retail",
+      "name": "Fashion & Apparel Stores",
+      "slug": "fashion-retail",
+      "category": "Retail & E-commerce",
+      "description": "Fashion retail and clothing stores",
+      "keywords": ["fashion", "clothing store", "apparel", "boutique"],
+      "stats": {
+        "ai_growth": "320%",
+        "industry_adoption": "79%",
+        "visibility_impact": "+178%"
+      }
+    },
+    {
+      "id": "electronics-retail",
+      "name": "Electronics Retailers",
+      "slug": "electronics-retail",
+      "category": "Retail & E-commerce",
+      "description": "Electronics and technology retail",
+      "keywords": ["electronics", "technology", "gadgets"],
+      "stats": {
+        "ai_growth": "335%",
+        "industry_adoption": "83%",
+        "visibility_impact": "+192%"
+      }
+    },
+    {
+      "id": "jewelry",
+      "name": "Jewelry Stores",
+      "slug": "jewelry",
+      "category": "Retail & E-commerce",
+      "description": "Jewelry retail and custom design",
+      "keywords": ["jewelry", "jeweler", "diamonds", "fine jewelry"],
+      "stats": {
+        "ai_growth": "272%",
+        "industry_adoption": "66%",
+        "visibility_impact": "+146%"
+      }
+    },
+    {
+      "id": "furniture",
+      "name": "Furniture Stores",
+      "slug": "furniture",
+      "category": "Retail & E-commerce",
+      "description": "Furniture retail and home furnishings",
+      "keywords": ["furniture", "home furnishings", "interior design"],
+      "stats": {
+        "ai_growth": "262%",
+        "industry_adoption": "61%",
+        "visibility_impact": "+136%"
+      }
+    },
+    {
+      "id": "pet-supplies",
+      "name": "Pet Supply Stores",
+      "slug": "pet-supplies",
+      "category": "Retail & E-commerce",
+      "description": "Pet products and supplies",
+      "keywords": ["pet supplies", "pet store", "pet products"],
+      "stats": {
+        "ai_growth": "280%",
+        "industry_adoption": "69%",
+        "visibility_impact": "+153%"
+      }
+    },
+    {
+      "id": "beauty-cosmetics",
+      "name": "Beauty & Cosmetics",
+      "slug": "beauty-cosmetics",
+      "category": "Retail & E-commerce",
+      "description": "Beauty products and cosmetics retail",
+      "keywords": ["beauty", "cosmetics", "makeup", "skincare"],
+      "stats": {
+        "ai_growth": "330%",
+        "industry_adoption": "81%",
+        "visibility_impact": "+185%"
+      }
+    },
+    {
+      "id": "sports-equipment",
+      "name": "Sports Equipment",
+      "slug": "sports-equipment",
+      "category": "Retail & E-commerce",
+      "description": "Sporting goods and athletic equipment",
+      "keywords": ["sports equipment", "athletic gear", "sporting goods"],
+      "stats": {
+        "ai_growth": "275%",
+        "industry_adoption": "68%",
+        "visibility_impact": "+149%"
+      }
+    },
+    {
+      "id": "home-improvement",
+      "name": "Home Improvement",
+      "slug": "home-improvement",
+      "category": "Retail & E-commerce",
+      "description": "Home improvement and hardware retail",
+      "keywords": ["home improvement", "hardware", "building materials"],
+      "stats": {
+        "ai_growth": "255%",
+        "industry_adoption": "59%",
+        "visibility_impact": "+131%"
+      }
+    },
+    {
+      "id": "bookstores",
+      "name": "Bookstores",
+      "slug": "bookstores",
+      "category": "Retail & E-commerce",
+      "description": "Book retail and publishing",
+      "keywords": ["bookstore", "books", "publishing"],
+      "stats": {
+        "ai_growth": "245%",
+        "industry_adoption": "57%",
+        "visibility_impact": "+126%"
+      }
+    },
+    {
+      "id": "toy-stores",
+      "name": "Toy Stores",
+      "slug": "toy-stores",
+      "category": "Retail & E-commerce",
+      "description": "Toy and game retail",
+      "keywords": ["toys", "toy store", "games", "children's toys"],
+      "stats": {
+        "ai_growth": "268%",
+        "industry_adoption": "64%",
+        "visibility_impact": "+143%"
+      }
+    },
+    {
+      "id": "grocery",
+      "name": "Grocery Stores",
+      "slug": "grocery",
+      "category": "Retail & E-commerce",
+      "description": "Grocery and food retail",
+      "keywords": ["grocery", "supermarket", "food store"],
+      "stats": {
+        "ai_growth": "238%",
+        "industry_adoption": "54%",
+        "visibility_impact": "+120%"
+      }
+    },
+    {
+      "id": "automotive-parts",
+      "name": "Automotive Parts",
+      "slug": "automotive-parts",
+      "category": "Retail & E-commerce",
+      "description": "Auto parts and accessories retail",
+      "keywords": ["auto parts", "car parts", "automotive accessories"],
+      "stats": {
+        "ai_growth": "250%",
+        "industry_adoption": "58%",
+        "visibility_impact": "+129%"
+      }
+    },
+    {
+      "id": "gift-shops",
+      "name": "Gift Shops",
+      "slug": "gift-shops",
+      "category": "Retail & E-commerce",
+      "description": "Gift and specialty retail",
+      "keywords": ["gift shop", "gifts", "specialty retail"],
+      "stats": {
+        "ai_growth": "232%",
+        "industry_adoption": "52%",
+        "visibility_impact": "+116%"
+      }
+    },
+    {
+      "id": "office-supplies",
+      "name": "Office Supplies",
+      "slug": "office-supplies",
+      "category": "Retail & E-commerce",
+      "description": "Office supplies and business products",
+      "keywords": ["office supplies", "business supplies", "stationery"],
+      "stats": {
+        "ai_growth": "242%",
+        "industry_adoption": "56%",
+        "visibility_impact": "+124%"
+      }
+    },
+    {
+      "id": "garden-centers",
+      "name": "Garden Centers",
+      "slug": "garden-centers",
+      "category": "Retail & E-commerce",
+      "description": "Garden centers and nurseries",
+      "keywords": ["garden center", "nursery", "plants", "landscaping"],
+      "stats": {
+        "ai_growth": "228%",
+        "industry_adoption": "51%",
+        "visibility_impact": "+114%"
+      }
+    },
+    {
+      "id": "restaurants",
+      "name": "Restaurants",
+      "slug": "restaurants",
+      "category": "Food & Hospitality",
+      "description": "Restaurants and dining establishments",
+      "keywords": ["restaurant", "dining", "food service"],
+      "stats": {
+        "ai_growth": "298%",
+        "industry_adoption": "74%",
+        "visibility_impact": "+165%"
+      }
+    },
+    {
+      "id": "cafes",
+      "name": "Cafes & Coffee Shops",
+      "slug": "cafes",
+      "category": "Food & Hospitality",
+      "description": "Cafes and coffee shops",
+      "keywords": ["cafe", "coffee shop", "coffeehouse"],
+      "stats": {
+        "ai_growth": "285%",
+        "industry_adoption": "71%",
+        "visibility_impact": "+157%"
+      }
+    },
+    {
+      "id": "hotels",
+      "name": "Hotels & Resorts",
+      "slug": "hotels",
+      "category": "Food & Hospitality",
+      "description": "Hotels, resorts, and lodging",
+      "keywords": ["hotel", "resort", "lodging", "accommodation"],
+      "stats": {
+        "ai_growth": "312%",
+        "industry_adoption": "77%",
+        "visibility_impact": "+174%"
+      }
+    },
+    {
+      "id": "bed-and-breakfast",
+      "name": "Bed & Breakfasts",
+      "slug": "bed-and-breakfast",
+      "category": "Food & Hospitality",
+      "description": "Bed and breakfast establishments",
+      "keywords": ["bed and breakfast", "B&B", "inn"],
+      "stats": {
+        "ai_growth": "265%",
+        "industry_adoption": "62%",
+        "visibility_impact": "+140%"
+      }
+    },
+    {
+      "id": "catering",
+      "name": "Catering Services",
+      "slug": "catering",
+      "category": "Food & Hospitality",
+      "description": "Catering and event food services",
+      "keywords": ["catering", "event catering", "food service"],
+      "stats": {
+        "ai_growth": "272%",
+        "industry_adoption": "67%",
+        "visibility_impact": "+147%"
+      }
+    },
+    {
+      "id": "food-trucks",
+      "name": "Food Trucks",
+      "slug": "food-trucks",
+      "category": "Food & Hospitality",
+      "description": "Mobile food service and food trucks",
+      "keywords": ["food truck", "mobile food", "street food"],
+      "stats": {
+        "ai_growth": "258%",
+        "industry_adoption": "60%",
+        "visibility_impact": "+134%"
+      }
+    },
+    {
+      "id": "bars-nightclubs",
+      "name": "Bars & Nightclubs",
+      "slug": "bars-nightclubs",
+      "category": "Food & Hospitality",
+      "description": "Bars, nightclubs, and entertainment venues",
+      "keywords": ["bar", "nightclub", "lounge", "pub"],
+      "stats": {
+        "ai_growth": "275%",
+        "industry_adoption": "68%",
+        "visibility_impact": "+151%"
+      }
+    },
+    {
+      "id": "bakeries",
+      "name": "Bakeries",
+      "slug": "bakeries",
+      "category": "Food & Hospitality",
+      "description": "Bakeries and pastry shops",
+      "keywords": ["bakery", "pastry", "bread", "cakes"],
+      "stats": {
+        "ai_growth": "262%",
+        "industry_adoption": "61%",
+        "visibility_impact": "+137%"
+      }
+    },
+    {
+      "id": "food-delivery",
+      "name": "Food Delivery Services",
+      "slug": "food-delivery",
+      "category": "Food & Hospitality",
+      "description": "Food delivery and meal kit services",
+      "keywords": ["food delivery", "meal kit", "delivery service"],
+      "stats": {
+        "ai_growth": "345%",
+        "industry_adoption": "85%",
+        "visibility_impact": "+201%"
+      }
+    },
+    {
+      "id": "wedding-venues",
+      "name": "Wedding Venues",
+      "slug": "wedding-venues",
+      "category": "Food & Hospitality",
+      "description": "Wedding and event venues",
+      "keywords": ["wedding venue", "event space", "banquet hall"],
+      "stats": {
+        "ai_growth": "278%",
+        "industry_adoption": "69%",
+        "visibility_impact": "+154%"
+      }
+    },
+    {
+      "id": "online-courses",
+      "name": "Online Courses",
+      "slug": "online-courses",
+      "category": "Education & Training",
+      "description": "Online education and e-learning platforms",
+      "keywords": ["online courses", "e-learning", "online education"],
+      "stats": {
+        "ai_growth": "365%",
+        "industry_adoption": "89%",
+        "visibility_impact": "+215%"
+      }
+    },
+    {
+      "id": "universities",
+      "name": "Universities & Colleges",
+      "slug": "universities",
+      "category": "Education & Training",
+      "description": "Higher education institutions",
+      "keywords": ["university", "college", "higher education"],
+      "stats": {
+        "ai_growth": "288%",
+        "industry_adoption": "72%",
+        "visibility_impact": "+159%"
+      }
+    },
+    {
+      "id": "k12-schools",
+      "name": "K-12 Schools",
+      "slug": "k12-schools",
+      "category": "Education & Training",
+      "description": "Primary and secondary schools",
+      "keywords": ["school", "K-12", "education", "primary school"],
+      "stats": {
+        "ai_growth": "272%",
+        "industry_adoption": "67%",
+        "visibility_impact": "+144%"
+      }
+    },
+    {
+      "id": "tutoring",
+      "name": "Tutoring Services",
+      "slug": "tutoring",
+      "category": "Education & Training",
+      "description": "Private tutoring and academic support",
+      "keywords": ["tutoring", "tutor", "academic coaching"],
+      "stats": {
+        "ai_growth": "295%",
+        "industry_adoption": "73%",
+        "visibility_impact": "+163%"
+      }
+    },
+    {
+      "id": "language-schools",
+      "name": "Language Schools",
+      "slug": "language-schools",
+      "category": "Education & Training",
+      "description": "Language learning and ESL services",
+      "keywords": ["language school", "ESL", "language learning"],
+      "stats": {
+        "ai_growth": "282%",
+        "industry_adoption": "70%",
+        "visibility_impact": "+156%"
+      }
+    },
+    {
+      "id": "music-schools",
+      "name": "Music Schools",
+      "slug": "music-schools",
+      "category": "Education & Training",
+      "description": "Music education and instruction",
+      "keywords": ["music school", "music lessons", "music education"],
+      "stats": {
+        "ai_growth": "258%",
+        "industry_adoption": "60%",
+        "visibility_impact": "+132%"
+      }
+    },
+    {
+      "id": "dance-studios",
+      "name": "Dance Studios",
+      "slug": "dance-studios",
+      "category": "Education & Training",
+      "description": "Dance instruction and studios",
+      "keywords": ["dance studio", "dance classes", "dance instruction"],
+      "stats": {
+        "ai_growth": "252%",
+        "industry_adoption": "58%",
+        "visibility_impact": "+128%"
+      }
+    },
+    {
+      "id": "coding-bootcamps",
+      "name": "Coding Bootcamps",
+      "slug": "coding-bootcamps",
+      "category": "Education & Training",
+      "description": "Coding bootcamps and tech training",
+      "keywords": ["coding bootcamp", "programming course", "tech training"],
+      "stats": {
+        "ai_growth": "380%",
+        "industry_adoption": "92%",
+        "visibility_impact": "+228%"
+      }
+    },
+    {
+      "id": "certification",
+      "name": "Professional Certification",
+      "slug": "certification",
+      "category": "Education & Training",
+      "description": "Professional certification programs",
+      "keywords": ["certification", "professional training", "credentials"],
+      "stats": {
+        "ai_growth": "305%",
+        "industry_adoption": "76%",
+        "visibility_impact": "+170%"
+      }
+    },
+    {
+      "id": "corporate-training",
+      "name": "Corporate Training",
+      "slug": "corporate-training",
+      "category": "Education & Training",
+      "description": "Corporate training and development",
+      "keywords": ["corporate training", "employee training", "professional development"],
+      "stats": {
+        "ai_growth": "298%",
+        "industry_adoption": "74%",
+        "visibility_impact": "+166%"
+      }
+    },
+    {
+      "id": "saas",
+      "name": "SaaS Companies",
+      "slug": "saas",
+      "category": "Technology & SaaS",
+      "description": "Software as a Service companies",
+      "keywords": ["SaaS", "software", "cloud software"],
+      "stats": {
+        "ai_growth": "395%",
+        "industry_adoption": "94%",
+        "visibility_impact": "+242%"
+      }
+    },
+    {
+      "id": "software-development",
+      "name": "Software Development",
+      "slug": "software-development",
+      "category": "Technology & SaaS",
+      "description": "Custom software development services",
+      "keywords": ["software development", "custom software", "app development"],
+      "stats": {
+        "ai_growth": "385%",
+        "industry_adoption": "93%",
+        "visibility_impact": "+235%"
+      }
+    },
+    {
+      "id": "it-services",
+      "name": "IT Services",
+      "slug": "it-services",
+      "category": "Technology & SaaS",
+      "description": "IT support and managed services",
+      "keywords": ["IT services", "managed IT", "tech support"],
+      "stats": {
+        "ai_growth": "328%",
+        "industry_adoption": "81%",
+        "visibility_impact": "+188%"
+      }
+    },
+    {
+      "id": "cybersecurity",
+      "name": "Cybersecurity Firms",
+      "slug": "cybersecurity",
+      "category": "Technology & SaaS",
+      "description": "Cybersecurity and information security",
+      "keywords": ["cybersecurity", "security", "infosec"],
+      "stats": {
+        "ai_growth": "372%",
+        "industry_adoption": "91%",
+        "visibility_impact": "+221%"
+      }
+    },
+    {
+      "id": "cloud-services",
+      "name": "Cloud Services",
+      "slug": "cloud-services",
+      "category": "Technology & SaaS",
+      "description": "Cloud computing and infrastructure services",
+      "keywords": ["cloud services", "cloud computing", "cloud infrastructure"],
+      "stats": {
+        "ai_growth": "410%",
+        "industry_adoption": "96%",
+        "visibility_impact": "+258%"
+      }
+    },
+    {
+      "id": "ai-ml",
+      "name": "AI/ML Companies",
+      "slug": "ai-ml",
+      "category": "Technology & SaaS",
+      "description": "Artificial intelligence and machine learning services",
+      "keywords": ["AI", "machine learning", "artificial intelligence"],
+      "stats": {
+        "ai_growth": "485%",
+        "industry_adoption": "98%",
+        "visibility_impact": "+312%"
+      }
+    },
+    {
+      "id": "mobile-development",
+      "name": "Mobile App Development",
+      "slug": "mobile-development",
+      "category": "Technology & SaaS",
+      "description": "Mobile application development services",
+      "keywords": ["mobile app", "app development", "iOS", "Android"],
+      "stats": {
+        "ai_growth": "368%",
+        "industry_adoption": "90%",
+        "visibility_impact": "+218%"
+      }
+    },
+    {
+      "id": "blockchain",
+      "name": "Blockchain Companies",
+      "slug": "blockchain",
+      "category": "Technology & SaaS",
+      "description": "Blockchain and cryptocurrency services",
+      "keywords": ["blockchain", "cryptocurrency", "crypto"],
+      "stats": {
+        "ai_growth": "358%",
+        "industry_adoption": "88%",
+        "visibility_impact": "+208%"
+      }
+    },
+    {
+      "id": "iot",
+      "name": "IoT Solutions",
+      "slug": "iot",
+      "category": "Technology & SaaS",
+      "description": "Internet of Things solutions and services",
+      "keywords": ["IoT", "Internet of Things", "smart devices"],
+      "stats": {
+        "ai_growth": "342%",
+        "industry_adoption": "84%",
+        "visibility_impact": "+195%"
+      }
+    },
+    {
+      "id": "data-analytics",
+      "name": "Data Analytics",
+      "slug": "data-analytics",
+      "category": "Technology & SaaS",
+      "description": "Data analytics and business intelligence",
+      "keywords": ["data analytics", "business intelligence", "big data"],
+      "stats": {
+        "ai_growth": "398%",
+        "industry_adoption": "95%",
+        "visibility_impact": "+246%"
+      }
+    },
+    {
+      "id": "devops",
+      "name": "DevOps Tools",
+      "slug": "devops",
+      "category": "Technology & SaaS",
+      "description": "DevOps tools and platforms",
+      "keywords": ["DevOps", "CI/CD", "automation"],
+      "stats": {
+        "ai_growth": "375%",
+        "industry_adoption": "92%",
+        "visibility_impact": "+224%"
+      }
+    },
+    {
+      "id": "api-platforms",
+      "name": "API Platforms",
+      "slug": "api-platforms",
+      "category": "Technology & SaaS",
+      "description": "API platforms and integration services",
+      "keywords": ["API", "integration", "API platform"],
+      "stats": {
+        "ai_growth": "388%",
+        "industry_adoption": "93%",
+        "visibility_impact": "+237%"
+      }
+    },
+    {
+      "id": "plumbing",
+      "name": "Plumbing Services",
+      "slug": "plumbing",
+      "category": "Home Services",
+      "description": "Plumbing and pipe services",
+      "keywords": ["plumber", "plumbing", "pipe repair"],
+      "stats": {
+        "ai_growth": "248%",
+        "industry_adoption": "56%",
+        "visibility_impact": "+127%"
+      }
+    },
+    {
+      "id": "hvac",
+      "name": "HVAC Companies",
+      "slug": "hvac",
+      "category": "Home Services",
+      "description": "HVAC installation and repair",
+      "keywords": ["HVAC", "heating", "air conditioning", "AC repair"],
+      "stats": {
+        "ai_growth": "255%",
+        "industry_adoption": "59%",
+        "visibility_impact": "+132%"
+      }
+    },
+    {
+      "id": "electricians",
+      "name": "Electricians",
+      "slug": "electricians",
+      "category": "Home Services",
+      "description": "Electrical services and repairs",
+      "keywords": ["electrician", "electrical", "wiring"],
+      "stats": {
+        "ai_growth": "252%",
+        "industry_adoption": "58%",
+        "visibility_impact": "+129%"
+      }
+    },
+    {
+      "id": "landscaping",
+      "name": "Landscaping",
+      "slug": "landscaping",
+      "category": "Home Services",
+      "description": "Landscaping and lawn care services",
+      "keywords": ["landscaping", "lawn care", "yard maintenance"],
+      "stats": {
+        "ai_growth": "238%",
+        "industry_adoption": "54%",
+        "visibility_impact": "+121%"
+      }
+    },
+    {
+      "id": "cleaning",
+      "name": "Cleaning Services",
+      "slug": "cleaning",
+      "category": "Home Services",
+      "description": "House cleaning and janitorial services",
+      "keywords": ["cleaning service", "house cleaning", "maid service"],
+      "stats": {
+        "ai_growth": "265%",
+        "industry_adoption": "62%",
+        "visibility_impact": "+140%"
+      }
+    },
+    {
+      "id": "pest-control",
+      "name": "Pest Control",
+      "slug": "pest-control",
+      "category": "Home Services",
+      "description": "Pest control and extermination services",
+      "keywords": ["pest control", "exterminator", "pest management"],
+      "stats": {
+        "ai_growth": "242%",
+        "industry_adoption": "55%",
+        "visibility_impact": "+124%"
+      }
+    },
+    {
+      "id": "moving",
+      "name": "Moving Companies",
+      "slug": "moving",
+      "category": "Home Services",
+      "description": "Moving and relocation services",
+      "keywords": ["moving company", "movers", "relocation"],
+      "stats": {
+        "ai_growth": "258%",
+        "industry_adoption": "60%",
+        "visibility_impact": "+135%"
+      }
+    },
+    {
+      "id": "home-security",
+      "name": "Home Security",
+      "slug": "home-security",
+      "category": "Home Services",
+      "description": "Home security and alarm systems",
+      "keywords": ["home security", "alarm system", "security system"],
+      "stats": {
+        "ai_growth": "282%",
+        "industry_adoption": "70%",
+        "visibility_impact": "+157%"
+      }
+    },
+    {
+      "id": "painting",
+      "name": "Painting Services",
+      "slug": "painting",
+      "category": "Home Services",
+      "description": "Interior and exterior painting",
+      "keywords": ["painting", "painter", "house painting"],
+      "stats": {
+        "ai_growth": "235%",
+        "industry_adoption": "53%",
+        "visibility_impact": "+118%"
+      }
+    },
+    {
+      "id": "roofing",
+      "name": "Roofing Companies",
+      "slug": "roofing",
+      "category": "Home Services",
+      "description": "Roofing installation and repair",
+      "keywords": ["roofing", "roofer", "roof repair"],
+      "stats": {
+        "ai_growth": "245%",
+        "industry_adoption": "56%",
+        "visibility_impact": "+126%"
+      }
+    },
+    {
+      "id": "pool-services",
+      "name": "Pool Services",
+      "slug": "pool-services",
+      "category": "Home Services",
+      "description": "Pool maintenance and repair",
+      "keywords": ["pool service", "pool maintenance", "pool repair"],
+      "stats": {
+        "ai_growth": "228%",
+        "industry_adoption": "51%",
+        "visibility_impact": "+113%"
+      }
+    },
+    {
+      "id": "handyman",
+      "name": "Handyman Services",
+      "slug": "handyman",
+      "category": "Home Services",
+      "description": "General handyman and repair services",
+      "keywords": ["handyman", "home repair", "general contractor"],
+      "stats": {
+        "ai_growth": "250%",
+        "industry_adoption": "57%",
+        "visibility_impact": "+130%"
+      }
+    },
+    {
+      "id": "film-production",
+      "name": "Film Production",
+      "slug": "film-production",
+      "category": "Creative & Media",
+      "description": "Film and video production services",
+      "keywords": ["film production", "video production", "filmmaking"],
+      "stats": {
+        "ai_growth": "318%",
+        "industry_adoption": "78%",
+        "visibility_impact": "+176%"
+      }
+    },
+    {
+      "id": "music-production",
+      "name": "Music Production",
+      "slug": "music-production",
+      "category": "Creative & Media",
+      "description": "Music production and recording services",
+      "keywords": ["music production", "recording studio", "audio production"],
+      "stats": {
+        "ai_growth": "295%",
+        "industry_adoption": "73%",
+        "visibility_impact": "+164%"
+      }
+    },
+    {
+      "id": "podcasting",
+      "name": "Podcasting",
+      "slug": "podcasting",
+      "category": "Creative & Media",
+      "description": "Podcast production and hosting",
+      "keywords": ["podcast", "podcasting", "podcast production"],
+      "stats": {
+        "ai_growth": "352%",
+        "industry_adoption": "87%",
+        "visibility_impact": "+205%"
+      }
+    },
+    {
+      "id": "publishing",
+      "name": "Publishing Houses",
+      "slug": "publishing",
+      "category": "Creative & Media",
+      "description": "Book and content publishing",
+      "keywords": ["publishing", "publisher", "book publishing"],
+      "stats": {
+        "ai_growth": "272%",
+        "industry_adoption": "67%",
+        "visibility_impact": "+148%"
+      }
+    },
+    {
+      "id": "graphic-design",
+      "name": "Graphic Design",
+      "slug": "graphic-design",
+      "category": "Creative & Media",
+      "description": "Graphic design and visual services",
+      "keywords": ["graphic design", "designer", "visual design"],
+      "stats": {
+        "ai_growth": "308%",
+        "industry_adoption": "76%",
+        "visibility_impact": "+171%"
+      }
+    },
+    {
+      "id": "animation",
+      "name": "Animation Studios",
+      "slug": "animation",
+      "category": "Creative & Media",
+      "description": "Animation and motion graphics",
+      "keywords": ["animation", "animator", "motion graphics"],
+      "stats": {
+        "ai_growth": "325%",
+        "industry_adoption": "80%",
+        "visibility_impact": "+182%"
+      }
+    },
+    {
+      "id": "video-editing",
+      "name": "Video Editing Services",
+      "slug": "video-editing",
+      "category": "Creative & Media",
+      "description": "Video editing and post-production",
+      "keywords": ["video editing", "post-production", "video editor"],
+      "stats": {
+        "ai_growth": "315%",
+        "industry_adoption": "77%",
+        "visibility_impact": "+173%"
+      }
+    },
+    {
+      "id": "content-creation",
+      "name": "Content Creation",
+      "slug": "content-creation",
+      "category": "Creative & Media",
+      "description": "Digital content creation services",
+      "keywords": ["content creation", "content creator", "digital content"],
+      "stats": {
+        "ai_growth": "362%",
+        "industry_adoption": "89%",
+        "visibility_impact": "+212%"
+      }
+    },
+    {
+      "id": "influencer-marketing",
+      "name": "Influencer Marketing",
+      "slug": "influencer-marketing",
+      "category": "Creative & Media",
+      "description": "Influencer marketing and management",
+      "keywords": ["influencer marketing", "influencer", "social media marketing"],
+      "stats": {
+        "ai_growth": "378%",
+        "industry_adoption": "92%",
+        "visibility_impact": "+227%"
+      }
+    },
+    {
+      "id": "game-development",
+      "name": "Game Development",
+      "slug": "game-development",
+      "category": "Creative & Media",
+      "description": "Video game development",
+      "keywords": ["game development", "game developer", "video games"],
+      "stats": {
+        "ai_growth": "392%",
+        "industry_adoption": "94%",
+        "visibility_impact": "+240%"
+      }
+    },
+    {
+      "id": "agriculture",
+      "name": "Agriculture & Farming",
+      "slug": "agriculture",
+      "category": "Specialized Industries",
+      "description": "Agricultural and farming operations",
+      "keywords": ["agriculture", "farming", "farm", "agribusiness"],
+      "stats": {
+        "ai_growth": "212%",
+        "industry_adoption": "45%",
+        "visibility_impact": "+98%"
+      }
+    },
+    {
+      "id": "construction",
+      "name": "Construction Companies",
+      "slug": "construction",
+      "category": "Specialized Industries",
+      "description": "Construction and building services",
+      "keywords": ["construction", "contractor", "building"],
+      "stats": {
+        "ai_growth": "238%",
+        "industry_adoption": "54%",
+        "visibility_impact": "+119%"
+      }
+    },
+    {
+      "id": "manufacturing",
+      "name": "Manufacturing",
+      "slug": "manufacturing",
+      "category": "Specialized Industries",
+      "description": "Manufacturing and production",
+      "keywords": ["manufacturing", "production", "factory"],
+      "stats": {
+        "ai_growth": "248%",
+        "industry_adoption": "57%",
+        "visibility_impact": "+128%"
+      }
+    },
+    {
+      "id": "logistics",
+      "name": "Logistics & Shipping",
+      "slug": "logistics",
+      "category": "Specialized Industries",
+      "description": "Logistics and shipping services",
+      "keywords": ["logistics", "shipping", "freight", "supply chain"],
+      "stats": {
+        "ai_growth": "285%",
+        "industry_adoption": "71%",
+        "visibility_impact": "+160%"
+      }
+    },
+    {
+      "id": "auto-repair",
+      "name": "Auto Repair Shops",
+      "slug": "auto-repair",
+      "category": "Specialized Industries",
+      "description": "Automotive repair and service",
+      "keywords": ["auto repair", "car repair", "mechanic"],
+      "stats": {
+        "ai_growth": "255%",
+        "industry_adoption": "59%",
+        "visibility_impact": "+133%"
+      }
+    },
+    {
+      "id": "fitness",
+      "name": "Fitness Centers & Gyms",
+      "slug": "fitness",
+      "category": "Specialized Industries",
+      "description": "Fitness centers and gym facilities",
+      "keywords": ["gym", "fitness center", "health club"],
+      "stats": {
+        "ai_growth": "298%",
+        "industry_adoption": "74%",
+        "visibility_impact": "+167%"
+      }
+    },
+    {
+      "id": "yoga-studios",
+      "name": "Yoga Studios",
+      "slug": "yoga-studios",
+      "category": "Specialized Industries",
+      "description": "Yoga instruction and studios",
+      "keywords": ["yoga", "yoga studio", "meditation"],
+      "stats": {
+        "ai_growth": "275%",
+        "industry_adoption": "68%",
+        "visibility_impact": "+150%"
+      }
+    },
+    {
+      "id": "travel-agencies",
+      "name": "Travel Agencies",
+      "slug": "travel-agencies",
+      "category": "Specialized Industries",
+      "description": "Travel planning and booking services",
+      "keywords": ["travel agency", "travel", "vacation planning"],
+      "stats": {
+        "ai_growth": "312%",
+        "industry_adoption": "77%",
+        "visibility_impact": "+175%"
+      }
+    },
+    {
+      "id": "tour-operators",
+      "name": "Tour Operators",
+      "slug": "tour-operators",
+      "category": "Specialized Industries",
+      "description": "Tour and excursion services",
+      "keywords": ["tour operator", "tours", "excursions"],
+      "stats": {
+        "ai_growth": "288%",
+        "industry_adoption": "72%",
+        "visibility_impact": "+161%"
+      }
+    },
+    {
+      "id": "transportation",
+      "name": "Transportation Services",
+      "slug": "transportation",
+      "category": "Specialized Industries",
+      "description": "Transportation and transit services",
+      "keywords": ["transportation", "transit", "shuttle service"],
+      "stats": {
+        "ai_growth": "268%",
+        "industry_adoption": "64%",
+        "visibility_impact": "+144%"
+      }
+    },
+    {
+      "id": "rental-services",
+      "name": "Rental Services",
+      "slug": "rental-services",
+      "category": "Specialized Industries",
+      "description": "Equipment and property rental",
+      "keywords": ["rental", "equipment rental", "property rental"],
+      "stats": {
+        "ai_growth": "252%",
+        "industry_adoption": "58%",
+        "visibility_impact": "+131%"
+      }
+    },
+    {
+      "id": "non-profit",
+      "name": "Non-Profit Organizations",
+      "slug": "non-profit",
+      "category": "Specialized Industries",
+      "description": "Non-profit and charity organizations",
+      "keywords": ["non-profit", "charity", "NGO", "foundation"],
+      "stats": {
+        "ai_growth": "242%",
+        "industry_adoption": "56%",
+        "visibility_impact": "+125%"
+      }
+    },
+    {
+      "id": "government",
+      "name": "Government Services",
+      "slug": "government",
+      "category": "Specialized Industries",
+      "description": "Government agencies and services",
+      "keywords": ["government", "public service", "municipal"],
+      "stats": {
+        "ai_growth": "228%",
+        "industry_adoption": "51%",
+        "visibility_impact": "+114%"
+      }
+    },
+    {
+      "id": "religious",
+      "name": "Religious Organizations",
+      "slug": "religious",
+      "category": "Specialized Industries",
+      "description": "Churches and religious organizations",
+      "keywords": ["church", "religious organization", "worship"],
+      "stats": {
+        "ai_growth": "218%",
+        "industry_adoption": "47%",
+        "visibility_impact": "+105%"
+      }
+    }
+  ]
+}

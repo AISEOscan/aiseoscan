@@ -1,0 +1,1054 @@
+{
+  "cities": [
+    {
+      "id": "new-york",
+      "name": "New York",
+      "slug": "new-york",
+      "state": "New York",
+      "stateCode": "NY",
+      "region": "Northeast",
+      "population": "8,336,817",
+      "metroPopulation": "19,768,458",
+      "stats": {
+        "business_count": "240,000+",
+        "ai_adoption": "78%",
+        "digital_maturity": "92%",
+        "avg_market_competition": "Very High"
+      },
+      "seo_insights": {
+        "local_search_volume": "850,000",
+        "mobile_searches": "68%",
+        "voice_search_growth": "+145%"
+      }
+    },
+    {
+      "id": "los-angeles",
+      "name": "Los Angeles",
+      "slug": "los-angeles",
+      "state": "California",
+      "stateCode": "CA",
+      "region": "West",
+      "population": "3,898,747",
+      "metroPopulation": "13,200,998",
+      "stats": {
+        "business_count": "180,000+",
+        "ai_adoption": "82%",
+        "digital_maturity": "89%",
+        "avg_market_competition": "Very High"
+      },
+      "seo_insights": {
+        "local_search_volume": "720,000",
+        "mobile_searches": "71%",
+        "voice_search_growth": "+138%"
+      }
+    },
+    {
+      "id": "chicago",
+      "name": "Chicago",
+      "slug": "chicago",
+      "state": "Illinois",
+      "stateCode": "IL",
+      "region": "Midwest",
+      "population": "2,746,388",
+      "metroPopulation": "9,618,502",
+      "stats": {
+        "business_count": "125,000+",
+        "ai_adoption": "74%",
+        "digital_maturity": "85%",
+        "avg_market_competition": "High"
+      },
+      "seo_insights": {
+        "local_search_volume": "580,000",
+        "mobile_searches": "65%",
+        "voice_search_growth": "+132%"
+      }
+    },
+    {
+      "id": "houston",
+      "name": "Houston",
+      "slug": "houston",
+      "state": "Texas",
+      "stateCode": "TX",
+      "region": "South",
+      "population": "2,304,580",
+      "metroPopulation": "7,122,240",
+      "stats": {
+        "business_count": "98,000+",
+        "ai_adoption": "71%",
+        "digital_maturity": "82%",
+        "avg_market_competition": "High"
+      },
+      "seo_insights": {
+        "local_search_volume": "490,000",
+        "mobile_searches": "67%",
+        "voice_search_growth": "+128%"
+      }
+    },
+    {
+      "id": "phoenix",
+      "name": "Phoenix",
+      "slug": "phoenix",
+      "state": "Arizona",
+      "stateCode": "AZ",
+      "region": "West",
+      "population": "1,608,139",
+      "metroPopulation": "4,845,832",
+      "stats": {
+        "business_count": "72,000+",
+        "ai_adoption": "68%",
+        "digital_maturity": "79%",
+        "avg_market_competition": "Medium-High"
+      },
+      "seo_insights": {
+        "local_search_volume": "380,000",
+        "mobile_searches": "69%",
+        "voice_search_growth": "+125%"
+      }
+    },
+    {
+      "id": "philadelphia",
+      "name": "Philadelphia",
+      "slug": "philadelphia",
+      "state": "Pennsylvania",
+      "stateCode": "PA",
+      "region": "Northeast",
+      "population": "1,603,797",
+      "metroPopulation": "6,245,051",
+      "stats": {
+        "business_count": "85,000+",
+        "ai_adoption": "72%",
+        "digital_maturity": "83%",
+        "avg_market_competition": "High"
+      },
+      "seo_insights": {
+        "local_search_volume": "420,000",
+        "mobile_searches": "64%",
+        "voice_search_growth": "+130%"
+      }
+    },
+    {
+      "id": "san-antonio",
+      "name": "San Antonio",
+      "slug": "san-antonio",
+      "state": "Texas",
+      "stateCode": "TX",
+      "region": "South",
+      "population": "1,434,625",
+      "metroPopulation": "2,550,960",
+      "stats": {
+        "business_count": "58,000+",
+        "ai_adoption": "66%",
+        "digital_maturity": "76%",
+        "avg_market_competition": "Medium"
+      },
+      "seo_insights": {
+        "local_search_volume": "310,000",
+        "mobile_searches": "68%",
+        "voice_search_growth": "+122%"
+      }
+    },
+    {
+      "id": "san-diego",
+      "name": "San Diego",
+      "slug": "san-diego",
+      "state": "California",
+      "stateCode": "CA",
+      "region": "West",
+      "population": "1,386,932",
+      "metroPopulation": "3,298,634",
+      "stats": {
+        "business_count": "68,000+",
+        "ai_adoption": "76%",
+        "digital_maturity": "86%",
+        "avg_market_competition": "High"
+      },
+      "seo_insights": {
+        "local_search_volume": "390,000",
+        "mobile_searches": "70%",
+        "voice_search_growth": "+135%"
+      }
+    },
+    {
+      "id": "dallas",
+      "name": "Dallas",
+      "slug": "dallas",
+      "state": "Texas",
+      "stateCode": "TX",
+      "region": "South",
+      "population": "1,304,379",
+      "metroPopulation": "7,637,387",
+      "stats": {
+        "business_count": "92,000+",
+        "ai_adoption": "73%",
+        "digital_maturity": "84%",
+        "avg_market_competition": "High"
+      },
+      "seo_insights": {
+        "local_search_volume": "520,000",
+        "mobile_searches": "66%",
+        "voice_search_growth": "+129%"
+      }
+    },
+    {
+      "id": "san-jose",
+      "name": "San Jose",
+      "slug": "san-jose",
+      "state": "California",
+      "stateCode": "CA",
+      "region": "West",
+      "population": "1,013,240",
+      "metroPopulation": "1,990,660",
+      "stats": {
+        "business_count": "52,000+",
+        "ai_adoption": "87%",
+        "digital_maturity": "94%",
+        "avg_market_competition": "Very High"
+      },
+      "seo_insights": {
+        "local_search_volume": "340,000",
+        "mobile_searches": "72%",
+        "voice_search_growth": "+148%"
+      }
+    },
+    {
+      "id": "austin",
+      "name": "Austin",
+      "slug": "austin",
+      "state": "Texas",
+      "stateCode": "TX",
+      "region": "South",
+      "population": "978,908",
+      "metroPopulation": "2,283,371",
+      "stats": {
+        "business_count": "62,000+",
+        "ai_adoption": "81%",
+        "digital_maturity": "88%",
+        "avg_market_competition": "High"
+      },
+      "seo_insights": {
+        "local_search_volume": "410,000",
+        "mobile_searches": "73%",
+        "voice_search_growth": "+142%"
+      }
+    },
+    {
+      "id": "jacksonville",
+      "name": "Jacksonville",
+      "slug": "jacksonville",
+      "state": "Florida",
+      "stateCode": "FL",
+      "region": "South",
+      "population": "949,611",
+      "metroPopulation": "1,605,848",
+      "stats": {
+        "business_count": "48,000+",
+        "ai_adoption": "64%",
+        "digital_maturity": "75%",
+        "avg_market_competition": "Medium"
+      },
+      "seo_insights": {
+        "local_search_volume": "280,000",
+        "mobile_searches": "67%",
+        "voice_search_growth": "+118%"
+      }
+    },
+    {
+      "id": "fort-worth",
+      "name": "Fort Worth",
+      "slug": "fort-worth",
+      "state": "Texas",
+      "stateCode": "TX",
+      "region": "South",
+      "population": "918,915",
+      "metroPopulation": "7,637,387",
+      "stats": {
+        "business_count": "45,000+",
+        "ai_adoption": "69%",
+        "digital_maturity": "78%",
+        "avg_market_competition": "Medium-High"
+      },
+      "seo_insights": {
+        "local_search_volume": "320,000",
+        "mobile_searches": "65%",
+        "voice_search_growth": "+124%"
+      }
+    },
+    {
+      "id": "columbus",
+      "name": "Columbus",
+      "slug": "columbus",
+      "state": "Ohio",
+      "stateCode": "OH",
+      "region": "Midwest",
+      "population": "905,748",
+      "metroPopulation": "2,138,926",
+      "stats": {
+        "business_count": "52,000+",
+        "ai_adoption": "70%",
+        "digital_maturity": "80%",
+        "avg_market_competition": "Medium-High"
+      },
+      "seo_insights": {
+        "local_search_volume": "330,000",
+        "mobile_searches": "63%",
+        "voice_search_growth": "+126%"
+      }
+    },
+    {
+      "id": "charlotte",
+      "name": "Charlotte",
+      "slug": "charlotte",
+      "state": "North Carolina",
+      "stateCode": "NC",
+      "region": "South",
+      "population": "885,708",
+      "metroPopulation": "2,660,329",
+      "stats": {
+        "business_count": "58,000+",
+        "ai_adoption": "72%",
+        "digital_maturity": "82%",
+        "avg_market_competition": "High"
+      },
+      "seo_insights": {
+        "local_search_volume": "360,000",
+        "mobile_searches": "66%",
+        "voice_search_growth": "+131%"
+      }
+    },
+    {
+      "id": "san-francisco",
+      "name": "San Francisco",
+      "slug": "san-francisco",
+      "state": "California",
+      "stateCode": "CA",
+      "region": "West",
+      "population": "873,965",
+      "metroPopulation": "4,749,008",
+      "stats": {
+        "business_count": "82,000+",
+        "ai_adoption": "89%",
+        "digital_maturity": "95%",
+        "avg_market_competition": "Very High"
+      },
+      "seo_insights": {
+        "local_search_volume": "680,000",
+        "mobile_searches": "74%",
+        "voice_search_growth": "+152%"
+      }
+    },
+    {
+      "id": "indianapolis",
+      "name": "Indianapolis",
+      "slug": "indianapolis",
+      "state": "Indiana",
+      "stateCode": "IN",
+      "region": "Midwest",
+      "population": "887,642",
+      "metroPopulation": "2,111,040",
+      "stats": {
+        "business_count": "48,000+",
+        "ai_adoption": "67%",
+        "digital_maturity": "77%",
+        "avg_market_competition": "Medium"
+      },
+      "seo_insights": {
+        "local_search_volume": "290,000",
+        "mobile_searches": "64%",
+        "voice_search_growth": "+120%"
+      }
+    },
+    {
+      "id": "seattle",
+      "name": "Seattle",
+      "slug": "seattle",
+      "state": "Washington",
+      "stateCode": "WA",
+      "region": "West",
+      "population": "753,675",
+      "metroPopulation": "4,018,762",
+      "stats": {
+        "business_count": "75,000+",
+        "ai_adoption": "84%",
+        "digital_maturity": "91%",
+        "avg_market_competition": "Very High"
+      },
+      "seo_insights": {
+        "local_search_volume": "520,000",
+        "mobile_searches": "71%",
+        "voice_search_growth": "+144%"
+      }
+    },
+    {
+      "id": "denver",
+      "name": "Denver",
+      "slug": "denver",
+      "state": "Colorado",
+      "stateCode": "CO",
+      "region": "West",
+      "population": "715,522",
+      "metroPopulation": "2,963,821",
+      "stats": {
+        "business_count": "62,000+",
+        "ai_adoption": "77%",
+        "digital_maturity": "85%",
+        "avg_market_competition": "High"
+      },
+      "seo_insights": {
+        "local_search_volume": "420,000",
+        "mobile_searches": "70%",
+        "voice_search_growth": "+136%"
+      }
+    },
+    {
+      "id": "washington-dc",
+      "name": "Washington DC",
+      "slug": "washington-dc",
+      "state": "District of Columbia",
+      "stateCode": "DC",
+      "region": "South",
+      "population": "689,545",
+      "metroPopulation": "6,385,162",
+      "stats": {
+        "business_count": "78,000+",
+        "ai_adoption": "75%",
+        "digital_maturity": "87%",
+        "avg_market_competition": "Very High"
+      },
+      "seo_insights": {
+        "local_search_volume": "580,000",
+        "mobile_searches": "68%",
+        "voice_search_growth": "+133%"
+      }
+    },
+    {
+      "id": "boston",
+      "name": "Boston",
+      "slug": "boston",
+      "state": "Massachusetts",
+      "stateCode": "MA",
+      "region": "Northeast",
+      "population": "675,647",
+      "metroPopulation": "4,941,632",
+      "stats": {
+        "business_count": "72,000+",
+        "ai_adoption": "80%",
+        "digital_maturity": "88%",
+        "avg_market_competition": "Very High"
+      },
+      "seo_insights": {
+        "local_search_volume": "540,000",
+        "mobile_searches": "66%",
+        "voice_search_growth": "+139%"
+      }
+    },
+    {
+      "id": "nashville",
+      "name": "Nashville",
+      "slug": "nashville",
+      "state": "Tennessee",
+      "stateCode": "TN",
+      "region": "South",
+      "population": "689,447",
+      "metroPopulation": "1,989,519",
+      "stats": {
+        "business_count": "52,000+",
+        "ai_adoption": "71%",
+        "digital_maturity": "81%",
+        "avg_market_competition": "High"
+      },
+      "seo_insights": {
+        "local_search_volume": "370,000",
+        "mobile_searches": "69%",
+        "voice_search_growth": "+129%"
+      }
+    },
+    {
+      "id": "detroit",
+      "name": "Detroit",
+      "slug": "detroit",
+      "state": "Michigan",
+      "stateCode": "MI",
+      "region": "Midwest",
+      "population": "639,111",
+      "metroPopulation": "4,392,041",
+      "stats": {
+        "business_count": "48,000+",
+        "ai_adoption": "65%",
+        "digital_maturity": "74%",
+        "avg_market_competition": "Medium"
+      },
+      "seo_insights": {
+        "local_search_volume": "320,000",
+        "mobile_searches": "62%",
+        "voice_search_growth": "+117%"
+      }
+    },
+    {
+      "id": "oklahoma-city",
+      "name": "Oklahoma City",
+      "slug": "oklahoma-city",
+      "state": "Oklahoma",
+      "stateCode": "OK",
+      "region": "South",
+      "population": "687,725",
+      "metroPopulation": "1,425,695",
+      "stats": {
+        "business_count": "42,000+",
+        "ai_adoption": "63%",
+        "digital_maturity": "72%",
+        "avg_market_competition": "Medium"
+      },
+      "seo_insights": {
+        "local_search_volume": "240,000",
+        "mobile_searches": "66%",
+        "voice_search_growth": "+115%"
+      }
+    },
+    {
+      "id": "portland",
+      "name": "Portland",
+      "slug": "portland",
+      "state": "Oregon",
+      "stateCode": "OR",
+      "region": "West",
+      "population": "652,503",
+      "metroPopulation": "2,512,859",
+      "stats": {
+        "business_count": "58,000+",
+        "ai_adoption": "79%",
+        "digital_maturity": "86%",
+        "avg_market_competition": "High"
+      },
+      "seo_insights": {
+        "local_search_volume": "390,000",
+        "mobile_searches": "71%",
+        "voice_search_growth": "+134%"
+      }
+    },
+    {
+      "id": "las-vegas",
+      "name": "Las Vegas",
+      "slug": "las-vegas",
+      "state": "Nevada",
+      "stateCode": "NV",
+      "region": "West",
+      "population": "641,903",
+      "metroPopulation": "2,265,461",
+      "stats": {
+        "business_count": "62,000+",
+        "ai_adoption": "70%",
+        "digital_maturity": "80%",
+        "avg_market_competition": "High"
+      },
+      "seo_insights": {
+        "local_search_volume": "480,000",
+        "mobile_searches": "75%",
+        "voice_search_growth": "+127%"
+      }
+    },
+    {
+      "id": "memphis",
+      "name": "Memphis",
+      "slug": "memphis",
+      "state": "Tennessee",
+      "stateCode": "TN",
+      "region": "South",
+      "population": "633,104",
+      "metroPopulation": "1,346,045",
+      "stats": {
+        "business_count": "38,000+",
+        "ai_adoption": "61%",
+        "digital_maturity": "70%",
+        "avg_market_competition": "Medium"
+      },
+      "seo_insights": {
+        "local_search_volume": "220,000",
+        "mobile_searches": "64%",
+        "voice_search_growth": "+112%"
+      }
+    },
+    {
+      "id": "louisville",
+      "name": "Louisville",
+      "slug": "louisville",
+      "state": "Kentucky",
+      "stateCode": "KY",
+      "region": "South",
+      "population": "633,045",
+      "metroPopulation": "1,395,855",
+      "stats": {
+        "business_count": "42,000+",
+        "ai_adoption": "64%",
+        "digital_maturity": "73%",
+        "avg_market_competition": "Medium"
+      },
+      "seo_insights": {
+        "local_search_volume": "250,000",
+        "mobile_searches": "63%",
+        "voice_search_growth": "+118%"
+      }
+    },
+    {
+      "id": "baltimore",
+      "name": "Baltimore",
+      "slug": "baltimore",
+      "state": "Maryland",
+      "stateCode": "MD",
+      "region": "South",
+      "population": "585,708",
+      "metroPopulation": "2,844,510",
+      "stats": {
+        "business_count": "52,000+",
+        "ai_adoption": "69%",
+        "digital_maturity": "78%",
+        "avg_market_competition": "High"
+      },
+      "seo_insights": {
+        "local_search_volume": "350,000",
+        "mobile_searches": "65%",
+        "voice_search_growth": "+125%"
+      }
+    },
+    {
+      "id": "milwaukee",
+      "name": "Milwaukee",
+      "slug": "milwaukee",
+      "state": "Wisconsin",
+      "stateCode": "WI",
+      "region": "Midwest",
+      "population": "577,222",
+      "metroPopulation": "1,575,179",
+      "stats": {
+        "business_count": "45,000+",
+        "ai_adoption": "66%",
+        "digital_maturity": "76%",
+        "avg_market_competition": "Medium-High"
+      },
+      "seo_insights": {
+        "local_search_volume": "280,000",
+        "mobile_searches": "62%",
+        "voice_search_growth": "+121%"
+      }
+    },
+    {
+      "id": "albuquerque",
+      "name": "Albuquerque",
+      "slug": "albuquerque",
+      "state": "New Mexico",
+      "stateCode": "NM",
+      "region": "West",
+      "population": "564,559",
+      "metroPopulation": "916,528",
+      "stats": {
+        "business_count": "35,000+",
+        "ai_adoption": "62%",
+        "digital_maturity": "71%",
+        "avg_market_competition": "Medium"
+      },
+      "seo_insights": {
+        "local_search_volume": "210,000",
+        "mobile_searches": "67%",
+        "voice_search_growth": "+114%"
+      }
+    },
+    {
+      "id": "tucson",
+      "name": "Tucson",
+      "slug": "tucson",
+      "state": "Arizona",
+      "stateCode": "AZ",
+      "region": "West",
+      "population": "542,629",
+      "metroPopulation": "1,043,433",
+      "stats": {
+        "business_count": "38,000+",
+        "ai_adoption": "64%",
+        "digital_maturity": "73%",
+        "avg_market_competition": "Medium"
+      },
+      "seo_insights": {
+        "local_search_volume": "230,000",
+        "mobile_searches": "68%",
+        "voice_search_growth": "+116%"
+      }
+    },
+    {
+      "id": "fresno",
+      "name": "Fresno",
+      "slug": "fresno",
+      "state": "California",
+      "stateCode": "CA",
+      "region": "West",
+      "population": "542,107",
+      "metroPopulation": "1,008,654",
+      "stats": {
+        "business_count": "36,000+",
+        "ai_adoption": "65%",
+        "digital_maturity": "74%",
+        "avg_market_competition": "Medium"
+      },
+      "seo_insights": {
+        "local_search_volume": "220,000",
+        "mobile_searches": "69%",
+        "voice_search_growth": "+119%"
+      }
+    },
+    {
+      "id": "sacramento",
+      "name": "Sacramento",
+      "slug": "sacramento",
+      "state": "California",
+      "stateCode": "CA",
+      "region": "West",
+      "population": "524,943",
+      "metroPopulation": "2,397,382",
+      "stats": {
+        "business_count": "52,000+",
+        "ai_adoption": "72%",
+        "digital_maturity": "81%",
+        "avg_market_competition": "High"
+      },
+      "seo_insights": {
+        "local_search_volume": "340,000",
+        "mobile_searches": "68%",
+        "voice_search_growth": "+128%"
+      }
+    },
+    {
+      "id": "mesa",
+      "name": "Mesa",
+      "slug": "mesa",
+      "state": "Arizona",
+      "stateCode": "AZ",
+      "region": "West",
+      "population": "504,258",
+      "metroPopulation": "4,845,832",
+      "stats": {
+        "business_count": "42,000+",
+        "ai_adoption": "67%",
+        "digital_maturity": "77%",
+        "avg_market_competition": "Medium-High"
+      },
+      "seo_insights": {
+        "local_search_volume": "270,000",
+        "mobile_searches": "70%",
+        "voice_search_growth": "+123%"
+      }
+    },
+    {
+      "id": "kansas-city",
+      "name": "Kansas City",
+      "slug": "kansas-city",
+      "state": "Missouri",
+      "stateCode": "MO",
+      "region": "Midwest",
+      "population": "508,090",
+      "metroPopulation": "2,192,035",
+      "stats": {
+        "business_count": "48,000+",
+        "ai_adoption": "68%",
+        "digital_maturity": "77%",
+        "avg_market_competition": "Medium-High"
+      },
+      "seo_insights": {
+        "local_search_volume": "310,000",
+        "mobile_searches": "64%",
+        "voice_search_growth": "+122%"
+      }
+    },
+    {
+      "id": "atlanta",
+      "name": "Atlanta",
+      "slug": "atlanta",
+      "state": "Georgia",
+      "stateCode": "GA",
+      "region": "South",
+      "population": "498,715",
+      "metroPopulation": "6,089,815",
+      "stats": {
+        "business_count": "82,000+",
+        "ai_adoption": "76%",
+        "digital_maturity": "84%",
+        "avg_market_competition": "Very High"
+      },
+      "seo_insights": {
+        "local_search_volume": "620,000",
+        "mobile_searches": "69%",
+        "voice_search_growth": "+137%"
+      }
+    },
+    {
+      "id": "long-beach",
+      "name": "Long Beach",
+      "slug": "long-beach",
+      "state": "California",
+      "stateCode": "CA",
+      "region": "West",
+      "population": "466,742",
+      "metroPopulation": "13,200,998",
+      "stats": {
+        "business_count": "45,000+",
+        "ai_adoption": "74%",
+        "digital_maturity": "83%",
+        "avg_market_competition": "High"
+      },
+      "seo_insights": {
+        "local_search_volume": "380,000",
+        "mobile_searches": "72%",
+        "voice_search_growth": "+131%"
+      }
+    },
+    {
+      "id": "colorado-springs",
+      "name": "Colorado Springs",
+      "slug": "colorado-springs",
+      "state": "Colorado",
+      "stateCode": "CO",
+      "region": "West",
+      "population": "478,961",
+      "metroPopulation": "755,105",
+      "stats": {
+        "business_count": "38,000+",
+        "ai_adoption": "69%",
+        "digital_maturity": "78%",
+        "avg_market_competition": "Medium-High"
+      },
+      "seo_insights": {
+        "local_search_volume": "260,000",
+        "mobile_searches": "68%",
+        "voice_search_growth": "+120%"
+      }
+    },
+    {
+      "id": "raleigh",
+      "name": "Raleigh",
+      "slug": "raleigh",
+      "state": "North Carolina",
+      "stateCode": "NC",
+      "region": "South",
+      "population": "474,069",
+      "metroPopulation": "1,413,982",
+      "stats": {
+        "business_count": "48,000+",
+        "ai_adoption": "73%",
+        "digital_maturity": "82%",
+        "avg_market_competition": "High"
+      },
+      "seo_insights": {
+        "local_search_volume": "320,000",
+        "mobile_searches": "67%",
+        "voice_search_growth": "+127%"
+      }
+    },
+    {
+      "id": "omaha",
+      "name": "Omaha",
+      "slug": "omaha",
+      "state": "Nebraska",
+      "stateCode": "NE",
+      "region": "Midwest",
+      "population": "486,051",
+      "metroPopulation": "967,604",
+      "stats": {
+        "business_count": "42,000+",
+        "ai_adoption": "66%",
+        "digital_maturity": "75%",
+        "avg_market_competition": "Medium"
+      },
+      "seo_insights": {
+        "local_search_volume": "240,000",
+        "mobile_searches": "63%",
+        "voice_search_growth": "+118%"
+      }
+    },
+    {
+      "id": "miami",
+      "name": "Miami",
+      "slug": "miami",
+      "state": "Florida",
+      "stateCode": "FL",
+      "region": "South",
+      "population": "442,241",
+      "metroPopulation": "6,138,333",
+      "stats": {
+        "business_count": "78,000+",
+        "ai_adoption": "75%",
+        "digital_maturity": "83%",
+        "avg_market_competition": "Very High"
+      },
+      "seo_insights": {
+        "local_search_volume": "690,000",
+        "mobile_searches": "76%",
+        "voice_search_growth": "+141%"
+      }
+    },
+    {
+      "id": "oakland",
+      "name": "Oakland",
+      "slug": "oakland",
+      "state": "California",
+      "stateCode": "CA",
+      "region": "West",
+      "population": "440,646",
+      "metroPopulation": "4,749,008",
+      "stats": {
+        "business_count": "48,000+",
+        "ai_adoption": "78%",
+        "digital_maturity": "86%",
+        "avg_market_competition": "High"
+      },
+      "seo_insights": {
+        "local_search_volume": "410,000",
+        "mobile_searches": "71%",
+        "voice_search_growth": "+135%"
+      }
+    },
+    {
+      "id": "minneapolis",
+      "name": "Minneapolis",
+      "slug": "minneapolis",
+      "state": "Minnesota",
+      "stateCode": "MN",
+      "region": "Midwest",
+      "population": "429,954",
+      "metroPopulation": "3,690,261",
+      "stats": {
+        "business_count": "62,000+",
+        "ai_adoption": "74%",
+        "digital_maturity": "83%",
+        "avg_market_competition": "High"
+      },
+      "seo_insights": {
+        "local_search_volume": "420,000",
+        "mobile_searches": "65%",
+        "voice_search_growth": "+129%"
+      }
+    },
+    {
+      "id": "tulsa",
+      "name": "Tulsa",
+      "slug": "tulsa",
+      "state": "Oklahoma",
+      "stateCode": "OK",
+      "region": "South",
+      "population": "413,066",
+      "metroPopulation": "1,023,988",
+      "stats": {
+        "business_count": "38,000+",
+        "ai_adoption": "64%",
+        "digital_maturity": "73%",
+        "avg_market_competition": "Medium"
+      },
+      "seo_insights": {
+        "local_search_volume": "230,000",
+        "mobile_searches": "65%",
+        "voice_search_growth": "+116%"
+      }
+    },
+    {
+      "id": "arlington",
+      "name": "Arlington",
+      "slug": "arlington",
+      "state": "Texas",
+      "stateCode": "TX",
+      "region": "South",
+      "population": "394,266",
+      "metroPopulation": "7,637,387",
+      "stats": {
+        "business_count": "42,000+",
+        "ai_adoption": "70%",
+        "digital_maturity": "79%",
+        "avg_market_competition": "Medium-High"
+      },
+      "seo_insights": {
+        "local_search_volume": "290,000",
+        "mobile_searches": "67%",
+        "voice_search_growth": "+124%"
+      }
+    },
+    {
+      "id": "tampa",
+      "name": "Tampa",
+      "slug": "tampa",
+      "state": "Florida",
+      "stateCode": "FL",
+      "region": "South",
+      "population": "384,959",
+      "metroPopulation": "3,194,831",
+      "stats": {
+        "business_count": "58,000+",
+        "ai_adoption": "71%",
+        "digital_maturity": "80%",
+        "avg_market_competition": "High"
+      },
+      "seo_insights": {
+        "local_search_volume": "450,000",
+        "mobile_searches": "70%",
+        "voice_search_growth": "+132%"
+      }
+    },
+    {
+      "id": "new-orleans",
+      "name": "New Orleans",
+      "slug": "new-orleans",
+      "state": "Louisiana",
+      "stateCode": "LA",
+      "region": "South",
+      "population": "383,997",
+      "metroPopulation": "1,270,530",
+      "stats": {
+        "business_count": "45,000+",
+        "ai_adoption": "67%",
+        "digital_maturity": "76%",
+        "avg_market_competition": "High"
+      },
+      "seo_insights": {
+        "local_search_volume": "380,000",
+        "mobile_searches": "71%",
+        "voice_search_growth": "+126%"
+      }
+    },
+    {
+      "id": "wichita",
+      "name": "Wichita",
+      "slug": "wichita",
+      "state": "Kansas",
+      "stateCode": "KS",
+      "region": "Midwest",
+      "population": "397,532",
+      "metroPopulation": "647,610",
+      "stats": {
+        "business_count": "35,000+",
+        "ai_adoption": "63%",
+        "digital_maturity": "72%",
+        "avg_market_competition": "Medium"
+      },
+      "seo_insights": {
+        "local_search_volume": "210,000",
+        "mobile_searches": "64%",
+        "voice_search_growth": "+115%"
+      }
+    },
+    {
+      "id": "cleveland",
+      "name": "Cleveland",
+      "slug": "cleveland",
+      "state": "Ohio",
+      "stateCode": "OH",
+      "region": "Midwest",
+      "population": "372,624",
+      "metroPopulation": "2,088,251",
+      "stats": {
+        "business_count": "48,000+",
+        "ai_adoption": "68%",
+        "digital_maturity": "77%",
+        "avg_market_competition": "Medium-High"
+      },
+      "seo_insights": {
+        "local_search_volume": "330,000",
+        "mobile_searches": "63%",
+        "voice_search_growth": "+121%"
+      }
+    }
+  ]
+}

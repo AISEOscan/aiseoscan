@@ -1,0 +1,13 @@
+{
+  "total_technical_pages": 216,
+  "schema_types": 15,
+  "technical_topics": 6,
+  "platforms": 6,
+  "page_breakdown": {
+    "schema_platform_combinations": 90,
+    "technical_platform_combinations": 36,
+    "schema_technical_combinations": 90
+  },
+  "generated_at": "2025-09-26T12:47:06.174659",
+  "estimated_total_words": 324000
+}

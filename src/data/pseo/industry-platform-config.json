@@ -1,0 +1,49 @@
+{
+  "config": {
+    "url_pattern": "ai-seo-{industry_slug}-{platform_slug}",
+    "title_pattern": "AI SEO for {industry_name} on {platform_name} | Complete 2025 Guide",
+    "meta_description_pattern": "{platform_name} AI SEO optimization for {industry_name}. Get platform-specific code examples, plugin recommendations, and implementation guide for ChatGPT, Perplexity & SearchGPT visibility.",
+    "headline_pattern": "AI SEO for {industry_name} on {platform_name}",
+    "word_count_target": 2000,
+    "include_code_examples": true,
+    "include_plugin_recommendations": true,
+    "include_performance_tips": true
+  },
+  "content_sections": [
+    "introduction",
+    "platform_overview",
+    "technical_setup",
+    "schema_implementation",
+    "plugins_tools",
+    "optimization_steps",
+    "common_issues",
+    "advanced_tips",
+    "code_examples",
+    "performance",
+    "conclusion"
+  ],
+  "priority_industries": [
+    "law-firms",
+    "restaurants",
+    "hotels",
+    "saas",
+    "medical-practices",
+    "real-estate",
+    "dental-clinics",
+    "ecommerce",
+    "consulting-services",
+    "financial-advisors"
+  ],
+  "priority_platforms": [
+    "wordpress",
+    "shopify",
+    "wix",
+    "squarespace",
+    "webflow"
+  ],
+  "generation_notes": {
+    "phase_1": "Generate priority combinations first (50 pages)",
+    "phase_2": "Generate all combinations (1,100 pages)",
+    "testing": "Test with 5-10 pages before full generation"
+  }
+}

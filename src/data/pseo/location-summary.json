@@ -1,0 +1,14 @@
+{
+  "generated_at": "2025-11-07T16:50:56.352828",
+  "total_pages": 5500,
+  "industries_count": 110,
+  "cities_count": 50,
+  "pages_per_industry": 50,
+  "pages_per_city": 110,
+  "url_pattern": "ai-seo-{industry}-{city}",
+  "example_urls": [
+    "ai-seo-law-firms-new-york",
+    "ai-seo-accounting-firms-new-york",
+    "ai-seo-consulting-services-new-york"
+  ]
+}
