@@ -43,11 +43,11 @@ const nextConfig = {
             value: 'max-age=31536000; includeSubDomains',
           },
           // Implementation of a basic Content Security Policy
-          // Should be customized based on site requirements
-        {
-  key: 'Content-Security-Policy',
-  value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://*.stripe.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://*.stripe.com; frame-src 'self' https://*.stripe.com https://www.youtube.com https://youtube.com; object-src 'none'; base-uri 'self';",
-},
+          // Updated to allow Google Analytics
+          {
+            key: 'Content-Security-Policy',
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://*.stripe.com https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: https://www.google-analytics.com https://www.googletagmanager.com; font-src 'self' data:; connect-src 'self' https://*.stripe.com https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net https://region1.google-analytics.com; frame-src 'self' https://*.stripe.com https://www.youtube.com https://youtube.com; object-src 'none'; base-uri 'self';",
+          },
           // Disable Feature Policy / Permissions Policy
           {
             key: 'Permissions-Policy',
