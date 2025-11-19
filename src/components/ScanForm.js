@@ -168,7 +168,7 @@ export default function ScanForm({ onScanComplete }) {
                           Free Scan Limit Reached
                         </p>
                         <p className="text-orange-200/80 text-xs mb-3">
-                          You've used {error.scansUsed}/2 free scans for this URL today. 
+                          You've used {error.scansUsed} free scans for this URL today. 
                           Reset in {formatTimeUntil(error.retryAfter)}.
                         </p>
                         {error.upgradeUrl && (
