@@ -245,10 +245,10 @@ Ready to see how your {industry['name'].lower()} business ranks for AI search op
 
 ✅ **Quick Win Recommendations**: Top 5 immediate actions you can take to improve AI SEO
 
-### Free Scan + Detailed $9 Report
+### Free Scan + Detailed Report
 
 1. **Free Instant Score**: Run the free scanner in 60 seconds to see your current AI SEO grade
-2. **Detailed $9 Report**: Comprehensive 30+ page PDF with page-by-page schema fixes, content recommendations, citation building strategies, and a complete 90-day AI SEO roadmap customized for your {industry['name'].lower()} business in {city['name']}
+2. **Detailed Report**: Comprehensive 30+ page PDF with page-by-page schema fixes, content recommendations, citation building strategies, and a complete 90-day AI SEO roadmap customized for your {industry['name'].lower()} business in {city['name']}
 
 The report includes actual code fixes you can implement immediately, specific content templates for {industry['name'].lower()} businesses, and detailed competitive analysis of top-ranking {city['name']} competitors.
 
@@ -296,7 +296,7 @@ The businesses winning in {city['name']}'s {industry['name'].lower()} market are
 
 **1. Run Your Free AI SEO Scan** → Get instant visibility into your current AI search optimization
 
-**2. Review Your Detailed Report** → For just $9, get a comprehensive roadmap with specific fixes for your {industry['name'].lower()} business
+**2. Review Your Detailed Report** → For just $29, get a comprehensive roadmap with specific fixes for your {industry['name'].lower()} business
 
 **3. Implement Quick Wins** → Start with high-impact changes that improve AI visibility within weeks
 

@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { AlertTriangle, Bot, MessageSquare, Zap, Award, CheckCircle, FileText } from 'lucide-react';
+import { AlertTriangle, Bot, MessageSquare, Zap, Award, CheckCircle, FileText, Clock, Sparkles } from 'lucide-react';
+import Link from 'next/link';
 
 export default function ScanForm({ onScanComplete }) {
   const [url, setUrl] = useState('');
@@ -21,16 +22,17 @@ export default function ScanForm({ onScanComplete }) {
       formattedUrl = 'https://' + formattedUrl;
     }
     
-   if (formattedUrl.includes("aiseoscan.dev") || formattedUrl.includes("google.com")) {
-  const demoResults = {
-    summary: { overallScore: 100, status: "ready" },
-    seo: { score: 100, issues: [] },
-    performance: { score: 100, issues: [] },
-    compliance: { score: 100, issues: [] }
-  };
-  onScanComplete(demoResults, formattedUrl);
-  return;
-}
+    // Demo mode for own site
+    if (formattedUrl.includes("aiseoscan.dev") || formattedUrl.includes("google.com")) {
+      const demoResults = {
+        summary: { overallScore: 100, status: "ready" },
+        seo: { score: 100, issues: [] },
+        performance: { score: 100, issues: [] },
+        compliance: { score: 100, issues: [] }
+      };
+      onScanComplete(demoResults, formattedUrl);
+      return;
+    }
 
     setIsLoading(true);
     setError(null);
@@ -44,17 +46,65 @@ export default function ScanForm({ onScanComplete }) {
         body: JSON.stringify({ url: formattedUrl }),
       });
       
+      const data = await response.json();
+      
       if (!response.ok) {
-        throw new Error('Scan failed. Please try again.');
+        // Handle rate limit errors specially
+        if (response.status === 429) {
+          handleRateLimitError(data);
+          return;
+        }
+        
+        throw new Error(data.error || 'Scan failed. Please try again.');
       }
       
-      const data = await response.json();
       onScanComplete(data, formattedUrl);
     } catch (err) {
       setError(err.message);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleRateLimitError = (data) => {
+    const { type, error: errorMessage, retryAfter, upgradeUrl, scansUsed } = data;
+    
+    if (type === 'url') {
+      // Per-URL limit exceeded
+      setError({
+        type: 'url-limit',
+        message: errorMessage,
+        retryAfter,
+        upgradeUrl,
+        scansUsed
+      });
+    } else {
+      // Global rate limit exceeded
+      setError({
+        type: 'global-limit',
+        message: errorMessage,
+        retryAfter
+      });
+    }
+    
+    setIsLoading(false);
+  };
+
+  const formatTimeUntil = (dateString) => {
+    if (!dateString) return 'soon';
+    
+    const ms = new Date(dateString).getTime() - Date.now();
+    const minutes = Math.ceil(ms / (60 * 1000));
+    const hours = Math.floor(minutes / 60);
+    
+    if (hours > 0) {
+      const remainingMinutes = minutes % 60;
+      return remainingMinutes > 0 
+        ? `${hours}h ${remainingMinutes}m` 
+        : `${hours} hour${hours > 1 ? 's' : ''}`;
+    }
+    
+    return `${minutes} minute${minutes > 1 ? 's' : ''}`;
   };
 
   return (
@@ -105,21 +155,70 @@ export default function ScanForm({ onScanComplete }) {
               />
             </div>
             
+            {/* Error Messages */}
             {error && (
-              <div className="p-3 bg-rose-900/30 border border-rose-700/50 text-rose-300 rounded-lg text-sm backdrop-blur-sm">
-                <div className="flex items-center">
-                  <AlertTriangle className="h-4 w-4 text-rose-400 mr-2" />
-                  <p>{error}</p>
-                </div>
+              <div className="space-y-3">
+                {/* URL-specific rate limit error */}
+                {error.type === 'url-limit' && (
+                  <div className="p-4 bg-orange-900/30 border border-orange-700/50 rounded-lg backdrop-blur-sm">
+                    <div className="flex items-start">
+                      <Clock className="h-5 w-5 text-orange-400 mr-2 mt-0.5 flex-shrink-0" />
+                      <div className="flex-1">
+                        <p className="text-orange-300 text-sm font-medium mb-2">
+                          Free Scan Limit Reached
+                        </p>
+                        <p className="text-orange-200/80 text-xs mb-3">
+                          You've used {error.scansUsed}/2 free scans for this URL today. 
+                          Reset in {formatTimeUntil(error.retryAfter)}.
+                        </p>
+                        {error.upgradeUrl && (
+                          <Link href={error.upgradeUrl}>
+                            <button className="w-full bg-gradient-to-r from-orange-600 to-pink-600 hover:from-orange-500 hover:to-pink-500 px-4 py-2 rounded-lg text-white text-sm font-medium transition-all duration-200 flex items-center justify-center">
+                              <Sparkles className="h-4 w-4 mr-2" />
+                              Get Unlimited Scans
+                            </button>
+                          </Link>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+                
+                {/* Global rate limit error */}
+                {error.type === 'global-limit' && (
+                  <div className="p-4 bg-rose-900/30 border border-rose-700/50 rounded-lg backdrop-blur-sm">
+                    <div className="flex items-start">
+                      <AlertTriangle className="h-5 w-5 text-rose-400 mr-2 mt-0.5 flex-shrink-0" />
+                      <div className="flex-1">
+                        <p className="text-rose-300 text-sm font-medium mb-1">
+                          Too Many Requests
+                        </p>
+                        <p className="text-rose-200/80 text-xs">
+                          {error.message || `Please try again in ${formatTimeUntil(error.retryAfter)}`}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                
+                {/* Generic error */}
+                {!error.type && typeof error === 'string' && (
+                  <div className="p-3 bg-rose-900/30 border border-rose-700/50 text-rose-300 rounded-lg text-sm backdrop-blur-sm">
+                    <div className="flex items-center">
+                      <AlertTriangle className="h-4 w-4 text-rose-400 mr-2" />
+                      <p>{error}</p>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
             
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 px-6 py-3 rounded-lg text-white font-bold transition-all duration-200 shadow-lg shadow-pink-900/20 border border-pink-600/50 backdrop-blur-sm"
+              className="w-full bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 px-6 py-3 rounded-lg text-white font-bold transition-all duration-200 shadow-lg shadow-pink-900/20 border border-pink-600/50 backdrop-blur-sm disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={isLoading}
             >
-              {isLoading ? 'Analyzing AI SEO Readiness...' : 'Get FREE AISEO Score '}
+              {isLoading ? 'Analyzing AI SEO Readiness...' : 'Get FREE AI SEO Score'}
             </button>
             
             <p className="text-xs text-white text-center">
