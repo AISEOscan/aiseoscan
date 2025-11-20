@@ -10,7 +10,7 @@ const PACKAGES = [
     id: 'starter',
     name: 'Starter Pack',
     scans: 5,
-    price: 119,
+    price: 1,
     perScan: 23.80,
     discount: '18% off',
     description: 'Perfect for testing AI SEO optimization',
