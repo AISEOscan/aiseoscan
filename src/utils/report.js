@@ -464,7 +464,7 @@ export async function getToken(token) {
       .from('tokens')
       .select('credits')
       .eq('token', token)
-      .single();
+       .maybeSingle();
 
     if (error || !data) {
       console.log(`Token ${token} not found or error:`, error?.message);
@@ -563,7 +563,8 @@ export async function storeToken(tokenData) {
         token: tokenData.token,
         credits: tokenData.credits,
         purchased_amount: tokenData.purchased_amount,
-        package_type: tokenData.package_type
+        package_type: tokenData.package_type,
+        email: tokenData.email  // ← ADD THIS LINE
       });
 
     if (error) {
@@ -571,7 +572,7 @@ export async function storeToken(tokenData) {
       throw error;
     }
     
-    console.log(`Token ${tokenData.token} stored with ${tokenData.credits} credits`);
+    console.log(`Token ${tokenData.token} stored with ${tokenData.credits} credits for ${tokenData.email}`);
     return true;
   } catch (error) {
     console.error('Error storing token:', error);
