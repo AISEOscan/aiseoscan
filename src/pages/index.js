@@ -46,18 +46,7 @@ export default function Home() {
       localStorage.removeItem('scanResults');
     }
 
-    // LOG THE EXACT DATA RECEIVED (only once)
-    console.log('🤖 AI SEO SCAN - Exact data received:', {
-      scanId: results.scanId,
-      totalIssues: results.issues?.length,
-      aiSeoScore: results.seo?.score,
-      aiReadiness: {
-        structuredData: results.seo?.issues?.filter(i => i.type.includes('schema') || i.type.includes('json-ld')).length || 0,
-        contentQuality: results.seo?.issues?.filter(i => i.type.includes('content') || i.type.includes('faq')).length || 0,
-        technicalSEO: results.seo?.issues?.filter(i => i.type.includes('technical') || i.type.includes('mobile')).length || 0,
-        authoritySignals: results.seo?.issues?.filter(i => i.type.includes('authority') || i.type.includes('trust')).length || 0
-      }
-    });
+    
 
     // If this is a full scan result (has paymentSessionId), use it directly
     if (results.paymentSessionId) {

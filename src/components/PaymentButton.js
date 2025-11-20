@@ -3,11 +3,6 @@ import { loadStripe } from '@stripe/stripe-js';
 import { AlertTriangle } from 'lucide-react';
 import { useRouter } from 'next/router';
 
-console.log('🔍 STRIPE KEY DEBUG:', {
-  key: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
-  isLive: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY?.startsWith('pk_live_'),
-  isTest: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY?.startsWith('pk_test_')
-});
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
