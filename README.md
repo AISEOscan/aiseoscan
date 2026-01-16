@@ -1,95 +1,133 @@
-# SafeCheck - Security Scanner for Indie Hackers
+AI SEO analysis platform that helps websites optimize for AI-powered search engines like ChatGPT, Claude, Perplexity, and Google's AI Overviews.
+🔗 Live Site: aiseoscan.dev
 
-SafeCheck is a simple, affordable security scanning tool designed specifically for indie hackers and small businesses. It provides comprehensive security analysis for websites with actionable fixes for common vulnerabilities.
+What It Does
+AISEOScan analyzes websites and generates comprehensive reports showing optimization opportunities specifically for AI citation and visibility. Users get actionable implementation code for every issue discovered.
+Key Features
 
-## Features
+AI SEO Analysis: 25+ checks covering schema markup, content structure, FAQ optimization, and authority signals
+Trust Signals Analysis: E-A-T factors, author authority, credentials, and business transparency
+Free Preview: Users see overall score and limited issues before purchasing
+Detailed Implementation Guides: Every issue includes copy-paste code examples (20-50+ lines)
+PDF Reports: Professional PDF exports with 30-day implementation timelines
+Agency Packages: Bulk credit packages for agencies and consultants
 
-- **SSL/TLS Check**: Verify certificate validity and configuration
-- **Security Headers Check**: Scan for missing or misconfigured security headers
-- **Exposed Sensitive Files**: Detect configuration files, backups, and other sensitive files
-- **OWASP Vulnerabilities**: Basic scanning for common OWASP Top 10 vulnerabilities
-- **Stripe Integration Check**: Identify common issues with Stripe implementations
+Pricing
 
-## Getting Started
+Single Scan: $29 - Complete AI SEO analysis with full report
+Starter Pack: $119 (5 scans) - 18% off per scan
+Agency Pack: $199 (10 scans) - 31% off per scan
+Pro Pack: $399 (25 scans) - 45% off per scan
 
-### Prerequisites
 
-- Node.js 14+ and npm
-- A Stripe account for payment processing
+Tech Stack
 
-### Installation
+Framework: Next.js (React)
+Styling: Tailwind CSS
+Database: Supabase (PostgreSQL)
+Payments: Stripe
+PDF Generation: jsPDF
+Deployment: Vercel
 
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/safecheck.git
-cd safecheck
-```
 
-2. Install dependencies:
-```bash
-npm install
-```
+Project Structure
+/src/
+├── pages/
+│   ├── index.js                    # Landing page
+│   ├── report/[id].js              # Report display
+│   ├── buy-credits.js              # Agency packages
+│   └── api/
+│       ├── scan.js                 # Initiates scan
+│       ├── payment.js              # Single scan checkout
+│       ├── payment-package.js      # Package checkout
+│       ├── webhook.js              # Stripe webhook
+│       └── report/[id]/download.js # PDF generation
+│
+├── scanners/
+│   ├── seo.js                      # AI SEO scanner
+│   ├── compliance.js               # Trust signals
+│   └── index.js                    # Coordination
+│
+└── utils/
+    ├── categorization.js           # Data processing
+    ├── pdf-growth.js               # PDF generation
+    └── report.js                   # Database ops
 
-3. Create a `.env.local` file in the root directory with your configuration:
-```
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_your_key
-STRIPE_SECRET_KEY=sk_test_your_key
-STRIPE_WEBHOOK_SECRET=whsec_your_webhook_secret
-NEXT_PUBLIC_BASE_URL=http://localhost:3000
+Environment Variables
+bashNEXT_PUBLIC_BASE_URL=https://aiseoscan.dev
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+SUPABASE_SERVICE_KEY=your_service_key
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_your_key
+STRIPE_SECRET_KEY=sk_live_your_key
+STRIPE_WEBHOOK_SECRET=whsec_your_secret
 REPORT_EXPIRY_HOURS=24
-```
 
-4. Run the development server:
-```bash
+Database Schema
+Reports Table
+sql- id (text, primary key)
+- public_id (text, unique)
+- data (jsonb)
+- created_at (timestamp)
+- expires_at (timestamp)
+- status (text)
+- url (text)
+Tokens Table
+sql- id (bigserial, primary key)
+- token (text, unique)
+- credits (integer)
+- purchased_amount (numeric)
+- package_type (text)
+- email (text)
+- created_at (timestamp)
+
+How It Works
+Single Scan Flow
+
+User enters URL → preliminary scan → free preview
+User pays → Stripe checkout
+Webhook marks report completed
+Full report displays with PDF download
+
+Agency Package Flow
+
+User buys package → gets token
+Webhook stores token with credits
+User visits with ?token=SCAN-XXX
+Scans use credits automatically
+
+
+Stripe Integration
+Products are created dynamically via price_data API. No manual product creation needed.
+Webhook Setup:
+
+URL: https://aiseoscan.dev/api/webhook
+Event: checkout.session.completed
+
+Discount Codes:
+
+FREESCAN - Free scan
+SAVE20 - 20% off
+
+
+Local Development
+bashnpm install
+cp .env.example .env.local
 npm run dev
-```
+Visit http://localhost:3000
 
-5. Open [http://localhost:3000](http://localhost:3000) in your browser.
+Deployment
+Connects to Vercel with auto-deploy from main branch.
 
-## Deployment
+Operating Costs
 
-### Deploying to Vercel
+Vercel: Free tier
+Supabase: Free tier
+Domain: ~$15/year
+Total: ~$15/year
 
-1. Push your code to a GitHub repository
-2. Create a new project in Vercel linked to your repository
-3. Configure environment variables in Vercel dashboard
-4. Deploy
 
-### Setting up Stripe Webhooks
+License
+Proprietary - All rights reserved
 
-1. In your Stripe dashboard, go to Developers > Webhooks
-2. Add a new endpoint: `https://your-domain.com/api/webhook`
-3. Select the event `checkout.session.completed`
-4. Get the webhook secret and add it to your environment variables
 
-## Project Structure
 
-- `/pages`: Next.js pages and API routes
-- `/components`: React components
-- `/scanners`: Security scanning modules
-- `/utils`: Utility functions for report generation, PDF creation, etc.
-- `/public`: Static assets
-
-## Development
-
-### Adding New Scanners
-
-1. Create a new scanner file in the `/scanners` directory
-2. Implement the scanning logic
-3. Add the scanner to the main orchestrator in `/scanners/index.js`
-
-### Customizing Reports
-
-- Modify the PDF generation in `/utils/pdf.js`
-- Update the report page UI in `/pages/report/[id].js`
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Acknowledgements
-
-- [Next.js](https://nextjs.org/)
-- [Stripe](https://stripe.com/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [jsPDF](https://github.com/MrRio/jsPDF)
