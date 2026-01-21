@@ -1,5 +1,5 @@
-// SIMPLIFIED: /src/pages/api/webhook.js
-// Let frontend handle processing, webhook just confirms payment
+// /src/pages/api/webhook.js
+
 
 import Stripe from 'stripe';
 import { buffer } from 'micro';
@@ -12,11 +12,10 @@ export const config = {
 };
 
 export default async function handler(req, res) {
-  // Always respond to Stripe immediately
-  res.status(200).json({ received: true });
-  
   try {
-    if (req.method !== 'POST') return;
+    if (req.method !== 'POST') {
+      return res.status(405).json({ error: 'Method not allowed' });
+    }
     
     console.log('🔔 WEBHOOK: Webhook called');
     
@@ -29,43 +28,45 @@ export default async function handler(req, res) {
       console.log('✅ WEBHOOK: Signature verified');
     } catch (err) {
       console.error('❌ WEBHOOK: Signature verification failed:', err.message);
-      return;
+      return res.status(400).json({ error: 'Webhook signature verification failed' });
     }
     
     if (event.type !== 'checkout.session.completed') {
       console.log(`ℹ️ WEBHOOK: Ignoring event type: ${event.type}`);
-      return;
+      return res.status(200).json({ received: true });
     }
     
     console.log('🔄 WEBHOOK: Processing checkout.session.completed');
     
     const session = event.data.object;
 
-    // NEW: Check if this is a package purchase
+    // Check if this is a package purchase
     if (session.metadata?.type === 'package') {
       console.log('📦 WEBHOOK: Package purchase detected');
       
       const { token, credits, packageId, amount } = session.metadata;
       const email = session.customer_email || session.customer_details?.email;
       
+      console.log(`📦 WEBHOOK: Attempting to store token ${token} with ${credits} credits for ${email}`);
+      
       const success = await storeToken({
         token,
         credits: parseInt(credits),
         purchased_amount: parseFloat(amount),
         package_type: packageId,
-        email: email  // ADD EMAIL HERE
+        email: email
       });
 
       if (success) {
-        console.log(`✅ WEBHOOK: Token ${token} stored with ${credits} credits for ${email}`);
+        console.log(`✅ WEBHOOK: Token ${token} stored successfully with ${credits} credits for ${email}`);
+        return res.status(200).json({ received: true, token });
       } else {
         console.error(`❌ WEBHOOK: Failed to store token ${token}`);
+        return res.status(500).json({ error: 'Failed to store token' });
       }
-      
-      return; // Exit early for package purchases
     }
 
-    // EXISTING: Single report payment processing
+    // Single report payment processing
     const reportId = session.metadata?.reportId;
     const publicId = session.metadata?.publicId;
     const url = session.metadata?.url;
@@ -79,7 +80,7 @@ export default async function handler(req, res) {
 
     if (!reportId || !publicId || !url) {
       console.error('❌ WEBHOOK: Missing metadata');
-      return;
+      return res.status(400).json({ error: 'Missing required metadata' });
     }
 
     console.log(`💳 WEBHOOK: Processing payment confirmation for report: ${publicId}`);
@@ -96,11 +97,11 @@ export default async function handler(req, res) {
       
       if (!existingReport) {
         console.error(`❌ WEBHOOK: Report ${publicId} not found`);
-        return;
+        return res.status(404).json({ error: 'Report not found' });
       }
     } catch (getError) {
       console.error(`❌ WEBHOOK: Error getting report:`, getError);
-      return;
+      return res.status(500).json({ error: 'Error retrieving report' });
     }
 
     console.log('📊 WEBHOOK: Found report:', {
@@ -111,7 +112,7 @@ export default async function handler(req, res) {
       issuesCount: existingReport.issues?.length || 0
     });
 
-    // SIMPLIFIED: Just mark as completed and let frontend handle processing
+    // Mark as completed
     const completedReport = {
       ...existingReport,
       status: 'completed',
@@ -130,12 +131,16 @@ export default async function handler(req, res) {
       const verifyReport = await getReport(publicId);
       console.log(`🔍 WEBHOOK: Verification - Status: ${verifyReport?.status}, Payment confirmed: ${verifyReport?.paymentConfirmed}`);
       
+      return res.status(200).json({ received: true, publicId });
+      
     } catch (storeError) {
       console.error(`❌ WEBHOOK: Error storing completed report:`, storeError);
+      return res.status(500).json({ error: 'Error storing report' });
     }
 
   } catch (error) {
     console.error('❌ WEBHOOK: Unhandled error:', error);
     console.error('❌ WEBHOOK: Error stack:', error.stack);
+    return res.status(500).json({ error: 'Internal server error' });
   }
 }
