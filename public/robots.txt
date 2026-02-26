@@ -1,4 +1,22 @@
 User-agent: *
 Allow: /
+Crawl-delay: 5
 
-Sitemap: https://aiseoscan.dev/sitemap.xml
+# Aggressive bots - slow them down
+User-agent: AhrefsBot
+Crawl-delay: 30
+
+User-agent: SemrushBot
+Crawl-delay: 30
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+# Google is fine
+User-agent: Googlebot
+Allow: /
+
+Sitemap: https://www.aiseoscan.dev/sitemap.xml

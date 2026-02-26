@@ -4,6 +4,9 @@ export async function getServerSideProps({ res }) {
   const fs = require('fs')
   const path = require('path')
   
+  // Use environment variable for base URL
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.aiseoscan.dev'
+  
   // Get current date
   const currentDate = new Date().toISOString()
   
@@ -21,7 +24,7 @@ export async function getServerSideProps({ res }) {
     { slug: 'ai-seo-marketing', priority: '0.9', changefreq: 'weekly' },
     { slug: 'ai-seo-generator', priority: '0.9', changefreq: 'weekly' },
     { slug: 'ai-seo-agency', priority: '1.0', changefreq: 'daily' },
-    { slug: 'best-ai-seo-tools-2025', priority: '0.9', changefreq: 'weekly' },
+    { slug: 'best-ai-seo-tools-2026', priority: '0.9', changefreq: 'weekly' },
     { slug: 'ai-seo-by-industry', priority: '0.9', changefreq: 'weekly' },
     { slug: 'ai-seo-guides', priority: '0.9', changefreq: 'weekly' }
   ]
@@ -37,49 +40,31 @@ export async function getServerSideProps({ res }) {
     }
   }
   
-  // Load slugs only (not full page data)
-  const allPagesSlugs = getSlugs(path.join(process.cwd(), 'src/data/pseo/all-pages.json'))
-  const technicalSlugs = getSlugs(path.join(process.cwd(), 'src/data/pseo/technical-pages.json'))
-  const usecaseSlugs = getSlugs(path.join(process.cwd(), 'src/data/pseo/usecase-pages.json'))
+  // Load slugs only - SKIP DELETED FILES
   const industrySlugs = getSlugs(path.join(process.cwd(), 'src/data/pseo/industry-pages.json'))
-  const platformSlugs = getSlugs(path.join(process.cwd(), 'src/data/pseo/industry-platform-pages.json'))
   
-  // Load location slugs from chunks
-  let locationSlugs = []
-  for (let i = 1; i <= 6; i++) {
-    const chunkSlugs = getSlugs(path.join(process.cwd(), 'src/data/pseo', `industry-location-pages-${i}.json`))
-    locationSlugs = [...locationSlugs, ...chunkSlugs]
-  }
-  
-  // Combine all slugs
-  const allSlugs = [
-    ...allPagesSlugs,
-    ...technicalSlugs,
-    ...usecaseSlugs,
-    ...industrySlugs,
-    ...platformSlugs,
-    ...locationSlugs
-  ]
+  // Combine all slugs (removed deleted files)
+  const allSlugs = [...industrySlugs]
   
   // Generate sitemap
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
       <url>
-        <loc>https://aiseoscan.dev</loc>
+        <loc>${baseUrl}</loc>
         <lastmod>${currentDate}</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
       </url>
       ${manualPages.map(page => `
       <url>
-        <loc>https://aiseoscan.dev/${page.slug}</loc>
+        <loc>${baseUrl}/${page.slug}</loc>
         <lastmod>${currentDate}</lastmod>
         <changefreq>${page.changefreq}</changefreq>
         <priority>${page.priority}</priority>
       </url>`).join('')}
       ${allSlugs.map(slug => `
       <url>
-        <loc>https://aiseoscan.dev/${slug}</loc>
+        <loc>${baseUrl}/${slug}</loc>
         <lastmod>${currentDate}</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
