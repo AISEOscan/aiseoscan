@@ -49,78 +49,25 @@ export default function PSEOPage({ pageData }) {
 }
 
 export const getStaticPaths = async () => {
-     return {
-       paths: [],
-       fallback: 'blocking'
-     }
-   }
+  return {
+    paths: [],
+    fallback: 'blocking'
+  }
+}
 
 export const getStaticProps = async ({ params }) => {
   try {
-    // Read all page sources
-    const originalPagesPath = path.join(process.cwd(), 'src', 'data', 'pseo', 'all-pages.json')
-    const technicalPagesPath = path.join(process.cwd(), 'src', 'data', 'pseo', 'technical-pages.json')
-    const usecasePagesPath = path.join(process.cwd(), 'src', 'data', 'pseo', 'usecase-pages.json')
+    // Only load industry pages (all other files deleted)
     const industryPagesPath = path.join(process.cwd(), 'src', 'data', 'pseo', 'industry-pages.json')
-    const industryPlatformPagesPath = path.join(process.cwd(), 'src', 'data', 'pseo', 'industry-platform-pages.json')
     
     let allPages = []
     
-    // Load original pages
-    try {
-      const originalPages = JSON.parse(fs.readFileSync(originalPagesPath, 'utf8'))
-      allPages = [...originalPages]
-    } catch (error) {
-      console.warn('Could not load original pages:', error.message)
-    }
-    
-    // Load technical pages  
-    try {
-      const technicalPages = JSON.parse(fs.readFileSync(technicalPagesPath, 'utf8'))
-      allPages = [...allPages, ...technicalPages]
-    } catch (error) {
-      console.warn('Could not load technical pages:', error.message)
-    }
-
-    // Load use case pages
-    try {
-      const usecasePages = JSON.parse(fs.readFileSync(usecasePagesPath, 'utf8'))
-      allPages = [...allPages, ...usecasePages]
-    } catch (error) {
-      console.warn('Could not load use case pages:', error.message)
-    }
-
     // Load industry pages
     try {
       const industryPages = JSON.parse(fs.readFileSync(industryPagesPath, 'utf8'))
-      allPages = [...allPages, ...industryPages]
+      allPages = [...industryPages]
     } catch (error) {
       console.warn('Could not load industry pages:', error.message)
-    }
-
-    // Load industry-platform pages (PHASE 2A)
-    try {
-      const industryPlatformPages = JSON.parse(fs.readFileSync(industryPlatformPagesPath, 'utf8'))
-      allPages = [...allPages, ...industryPlatformPages]
-    } catch (error) {
-      console.warn('Could not load industry-platform pages:', error.message)
-    }
-
-    // Load industry-location pages (PHASE 2B) - Split into 6 chunks
-    try {
-      let industryLocationPages = []
-      for (let i = 1; i <= 6; i++) {
-        try {
-          const chunkPath = path.join(process.cwd(), 'src', 'data', 'pseo', `industry-location-pages-${i}.json`)
-          const chunk = JSON.parse(fs.readFileSync(chunkPath, 'utf8'))
-          industryLocationPages = [...industryLocationPages, ...chunk]
-        } catch (chunkError) {
-          console.warn(`Could not load location chunk ${i}:`, chunkError.message)
-        }
-      }
-      allPages = [...allPages, ...industryLocationPages]
-    } catch (error) {
-      console.warn('Could not load industry-location pages:', error.message)
     }
 
     // Find the specific page data
