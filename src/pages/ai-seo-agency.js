@@ -350,9 +350,9 @@ export default function AISEOAgency() {
       <div className="text-center mb-16">
         <div className="flex items-center justify-center mb-6">
           <Building className="h-12 w-12 text-pink-400 mr-4" />
-          <h1 className="text-5xl font-bold bg-gradient-to-r from-pink-400 via-purple-500 to-blue-500 bg-clip-text text-transparent">
-            AI SEO Agency
-          </h1>
+          <h1 className="text-5xl font-bold bg-gradient-to-r from-pink-400 via-purple-500 to-blue-500 bg-clip-text text-transparent leading-tight py-2">
+  AI SEO Agency
+</h1>
         </div>
         <p className="text-xl text-gray-200 mb-8 max-w-3xl mx-auto leading-relaxed">
           Start or scale your AI SEO agency with high-margin services clients desperately need. Learn what to offer, how to price, which tools to use, and how to deliver exceptional results with AI search optimization.
