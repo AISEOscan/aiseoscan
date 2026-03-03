@@ -45,16 +45,18 @@ export default function DynamicSEO({
   };
 
   const meta = generateDynamicMeta();
-  const pageUrl = url ? `https://aiseoscan.dev${url}` : 'https://aiseoscan.dev';
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.aiseoscan.dev';
+const pageUrl = url ? `${baseUrl}${url}` : baseUrl;
   
   // Generate Open Graph image URL based on results
   const getOGImage = () => {
     if (scanResults) {
       const score = scanResults.summary?.overallScore || 0;
       // You can create dynamic OG images based on AI readiness score
-      return `https://aiseoscan.dev/og/ai-seo-${score >= 80 ? 'ready' : score >= 60 ? 'good' : 'needs-optimization'}.png`;
-    }
-    return 'https://aiseoscan.dev/og/ai-seo-default.png';
+     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.aiseoscan.dev';
+return `${baseUrl}/og/ai-seo-${score >= 80 ? 'ready' : score >= 60 ? 'good' : 'needs-optimization'}.png`;
+}
+return `${baseUrl}/og/ai-seo-default.png`;
   };
 
   return (
@@ -122,7 +124,7 @@ export default function DynamicSEO({
           "creator": {
             "@type": "Organization",
             "name": "AISEOScan",
-            "url": "https://aiseoscan.dev",
+            "url": process.env.NEXT_PUBLIC_BASE_URL || 'https://www.aiseoscan.dev',
             "description": "AI SEO optimization platform for modern search engines"
           },
           "audience": {
@@ -140,7 +142,7 @@ export default function DynamicSEO({
               "url": scanResults.url || url,
               "potentialAction": {
                 "@type": "SearchAction",
-                "target": "https://aiseoscan.dev/scan?url={search_term_string}",
+                "target": `${process.env.NEXT_PUBLIC_BASE_URL || 'https://www.aiseoscan.dev'}/scan?url={search_term_string}`,
                 "query-input": "required name=search_term_string"
               }
             }

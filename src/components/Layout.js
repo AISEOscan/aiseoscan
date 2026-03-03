@@ -5,7 +5,7 @@ import { Bot } from 'lucide-react';
 
 export default function Layout({ children, title = 'AISEO Scanner - Is your website ready for AI search ?', description }) {
   const router = useRouter();
-  const canonicalUrl = `https://aiseoscan.dev${router.asPath}`;
+  const canonicalUrl = `${process.env.NEXT_PUBLIC_BASE_URL || 'https://www.aiseoscan.dev'}${router.asPath}`;
   const metaDescription = description || "AI SEO report - Optimize your website for ChatGPT, Perplexity, SearchGPT and other AI search engines. Get comprehensive schema markup, content quality, and authority signal analysis.";
 
   return (
