@@ -231,11 +231,29 @@ export default function Home() {
             </div>
           </div>
 
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight leading-tight">
-            <span className="bg-gradient-to-r from-pink-400 via-purple-500 to-blue-500 bg-clip-text text-transparent">
-              Is your website ready for AI search ?
-            </span>
-          </h1>
+         <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight leading-tight">
+  <span
+    style={{
+      background: 'linear-gradient(to bottom, #ffffff 0%, #ffffff 20%, #e2e8f0 45%, #cbd5e1 65%, #94a3b8 100%)',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
+      backgroundClip: 'text',
+      filter: 'drop-shadow(0 2px 0px rgba(0,0,0,0.6))'
+    }}
+  >
+    Is your website ready for{' '}
+  </span>
+  <span
+    style={{
+      background: 'linear-gradient(to right, #a855f7, #7c3aed, #3b82f6)',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
+      backgroundClip: 'text'
+    }}
+  >
+    AI search?
+  </span>
+</h1>
           
           <p className="text-xl text-gray-200 font-light mb-8 max-w-4xl mx-auto leading-relaxed">
              If ChatGPT can't find you, neither can your customers. Run a full AI-SEO audit and get the exact fixes, code, and steps to make your pages visible again.
