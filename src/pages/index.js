@@ -256,8 +256,7 @@ export default function Home() {
 </h1>
           
           <p className="text-xl text-gray-200 font-light mb-8 max-w-4xl mx-auto leading-relaxed">
-             If ChatGPT can't find you, neither can your customers. Run a full AI-SEO audit and get the exact fixes, code, and steps to make your pages visible again.
-          </p>
+             If ChatGPT can't find you, neither can your customers. Run a full AI SEO audit and get the exact fixes, code, and steps to start getting cited by ChatGPT, Perplexity, and other LLMs.</p>
           
           {/* AI-Focused Value Proposition */}
           <div className="bg-gradient-to-r from-purple-900/80 via-pink-900/80 to-blue-900/80 backdrop-blur-md border border-pink-500/50 p-8 rounded-xl inline-block max-w-5xl mb-10 relative overflow-hidden">
@@ -497,10 +496,10 @@ export default function Home() {
                       <Bot className="w-20 h-20 text-pink-400 mx-auto mb-4 animate-pulse" />
                     </div>
                   </div>
-                  <h3 className="text-2xl font-medium text-white mb-3 tracking-tight">Ready for AI SEO Analysis</h3>
+                  <h3 className="text-2xl font-medium text-white mb-3 tracking-tight">Your LLM Citation Score Awaits</h3>
                   <p className="text-gray-200 text-center font-light mb-8 max-w-sm mx-auto">
-                    Discover how exposed your website is in the AI search era and get a full action plan with exact fixes, code examples, and a clear timeline to recover lost traffic.
-                  </p>
+  Find out if ChatGPT would cite your site today. Most won't — get your score and the exact fixes to change that.
+</p>
                   <div className="grid grid-cols-2 gap-4 text-xs text-white max-w-sm mx-auto">
                     <div className="flex items-center bg-purple-900/20 p-3 rounded-lg backdrop-blur-sm">
                       <FileText className="h-4 w-4 text-purple-400 mr-2" />
