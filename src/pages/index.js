@@ -245,7 +245,7 @@ export default function Home() {
   </span>
   <span
     style={{
-      background: 'linear-gradient(to right, #a855f7, #7c3aed, #3b82f6)',
+      background: 'linear-gradient(to right, #fb7185, #e879a0, #a78bfa)',
       WebkitBackgroundClip: 'text',
       WebkitTextFillColor: 'transparent',
       backgroundClip: 'text'
