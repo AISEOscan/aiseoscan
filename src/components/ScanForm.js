@@ -108,32 +108,49 @@ export default function ScanForm({ onScanComplete }) {
   };
 
   return (
-    <div className="bg-gradient-to-r from-gray-900/90 via-purple-900/90 to-pink-900/90 backdrop-blur-xl text-white rounded-xl shadow-2xl p-8 border border-purple-500/50 relative overflow-hidden flex flex-col items-center justify-center" style={{minHeight: '520px', maxHeight: '520px'}}>
-      {/* Enhanced gradient border effect */}
-      <div className="absolute -inset-0.5 bg-gradient-to-r from-pink-500 via-purple-600 to-blue-600 rounded-xl opacity-30 animate-pulse"></div>
-      
+    <div
+      className="rounded-xl shadow-2xl p-8 relative overflow-hidden flex flex-col items-center justify-center"
+      style={{
+        minHeight: '520px',
+        maxHeight: '520px',
+        background: 'linear-gradient(160deg, #fce7f3 0%, #fdf2f8 8%, #ffffff 22%, #f1f5f9 38%, #e2e8f0 52%, #dde4f5 66%, #c7d2fe 82%, #a5b4fc 100%)',
+        boxShadow: '0 2px 0px rgba(0,0,0,0.5), 0 24px 64px rgba(168,85,247,0.2)',
+      }}
+    >
       <div className="relative z-10 text-center w-full">
         <div className="flex items-center justify-center mb-6">
-          <Bot className="h-6 w-6 text-pink-400 mr-3" />
-          <h2 className="text-2xl font-bold tracking-tight">AI SEO Analysis</h2>
+          <Bot className="h-6 w-6 mr-3" style={{ color: '#9d174d' }} />
+          <h2 className="text-2xl font-bold tracking-tight" style={{ color: '#1e1b4b' }}>AI SEO Analysis</h2>
         </div>
         
         {/* What we analyze - AI SEO focused */}
         <div className="mb-6 grid grid-cols-2 gap-4 max-w-sm mx-auto">
-          <div className="flex items-center text-sm text-white bg-purple-900/20 p-3 rounded-lg backdrop-blur-sm">
-            <FileText className="h-4 w-4 text-purple-400 mr-2" />
+          <div
+            className="flex items-center text-sm p-3 rounded-lg"
+            style={{ background: 'rgba(255,255,255,0.55)', color: '#1e1b4b', border: '1px solid rgba(196,181,253,0.5)' }}
+          >
+            <FileText className="h-4 w-4 mr-2" style={{ color: '#9d174d' }} />
             <span>Schema Markup</span>
           </div>
-          <div className="flex items-center text-sm text-white bg-pink-900/20 p-3 rounded-lg backdrop-blur-sm">
-            <MessageSquare className="h-4 w-4 text-pink-400 mr-2" />
+          <div
+            className="flex items-center text-sm p-3 rounded-lg"
+            style={{ background: 'rgba(255,255,255,0.55)', color: '#1e1b4b', border: '1px solid rgba(196,181,253,0.5)' }}
+          >
+            <MessageSquare className="h-4 w-4 mr-2" style={{ color: '#7c3aed' }} />
             <span>Content Quality</span>
           </div>
-          <div className="flex items-center text-sm text-white bg-blue-900/20 p-3 rounded-lg backdrop-blur-sm">
-            <Zap className="h-4 w-4 text-blue-400 mr-2" />
+          <div
+            className="flex items-center text-sm p-3 rounded-lg"
+            style={{ background: 'rgba(255,255,255,0.55)', color: '#1e1b4b', border: '1px solid rgba(196,181,253,0.5)' }}
+          >
+            <Zap className="h-4 w-4 mr-2" style={{ color: '#3730a3' }} />
             <span>Technical SEO</span>
           </div>
-          <div className="flex items-center text-sm text-white bg-emerald-900/20 p-3 rounded-lg backdrop-blur-sm">
-            <Award className="h-4 w-4 text-emerald-400 mr-2" />
+          <div
+            className="flex items-center text-sm p-3 rounded-lg"
+            style={{ background: 'rgba(255,255,255,0.55)', color: '#1e1b4b', border: '1px solid rgba(196,181,253,0.5)' }}
+          >
+            <Award className="h-4 w-4 mr-2" style={{ color: '#065f46' }} />
             <span>Trust Signals</span>
           </div>
         </div>
@@ -141,14 +158,20 @@ export default function ScanForm({ onScanComplete }) {
         <div className="max-w-md mx-auto">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label htmlFor="url" className="block text-sm font-medium text-white mb-2">
+              <label htmlFor="url" className="block text-sm font-medium mb-2" style={{ color: '#3730a3' }}>
                 Website URL
               </label>
               <input
                 type="text"
                 id="url"
                 placeholder="example.com"
-                className="w-full bg-gray-800/50 border border-gray-700/50 text-white rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-500/50 focus:border-pink-500/50 font-mono backdrop-blur-sm"
+                className="w-full rounded-lg px-4 py-3 focus:outline-none focus:ring-2 font-mono"
+                style={{
+                  background: 'rgba(255,255,255,0.7)',
+                  border: '1px solid #c7d2fe',
+                  color: '#1e1b4b',
+                  focusRingColor: 'rgba(124,58,237,0.5)',
+                }}
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 disabled={isLoading}
@@ -215,14 +238,18 @@ export default function ScanForm({ onScanComplete }) {
             
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 px-6 py-3 rounded-lg text-white font-bold transition-all duration-200 shadow-lg shadow-pink-900/20 border border-pink-600/50 backdrop-blur-sm disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full px-6 py-3 rounded-lg text-white font-bold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{
+                background: 'linear-gradient(to right, #a855f7, #7c3aed, #3b82f6)',
+                boxShadow: '0 4px 20px rgba(124,58,237,0.4)',
+              }}
               disabled={isLoading}
             >
               {isLoading ? 'Analyzing AI SEO Readiness...' : 'Get FREE AI SEO Score'}
             </button>
             
-            <p className="text-xs text-white text-center">
-              Optimize for ChatGPT, Perplexity, SearchGPT & AI search engines
+            <p className="text-xs text-center" style={{ color: '#4338ca' }}>
+              Optimize for ChatGPT, Perplexity, SearchGPT &amp; AI search engines
             </p>
           </form>
         </div>
