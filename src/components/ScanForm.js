@@ -114,9 +114,30 @@ export default function ScanForm({ onScanComplete }) {
         minHeight: '520px',
         maxHeight: '520px',
         background: 'linear-gradient(160deg, #fce7f3 0%, #fdf2f8 8%, #ffffff 22%, #f1f5f9 38%, #e2e8f0 52%, #dde4f5 66%, #c7d2fe 82%, #a5b4fc 100%)',
-        boxShadow: '0 2px 0px rgba(0,0,0,0.5), 0 24px 64px rgba(168,85,247,0.2)',
+        border: '1px solid rgba(244,114,182,0.35)',
+        boxShadow: `
+          0 0 60px rgba(219,39,119,0.22),
+          0 30px 60px rgba(131,24,67,0.3),
+          0 20px 48px rgba(0,0,0,0.3),
+          inset 0 -1px 0 rgba(244,114,182,0.3)
+        `,
       }}
     >
+      {/* O4 vignette — page dark colors bleeding in from edges, pink concentrated at bottom */}
+      <div
+        className="absolute inset-0 rounded-xl pointer-events-none"
+        style={{
+          background: `
+            radial-gradient(ellipse at 50% 120%, rgba(219,39,119,0.5) 0%, transparent 55%),
+            radial-gradient(ellipse at 0% 100%, rgba(131,24,67,0.4) 0%, transparent 40%),
+            radial-gradient(ellipse at 100% 100%, rgba(55,48,163,0.4) 0%, transparent 40%),
+            radial-gradient(ellipse at 0% 0%, rgba(88,28,135,0.4) 0%, transparent 38%),
+            radial-gradient(ellipse at 100% 0%, rgba(30,27,75,0.4) 0%, transparent 36%)
+          `,
+          zIndex: 0,
+        }}
+      />
+
       <div className="relative z-10 text-center w-full">
         <div className="flex items-center justify-center mb-6">
           <Bot className="h-6 w-6 mr-3" style={{ color: '#9d174d' }} />
