@@ -369,7 +369,7 @@ export default function Home() {
                       <span className="text-lg text-gray-200">/100</span>
                     </div>
                     <div className="text-white text-sm font-medium">
-                      AI Overall Score — a weighted composite derived from multiple signals, not a simple average {getAIReadinessStatus(scanResults.summary?.overallScore || 0)}
+                      AI Overall Score — a weighted composite, not a simple average- {getAIReadinessStatus(scanResults.summary?.overallScore || 0)}
                     </div>
                     <div className="text-xs text-gray-200 mt-1">
                       Optimized for ChatGPT, Perplexity & AI Search Engines
