@@ -483,11 +483,11 @@ function addReportPageCodeBlock(doc, code, startY) {
     return y;
   }
 
-  const MAX_CHARS = 88;
+  const MAX_CHARS = 82;
   const LINE_HEIGHT = 4;
   const PADDING_TOP = 18;
   const PADDING_BOTTOM = 8;
-  const USABLE_PAGE_HEIGHT = 265; // below this we need a new page
+  const USABLE_PAGE_HEIGHT = 255;
   const CODE_LEFT = 25;
   const CODE_BG = [31, 41, 55];
 
@@ -507,18 +507,32 @@ function addReportPageCodeBlock(doc, code, startY) {
     }
   });
 
-  // Split lines into chunks that fit on one page
-  // First chunk has less space (PADDING_TOP for header label)
-  // Subsequent chunks use full page space
-  const firstChunkMax = Math.floor((USABLE_PAGE_HEIGHT - y - PADDING_TOP - PADDING_BOTTOM) / LINE_HEIGHT);
   const fullChunkMax = Math.floor((USABLE_PAGE_HEIGHT - 40 - PADDING_TOP - PADDING_BOTTOM) / LINE_HEIGHT);
+  const firstChunkMax = Math.floor((USABLE_PAGE_HEIGHT - y - PADDING_TOP - PADDING_BOTTOM) / LINE_HEIGHT);
+  const effectiveFirstChunkMax = firstChunkMax < 5 ? 0 : firstChunkMax;
 
   const chunks = [];
-  if (expandedLines.length <= firstChunkMax) {
+
+  if (effectiveFirstChunkMax === 0) {
+    // Not enough space on current page — start fresh
+    doc.addPage();
+    addHeader(doc, 'Issues & Optimization Instructions (Continued)');
+    y = 40;
+    if (expandedLines.length <= fullChunkMax) {
+      chunks.push(expandedLines);
+    } else {
+      chunks.push(expandedLines.slice(0, fullChunkMax));
+      let remaining = expandedLines.slice(fullChunkMax);
+      while (remaining.length > 0) {
+        chunks.push(remaining.slice(0, fullChunkMax));
+        remaining = remaining.slice(fullChunkMax);
+      }
+    }
+  } else if (expandedLines.length <= effectiveFirstChunkMax) {
     chunks.push(expandedLines);
   } else {
-    chunks.push(expandedLines.slice(0, firstChunkMax));
-    let remaining = expandedLines.slice(firstChunkMax);
+    chunks.push(expandedLines.slice(0, effectiveFirstChunkMax));
+    let remaining = expandedLines.slice(effectiveFirstChunkMax);
     while (remaining.length > 0) {
       chunks.push(remaining.slice(0, fullChunkMax));
       remaining = remaining.slice(fullChunkMax);
@@ -542,7 +556,7 @@ function addReportPageCodeBlock(doc, code, startY) {
     doc.setLineWidth(0.5);
     doc.roundedRect(20, y, 170, blockHeight, 3, 3, 'S');
 
-    // Header label — show "continued" on subsequent chunks
+    // Header label
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(156, 163, 175);
     doc.setFontSize(9);
