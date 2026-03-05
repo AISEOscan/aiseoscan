@@ -89,11 +89,34 @@ export const isComplianceIssue = (type) => {
   
   const lowerType = type.toLowerCase();
   
-  return lowerType.includes('compliance') || lowerType.includes('gdpr') || lowerType.includes('privacy') ||
-         lowerType.includes('accessibility') || lowerType.includes('legal') || lowerType.includes('contact') ||
-         lowerType.includes('terms') || lowerType.includes('tracking') || lowerType.includes('consent') ||
-         lowerType.includes('policy') || lowerType.includes('a11y') || lowerType.includes('wcag') ||
-         lowerType.includes('aria') || lowerType.includes('ada') || lowerType.includes('missing-gdpr');
+  // Original compliance keywords
+  if (
+    lowerType.includes('compliance') || lowerType.includes('gdpr') || lowerType.includes('privacy') ||
+    lowerType.includes('accessibility') || lowerType.includes('legal') || lowerType.includes('contact') ||
+    lowerType.includes('terms') || lowerType.includes('tracking') || lowerType.includes('consent') ||
+    lowerType.includes('policy') || lowerType.includes('a11y') || lowerType.includes('wcag') ||
+    lowerType.includes('aria') || lowerType.includes('ada') || lowerType.includes('missing-gdpr')
+  ) return true;
+
+  // Trust signal / E-A-T issue types emitted by compliance.js scanner
+  const complianceTypes = [
+    'missing-author-attribution',
+    'author-lacks-visible-credentials',
+    'missing-author-bio-section',
+    'limited-expertise-indicators',
+    'missing-comprehensive-about-section',
+    'limited-business-transparency',
+    'missing-publication-dates',
+    'insufficient-source-citations',
+    'missing-methodology-transparency',
+    'missing-content-freshness-indicators',
+    'limited-professional-credentials',
+    'missing-experience-indicators',
+    'limited-social-proof-testimonials',
+    'limited-external-validation',
+  ];
+
+  return complianceTypes.includes(lowerType);
 };
 
 // PHASE 1 CHANGE: Simplified categorization - most issues will be SEO for AI focus
@@ -105,17 +128,18 @@ export const categorizeIssueType = (type) => {
   
   const lowerType = type.toLowerCase();
   
-  // Priority 1: SEO issues (highest priority for AI SEO tool)
+  // Priority 1: Compliance checked FIRST — prevents trust signal issues
+  // from being stolen by broader SEO keyword matching
+  if (isComplianceIssue(lowerType)) return 'compliance';
+
+  // Priority 2: SEO issues
   if (isSeoIssue(lowerType)) return 'seo';
   
-  // Priority 2: Security issues (but disabled scanners return empty)
+  // Priority 3: Security issues
   if (isSecurityIssue(lowerType)) return 'security';
   
-  // Priority 3: Performance issues (but disabled scanners return empty)
+  // Priority 4: Performance issues
   if (isPerformanceIssue(lowerType)) return 'performance';
-  
-  // Priority 4: Compliance issues (but disabled scanners return empty)
-  if (isComplianceIssue(lowerType)) return 'compliance';
   
   // CHANGED: Default to SEO for unknown issues (AI SEO focus)
   console.log(`Unknown issue type "${type}", defaulting to SEO for AI focus`);

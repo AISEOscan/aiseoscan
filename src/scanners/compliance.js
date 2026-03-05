@@ -256,72 +256,55 @@ async function checkAuthorAuthorityAndExpertise(html, pageData, baseUrl) {
   // Check for clear author attribution
   if (pageData.authorMatches.length === 0) {
     issues.push({
-      type: 'missing-author-attribution',
-      severity: 'critical',
-      description: 'No clear author attribution found - AI engines need to identify content creators for credibility assessment',
-      fix: {
-        title: 'Add Clear Author Attribution',
-        description: 'Author attribution is crucial for AI engines to assess content credibility and expertise. Clear authorship helps establish E-A-T (Expertise, Authoritativeness, Trustworthiness).',
-        code: `<!-- Clear author attribution examples: -->
+  type: 'missing-author-attribution',
+  severity: 'critical',
+  description: 'No clear author attribution found - AI engines need to identify content creators for credibility assessment',
+  fix: {
+    title: 'Add Author Attribution to Your Content',
+    description: 'No author information was detected on this page. AI engines assess content credibility partly by identifying who wrote it. Even a simple byline with a name and role significantly improves trust scoring. Use your real name and real credentials.',
+    code: `<!-- Option 1: Simple byline (minimum viable) -->
+<p class="author-byline">
+  By <a href="/about">[Your Name]</a> · [Your Role or Relevant Background]
+</p>
 
-<!-- Simple author byline -->
-<div class="author-byline">
-  <p>By <span class="author-name" itemprop="author">Dr. Sarah Johnson</span></p>
-  <p class="author-credentials">Certified SEO Specialist with 15+ years experience</p>
+<!-- Option 2: Author bio block (recommended for content-heavy pages) -->
+<div class="author-bio">
+  <h3>About the Author</h3>
+  <p>
+    <strong>[Your Name]</strong> is [your real role or background — e.g. 
+    "a software engineer with 8 years building developer tools" or 
+    "founder of X with experience in Y"].
+  </p>
+  <p>
+    <a href="/about">Learn more</a>
+  </p>
 </div>
 
-<!-- Enhanced author section -->
-<section class="author-info">
-  <div class="author-details">
-    <img src="/authors/sarah-johnson.jpg" alt="Dr. Sarah Johnson" class="author-photo">
-    <div class="author-text">
-      <h3 class="author-name">Dr. Sarah Johnson</h3>
-      <p class="author-title">Senior SEO Strategist & Digital Marketing Expert</p>
-      <p class="author-credentials">PhD in Information Science, Google Certified, 15+ years industry experience</p>
-      <div class="author-links">
-        <a href="/author/sarah-johnson">View Profile</a>
-        <a href="https://linkedin.com/in/sarahjohnson">LinkedIn</a>
-        <a href="https://twitter.com/sarahjohnsonseo">Twitter</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Schema markup for author -->
+<!-- Add author to your Article schema (if you have one): -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Dr. Sarah Johnson",
-  "jobTitle": "Senior SEO Strategist",
-  "worksFor": {
-    "@type": "Organization",
-    "name": "Your Company Name"
+  "@type": "Article",
+  "author": {
+    "@type": "Person",
+    "name": "[Your Real Name]",
+    "url": "${baseUrl}/about",
+    "jobTitle": "[Your Real Role]"
   },
-  "url": "${baseUrl}/author/sarah-johnson",
-  "sameAs": [
-    "https://linkedin.com/in/sarahjohnson",
-    "https://twitter.com/sarahjohnsonseo"
-  ],
-  "knowsAbout": ["SEO", "Digital Marketing", "Content Strategy"],
-  "alumniOf": "University Name",
-  "hasCredential": "PhD in Information Science"
+  "datePublished": "[YYYY-MM-DD]"
 }
 </script>
 
-<!-- Article with author markup -->
-<article itemscope itemtype="https://schema.org/Article">
-  <h1 itemprop="headline">Article Title</h1>
-  <div itemprop="author" itemscope itemtype="https://schema.org/Person">
-    <span itemprop="name">Dr. Sarah Johnson</span>
-  </div>
-  <time itemprop="datePublished" datetime="2024-01-15">January 15, 2024</time>
-  <div itemprop="articleBody">
-    <!-- Article content -->
-  </div>
-</article>`
-      }
-    });
+<!-- What to use as your credentials: -->
+<!-- Use whatever is genuinely true and relevant to your content topic: -->
+<!-- - Years of experience in the field -->
+<!-- - Job title or professional role -->
+<!-- - Founder/owner of the site itself -->
+<!-- - Relevant education or certification -->
+<!-- Do NOT invent credentials — AI engines cross-reference author claims -->`
+  }
+});
+   
   } else {
     // Analyze quality of existing author attribution
     const authorText = pageData.authorMatches.join(' ').toLowerCase();
@@ -555,181 +538,67 @@ async function checkBusinessCredibilityAndTransparency(html, pageData, baseUrl) 
   
   if (!hasAboutLink) {
     issues.push({
-      type: 'missing-comprehensive-about-section',
-      severity: 'critical',
-      description: 'No About page or section found - AI engines need business background to assess content credibility',
-      fix: {
-        title: 'Create Comprehensive About Page',
-        description: 'About pages are crucial for establishing business legitimacy and expertise in the eyes of AI engines.',
-        code: `<!-- Comprehensive About page structure -->
-<main class="about-page">
-  <header class="about-header">
-    <h1>About [Company Name]</h1>
-    <p class="company-tagline">Leading experts in [your industry] since [founding year]</p>
-  </header>
-  
-  <section class="company-story" itemscope itemtype="https://schema.org/Organization">
-    <h2>Our Story</h2>
-    <p itemprop="description">
-      Founded in <span itemprop="foundingDate">[year]</span>, [Company Name] has been at the forefront of 
-      [industry] innovation. We specialize in [specific expertise areas] and have helped over 
-      [number] clients achieve [specific results].
-    </p>
-    
-    <div class="company-stats">
-      <div class="stat">
-        <strong>[15+]</strong>
-        <span>Years of Experience</span>
-      </div>
-      <div class="stat">
-        <strong>[500+]</strong>
-        <span>Successful Projects</span>
-      </div>
-      <div class="stat">
-        <strong>[98%]</strong>
-        <span>Client Satisfaction</span>
-      </div>
-    </div>
+  type: 'missing-comprehensive-about-section',
+  severity: 'critical',
+  description: 'No About page or section found - AI engines need business background to assess content credibility',
+  fix: {
+    title: 'Create an About Page',
+    description: 'No About page was found on your site. This is a critical trust signal — AI engines use About pages to verify a real business or person is behind the content. Without one, your content scores low on credibility regardless of its quality.',
+    code: `<!-- Minimum viable About page — fill in your real details -->
+<main>
+  <h1>About [Your Company or Your Name]</h1>
+
+  <!-- Who you are -->
+  <section>
+    <h2>What We Do</h2>
+    <p>[1-2 sentences describing your business, product, or service and who it's for.]</p>
+    <p>[When you were founded or how long you've been operating — even "since 2019" helps.]</p>
   </section>
-  
-  <section class="expertise-areas">
-    <h2>Our Expertise</h2>
-    <div class="expertise-grid">
-      <div class="expertise-item">
-        <h3>[Service Area 1]</h3>
-        <p>Detailed explanation of expertise and results achieved...</p>
-      </div>
-      <div class="expertise-item">
-        <h3>[Service Area 2]</h3>
-        <p>Specific credentials and experience in this area...</p>
-      </div>
-      <div class="expertise-item">
-        <h3>[Service Area 3]</h3>
-        <p>Quantifiable results and case studies...</p>
-      </div>
-    </div>
+
+  <!-- Why trust you -->
+  <section>
+    <h2>Our Background</h2>
+    <p>[Real credentials, experience, or results. Examples:]</p>
+    <ul>
+      <li>[X years working in Y industry]</li>
+      <li>[Specific certification or qualification if relevant]</li>
+      <li>[Number of customers served, projects completed, or countries operated in]</li>
+    </ul>
   </section>
-  
-  <section class="team-credentials">
-    <h2>Our Expert Team</h2>
-    <div class="team-grid">
-      <div class="team-member" itemscope itemtype="https://schema.org/Person">
-        <img src="/team/ceo.jpg" alt="CEO Name" itemprop="image">
-        <h3 itemprop="name">[CEO Name]</h3>
-        <p itemprop="jobTitle">Chief Executive Officer</p>
-        <p itemprop="description">
-          [Specific background, education, previous companies, achievements]
-        </p>
-        <div class="credentials">
-          <span itemprop="hasCredential">MBA, Harvard Business School</span>
-          <span itemprop="hasCredential">Former VP at [Major Company]</span>
-        </div>
-      </div>
-      <!-- Repeat for key team members -->
-    </div>
-  </section>
-  
-  <section class="company-values">
-    <h2>Our Mission & Values</h2>
-    <div class="values-content">
-      <div class="mission">
-        <h3>Mission Statement</h3>
-        <p>[Clear mission that demonstrates expertise and commitment]</p>
-      </div>
-      <div class="values">
-        <h3>Core Values</h3>
-        <ul>
-          <li><strong>Expertise:</strong> Continuous learning and industry leadership</li>
-          <li><strong>Transparency:</strong> Clear communication and honest practices</li>
-          <li><strong>Results:</strong> Measurable outcomes for every client</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-  
-  <section class="credentials-certifications">
-    <h2>Credentials & Certifications</h2>
-    <div class="credentials-grid">
-      <div class="credential">
-        <img src="/badges/google-certified.png" alt="Google Certified">
-        <p>Google Analytics & Ads Certified</p>
-      </div>
-      <div class="credential">
-        <img src="/badges/industry-member.png" alt="Industry Association">
-        <p>Member of [Professional Association]</p>
-      </div>
-      <!-- Add all relevant certifications -->
-    </div>
-  </section>
-  
-  <section class="contact-information" itemscope itemtype="https://schema.org/ContactPoint">
-    <h2>Contact Information</h2>
-    <div class="contact-details">
-      <p><strong>Address:</strong> 
-        <span itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-          <span itemprop="streetAddress">[Street Address]</span>,
-          <span itemprop="addressLocality">[City]</span>,
-          <span itemprop="addressRegion">[State]</span>
-          <span itemprop="postalCode">[ZIP]</span>
-        </span>
-      </p>
-      <p><strong>Phone:</strong> <a href="tel:[phone]" itemprop="telephone">[Phone Number]</a></p>
-      <p><strong>Email:</strong> <a href="mailto:[email]" itemprop="email">[Email Address]</a></p>
-      <p><strong>Business Hours:</strong> <span itemprop="hoursAvailable">Monday-Friday, 9AM-6PM EST</span></p>
-    </div>
+
+  <!-- How to reach you -->
+  <section>
+    <h2>Contact</h2>
+    <p>Email: [your contact email]</p>
+    <p>Location: [city and country — a physical address if you have one]</p>
   </section>
 </main>
 
-<!-- Schema markup for organization -->
+<!-- Add Organization schema to help AI engines parse your business identity -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Organization",
-  "name": "[Company Name]",
-  "description": "[Company description]",
+  "name": "[Your Company Name]",
   "url": "${baseUrl}",
-  "logo": "${baseUrl}/logo.png",
-  "foundingDate": "[YYYY-MM-DD]",
-  "founder": {
-    "@type": "Person",
-    "name": "[Founder Name]"
-  },
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "[Street Address]",
-    "addressLocality": "[City]",
-    "addressRegion": "[State]",
-    "postalCode": "[ZIP Code]",
-    "addressCountry": "US"
-  },
+  "description": "[One sentence about what your company does]",
+  "foundingDate": "[YYYY]",
   "contactPoint": {
     "@type": "ContactPoint",
-    "telephone": "[Phone]",
-    "contactType": "customer service",
-    "email": "[Email]"
-  },
-  "sameAs": [
-   "[LinkedIn URL]",
-   "[Twitter URL]",
-   "[Facebook URL]"
- ],
- "knowsAbout": [
-   "[Primary Service Area]",
-   "[Secondary Service Area]",
-   "[Industry Expertise]"
- ],
- "hasCredential": [
-   "[Key Certification 1]",
-   "[Key Certification 2]"
- ],
- "award": [
-   "[Industry Award 1]",
-   "[Recognition 2]"
- ]
+    "email": "[your email]",
+    "contactType": "customer service"
+  }
 }
-</script>`
-     }
-   });
+</script>
+
+<!-- What matters most to AI engines: -->
+<!-- ✓ Real name (person or company) -->
+<!-- ✓ What you do and who you help -->
+<!-- ✓ Some verifiable contact method -->
+<!-- ✓ How long you've been operating -->`
+  }
+});
+   
  }
  
  // Check for detailed contact information

@@ -117,7 +117,7 @@ export async function runPreliminaryScan(url) {
       
       // Disabled scanners
       runDisabledScanner('Performance'),
-      runDisabledScanner('Compliance')
+      withRetry(() => scanCompliance(normalizedUrl))
     ]);
     
     // Extract and validate results

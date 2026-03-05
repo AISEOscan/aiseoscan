@@ -1,8 +1,48 @@
-// ENHANCED: /src/scanners/seo.js
 // AI SEO Scanner - Comprehensive analysis for LLM optimization
 
 import axios from 'axios';
 import { REQUEST_TIMEOUT } from './index';
+
+// Sanitize a raw page title for use in fix suggestions.
+// Strips HTML entities, removes repeated site name suffixes (e.g. "· GitHub · GitHub"),
+// and truncates to a readable length.
+function sanitizeTitle(title) {
+  if (!title) return 'Your Page Title';
+  // Decode common HTML entities
+  let clean = title
+    .replace(/&#39;/g, "'")
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>');
+  // Remove repeated site name suffixes separated by · or | or -
+  // e.g. "Article Title · Site Name · Site Name" → "Article Title"
+  const parts = clean.split(/\s*[·|—–-]\s*/);
+  if (parts.length > 1) {
+    clean = parts[0].trim();
+  }
+  // Truncate to 60 chars
+  if (clean.length > 60) {
+    clean = clean.substring(0, 57) + '...';
+  }
+  return clean || 'Your Page Title';
+}
+
+// Sanitize a raw meta description for use in fix suggestions.
+// Strips HTML entities and truncates to a readable length.
+function sanitizeDescription(desc) {
+  if (!desc) return 'your page topic';
+  let clean = desc
+    .replace(/&#39;/g, "'")
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>');
+  if (clean.length > 80) {
+    clean = clean.substring(0, 77) + '...';
+  }
+  return clean;
+}
 
 export async function scanSEO(url) {
   try {
@@ -166,28 +206,36 @@ async function checkStructuredDataAndSchema(html, baseUrl, pageData) {
         const jsonContent = match.replace(/<script[^>]*>/i, '').replace(/<\/script>/i, '');
         const schema = JSON.parse(jsonContent);
         
-        // Check schema types
-        if (schema['@type'] === 'Article' || (Array.isArray(schema) && schema.some(s => s['@type'] === 'Article'))) {
+        // Unwrap @graph pattern used by WordPress/Yoast, Next.js, and other modern CMSes.
+        // A @graph schema looks like: { "@context": "...", "@graph": [ { "@type": "Article" }, ... ] }
+        // Without unwrapping, all type checks below fail and valid schema gets flagged as missing.
+        const schemaNodes = schema['@graph'] 
+          ? schema['@graph'] 
+          : (Array.isArray(schema) ? schema : [schema]);
+        
+        // Check schema types against the normalized node list
+        if (schemaNodes.some(s => s['@type'] === 'Article')) {
           hasArticleSchema = true;
           
           // Validate Article schema completeness
+          const articleNode = schemaNodes.find(s => s['@type'] === 'Article');
           const requiredFields = ['headline', 'author', 'datePublished', 'publisher'];
-          const missingFields = requiredFields.filter(field => !schema[field]);
+          const missingFields = requiredFields.filter(field => !articleNode[field]);
           
           if (missingFields.length > 0) {
             schemaErrors.push(`Article schema missing: ${missingFields.join(', ')}`);
           }
         }
         
-        if (schema['@type'] === 'FAQPage' || (Array.isArray(schema) && schema.some(s => s['@type'] === 'FAQPage'))) {
+        if (schemaNodes.some(s => s['@type'] === 'FAQPage')) {
           hasFAQSchema = true;
         }
         
-        if (schema['@type'] === 'Organization' || (Array.isArray(schema) && schema.some(s => s['@type'] === 'Organization'))) {
+        if (schemaNodes.some(s => s['@type'] === 'Organization')) {
           hasOrganizationSchema = true;
         }
         
-        if (schema['@type'] === 'Person' || (Array.isArray(schema) && schema.some(s => s['@type'] === 'Person'))) {
+        if (schemaNodes.some(s => s['@type'] === 'Person')) {
           hasPersonSchema = true;
         }
         
@@ -397,45 +445,67 @@ async function checkContentQualityForAI(html, pageData) {
   // FAQ Section Analysis (Critical for AI)
   if (!pageData.hasFAQ && pageData.wordCount > 300) {
     issues.push({
-      type: 'missing-faq-section',
-      severity: 'medium',
-      description: 'No FAQ section detected - major missed opportunity for AI citation',
-      fix: {
-        title: 'Add FAQ Section for AI Optimization',
-        description: 'FAQ sections are goldmines for AI citation. They provide direct question-answer pairs that AI engines love to reference.',
-        code: `<!-- AI-optimized FAQ section: -->
-<section class="faq-section">
+  type: 'missing-faq-section',
+  severity: 'medium',
+  description: 'No FAQ section detected - major missed opportunity for AI citation',
+  fix: {
+    title: 'Add a FAQ Section',
+    description: 'No FAQ content was detected on this page. FAQ sections are the highest-return content addition for AI visibility — they give AI engines pre-formatted question-answer pairs to cite directly. The questions should match what your customers actually ask.',
+    code: `<!-- Add this section to your page, ideally before the footer -->
+<section>
   <h2>Frequently Asked Questions</h2>
-  
-  <div class="faq-item">
-    <h3>What is [your main topic]?</h3>
-    <p>[Clear, complete answer that AI can cite directly]</p>
+
+  <div>
+    <h3>[Most common question customers ask before buying]?</h3>
+    <p>[Direct, complete answer. Write it as if answering one person, not a crowd.]</p>
   </div>
-  
-  <div class="faq-item">
-    <h3>How does [your process/product] work?</h3>
-    <p>[Step-by-step explanation with specific details]</p>
+
+  <div>
+    <h3>[Second most common question]?</h3>
+    <p>[Answer with specific details — avoid vague reassurances like "we're the best".]</p>
   </div>
-  
-  <div class="faq-item">
-    <h3>What are the benefits of [your topic]?</h3>
-    <p>[Specific, measurable benefits with examples]</p>
+
+  <div>
+    <h3>[A question about pricing, timeline, or process]?</h3>
+    <p>[Be specific. "Starting from X" or "typically takes Y days" is more useful than "contact us".]</p>
   </div>
-  
-  <div class="faq-item">
-    <h3>How much does [your service] cost?</h3>
-    <p>[Clear pricing information or pricing structure]</p>
-  </div>
+
 </section>
 
-<!-- FAQ optimization tips: -->
-<!-- 1. Use natural question phrasing -->
-<!-- 2. Provide complete, self-contained answers -->
-<!-- 3. Include specific details and examples -->
-<!-- 4. Address common customer concerns -->
-<!-- 5. Use conversational, helpful tone -->`
+<!-- Then add FAQ schema so AI engines can parse it directly: -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "[Your first question]?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "[Your answer — copy it exactly from the HTML above]"
       }
-    });
+    },
+    {
+      "@type": "Question", 
+      "name": "[Your second question]?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "[Your answer]"
+      }
+    }
+  ]
+}
+</script>
+
+<!-- FAQ writing rules: -->
+<!-- 1. Use the exact words your customers use, not industry jargon -->
+<!-- 2. Each answer should be self-contained — readable without context -->
+<!-- 3. Aim for 3-6 questions minimum, 10 maximum per page -->
+<!-- 4. Keep answers under 100 words each for best AI citation format -->`
+  }
+});
+   
   }
   
   // Content Quality Analysis
@@ -485,90 +555,46 @@ async function checkContentQualityForAI(html, pageData) {
   
   if (factualDensity < 1) {
     issues.push({
-      type: 'low-factual-density',
-      severity: 'low',
-      description: 'Content lacks specific facts and data - AI engines prefer factual, citable information',
-      fix: {
-        title: 'Increase Factual Content Density',
-        description: 'Add specific facts, statistics, and data points to make content more citable by AI engines.',
-        code: `<!-- Add factual elements: -->
+  type: 'low-factual-density',
+  severity: 'low',
+  description: 'Content lacks specific facts and data - AI engines prefer factual, citable information',
+  fix: {
+    title: 'Increase Factual Content Density',
+    description: 'Your content reads as mostly opinion or general advice with few concrete numbers or sources. AI engines prefer content they can cite — specific stats, timeframes, and named examples. Here\'s how to add factual density to your existing content:',
+    code: `<!-- Pattern: replace vague claims with specific, sourced statements -->
 
-<!-- Statistics and data: -->
-<p>According to recent studies, 73% of businesses see improved results when they implement this strategy.</p>
+<!-- INSTEAD OF vague: -->
+<!-- <p>Many businesses see improved results with this approach.</p> -->
 
-<!-- Specific timeframes: -->
-<p>Most users see results within 30-60 days of implementation.</p>
+<!-- USE specific + sourced: -->
+<!-- <p>According to [Source Name], businesses that [specific action] see [specific result].</p> -->
 
-<!-- Concrete examples: -->
-<p>For example, Company X increased their conversion rate from 2.3% to 4.7% using this approach.</p>
+<!-- Types of factual elements to add: -->
 
-<!-- Expert citations: -->
-<p>As noted by industry expert Dr. Smith in her 2024 research, "This method provides measurable benefits."</p>
+<!-- 1. Statistics with source -->
+<p>According to [Industry Report / Study Name], [specific stat]% of [audience] [specific outcome].</p>
 
-<!-- Quantifiable benefits: -->
-<p>This approach typically reduces costs by 15-25% while improving efficiency by up to 40%.</p>`
-      }
-    });
+<!-- 2. Specific timeframes -->
+<p>Most [users/customers/businesses] see results within [X days/weeks] of [specific action].</p>
+
+<!-- 3. Your own data (most credible) -->
+<p>Based on our analysis of [X] [customers/sites/campaigns], [specific finding].</p>
+
+<!-- 4. Named examples -->
+<p>For example, [Real Company or Case Study] achieved [specific result] by [specific method].</p>
+
+<!-- Priority: your own data > named case studies > industry reports > general claims -->`
+  }
+});
+     
   }
   
   return issues;
 }
 // Author Authority and Content Attribution (Part of Content Quality)
+// Author Authority and Content Attribution (Part of Content Quality)
 async function checkAuthorAuthorityAndAttribution(html, pageData) {
   const issues = [];
-  
-  // Author attribution analysis
-  const authorPatterns = [
-    /by\s+([^<\n]+)/i,
-    /author[:\s]+([^<\n]+)/i,
-    /written by\s+([^<\n]+)/i,
-    /<span[^>]*class[^>]*author[^>]*>([^<]+)</i,
-    /<div[^>]*class[^>]*author[^>]*>([^<]+)</i
-  ];
-  
-  const hasAuthorAttribution = authorPatterns.some(pattern => pattern.test(html));
-  
-  if (!hasAuthorAttribution) {
-    issues.push({
-      type: 'missing-author-attribution',
-      severity: 'medium',
-      description: 'No clear author attribution found - impacts content credibility for AI engines',
-      fix: {
-        title: 'Add Clear Author Attribution',
-        description: 'Author attribution helps AI engines assess content credibility and expertise.',
-        code: `<!-- Author attribution examples: -->
-
-<!-- Simple byline: -->
-<p class="author-byline">By <span class="author-name">John Smith</span></p>
-
-<!-- Enhanced author info: -->
-<div class="author-info">
-  <p><strong>Written by:</strong> <a href="/author/john-smith">John Smith</a></p>
-  <p class="author-title">Senior SEO Specialist with 10+ years experience</p>
-  <p class="publish-date">Published: January 15, 2024</p>
-</div>
-
-<!-- Author bio section: -->
-<section class="author-bio">
-  <h3>About the Author</h3>
-  <p><strong>John Smith</strong> is a certified SEO professional with over 10 years of experience helping businesses improve their search rankings. He holds certifications from Google and has worked with Fortune 500 companies.</p>
-</section>
-
-<!-- Schema markup for author: -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "John Smith",
-  "jobTitle": "SEO Specialist", 
-  "worksFor": "Your Company",
-  "url": "/author/john-smith",
-  "sameAs": ["https://linkedin.com/in/johnsmith"]
-}
-</script>`
-      }
-    });
-  }
   
   // Publication date analysis
   const datePatterns = [
@@ -724,23 +750,20 @@ async function checkTechnicalAIFoundation(html, baseUrl, responseHeaders) {
      fix: {
        title: 'Optimize Resources for AI Crawlers',
        description: 'Fast-loading pages ensure AI crawlers can efficiently process your content without timeouts.',
-       code: `<!-- Optimize CSS loading: -->
-<link rel="preload" href="critical.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="critical.css"></noscript>
+       code: `<!-- Your page has ${renderBlockingCSS.length} CSS files and ${renderBlockingJS.length} JS files loaded in a render-blocking way. -->
+<!-- These slow down how quickly AI crawlers and users can access your content. -->
 
-<!-- Defer non-critical CSS: -->
-<link rel="stylesheet" href="non-critical.css" media="print" onload="this.media='all'">
+<!-- 1. For CSS files — load non-critical styles asynchronously: -->
+<link rel="preload" href="your-styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="your-styles.css"></noscript>
 
-<!-- Optimize JavaScript loading: -->
-<script src="script.js" defer></script>
-<script src="analytics.js" async></script>
+<!-- 2. For JavaScript files — add defer or async: -->
+<script src="your-script.js" defer></script>   <!-- use for scripts that need DOM -->
+<script src="your-analytics.js" async></script> <!-- use for independent scripts -->
 
-<!-- Critical resource optimization: -->
-<!-- 1. Inline critical CSS (above the fold) -->
-<!-- 2. Defer non-critical resources -->
-<!-- 3. Use async/defer for JavaScript -->
-<!-- 4. Preload important assets -->
-<!-- 5. Minimize render-blocking resources -->`
+<!-- 3. Inline only the CSS needed for above-the-fold content -->
+<!-- 4. Use your browser DevTools > Network tab to identify which files are largest -->
+<!-- 5. Consider a CDN or bundler (Vite, Webpack) to reduce total file count -->`
      }
    });
  }
@@ -843,34 +866,36 @@ async function checkTechnicalAIFoundation(html, baseUrl, responseHeaders) {
  
  if (contextualLinks.length < 3) {
    issues.push({
-     type: 'insufficient-contextual-links-ai',
-     severity: 'low',
-     description: 'Limited contextual internal links - AI engines use links to understand content relationships',
-     fix: {
-       title: 'Add Contextual Internal Links for AI',
-       description: 'Strategic internal linking helps AI engines understand content relationships and topic authority.',
-       code: `<!-- AI-optimized internal linking: -->
+  type: 'insufficient-contextual-links-ai',
+  severity: 'low',
+  description: 'Limited contextual internal links - AI engines use links to understand content relationships',
+  fix: {
+    title: 'Add Contextual Internal Links for AI',
+    description: 'Your page has few or no internal links pointing to related content. AI engines use internal links to map topic relationships across your site — pages that link to each other signal they belong to the same subject area, which builds topical authority.',
+    code: `<!-- Rule: link to related pages naturally within your prose, not just in navs/footers -->
 
-<!-- Link to related concepts: -->
-<p>Learn more about <a href="/advanced-seo-techniques">advanced SEO techniques</a> to further optimize your content.</p>
+<!-- Pattern: mention a concept → link to your deeper page on that concept -->
+<p>This works best when combined with a solid 
+  <a href="/your-related-page">keyword research process</a> — 
+  [one sentence explaining the connection].
+</p>
 
-<!-- Link to supporting content: -->
-<p>This strategy works best when combined with our <a href="/content-marketing-guide">content marketing approach</a>.</p>
+<!-- What makes a good contextual link: -->
+<!-- 1. Anchor text describes the destination page topic (not "click here") -->
+<!-- 2. The link appears inside a sentence, not as a standalone bullet -->
+<!-- 3. The linked page is genuinely related to the current topic -->
+<!-- 4. The surrounding sentence gives context for why you're linking -->
 
-<!-- Link to detailed guides: -->
-<p>For step-by-step instructions, see our <a href="/implementation-guide">complete implementation guide</a>.</p>
+<!-- Where to add internal links on this page: -->
+<!-- - In your introduction, link to any prerequisite concepts you mention -->
+<!-- - In body sections, link to deeper guides on subtopics you reference briefly -->
+<!-- - At the end, link to logical next steps for the reader -->
 
-<!-- Link to related categories: -->
-<p>Explore more <a href="/category/ai-seo">AI SEO strategies</a> and <a href="/category/digital-marketing">digital marketing tips</a>.</p>
-
-<!-- Internal linking strategy for AI: -->
-<!-- 1. Use descriptive anchor text -->
-<!-- 2. Link to topically related content -->
-<!-- 3. Create topic cluster relationships -->
-<!-- 4. Link from high-authority pages to new content -->
-<!-- 5. Use natural, contextual link placement -->`
-     }
-   });
+<!-- Aim for 3-5 contextual internal links per page of substantial content -->
+<!-- Avoid linking the same destination more than once per page -->`
+  }
+});
+    
  }
  
  // URL Structure Analysis
@@ -912,6 +937,7 @@ async function checkTechnicalAIFoundation(html, baseUrl, responseHeaders) {
  
  return issues;
 }
+
 // 4. AUTHORITY & TRUST SIGNALS (15%)
 async function checkAuthorityAndTrustSignals(html, baseUrl) {
   const issues = [];
@@ -927,219 +953,49 @@ async function checkAuthorityAndTrustSignals(html, baseUrl) {
   
   if (!hasAboutLink) {
     issues.push({
-      type: 'missing-about-page-link',
-      severity: 'medium',
-      description: 'No About page link found - AI engines use this for credibility assessment',
-      fix: {
-        title: 'Add Comprehensive About Page',
-        description: 'About pages establish expertise and trustworthiness - key factors for AI engine content evaluation.',
-        code: `<!-- About page link in navigation: -->
+  type: 'missing-about-page-link',
+  severity: 'medium',
+  description: 'No About page link found - AI engines use this for credibility assessment',
+  fix: {
+    title: 'Add an About Page and Link to It',
+    description: 'Your site has no detectable About page link in the navigation or footer. AI engines look for About pages to verify a business is real and establish who is behind the content. This is one of the fastest trust signals to add.',
+    code: `<!-- Step 1: Add the link to your navigation and footer -->
 <nav>
-  <a href="/about">About Us</a>
-  <a href="/team">Our Team</a>
-  <a href="/contact">Contact</a>
+  <a href="/about">About</a>
 </nav>
-
-<!-- About page content structure: -->
-<main>
-  <h1>About [Company Name]</h1>
-  
-  <section class="company-overview">
-    <h2>Our Story</h2>
-    <p>Founded in [year], we specialize in [expertise area] with [X] years of experience...</p>
-  </section>
-  
-  <section class="expertise">
-    <h2>Our Expertise</h2>
-    <ul>
-      <li>[Specific skill/service area]</li>
-      <li>[Certifications and qualifications]</li>
-      <li>[Years of experience]</li>
-    </ul>
-  </section>
-  
-  <section class="credentials">
-    <h2>Credentials & Certifications</h2>
-    <p>Our team holds certifications from [relevant authorities]...</p>
-  </section>
-  
-  <section class="contact-info">
-    <h2>Contact Information</h2>
-    <p>Address: [Full business address]</p>
-    <p>Phone: [Business phone]</p>
-    <p>Email: [Business email]</p>
-  </section>
-</main>`
-      }
-    });
-  }
-  
-  // Contact Information Analysis
-  const contactPatterns = [
-    /contact/i,
-    /phone[:\s]*[\+\d\s\-\(\)]+/i,
-    /email[:\s]*[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/i,
-    /address[:\s]*\d+.*?[a-zA-Z]/i
-  ];
-  
-  const contactIndicators = contactPatterns.filter(pattern => pattern.test(html));
-  
-  if (contactIndicators.length < 2) {
-    issues.push({
-      type: 'insufficient-contact-information',
-      severity: 'medium',
-      description: 'Limited contact information found - impacts trust signals for AI engines',
-      fix: {
-        title: 'Add Complete Contact Information',
-        description: 'Comprehensive contact details establish business legitimacy and trustworthiness for AI evaluation.',
-        code: `<!-- Complete contact information: -->
-<section class="contact-info">
-  <h2>Contact Us</h2>
-  
-  <div class="contact-details">
-    <p><strong>Address:</strong> 123 Business Street, City, State 12345</p>
-    <p><strong>Phone:</strong> +1 (555) 123-4567</p>
-    <p><strong>Email:</strong> hello@yourbusiness.com</p>
-    <p><strong>Business Hours:</strong> Monday-Friday, 9:00 AM - 5:00 PM EST</p>
-  </div>
-</section>
-
-<!-- Schema markup for contact info: -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "Your Business Name",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "123 Business Street",
-    "addressLocality": "City",
-    "addressRegion": "State",
-    "postalCode": "12345",
-    "addressCountry": "US"
-  },
-  "telephone": "+1-555-123-4567",
-  "email": "hello@yourbusiness.com",
-  "url": "${baseUrl}"
-}
-</script>
-
-<!-- Trust indicators: -->
-<!-- 1. Physical business address -->
-<!-- 2. Professional phone number -->
-<!-- 3. Business email address -->
-<!-- 4. Clear business hours -->
-<!-- 5. Multiple contact methods -->`
-      }
-    });
-  }
-  
-  // Legal Pages Detection (Privacy, Terms)
-  const legalPagePatterns = [
-    /privacy\s*policy/i,
-    /terms\s*of\s*(service|use)/i,
-    /cookie\s*policy/i,
-    /disclaimer/i
-  ];
-  
-  const foundLegalPages = legalPagePatterns.filter(pattern => pattern.test(html));
-  
-  if (foundLegalPages.length < 2) {
-    issues.push({
-      type: 'missing-legal-pages',
-      severity: 'low',
-      description: 'Missing legal pages (Privacy Policy, Terms) - impacts business credibility for AI assessment',
-      fix: {
-        title: 'Add Essential Legal Pages',
-        description: 'Legal pages demonstrate business legitimacy and compliance - important trust signals for AI engines.',
-        code: `<!-- Legal page links in footer: -->
 <footer>
-  <nav class="legal-links">
-    <a href="/privacy-policy">Privacy Policy</a>
-    <a href="/terms-of-service">Terms of Service</a>
-    <a href="/cookie-policy">Cookie Policy</a>
-    <a href="/disclaimer">Disclaimer</a>
-  </nav>
+  <a href="/about">About Us</a>
 </footer>
 
-<!-- Privacy policy essentials: -->
-<!-- 1. Data collection practices -->
-<!-- 2. Cookie usage -->
-<!-- 3. Third-party integrations -->
-<!-- 4. Contact information for privacy concerns -->
+<!-- Step 2: Create /about with these minimum sections -->
 
-<!-- Terms of service essentials: -->
-<!-- 1. Service usage guidelines -->
-<!-- 2. User responsibilities -->
-<!-- 3. Limitation of liability -->
-<!-- 4. Governing law and jurisdiction -->`
-      }
-    });
-  }
-  
-  // Professional Credentials & Certifications
-  const credentialPatterns = [
-    /certified|certification/i,
-    /licensed|license/i,
-    /accredited|accreditation/i,
-    /member of|membership/i,
-    /award|awarded/i,
-    /years? of experience/i,
-    /professional|expert/i
-  ];
-  
-  const credentialIndicators = credentialPatterns.filter(pattern => pattern.test(html));
-  
-  if (credentialIndicators.length < 2) {
-    issues.push({
-      type: 'limited-credibility-indicators',
-      severity: 'low',
-      description: 'Limited professional credentials visible - missed authority signals for AI engines',
-      fix: {
-        title: 'Showcase Professional Credentials',
-        description: 'Visible credentials and expertise indicators help AI engines assess content authority and trustworthiness.',
-        code: `<!-- Credentials showcase examples: -->
+<!-- Who you are -->
+<section>
+  <h1>About [Your Company Name]</h1>
+  <p>[2-3 sentences: what you do, who you serve, and how long you've been doing it]</p>
+</section>
 
-<!-- Professional experience: -->
-<section class="credentials">
+<!-- Why you're credible -->
+<section>
   <h2>Our Expertise</h2>
-  <ul>
-    <li>15+ years of industry experience</li>
-    <li>Google Certified SEO Professional</li>
-    <li>Member of Search Engine Marketing Association</li>
-    <li>HubSpot Certified Marketing Expert</li>
-  </ul>
+  <p>[Specific experience, credentials, or results — use real numbers if you have them]</p>
 </section>
 
-<!-- Awards and recognition: -->
-<section class="recognition">
-  <h2>Awards & Recognition</h2>
-  <ul>
-    <li>Best SEO Agency 2024 - Industry Awards</li>
-    <li>Top 100 Marketing Professionals - Marketing Magazine</li>
-    <li>Featured in Forbes, Entrepreneur, Search Engine Journal</li>
-  </ul>
+<!-- How to reach you -->
+<section>
+  <h2>Contact</h2>
+  <p>Email: [your real email]</p>
+  <p>Location: [city/country is enough if you don't have a physical address]</p>
 </section>
 
-<!-- Team credentials: -->
-<section class="team">
-  <h2>Our Expert Team</h2>
-  <div class="team-member">
-    <h3>John Smith, SEO Director</h3>
-    <p>Google Certified, 12+ years experience, Former Google employee</p>
-  </div>
-</section>
-
-<!-- Client testimonials: -->
-<section class="testimonials">
-  <h2>Client Success Stories</h2>
-  <blockquote>
-    <p>"Increased our organic traffic by 300% in 6 months"</p>
-    <cite>- Sarah Johnson, CEO, TechCorp</cite>
-  </blockquote>
-</section>`
-      }
-    });
+<!-- Minimum viable About page checklist: -->
+<!-- ✓ Real company or person name -->
+<!-- ✓ What you do and who you help -->
+<!-- ✓ Some form of contact information -->
+<!-- ✓ Linked from main navigation -->`
+  }
+});
+     
   }
   
   // SSL/HTTPS Check
@@ -1261,38 +1117,40 @@ async function checkAISearchOptimization(html, pageData, baseUrl) {
   
   if (conversationalScore < 5 && pageData.wordCount > 300) {
     issues.push({
-      type: 'non-conversational-tone',
-      severity: 'low',
-      description: 'Content tone is not conversational - AI engines prefer natural language content',
-      fix: {
-        title: 'Adopt Conversational Tone for AI',
-        description: 'Conversational content better matches how people query AI engines and improves citation potential.',
-        code: `<!-- Conversational content examples: -->
+  type: 'non-conversational-tone',
+  severity: 'low',
+  description: 'Content tone is not conversational - AI engines prefer natural language content',
+  fix: {
+    title: 'Adopt Conversational Tone for AI',
+    description: 'Your content uses formal or passive language. AI engines are trained on natural human conversation, so content written the way people actually speak gets cited more often. The fix is simple: write to one person, not an audience.',
+    code: `<!-- The core shift: write to "you", not "users" or "businesses" -->
 
-<!-- Instead of formal: -->
-<!-- "The implementation of SEO strategies requires careful consideration of various factors." -->
+<!-- INSTEAD OF formal/passive: -->
+<!-- <p>Implementation of this strategy requires consideration of several factors.</p> -->
 
-<!-- Use conversational: -->
-<p>When you're implementing SEO strategies, you'll want to consider several key factors that can make or break your success.</p>
+<!-- USE direct/conversational: -->
+<!-- <p>Before you implement this, there are a few things worth knowing.</p> -->
 
-<!-- Ask and answer questions: -->
-<h3>What's the most important SEO factor?</h3>
-<p>Here's what we've learned from analyzing thousands of websites: content quality matters more than any technical trick.</p>
+<!-- Practical rewrites to apply across your content: -->
 
-<!-- Use direct address: -->
-<p>If you're wondering whether this strategy will work for your business, let me share what we've seen with similar companies.</p>
+<!-- 1. Replace third person with second person -->
+<!-- "Users can benefit from..." → "You can benefit from..." -->
+<!-- "Businesses should consider..." → "If you're running a business, consider..." -->
 
-<!-- Include examples and analogies: -->
-<p>Think of SEO like gardening - you need to plant good seeds (content), tend to them regularly (updates), and be patient for growth (rankings).</p>
+<!-- 2. Turn statements into questions, then answer them -->
+<h3>What does this actually mean for your site?</h3>
+<p>It means [direct, plain-language answer].</p>
 
-<!-- Conversational elements: -->
-<!-- 1. Use "you" and "your" frequently -->
-<!-- 2. Ask rhetorical questions -->
-<!-- 3. Share personal insights -->
-<!-- 4. Use examples and analogies -->
-<!-- 5. Address reader concerns directly -->`
-      }
-    });
+<!-- 3. Use contractions -->
+<!-- "It is important to..." → "It's worth..." -->
+<!-- "You should not..." → "Don't..." -->
+
+<!-- 4. Lead with the point, not the context -->
+<!-- "In order to achieve X, it is necessary to first Y" → "To get X, start with Y" -->
+
+<!-- One test: read a paragraph out loud. If it sounds like a legal document, rewrite it. -->`
+  }
+});
   }
   
   // Voice Search Readiness
@@ -1424,30 +1282,36 @@ async function checkEnhancedMetaAndSocial(html, baseUrl, pageData) {
     const hasAIWords = aiOptimizedWords.some(word => title.toLowerCase().includes(word));
     
     if (!hasAIWords && title.length > 20) {
-      issues.push({
-        type: 'title-not-ai-optimized',
-        severity: 'low',
-        description: 'Title could be more AI-search friendly with intent-based keywords',
-        fix: {
-          title: 'Optimize Title for AI Search Intent',
-          description: 'Include words that match how people ask AI engines questions.',
-          code: `<!-- Current title: "${title}" -->
+  const cleanTitle = sanitizeTitle(title);
+  issues.push({
+    type: 'title-not-ai-optimized',
+    severity: 'low',
+    description: 'Title could be more AI-search friendly with intent-based keywords',
+    fix: {
+      title: 'Optimize Title for AI Search Intent',
+      description: 'Your current title reads like a brand label. AI engines favor titles that signal topic and intent — think "Complete Guide to X" or "How to Y". Here\'s a rewritten version based on your page:',
+      code: `<!-- Your current title: -->
+<title>${title}</title>
 
-<!-- AI-optimized versions: -->
-<title>Complete Guide to ${title} (2024 Update)</title>
-<title>How to ${title}: Step-by-Step Instructions</title>
-<title>What You Need to Know About ${title}</title>
-<title>${title} Explained: Expert Insights & Tips</title>
+<!-- Suggested rewrite (pick the pattern that fits your page): -->
 
-<!-- Add these AI-friendly words: -->
-<!-- - Guide, Complete, Ultimate -->
-<!-- - How to, What is, Why -->
-<!-- - Step-by-step, Comprehensive -->
-<!-- - Expert, Professional -->
-<!-- - Current year (2024, 2025) -->`
-        }
-      });
+<!-- If this is a guide or article: -->
+<title>Complete Guide to ${cleanTitle}</title>
+
+<!-- If this is a how-to page: -->
+<title>How to Use ${cleanTitle}: Step-by-Step</title>
+
+<!-- If this is a product or tool: -->
+<title>What is ${cleanTitle}? Features, Benefits & Getting Started</title>
+
+<!-- Rules: -->
+<!-- 1. Lead with the topic, not your brand name -->
+<!-- 2. Include intent words: Guide, How to, What is, Review, vs -->
+<!-- 3. Keep under 60 characters total -->
+<!-- 4. Add brand name at the end if needed: "... | YourBrand" -->`
     }
+  });
+}
   }
   
   // Meta Description AI Optimization
@@ -1486,29 +1350,32 @@ async function checkEnhancedMetaAndSocial(html, baseUrl, pageData) {
    const hasAIElements = aiElements.some(element => description.toLowerCase().includes(element));
    
    if (!hasAIElements && description.length > 50) {
-     issues.push({
-       type: 'meta-description-not-ai-optimized',
-       severity: 'low',
-       description: 'Meta description could be more AI-search friendly',
-       fix: {
-         title: 'Enhance Meta Description for AI',
-         description: 'Use language that matches how people ask AI engines questions.',
-         code: `<!-- Current: "${description}" -->
+  const cleanDesc = sanitizeDescription(description);
+  issues.push({
+    type: 'meta-description-not-ai-optimized',
+    severity: 'low',
+    description: 'Meta description could be more AI-search friendly',
+    fix: {
+      title: 'Enhance Meta Description for AI',
+      description: 'Your current description is informational but passive. AI engines favor descriptions that lead with action words and signal clear value. Here\'s how to rewrite yours:',
+      code: `<!-- Your current description: -->
+<meta name="description" content="${description.replace(/"/g, '&quot;')}">
 
-<!-- AI-enhanced versions: -->
-<meta name="description" content="Learn ${description} with our expert guide. Get proven strategies and actionable tips for immediate results.">
+<!-- Suggested rewrite: -->
+<meta name="description" content="Learn ${cleanDesc} — step-by-step guide with expert tips and actionable strategies.">
 
-<meta name="description" content="Complete guide to ${description}. Discover step-by-step instructions, expert insights, and best practices for success.">
+<!-- Pattern used: [Action word] + [topic] + [value signal] -->
+<!-- Action words that work well: Learn, Discover, Get, Find out, See how -->
+<!-- Value signals: step-by-step, expert tips, proven methods, with examples -->
 
-<meta name="description" content="What you need to know about ${description}. Professional advice, real examples, and proven methods that work.">
-
-<!-- Enhancement words for AI optimization: -->
-<!-- Learn, Discover, Find out, Get, Complete guide -->
-<!-- Expert, Professional, Proven, Comprehensive -->
-<!-- Step-by-step, How-to, What is, Why -->`
-       }
-     });
-   }
+<!-- Keep your description: -->
+<!-- - Between 120-160 characters -->
+<!-- - Starting with an action word -->
+<!-- - Specific about what the reader gets -->
+<!-- - Free of keyword stuffing -->`
+    }
+   });
+}
  }
  
  // Social Media Markup for AI Context
@@ -1548,6 +1415,9 @@ async function checkEnhancedMetaAndSocial(html, baseUrl, pageData) {
     
     const contentQualityIssues = await checkContentQualityForAI(html, pageData);
     issues.push(...contentQualityIssues);
+
+    const authorAttributionIssues = await checkAuthorAuthorityAndAttribution(html, pageData);
+issues.push(...authorAttributionIssues);
     
     const technicalFoundationIssues = await checkTechnicalAIFoundation(html, baseUrl, response.headers);
     issues.push(...technicalFoundationIssues);
@@ -1573,14 +1443,15 @@ async function checkEnhancedMetaAndSocial(html, baseUrl, pageData) {
         medium: mediumCount,
         low: lowCount
       },
-      categories: {
-        structuredData: structuredDataIssues.length,
-        contentQuality: contentQualityIssues.length,
-        technical: technicalFoundationIssues.length,
-        authority: authorityTrustIssues.length,
-        aiOptimization: aiOptimizationIssues.length,
-        enhancedMeta: enhancedMetaIssues.length
-      }
+     categories: {
+  structuredData: structuredDataIssues.length,
+  contentQuality: contentQualityIssues.length,
+  authorAttribution: authorAttributionIssues.length,  
+  technical: technicalFoundationIssues.length,
+  authority: authorityTrustIssues.length,
+  aiOptimization: aiOptimizationIssues.length,
+  enhancedMeta: enhancedMetaIssues.length
+}
     });
     
     return {
