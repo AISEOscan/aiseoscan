@@ -483,76 +483,86 @@ function addReportPageCodeBlock(doc, code, startY) {
     return y;
   }
 
-  const MAX_CHARS = 90; // max characters per line before wrapping
+  const MAX_CHARS = 88;
   const LINE_HEIGHT = 4;
   const PADDING_TOP = 18;
   const PADDING_BOTTOM = 8;
-  const MAX_CODE_HEIGHT = 180; // never let a code block exceed this height
+  const USABLE_PAGE_HEIGHT = 265; // below this we need a new page
+  const CODE_LEFT = 25;
+  const CODE_BG = [31, 41, 55];
 
-  // Expand lines — wrap any line that exceeds MAX_CHARS
+  // Soft-wrap any line exceeding MAX_CHARS
   const rawLines = code.split('\n');
   const expandedLines = [];
   rawLines.forEach(line => {
     if (line.length <= MAX_CHARS) {
       expandedLines.push(line);
     } else {
-      // Soft-wrap long lines
       let remaining = line;
       while (remaining.length > MAX_CHARS) {
         expandedLines.push(remaining.substring(0, MAX_CHARS));
-        remaining = '  ' + remaining.substring(MAX_CHARS); // indent continuation
+        remaining = '  ' + remaining.substring(MAX_CHARS);
       }
       if (remaining.length > 0) expandedLines.push(remaining);
     }
   });
 
-  const codeHeight = Math.min(
-    MAX_CODE_HEIGHT,
-    Math.max(40, expandedLines.length * LINE_HEIGHT + PADDING_TOP + PADDING_BOTTOM)
-  );
+  // Split lines into chunks that fit on one page
+  // First chunk has less space (PADDING_TOP for header label)
+  // Subsequent chunks use full page space
+  const firstChunkMax = Math.floor((USABLE_PAGE_HEIGHT - y - PADDING_TOP - PADDING_BOTTOM) / LINE_HEIGHT);
+  const fullChunkMax = Math.floor((USABLE_PAGE_HEIGHT - 40 - PADDING_TOP - PADDING_BOTTOM) / LINE_HEIGHT);
 
-  // How many lines actually fit in the box
-  const maxLinesInBox = Math.floor((codeHeight - PADDING_TOP - PADDING_BOTTOM) / LINE_HEIGHT);
-
-  // Page break check — if block won't fit, start new page
-  if (y + codeHeight > 265) {
-    doc.addPage();
-    addHeader(doc, 'Issues & Optimization Instructions (Continued)');
-    y = 40;
+  const chunks = [];
+  if (expandedLines.length <= firstChunkMax) {
+    chunks.push(expandedLines);
+  } else {
+    chunks.push(expandedLines.slice(0, firstChunkMax));
+    let remaining = expandedLines.slice(firstChunkMax);
+    while (remaining.length > 0) {
+      chunks.push(remaining.slice(0, fullChunkMax));
+      remaining = remaining.slice(fullChunkMax);
+    }
   }
 
-  // Code container background
-  doc.setFillColor(31, 41, 55);
-  doc.roundedRect(20, y, 170, codeHeight, 3, 3, 'F');
-  doc.setDrawColor(COLORS.border[0], COLORS.border[1], COLORS.border[2]);
-  doc.setLineWidth(0.5);
-  doc.roundedRect(20, y, 170, codeHeight, 3, 3, 'S');
+  chunks.forEach((chunkLines, chunkIndex) => {
+    // New page for all chunks after the first
+    if (chunkIndex > 0) {
+      doc.addPage();
+      addHeader(doc, 'Issues & Optimization Instructions (Continued)');
+      y = 40;
+    }
 
-  // Header label
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(156, 163, 175);
-  doc.setFontSize(9);
-  doc.text('Implementation Code', 25, y + 12);
+    const blockHeight = chunkLines.length * LINE_HEIGHT + PADDING_TOP + PADDING_BOTTOM;
 
-  // Code lines
-  doc.setFont('courier', 'normal');
-  doc.setTextColor(209, 213, 219);
-  doc.setFontSize(7);
+    // Draw background
+    doc.setFillColor(CODE_BG[0], CODE_BG[1], CODE_BG[2]);
+    doc.roundedRect(20, y, 170, blockHeight, 3, 3, 'F');
+    doc.setDrawColor(COLORS.border[0], COLORS.border[1], COLORS.border[2]);
+    doc.setLineWidth(0.5);
+    doc.roundedRect(20, y, 170, blockHeight, 3, 3, 'S');
 
-  expandedLines.slice(0, maxLinesInBox).forEach((line, index) => {
-    const yPos = y + PADDING_TOP + (index * LINE_HEIGHT);
-    doc.text(line, 25, yPos);
+    // Header label — show "continued" on subsequent chunks
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(156, 163, 175);
+    doc.setFontSize(9);
+    const label = chunkIndex === 0 ? 'Implementation Code' : 'Implementation Code (continued)';
+    doc.text(label, CODE_LEFT, y + 12);
+
+    // Code lines
+    doc.setFont('courier', 'normal');
+    doc.setTextColor(209, 213, 219);
+    doc.setFontSize(7);
+
+    chunkLines.forEach((line, lineIndex) => {
+      const yPos = y + PADDING_TOP + (lineIndex * LINE_HEIGHT);
+      doc.text(line, CODE_LEFT, yPos);
+    });
+
+    y += blockHeight + 10;
   });
 
-  // If code was truncated, show indicator
-  if (expandedLines.length > maxLinesInBox) {
-    doc.setFont('helvetica', 'normal');
-    doc.setTextColor(156, 163, 175);
-    doc.setFontSize(7);
-    doc.text(`... (${expandedLines.length - maxLinesInBox} more lines)`, 25, y + codeHeight - 4);
-  }
-
-  return y + codeHeight + 10;
+  return y;
 }
 
 
