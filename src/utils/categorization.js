@@ -432,15 +432,11 @@ export const processMultiDimensionalData = (data) => {
    try {
   // FIXED: Proper weighting that accounts for compliance issues
   const securityScore = processedData.security.score * 0.05;
-  const seoScore = processedData.seo.score * 0.75;  // Primary AI SEO focus
-  const performanceScore = processedData.performance.score * 0.05;
-  
-  // FIXED: Give compliance proper weight if it has issues, minimal weight if disabled
-  const complianceWeight = (processedData.compliance.critical > 0 || processedData.compliance.medium > 0 || processedData.compliance.low > 0) ? 0.15 : 0.05;
-  const complianceScore = processedData.compliance.score * complianceWeight;
-  
-  const calculatedOverallScore = Math.round(securityScore + seoScore + performanceScore + complianceScore);
-  
+const seoScore = processedData.seo.score * 0.60;
+const performanceScore = processedData.performance.score * 0.05;
+const complianceScore = processedData.compliance.score * 0.30;
+
+const calculatedOverallScore = Math.round(securityScore + seoScore + performanceScore + complianceScore);
   processedData.summary.overallScore = Math.max(0, Math.min(100, calculatedOverallScore));
   console.log(`🎯 AI SEO Overall Score: ${processedData.summary.overallScore} (SEO: ${processedData.seo.score}, Compliance: ${processedData.compliance.score})`);
 } catch (scoreError) {

@@ -482,50 +482,76 @@ function addReportPageCodeBlock(doc, code, startY) {
   if (!code || code.trim().length === 0) {
     return y;
   }
-  
-  const codeLines = code.split('\n');
-  const displayLines = codeLines; // Show complete code
-  
-  // BIGGER FONT = MORE LINES NEEDED - Increase spacing for readability
-  const lineHeight = 4; // Increased from 3 to 4 for bigger font
-  const codeHeight = Math.max(40, displayLines.length * lineHeight + 20);
-  
-  // Page break check with more conservative height
-  if (y + codeHeight > 240) {
+
+  const MAX_CHARS = 90; // max characters per line before wrapping
+  const LINE_HEIGHT = 4;
+  const PADDING_TOP = 18;
+  const PADDING_BOTTOM = 8;
+  const MAX_CODE_HEIGHT = 180; // never let a code block exceed this height
+
+  // Expand lines — wrap any line that exceeds MAX_CHARS
+  const rawLines = code.split('\n');
+  const expandedLines = [];
+  rawLines.forEach(line => {
+    if (line.length <= MAX_CHARS) {
+      expandedLines.push(line);
+    } else {
+      // Soft-wrap long lines
+      let remaining = line;
+      while (remaining.length > MAX_CHARS) {
+        expandedLines.push(remaining.substring(0, MAX_CHARS));
+        remaining = '  ' + remaining.substring(MAX_CHARS); // indent continuation
+      }
+      if (remaining.length > 0) expandedLines.push(remaining);
+    }
+  });
+
+  const codeHeight = Math.min(
+    MAX_CODE_HEIGHT,
+    Math.max(40, expandedLines.length * LINE_HEIGHT + PADDING_TOP + PADDING_BOTTOM)
+  );
+
+  // How many lines actually fit in the box
+  const maxLinesInBox = Math.floor((codeHeight - PADDING_TOP - PADDING_BOTTOM) / LINE_HEIGHT);
+
+  // Page break check — if block won't fit, start new page
+  if (y + codeHeight > 265) {
     doc.addPage();
     addHeader(doc, 'Issues & Optimization Instructions (Continued)');
     y = 40;
   }
-  
-  // Code container
-  doc.setFillColor(31, 41, 55); // bg-gray-800
+
+  // Code container background
+  doc.setFillColor(31, 41, 55);
   doc.roundedRect(20, y, 170, codeHeight, 3, 3, 'F');
   doc.setDrawColor(COLORS.border[0], COLORS.border[1], COLORS.border[2]);
   doc.setLineWidth(0.5);
   doc.roundedRect(20, y, 170, codeHeight, 3, 3, 'S');
-  
-  // Code header
+
+  // Header label
   doc.setFont('helvetica', 'bold');
-  doc.setTextColor(156, 163, 175); // text-gray-400
-  doc.setFontSize(9); // Slightly bigger header font
+  doc.setTextColor(156, 163, 175);
+  doc.setFontSize(9);
   doc.text('Implementation Code', 25, y + 12);
-  
-  // BIGGER, MORE READABLE CODE FONT
+
+  // Code lines
   doc.setFont('courier', 'normal');
-  doc.setTextColor(209, 213, 219); // text-gray-300
-  doc.setFontSize(8); // INCREASED from 6 to 8 for much better readability
-  
-  // Display all lines with bigger font and spacing
-  displayLines.forEach((line, index) => {
-    const yPos = y + 18 + (index * lineHeight); // Increased spacing
-    if (yPos < y + codeHeight - 5) {
-      // Adjust character limit for bigger font
-      const maxChars = 75; // Reduced from 85 to accommodate bigger font
-      const displayLine = line.length > maxChars ? line.substring(0, maxChars - 3) + '...' : line;
-      doc.text(displayLine, 25, yPos);
-    }
+  doc.setTextColor(209, 213, 219);
+  doc.setFontSize(7);
+
+  expandedLines.slice(0, maxLinesInBox).forEach((line, index) => {
+    const yPos = y + PADDING_TOP + (index * LINE_HEIGHT);
+    doc.text(line, 25, yPos);
   });
-  
+
+  // If code was truncated, show indicator
+  if (expandedLines.length > maxLinesInBox) {
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(156, 163, 175);
+    doc.setFontSize(7);
+    doc.text(`... (${expandedLines.length - maxLinesInBox} more lines)`, 25, y + codeHeight - 4);
+  }
+
   return y + codeHeight + 10;
 }
 
