@@ -25,7 +25,7 @@ export default async function handler(req, res) {
     }
 
     // Process discount code — UNCHANGED
-    let finalAmount = 100; // $29.00
+    let finalAmount = 2900; // $29.00
     let discountInfo = null;
 
     if (discountCode && discountCode.trim()) {
