@@ -5,7 +5,16 @@ import { Bot } from 'lucide-react';
 
 export default function Layout({ children, title = 'AISEO Scanner - Is your website ready for AI search ?', description }) {
   const router = useRouter();
-  const canonicalUrl = `${process.env.NEXT_PUBLIC_BASE_URL || 'https://www.aiseoscan.dev'}${router.asPath}`;
+  
+  // 1. Clean the Base URL (removes any accidental trailing slash)
+  const base = (process.env.NEXT_PUBLIC_BASE_URL || 'https://www.aiseoscan.dev').replace(/\/$/, '');
+  
+  // 2. Clean the Path (removes query strings and trailing slashes)
+  // This ensures /my-page/ and /my-page match the sitemap perfectly
+  const cleanPath = router.asPath.split('?')[0].replace(/\/$/, '');
+  
+  // 3. Combine them
+  const canonicalUrl = cleanPath === '' ? `${base}/` : `${base}${cleanPath}`;
   const metaDescription = description || "AI SEO report - Optimize your website for ChatGPT, Perplexity, SearchGPT and other AI search engines. Get comprehensive schema markup, content quality, and authority signal analysis.";
 
   return (

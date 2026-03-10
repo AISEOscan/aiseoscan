@@ -4,13 +4,11 @@ export async function getServerSideProps({ res }) {
   const fs = require('fs')
   const path = require('path')
   
-  // Use environment variable for base URL
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.aiseoscan.dev'
+  // 1. CLEAN BASE URL: Remove any trailing slash from the env variable
+  const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || 'https://www.aiseoscan.dev').replace(/\/$/, '')
   
-  // Get current date
   const currentDate = new Date().toISOString()
   
-  // Manual high-priority pages
   const manualPages = [
     { slug: 'ai-seo', priority: '0.9', changefreq: 'weekly' },
     { slug: 'what-is-ai-seo', priority: '0.8', changefreq: 'weekly' },
@@ -29,7 +27,6 @@ export async function getServerSideProps({ res }) {
     { slug: 'ai-seo-guides', priority: '0.9', changefreq: 'weekly' }
   ]
   
-  // Function to get slugs from a JSON file without loading full content
   function getSlugs(filePath) {
     try {
       const data = JSON.parse(fs.readFileSync(filePath, 'utf8'))
@@ -40,31 +37,29 @@ export async function getServerSideProps({ res }) {
     }
   }
   
-  // Load slugs only - SKIP DELETED FILES
   const industrySlugs = getSlugs(path.join(process.cwd(), 'src/data/pseo/industry-pages.json'))
-  
-  // Combine all slugs (removed deleted files)
   const allSlugs = [...industrySlugs]
   
-  // Generate sitemap
+  // 2. GENERATE SITEMAP: Ensure no trailing slashes on individual URLs
+  // The .replace(/^\//, '') ensures we don't get double slashes if a slug starts with /
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
       <url>
-        <loc>${baseUrl}</loc>
+        <loc>${baseUrl}/</loc>
         <lastmod>${currentDate}</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
       </url>
       ${manualPages.map(page => `
       <url>
-        <loc>${baseUrl}/${page.slug}</loc>
+        <loc>${baseUrl}/${page.slug.replace(/^\//, '')}</loc>
         <lastmod>${currentDate}</lastmod>
         <changefreq>${page.changefreq}</changefreq>
         <priority>${page.priority}</priority>
       </url>`).join('')}
       ${allSlugs.map(slug => `
       <url>
-        <loc>${baseUrl}/${slug}</loc>
+        <loc>${baseUrl}/${slug.replace(/^\//, '')}</loc>
         <lastmod>${currentDate}</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
