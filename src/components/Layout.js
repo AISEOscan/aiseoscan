@@ -74,35 +74,75 @@ export default function Layout({ children, title = 'AISEO Scanner - Is your webs
         {children}
       </main>
 
-      <footer className="bg-gray-950/80 backdrop-blur-xl border-t border-purple-500/30 mt-12">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-center text-gray-300 text-sm font-light">
-              &copy; {new Date().getFullYear()} AISEOScan. All rights reserved.
-            </p>
-            
-            <div className="flex flex-col md:flex-row items-center gap-4 text-xs text-gray-400">
-              <div className="flex items-center space-x-4">
-                <span className="bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent font-medium">
-                  AI SEO optimization platform
-                </span>
-                <span>•</span>
-                <span>ChatGPT • Perplexity • SearchGPT Ready</span>
-              </div>
-              
-              <div className="flex items-center space-x-3">
-                <span className="hidden md:inline">•</span>
-                <Link 
-                  href="/ai-seo-guides"
-                  className="text-purple-400 hover:text-purple-300 transition-colors font-medium"
-                >
-                  AI SEO Guides
-                </Link>
-              </div>
-            </div>
-          </div>
+     <footer className="bg-gray-950/80 backdrop-blur-xl border-t border-purple-500/30 mt-12">
+  <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    {/* Platform Links */}
+    <div className="mb-6 pb-6 border-b border-gray-800">
+      <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">
+        AI Search Platforms
+      </h3>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+        <Link href="/ai-seo-chatgpt">
+          <a className="text-gray-300 hover:text-emerald-400 transition-colors text-sm">
+            ChatGPT SEO
+          </a>
+        </Link>
+        <Link href="/ai-seo-perplexity">
+          <a className="text-gray-300 hover:text-blue-400 transition-colors text-sm">
+            Perplexity SEO
+          </a>
+        </Link>
+        <Link href="/ai-seo-gemini">
+          <a className="text-gray-300 hover:text-pink-400 transition-colors text-sm">
+            Gemini SEO
+          </a>
+        </Link>
+        <Link href="/ai-seo-copilot">
+          <a className="text-gray-300 hover:text-purple-400 transition-colors text-sm">
+            Copilot SEO
+          </a>
+        </Link>
+        <Link href="/ai-seo-claude">
+          <a className="text-gray-300 hover:text-orange-400 transition-colors text-sm">
+            Claude SEO
+          </a>
+        </Link>
+        <Link href="/ai-seo-searchgpt">
+          <a className="text-gray-300 hover:text-cyan-400 transition-colors text-sm">
+            SearchGPT SEO
+          </a>
+        </Link>
+      </div>
+    </div>
+
+    {/* Main Footer Content */}
+    <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+      <p className="text-center text-gray-300 text-sm font-light">
+        &copy; {new Date().getFullYear()} AISEOScan. All rights reserved.
+      </p>
+      
+      <div className="flex flex-col md:flex-row items-center gap-4 text-xs text-gray-400">
+        <div className="flex items-center space-x-4">
+          <span className="bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent font-medium">
+            AI SEO optimization platform
+          </span>
+          <span className="hidden sm:inline">•</span>
+          <span className="text-center sm:text-left">ChatGPT • Perplexity • SearchGPT Ready</span>
         </div>
-      </footer>
+        
+        <div className="flex items-center space-x-3">
+          <span className="hidden md:inline">•</span>
+          <Link 
+            href="/ai-seo"
+            className="text-purple-400 hover:text-purple-300 transition-colors font-medium"
+          >
+            AI SEO Guide
+          </Link>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
     </div>
   );
 }
