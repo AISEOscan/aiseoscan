@@ -57,8 +57,10 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async ({ params }) => {
   try {
-    // Only load industry pages (all other files deleted)
+    // Load all page sources
     const industryPagesPath = path.join(process.cwd(), 'src', 'data', 'pseo', 'industry-pages.json')
+    const technicalPagesPath = path.join(process.cwd(), 'src', 'data', 'pseo', 'technical-pages.json')
+    const usecasePagesPath = path.join(process.cwd(), 'src', 'data', 'pseo', 'usecase-pages.json')
     
     let allPages = []
     
@@ -68,6 +70,22 @@ export const getStaticProps = async ({ params }) => {
       allPages = [...industryPages]
     } catch (error) {
       console.warn('Could not load industry pages:', error.message)
+    }
+
+    // Load technical pages  
+    try {
+      const technicalPages = JSON.parse(fs.readFileSync(technicalPagesPath, 'utf8'))
+      allPages = [...allPages, ...technicalPages]
+    } catch (error) {
+      console.warn('Could not load technical pages:', error.message)
+    }
+
+    // Load use case pages
+    try {
+      const usecasePages = JSON.parse(fs.readFileSync(usecasePagesPath, 'utf8'))
+      allPages = [...allPages, ...usecasePages]
+    } catch (error) {
+      console.warn('Could not load use case pages:', error.message)
     }
 
     // Find the specific page data

@@ -37,8 +37,13 @@ export async function getServerSideProps({ res }) {
     }
   }
   
+  // Load all three page types
   const industrySlugs = getSlugs(path.join(process.cwd(), 'src/data/pseo/industry-pages.json'))
-  const allSlugs = [...industrySlugs]
+  const technicalSlugs = getSlugs(path.join(process.cwd(), 'src/data/pseo/technical-pages.json'))
+  const usecaseSlugs = getSlugs(path.join(process.cwd(), 'src/data/pseo/usecase-pages.json'))
+  
+  // Combine all slugs
+  const allSlugs = [...industrySlugs, ...technicalSlugs, ...usecaseSlugs]
   
   // 2. GENERATE SITEMAP: Ensure no trailing slashes on individual URLs
   // The .replace(/^\//, '') ensures we don't get double slashes if a slug starts with /

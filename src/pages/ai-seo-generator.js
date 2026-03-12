@@ -290,7 +290,7 @@ export default function AISEOGenerator() {
 
   return (
     <Layout 
-      title="AI SEO Generator: Best Tools & Complete Guide (2025)"
+      title="AI SEO Generator: Best Tools & Complete Guide (2026)"
       description="Generate and optimize content for AI search. Compare top AI SEO generators, learn workflows, and validate with AISEOScan. Target $28.53 CPC keyword."
     >
       {/* Hero Section */}
