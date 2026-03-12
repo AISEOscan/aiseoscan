@@ -24,7 +24,25 @@ export async function getServerSideProps({ res }) {
     { slug: 'ai-seo-agency', priority: '1.0', changefreq: 'daily' },
     { slug: 'best-ai-seo-tools-2026', priority: '0.9', changefreq: 'weekly' },
     { slug: 'ai-seo-by-industry', priority: '0.9', changefreq: 'weekly' },
-    { slug: 'ai-seo-guides', priority: '0.9', changefreq: 'weekly' }
+    { slug: 'ai-seo-guides', priority: '0.9', changefreq: 'weekly' },
+    // Platform-specific AI SEO pages (6 pages)
+    { slug: 'ai-seo-chatgpt', priority: '0.9', changefreq: 'weekly' },
+    { slug: 'ai-seo-perplexity', priority: '0.9', changefreq: 'weekly' },
+    { slug: 'ai-seo-gemini', priority: '0.9', changefreq: 'weekly' },
+    { slug: 'ai-seo-copilot', priority: '0.9', changefreq: 'weekly' },
+    { slug: 'ai-seo-claude', priority: '0.9', changefreq: 'weekly' },
+    { slug: 'ai-seo-searchgpt', priority: '0.9', changefreq: 'weekly' },
+    // AI SEO Tools hub and tool pages (10 pages)
+    { slug: 'ai-seo-tools', priority: '0.9', changefreq: 'weekly' },
+    { slug: 'copilot-seo-tool', priority: '0.8', changefreq: 'weekly' },
+    { slug: 'perplexity-seo-checking-tools', priority: '0.8', changefreq: 'weekly' },
+    { slug: 'perplexity-seo-tracking-tools', priority: '0.8', changefreq: 'weekly' },
+    { slug: 'perplexity-seo-checking-software', priority: '0.8', changefreq: 'weekly' },
+    { slug: 'copilot-seo-analysis-tool', priority: '0.8', changefreq: 'weekly' },
+    { slug: 'best-perplexity-seo-tracking-tools', priority: '0.8', changefreq: 'weekly' },
+    { slug: 'copilot-seo-checking-tool', priority: '0.8', changefreq: 'weekly' },
+    { slug: 'copilot-seo-analysis-software', priority: '0.8', changefreq: 'weekly' },
+    { slug: 'copilot-seo-checker', priority: '0.8', changefreq: 'weekly' }
   ]
   
   function getSlugs(filePath) {
