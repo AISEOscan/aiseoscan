@@ -1,354 +1,347 @@
 import Layout from '../components/Layout'
 import Link from 'next/link'
-import { Bot, CheckCircle, Zap, ArrowRight, Award, Star, TrendingUp, DollarSign, Users, Gauge, Shield, Target } from 'lucide-react'
+import { Bot, CheckCircle, Zap, ArrowRight, Search, Award, Star, TrendingUp, Users, Code, FileText, Shield, Target, AlertCircle } from 'lucide-react'
 
 export default function BestPerplexitySEOTrackingTools() {
-  const toolRankings = [
+  const topTools = [
     {
       rank: 1,
       name: "AISEOScan",
-      rating: 4.8,
-      price: "$29/report",
-      bestFor: "Agencies and businesses needing Perplexity-specific tracking",
+      rating: 5.0,
+      type: "AI-Specific SEO Scanner",
+      bestFor: "Tracking Perplexity-specific optimization (schema, content, authority)",
+      pricing: "Free basic scan / $29 premium report",
+      perplexitySpecific: true,
+      whatItTracks: [
+        "Schema markup completeness over time",
+        "Content structure quality (headings, FAQs)",
+        "Author attribution and credentials",
+        "Technical AI SEO health (HTTPS, mobile, speed)",
+        "Authority signals (about page, contact, legal)"
+      ],
       pros: [
-        "Only tool built specifically for Perplexity tracking",
-        "Automated citation rate monitoring",
-        "Domain authority trend tracking",
-        "Competitor benchmarking included",
-        "White-label reports for agencies",
-        "API access for custom integrations"
+        "Built specifically for AI search optimization",
+        "Tracks what Perplexity actually uses (schema, structure, authority)",
+        "Shows before/after score comparisons",
+        "Free basic tracking (run scan monthly, compare scores)",
+        "Premium reports ($29) include detailed progress analysis"
       ],
       cons: [
-        "Newer tool (launched 2024)",
-        "Premium reports require payment"
+        "Premium reports require payment for full tracking details",
+        "No automated alerts (manual re-scan needed)"
       ],
-      features: {
-        citationTracking: true,
-        domainAuthority: true,
-        competitorAnalysis: true,
-        automation: true,
-        apiAccess: true,
-        historicalData: true,
-        alerts: true,
-        whiteLabel: true
+      trackingFeatures: {
+        automated: false,
+        costPerMonth: "$0 (manual) or $29/month (monthly premium)",
+        metrics: "30+ AI SEO factors",
+        reporting: "PDF reports with score history",
+        alerts: "Manual - run scans to check"
       },
-      verdict: "Best overall Perplexity tracking tool. Purpose-built for AI search, affordable, and comprehensive.",
-      link: "https://www.aiseoscan.dev"
+      bestUseCase: "Best for: Anyone optimizing for Perplexity citations - tracks the factors that actually matter (schema completeness, content structure, authority signals)"
     },
     {
       rank: 2,
-      name: "Ahrefs",
+      name: "Ahrefs Site Audit",
       rating: 4.5,
-      price: "$99-999/mo",
-      bestFor: "Large enterprises doing comprehensive SEO + AI tracking",
+      type: "General SEO Tracking",
+      bestFor: "Traditional SEO health tracking with some AI-relevant metrics",
+      pricing: "$99-999/month",
+      perplexitySpecific: false,
+      whatItTracks: [
+        "Traditional SEO metrics (backlinks, keywords, rankings)",
+        "Technical SEO issues",
+        "Some schema validation",
+        "Page speed",
+        "Mobile optimization"
+      ],
       pros: [
-        "Industry-standard domain authority (DR)",
-        "Massive backlink database",
-        "Excellent keyword research",
-        "Historical data going back years",
-        "Strong technical SEO tools"
+        "Comprehensive traditional SEO data",
+        "Automated weekly/monthly scans",
+        "Historical tracking and alerts",
+        "Large data set for competitive analysis"
       ],
       cons: [
-        "Not Perplexity-specific (generic SEO)",
-        "Expensive monthly subscriptions",
-        "No citation rate tracking",
-        "Doesn't track AI search performance",
-        "Overkill if you only care about Perplexity"
+        "NOT built for AI search - misses Perplexity-specific factors",
+        "Doesn't track FAQ sections, author attribution, or factual density",
+        "Expensive ($99-999/month)",
+        "Overwhelming data if you only care about AI SEO"
       ],
-      features: {
-        citationTracking: false,
-        domainAuthority: true,
-        competitorAnalysis: true,
-        automation: true,
-        apiAccess: true,
-        historicalData: true,
-        alerts: true,
-        whiteLabel: false
+      trackingFeatures: {
+        automated: true,
+        costPerMonth: "$99-999",
+        metrics: "Traditional SEO (backlinks, keywords, crawl errors)",
+        reporting: "Web dashboard, email alerts",
+        alerts: "Yes - automated"
       },
-      verdict: "Excellent for traditional SEO + authority tracking, but lacks Perplexity-specific metrics.",
-      link: null
+      bestUseCase: "Best for: Companies doing both traditional SEO AND AI SEO who need comprehensive tracking across both"
     },
     {
       rank: 3,
       name: "Moz Pro",
-      rating: 4.3,
-      price: "$99-599/mo",
-      bestFor: "Mid-market SEO teams with budget",
+      rating: 4.0,
+      type: "General SEO Tracking",
+      bestFor: "Traditional SEO tracking with some technical checks",
+      pricing: "$99-599/month",
+      perplexitySpecific: false,
+      whatItTracks: [
+        "Domain authority tracking",
+        "Keyword rankings",
+        "Technical crawl issues",
+        "Page optimization scores",
+        "Backlink monitoring"
+      ],
       pros: [
-        "Domain Authority (DA) metric widely recognized",
-        "Good rank tracking features",
-        "Clean interface",
-        "Solid keyword research"
+        "Good domain authority tracking (relevant for Perplexity)",
+        "Automated weekly scans",
+        "Clean, easy-to-use interface"
       ],
       cons: [
-        "Not designed for AI search",
-        "Smaller backlink database than Ahrefs",
-        "No Perplexity citation tracking",
-        "Expensive for what you get",
-        "Limited automation options"
+        "NOT designed for AI search optimization",
+        "Misses AI-specific factors (schema completeness, FAQ structure, author signals)",
+        "Expensive for limited AI SEO value",
+        "Domain authority is just one small factor for Perplexity"
       ],
-      features: {
-        citationTracking: false,
-        domainAuthority: true,
-        competitorAnalysis: true,
-        automation: "Limited",
-        apiAccess: true,
-        historicalData: true,
-        alerts: "Limited",
-        whiteLabel: false
+      trackingFeatures: {
+        automated: true,
+        costPerMonth: "$99-599",
+        metrics: "Domain authority, keywords, technical crawl",
+        reporting: "Web dashboard",
+        alerts: "Yes - weekly email"
       },
-      verdict: "Good for DA tracking but doesn't address Perplexity-specific needs.",
-      link: null
+      bestUseCase: "Best for: Agencies tracking domain authority as one input, but need to supplement with AI-specific tools"
     },
     {
       rank: 4,
-      name: "SEMrush",
-      rating: 4.4,
-      price: "$119-449/mo",
-      bestFor: "All-in-one SEO + content marketing",
+      name: "SEMrush Site Audit",
+      rating: 4.0,
+      type: "General SEO Tracking",
+      bestFor: "Enterprise SEO tracking with some technical overlap",
+      pricing: "$119-449/month",
+      perplexitySpecific: false,
+      whatItTracks: [
+        "Traditional SEO metrics",
+        "Technical site health",
+        "Some schema checking",
+        "Page speed monitoring",
+        "Competitive analysis"
+      ],
       pros: [
-        "Comprehensive feature set",
-        "Good content marketing tools",
-        "Position tracking",
-        "Competitive analysis features"
+        "Comprehensive SEO platform",
+        "Automated tracking and alerts",
+        "Good technical SEO coverage"
       ],
       cons: [
-        "Not AI-search focused",
-        "Complex interface (steep learning curve)",
-        "No citation rate tracking",
-        "Expensive subscriptions",
-        "Feature bloat for simple tracking needs"
+        "NOT focused on AI search optimization",
+        "Misses Perplexity-specific content factors (FAQ sections, factual density, author attribution)",
+        "Very expensive for AI SEO alone",
+        "Complex - steep learning curve"
       ],
-      features: {
-        citationTracking: false,
-        domainAuthority: "Authority Score",
-        competitorAnalysis: true,
-        automation: true,
-        apiAccess: true,
-        historicalData: true,
-        alerts: true,
-        whiteLabel: true
+      trackingFeatures: {
+        automated: true,
+        costPerMonth: "$119-449",
+        metrics: "Traditional SEO, technical health",
+        reporting: "Web dashboard, PDF exports",
+        alerts: "Yes - customizable"
       },
-      verdict: "Powerful all-in-one tool but overkill if you only need Perplexity tracking.",
-      link: null
+      bestUseCase: "Best for: Large enterprises with SEO teams doing comprehensive tracking, supplement with AI-specific tools"
     },
     {
       rank: 5,
       name: "Manual Tracking (Spreadsheet)",
       rating: 3.0,
-      price: "Free",
-      bestFor: "Solo bloggers with 1-2 queries to track",
+      type: "DIY Tracking",
+      bestFor: "Budget-conscious tracking with full control",
+      pricing: "Free (time investment)",
+      perplexitySpecific: "You control what to track",
+      whatItTracks: [
+        "Whatever you manually check (schema presence, heading structure, etc.)",
+        "Requires running free AISEOScan scans and recording scores",
+        "Can track any custom metrics you care about"
+      ],
       pros: [
-        "Completely free",
-        "Full control over tracking",
-        "No learning curve",
-        "Works offline"
+        "Free",
+        "Complete control over what to track",
+        "Can combine data from multiple sources"
       ],
       cons: [
-        "Extremely time-consuming (2+ hours/week)",
-        "Prone to errors",
-        "Can't scale beyond 5 queries",
-        "No automation or alerts",
-        "No historical trend analysis",
-        "Easy to skip or forget"
+        "Very time-consuming (2-3 hours per month)",
+        "Easy to miss issues or track inconsistently",
+        "No automated alerts",
+        "Requires discipline to maintain"
       ],
-      features: {
-        citationTracking: "Manual",
-        domainAuthority: "External check required",
-        competitorAnalysis: "Manual",
-        automation: false,
-        apiAccess: false,
-        historicalData: "If you track it",
-        alerts: false,
-        whiteLabel: false
+      trackingFeatures: {
+        automated: false,
+        costPerMonth: "$0 (time cost only)",
+        metrics: "Whatever you manually track",
+        reporting: "DIY spreadsheet",
+        alerts: "None - manual review"
       },
-      verdict: "Only viable if you have more time than budget. Not scalable.",
-      link: null
+      bestUseCase: "Best for: Small sites, hobby projects, or learning how AI SEO works - run free AISEOScan monthly, record scores in spreadsheet"
     }
   ]
 
   const comparisonMatrix = [
     {
-      feature: "Perplexity Citation Tracking",
-      aiseoscan: "✓ Native",
-      ahrefs: "✗",
-      moz: "✗",
-      semrush: "✗",
-      manual: "Manual"
+      feature: "Perplexity-Specific",
+      aiseoscan: "✓ Yes",
+      ahrefs: "✗ No",
+      moz: "✗ No",
+      semrush: "✗ No",
+      manual: "✓ You control"
     },
     {
-      feature: "Domain Authority Monitoring",
-      aiseoscan: "✓ DR/DA",
-      ahrefs: "✓ DR",
-      moz: "✓ DA",
-      semrush: "✓ AS",
-      manual: "External"
+      feature: "Schema Completeness Tracking",
+      aiseoscan: "✓ Yes (Article, FAQ, Org, Person)",
+      ahrefs: "Partial (basic validation only)",
+      moz: "✗ No",
+      semrush: "Partial (basic validation only)",
+      manual: "✓ If you track it"
+    },
+    {
+      feature: "Content Structure Analysis",
+      aiseoscan: "✓ Yes (headings, FAQs, depth)",
+      ahrefs: "✗ No",
+      moz: "✗ No",
+      semrush: "✗ No",
+      manual: "✓ If you track it"
+    },
+    {
+      feature: "Author Attribution Tracking",
+      aiseoscan: "✓ Yes",
+      ahrefs: "✗ No",
+      moz: "✗ No",
+      semrush: "✗ No",
+      manual: "✓ If you track it"
     },
     {
       feature: "Automated Tracking",
-      aiseoscan: "✓ Daily/Weekly",
-      ahrefs: "✓",
-      moz: "✓",
-      semrush: "✓",
-      manual: "✗"
+      aiseoscan: "Manual re-scan",
+      ahrefs: "✓ Yes",
+      moz: "✓ Yes",
+      semrush: "✓ Yes",
+      manual: "✗ No"
     },
     {
-      feature: "Competitor Benchmarking",
-      aiseoscan: "✓",
-      ahrefs: "✓",
-      moz: "✓",
-      semrush: "✓",
-      manual: "Manual"
-    },
-    {
-      feature: "Historical Trends",
-      aiseoscan: "✓",
-      ahrefs: "✓",
-      moz: "✓",
-      semrush: "✓",
-      manual: "If tracked"
-    },
-    {
-      feature: "AI Search Specific",
-      aiseoscan: "✓",
-      ahrefs: "✗",
-      moz: "✗",
-      semrush: "✗",
-      manual: "✗"
-    },
-    {
-      feature: "Price (Monthly)",
-      aiseoscan: "$29/report",
+      feature: "Monthly Cost",
+      aiseoscan: "$0 basic / $29 premium",
       ahrefs: "$99-999",
       moz: "$99-599",
       semrush: "$119-449",
-      manual: "Free"
-    }
-  ]
-
-  const selectionCriteria = [
-    {
-      criteria: "Your Primary Goal",
-      ifThis: "Track Perplexity citations specifically",
-      thenThis: "AISEOScan",
-      why: "Only tool that tracks citation rates, query coverage, and Perplexity-specific metrics"
+      manual: "$0"
     },
     {
-      criteria: "Your Budget",
-      ifThis: "Under $50/month",
-      thenThis: "AISEOScan",
-      why: "Pay-per-report model ($29) is most affordable for small teams"
-    },
-    {
-      criteria: "Your Budget",
-      ifThis: "Over $500/month",
-      thenThis: "Ahrefs or SEMrush",
-      why: "Get comprehensive traditional SEO + basic authority tracking"
-    },
-    {
-      criteria: "Team Size",
-      ifThis: "Solo or small team (1-3 people)",
-      thenThis: "AISEOScan",
-      why: "Simple interface, no training needed, pay only for what you use"
-    },
-    {
-      criteria: "Team Size",
-      ifThis: "Large agency (10+ people)",
-      thenThis: "AISEOScan + Ahrefs",
-      why: "Use both: AISEOScan for AI tracking, Ahrefs for traditional SEO"
-    },
-    {
-      criteria: "Technical Skill",
-      ifThis: "Non-technical marketer",
-      thenThis: "AISEOScan",
-      why: "Enter URL, get report. No setup or configuration needed."
-    },
-    {
-      criteria: "Technical Skill",
-      ifThis: "Technical team with API needs",
-      thenThis: "AISEOScan API",
-      why: "RESTful API for custom integrations and automation"
-    },
-    {
-      criteria: "Tracking Volume",
-      ifThis: "1-10 sites/queries",
-      thenThis: "AISEOScan",
-      why: "Pay per report is cost-effective at low volume"
-    },
-    {
-      criteria: "Tracking Volume",
-      ifThis: "50+ sites daily",
-      thenThis: "Custom solution + AISEOScan API",
-      why: "High-volume needs justify custom automation via API"
+      feature: "Setup Time",
+      aiseoscan: "0 min (instant)",
+      ahrefs: "30-60 min",
+      moz: "30-60 min",
+      semrush: "30-60 min",
+      manual: "Varies"
     }
   ]
 
   const keyFeatures = [
     {
-      feature: "Citation Rate Tracking",
+      feature: "AI-Specific Metrics",
       importance: "Critical",
-      description: "Measures how often Perplexity cites your site for target queries",
-      whoHasIt: "Only AISEOScan"
+      why: "Traditional SEO tools track Google factors. For Perplexity, you need schema completeness, FAQ sections, author attribution, and factual density tracking.",
+      checkFor: "Does it track Article schema completeness? FAQ section presence? Author credentials?"
     },
     {
-      feature: "Domain Authority Monitoring",
-      importance: "Critical",
-      description: "Tracks DR/DA over time (Perplexity's #1 ranking factor)",
-      whoHasIt: "AISEOScan, Ahrefs, Moz, SEMrush"
+      feature: "Score History / Trends",
+      importance: "High",
+      why: "Tracking is useless without historical data. You need to see 'Score went from 45 → 62 → 78' over time.",
+      checkFor: "Can you compare this month's score to last month? Does it show progress graphs?"
+    },
+    {
+      feature: "Before/After Comparisons",
+      importance: "High",
+      why: "After implementing fixes, you need to prove they worked. 'Added schema → score increased 12 points.'",
+      checkFor: "Can you see what changed between scans? Does it highlight improvements?"
     },
     {
       feature: "Automated Alerts",
-      importance: "High",
-      description: "Get notified when citations drop or authority changes",
-      whoHasIt: "AISEOScan, Ahrefs, Moz, SEMrush"
-    },
-    {
-      feature: "Competitor Benchmarking",
-      importance: "High",
-      description: "Compare your performance vs competitors getting cited",
-      whoHasIt: "AISEOScan, Ahrefs, Moz, SEMrush"
-    },
-    {
-      feature: "Historical Trends",
-      importance: "Medium-High",
-      description: "View performance over weeks/months to spot patterns",
-      whoHasIt: "AISEOScan, Ahrefs, Moz, SEMrush"
-    },
-    {
-      feature: "API Access",
       importance: "Medium",
-      description: "Integrate tracking data into your own dashboards",
-      whoHasIt: "AISEOScan, Ahrefs, Moz, SEMrush"
+      why: "Nice to have but not critical. Alerts catch regressions (e.g., schema removed during site update).",
+      checkFor: "Does it email you when score drops? Can you set up custom alerts?"
+    },
+    {
+      feature: "Affordable Pricing",
+      importance: "High",
+      why: "If tracking costs $99-999/month but doesn't track AI-specific factors, you're wasting money.",
+      checkFor: "Is there a free tier? What's the monthly cost for features you actually need?"
+    },
+    {
+      feature: "Easy to Understand Reports",
+      importance: "Medium",
+      why: "Complex dashboards slow you down. You need: 'Score this month: 78. Last month: 65. +13 points.'",
+      checkFor: "Can non-technical people understand the reports? Is the data actionable?"
     }
   ]
 
-  const mistakes = [
+  const selectionGuide = [
     {
-      mistake: "Choosing Traditional SEO Tools for AI Tracking",
-      problem: "Tools like Ahrefs/Moz were built for Google SEO, not Perplexity. They track the wrong metrics (keyword rankings, SERP positions) instead of AI-specific factors (citation rates, query coverage).",
-      solution: "Use Perplexity-specific tools like AISEOScan for AI tracking. Use traditional tools for traditional SEO. Don't confuse the two."
+      scenario: "I only care about Perplexity optimization",
+      recommendation: "AISEOScan",
+      reasoning: "Only tool built specifically for AI search. Tracks schema completeness, content structure, and authority signals that Perplexity uses. Free basic tracking, $29/month for detailed reports."
     },
     {
-      mistake: "Going with the Most Expensive Option",
-      problem: "More expensive ≠ better for Perplexity. A $499/mo SEMrush subscription doesn't track citations. A $29 AISEOScan report does.",
-      solution: "Match the tool to your needs. If you only need Perplexity tracking, paying for enterprise SEO features is wasteful."
+      scenario: "I need to track both Google SEO AND Perplexity",
+      recommendation: "Ahrefs/SEMrush + AISEOScan",
+      reasoning: "Use Ahrefs for traditional metrics (backlinks, keywords), supplement with AISEOScan for AI-specific factors (schema, FAQs, author attribution)."
     },
     {
-      mistake: "Only Tracking Domain Authority",
-      problem: "High DA doesn't guarantee Perplexity citations. You need to track actual citation rates, not just authority scores.",
-      solution: "Track both: authority (via any tool) AND citation rate (via Perplexity-specific tools)."
+      scenario: "I have a small budget (<$50/month)",
+      recommendation: "AISEOScan premium ($29/month)",
+      reasoning: "Best value for Perplexity optimization. Monthly premium reports track all AI-specific factors. Save $70-970/month vs traditional tools."
     },
     {
-      mistake: "Trying to Track Everything Manually",
-      problem: "Manual tracking doesn't scale. You'll skip it when busy, make errors, and miss important trends.",
-      solution: "Automate the boring stuff. Even a $29/month tool saves 2+ hours weekly of manual checking."
+      scenario: "I want automated alerts for regressions",
+      recommendation: "Ahrefs/Moz/SEMrush (but supplement with AISEOScan)",
+      reasoning: "Traditional tools have automated alerts, but they miss AI-specific issues. Use both for complete coverage."
+    },
+    {
+      scenario: "Just learning / hobby project",
+      recommendation: "Manual tracking with AISEOScan free scans",
+      reasoning: "Run free AISEOScan monthly, record scores in spreadsheet. Zero cost, full control."
+    },
+    {
+      scenario: "Agency tracking 10+ clients",
+      recommendation: "AISEOScan premium for each client",
+      reasoning: "10 clients × $29 = $290/month. Cheaper than enterprise SEO tools, provides exactly what clients need for AI citations."
+    }
+  ]
+
+  const commonMistakes = [
+    {
+      mistake: "Using Only Traditional SEO Tools",
+      problem: "Ahrefs/Moz/SEMrush track Google metrics (backlinks, keyword rankings, PageRank). They miss Perplexity-specific factors like schema completeness, FAQ structure, author attribution, and factual density.",
+      solution: "Either use AI-specific tools (AISEOScan), or supplement traditional tools with manual AI SEO checks.",
+      realExample: "Company spent $500/month on SEMrush, saw great Google rankings but zero Perplexity citations. Why? Missing schema markup and FAQ sections - which SEMrush doesn't track."
+    },
+    {
+      mistake: "Not Tracking Schema Completeness",
+      problem: "Having 'some schema' isn't enough. Article schema needs headline, author, datePublished, publisher. Most tools just check 'schema exists' but not completeness.",
+      solution: "Track schema completeness percentage. AISEOScan shows 'Article schema 60% complete - missing author and publisher fields.'",
+      realExample: "Site had Article schema but missing author field. Perplexity ignored content. After adding author → citations increased 4x."
+    },
+    {
+      mistake: "Tracking Too Infrequently",
+      problem: "Checking once every 3-6 months misses issues that hurt citations for months before being caught.",
+      solution: "Track monthly during active optimization (first 3 months), then quarterly for maintenance. Immediate re-scan after major site changes.",
+      realExample: "Site redesign broke schema markup. Took 4 months to notice because they only tracked quarterly. Lost 4 months of potential citations."
+    },
+    {
+      mistake: "No Baseline Documentation",
+      problem: "Can't prove ROI without knowing starting point. 'We're at 78 now' is meaningless without 'we started at 45.'",
+      solution: "Document initial state before any optimization. Screenshot scores, export first report, record all baseline metrics.",
+      realExample: "Agency improved client score from 42 → 85. Client asked for proof. No baseline screenshot = couldn't prove ROI."
     }
   ]
 
   return (
     <Layout 
-      title="Best Perplexity SEO Tracking Tools: Top 5 Tools Compared (2026)"
-      description="Compare the best Perplexity SEO tracking tools. Expert rankings, pricing, features, and recommendations for agencies, businesses, and solo marketers."
+      title="Best Perplexity SEO Tracking Tools (2026 Comparison)"
+      description="Compare the best Perplexity SEO tracking tools. Rankings, features, pricing for AISEOScan, Ahrefs, Moz, SEMrush, and manual tracking approaches."
     >
       <div className="max-w-6xl mx-auto py-12">
         {/* Hero */}
@@ -361,92 +354,84 @@ export default function BestPerplexitySEOTrackingTools() {
             Best Perplexity SEO Tracking Tools
           </h1>
           <p className="text-xl text-gray-200 mb-8 max-w-4xl leading-relaxed">
-            Expert comparison of the top 5 Perplexity SEO tracking tools. See which tools actually track AI search citations, what they cost, and which one is right for your team size and budget.
+            Compare the best tools for tracking Perplexity SEO progress. Ranked comparison of AISEOScan, Ahrefs, Moz, SEMrush, and manual tracking - what they track, pricing, pros/cons, and which is best for your use case.
           </p>
           
           <Link href="https://www.aiseoscan.dev">
             <a className="inline-flex items-center bg-gradient-to-r from-blue-500 to-cyan-600 text-white px-8 py-4 rounded-lg font-bold text-lg hover:from-blue-600 hover:to-cyan-700 transition-all duration-300 transform hover:scale-105">
               <Award className="h-5 w-5 mr-2" />
-              Try #1 Rated Tool Free
+              Try #1 Ranked Tool Free
             </a>
           </Link>
         </div>
 
-        {/* Quick Summary */}
-        <div className="bg-gradient-to-r from-emerald-900/40 to-emerald-800/20 border-2 border-emerald-500 p-8 rounded-xl mb-12">
-          <h2 className="text-2xl font-bold text-white mb-4">🏆 Quick Verdict</h2>
-          <div className="space-y-3 text-gray-200">
-            <p>
-              <strong className="text-emerald-300">Best Overall:</strong> AISEOScan - Only tool built specifically for Perplexity tracking. $29/report.
-            </p>
-            <p>
-              <strong className="text-emerald-300">Best for Enterprises:</strong> AISEOScan + Ahrefs - Cover both AI search and traditional SEO.
-            </p>
-            <p>
-              <strong className="text-emerald-300">Best Free Option:</strong> None exist that actually track Perplexity. Manual tracking possible but not scalable.
-            </p>
-            <p>
-              <strong className="text-emerald-300">Not Recommended:</strong> Using traditional SEO tools (Moz, SEMrush) alone - they don't track AI citations.
-            </p>
-          </div>
-        </div>
-
-        {/* Tool Rankings */}
+        {/* Top 5 Tools */}
         <div className="mb-12">
-          <h2 className="text-3xl font-bold text-white mb-8 flex items-center">
-            <Award className="h-8 w-8 text-blue-400 mr-3" />
+          <h2 className="text-3xl font-bold text-white mb-8">
             Top 5 Perplexity SEO Tracking Tools (Ranked)
           </h2>
 
           <div className="space-y-8">
-            {toolRankings.map((tool, index) => (
+            {topTools.map((tool, index) => (
               <div key={index} className={`p-8 rounded-xl border-2 ${
-                tool.rank === 1 
-                  ? 'bg-gradient-to-r from-emerald-900/40 to-emerald-800/20 border-emerald-500' 
-                  : 'bg-gradient-to-r from-gray-900/60 to-blue-900/20 border-blue-500/50'
+                tool.rank === 1
+                  ? 'bg-gradient-to-r from-emerald-900/40 to-emerald-800/20 border-emerald-500'
+                  : 'bg-gradient-to-r from-gray-900/60 to-gray-800/20 border-gray-700'
               }`}>
-                <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-6">
-                  <div className="flex items-start mb-4 md:mb-0">
-                    <div className={`text-4xl font-bold mr-4 ${
-                      tool.rank === 1 ? 'text-emerald-400' : 'text-blue-400'
+                <div className="flex items-start justify-between mb-6">
+                  <div className="flex items-start">
+                    <div className={`font-bold text-4xl mr-4 ${
+                      tool.rank === 1 ? 'text-emerald-400' : 'text-gray-500'
                     }`}>
                       #{tool.rank}
                     </div>
-                    <div>
-                      <h3 className="text-3xl font-bold text-white mb-2">{tool.name}</h3>
+                    <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
-                        <div className="flex items-center">
+                        <h3 className="text-2xl font-bold text-white">{tool.name}</h3>
+                        <div className="flex items-center gap-1">
                           {[...Array(5)].map((_, i) => (
-                            <Star 
-                              key={i} 
-                              className={`h-5 w-5 ${
-                                i < Math.floor(tool.rating) 
-                                  ? 'text-yellow-400 fill-yellow-400' 
-                                  : 'text-gray-600'
-                              }`} 
-                            />
+                            <Star key={i} className={`h-5 w-5 ${
+                              i < Math.floor(tool.rating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-600'
+                            }`} />
                           ))}
-                          <span className="ml-2 text-white font-semibold">{tool.rating}</span>
+                          <span className="text-gray-400 text-sm ml-2">{tool.rating}</span>
                         </div>
-                        <span className="text-gray-500">•</span>
-                        <span className="text-2xl font-bold text-blue-400">{tool.price}</span>
                       </div>
-                      <p className="text-gray-400 text-sm">{tool.bestFor}</p>
+                      <div className="flex items-center gap-4 text-sm mb-3">
+                        <span className="text-gray-400">{tool.type}</span>
+                        <span className="text-gray-600">•</span>
+                        <span className="text-blue-400 font-semibold">{tool.pricing}</span>
+                      </div>
+                      {tool.perplexitySpecific && (
+                        <div className="inline-block bg-emerald-500 text-white px-3 py-1 rounded-full text-xs font-bold mb-4">
+                          ⭐ Perplexity-Specific
+                        </div>
+                      )}
+                      <p className="text-gray-300 mb-4">
+                        <strong className="text-white">Best for:</strong> {tool.bestFor}
+                      </p>
                     </div>
                   </div>
-                  {tool.rank === 1 && (
-                    <div className="bg-emerald-500 text-white px-4 py-2 rounded-full text-sm font-bold whitespace-nowrap">
-                      ⭐ Best Overall
-                    </div>
-                  )}
+                </div>
+
+                <div className="mb-6">
+                  <h4 className="text-purple-300 font-semibold mb-3">What It Tracks:</h4>
+                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    {tool.whatItTracks.map((item, i) => (
+                      <li key={i} className="text-gray-300 text-sm flex items-start">
+                        <CheckCircle className="h-4 w-4 text-purple-400 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                   <div>
                     <h4 className="text-emerald-300 font-semibold mb-3">✅ Pros:</h4>
                     <ul className="space-y-2">
-                      {tool.pros.map((pro, pIndex) => (
-                        <li key={pIndex} className="text-gray-300 text-sm flex items-start">
+                      {tool.pros.map((pro, i) => (
+                        <li key={i} className="text-gray-300 text-sm flex items-start">
                           <CheckCircle className="h-4 w-4 text-emerald-400 mr-2 mt-0.5 flex-shrink-0" />
                           <span>{pro}</span>
                         </li>
@@ -455,73 +440,44 @@ export default function BestPerplexitySEOTrackingTools() {
                   </div>
                   <div>
                     <h4 className="text-rose-300 font-semibold mb-3">❌ Cons:</h4>
-                    <ul className="space-y-2">
-                      {tool.cons.map((con, cIndex) => (
-                        <li key={cIndex} className="text-gray-400 text-sm">• {con}</li>
+                    <ul className="space-y-1">
+                      {tool.cons.map((con, i) => (
+                        <li key={i} className="text-gray-400 text-sm">• {con}</li>
                       ))}
                     </ul>
                   </div>
                 </div>
 
-                <div className="mb-6">
-                  <h4 className="text-white font-semibold mb-3">Key Features:</h4>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                    <div className={`text-center p-3 rounded ${
-                      tool.features.citationTracking === true ? 'bg-emerald-900/30' : 
-                      tool.features.citationTracking === false ? 'bg-gray-900/30' : 'bg-yellow-900/30'
-                    }`}>
-                      <div className="text-xs text-gray-400 mb-1">Citation Tracking</div>
-                      <div className="text-sm font-semibold text-white">
-                        {tool.features.citationTracking === true ? '✓' : 
-                         tool.features.citationTracking === false ? '✗' : tool.features.citationTracking}
-                      </div>
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-4 bg-gray-900/50 p-4 rounded-lg mb-4">
+                  <div>
+                    <div className="text-gray-500 text-xs uppercase mb-1">Automated</div>
+                    <div className="text-white text-sm font-semibold">
+                      {tool.trackingFeatures.automated ? 'Yes' : 'Manual'}
                     </div>
-                    <div className={`text-center p-3 rounded ${
-                      tool.features.domainAuthority === true ? 'bg-emerald-900/30' : 'bg-yellow-900/30'
-                    }`}>
-                      <div className="text-xs text-gray-400 mb-1">Domain Authority</div>
-                      <div className="text-sm font-semibold text-white">
-                        {tool.features.domainAuthority === true ? '✓' : tool.features.domainAuthority}
-                      </div>
-                    </div>
-                    <div className={`text-center p-3 rounded ${
-                      tool.features.automation === true ? 'bg-emerald-900/30' : 
-                      tool.features.automation === false ? 'bg-gray-900/30' : 'bg-yellow-900/30'
-                    }`}>
-                      <div className="text-xs text-gray-400 mb-1">Automation</div>
-                      <div className="text-sm font-semibold text-white">
-                        {tool.features.automation === true ? '✓' : 
-                         tool.features.automation === false ? '✗' : tool.features.automation}
-                      </div>
-                    </div>
-                    <div className={`text-center p-3 rounded ${
-                      tool.features.whiteLabel === true ? 'bg-emerald-900/30' : 'bg-gray-900/30'
-                    }`}>
-                      <div className="text-xs text-gray-400 mb-1">White-Label</div>
-                      <div className="text-sm font-semibold text-white">
-                        {tool.features.whiteLabel === true ? '✓' : '✗'}
-                      </div>
-                    </div>
+                  </div>
+                  <div>
+                    <div className="text-gray-500 text-xs uppercase mb-1">Cost/Month</div>
+                    <div className="text-blue-400 text-sm font-semibold">{tool.trackingFeatures.costPerMonth}</div>
+                  </div>
+                  <div>
+                    <div className="text-gray-500 text-xs uppercase mb-1">Metrics</div>
+                    <div className="text-white text-sm">{tool.trackingFeatures.metrics}</div>
+                  </div>
+                  <div>
+                    <div className="text-gray-500 text-xs uppercase mb-1">Reporting</div>
+                    <div className="text-white text-sm">{tool.trackingFeatures.reporting}</div>
+                  </div>
+                  <div>
+                    <div className="text-gray-500 text-xs uppercase mb-1">Alerts</div>
+                    <div className="text-white text-sm">{tool.trackingFeatures.alerts}</div>
                   </div>
                 </div>
 
-                <div className={`p-4 rounded-lg border-l-4 mb-6 ${
-                  tool.rank === 1 
-                    ? 'bg-emerald-900/20 border-emerald-400' 
-                    : 'bg-blue-900/20 border-blue-400'
-                }`}>
-                  <span className="text-white font-semibold">Verdict: </span>
-                  <span className="text-gray-300">{tool.verdict}</span>
+                <div className="bg-blue-900/30 p-4 rounded-lg border-l-4 border-blue-400">
+                  <p className="text-blue-200 text-sm">
+                    <strong>{tool.bestUseCase}</strong>
+                  </p>
                 </div>
-
-                {tool.link && (
-                  <Link href={tool.link}>
-                    <a className="inline-flex items-center bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-6 py-3 rounded-lg font-bold hover:from-emerald-600 hover:to-emerald-700 transition-all">
-                      Try {tool.name}
-                      <ArrowRight className="h-4 w-4 ml-2" />
-                    </a>
-                  </Link>
-                )}
               </div>
             ))}
           </div>
@@ -529,9 +485,8 @@ export default function BestPerplexitySEOTrackingTools() {
 
         {/* Comparison Matrix */}
         <div className="bg-gradient-to-r from-gray-900/60 to-purple-900/20 backdrop-blur-sm p-8 rounded-xl border border-purple-500/50 mb-12">
-          <h2 className="text-3xl font-bold text-white mb-8 flex items-center">
-            <Target className="h-8 w-8 text-purple-400 mr-3" />
-            Side-by-Side Feature Comparison
+          <h2 className="text-3xl font-bold text-white mb-8">
+            Side-by-Side Comparison
           </h2>
 
           <div className="overflow-x-auto">
@@ -539,22 +494,22 @@ export default function BestPerplexitySEOTrackingTools() {
               <thead>
                 <tr className="border-b border-purple-500/50">
                   <th className="text-left p-4 text-purple-300 font-semibold">Feature</th>
-                  <th className="text-center p-4 text-emerald-300 font-semibold">AISEOScan</th>
-                  <th className="text-center p-4 text-gray-400 font-semibold">Ahrefs</th>
-                  <th className="text-center p-4 text-gray-400 font-semibold">Moz</th>
-                  <th className="text-center p-4 text-gray-400 font-semibold">SEMrush</th>
-                  <th className="text-center p-4 text-gray-400 font-semibold">Manual</th>
+                  <th className="text-left p-4 text-emerald-300 font-semibold">AISEOScan</th>
+                  <th className="text-left p-4 text-gray-400 font-semibold">Ahrefs</th>
+                  <th className="text-left p-4 text-gray-400 font-semibold">Moz</th>
+                  <th className="text-left p-4 text-gray-400 font-semibold">SEMrush</th>
+                  <th className="text-left p-4 text-gray-400 font-semibold">Manual</th>
                 </tr>
               </thead>
               <tbody>
                 {comparisonMatrix.map((row, index) => (
                   <tr key={index} className="border-b border-gray-700/50">
                     <td className="p-4 text-white font-medium">{row.feature}</td>
-                    <td className="p-4 text-center text-emerald-400 font-semibold">{row.aiseoscan}</td>
-                    <td className="p-4 text-center text-gray-400">{row.ahrefs}</td>
-                    <td className="p-4 text-center text-gray-400">{row.moz}</td>
-                    <td className="p-4 text-center text-gray-400">{row.semrush}</td>
-                    <td className="p-4 text-center text-gray-400">{row.manual}</td>
+                    <td className="p-4 text-emerald-300 text-sm font-semibold">{row.aiseoscan}</td>
+                    <td className="p-4 text-gray-400 text-sm">{row.ahrefs}</td>
+                    <td className="p-4 text-gray-400 text-sm">{row.moz}</td>
+                    <td className="p-4 text-gray-400 text-sm">{row.semrush}</td>
+                    <td className="p-4 text-gray-400 text-sm">{row.manual}</td>
                   </tr>
                 ))}
               </tbody>
@@ -562,65 +517,60 @@ export default function BestPerplexitySEOTrackingTools() {
           </div>
         </div>
 
-        {/* Selection Guide */}
-        <div className="bg-gradient-to-r from-gray-900/60 to-blue-900/20 backdrop-blur-sm p-8 rounded-xl border border-blue-500/50 mb-12">
+        {/* Key Features */}
+        <div className="bg-gradient-to-r from-gray-900/60 to-emerald-900/20 backdrop-blur-sm p-8 rounded-xl border border-emerald-500/50 mb-12">
           <h2 className="text-3xl font-bold text-white mb-6 flex items-center">
-            <Gauge className="h-8 w-8 text-blue-400 mr-3" />
-            Which Tool Should You Choose?
+            <Target className="h-8 w-8 text-emerald-400 mr-3" />
+            6 Key Features to Look For
           </h2>
 
-          <p className="text-gray-300 mb-6">
-            Use this decision matrix to find the right Perplexity tracking tool for your situation:
-          </p>
-
-          <div className="space-y-4">
-            {selectionCriteria.map((item, index) => (
-              <div key={index} className="bg-blue-900/20 p-5 rounded-lg border border-blue-500/50">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                  <div>
-                    <h4 className="text-blue-300 font-semibold text-sm mb-1">{item.criteria}</h4>
-                  </div>
-                  <div>
-                    <span className="text-gray-400 text-sm">If: </span>
-                    <span className="text-white text-sm font-medium">{item.ifThis}</span>
-                  </div>
-                  <div>
-                    <span className="text-gray-400 text-sm">Then: </span>
-                    <span className="text-emerald-400 text-sm font-bold">{item.thenThis}</span>
-                  </div>
-                  <div>
-                    <span className="text-gray-400 text-sm">{item.why}</span>
-                  </div>
+          <div className="space-y-6">
+            {keyFeatures.map((feature, index) => (
+              <div key={index} className="bg-emerald-900/20 p-6 rounded-xl border border-emerald-500/50">
+                <div className="flex items-start justify-between mb-3">
+                  <h3 className="text-xl font-bold text-white">{feature.feature}</h3>
+                  <span className={`px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap ml-3 ${
+                    feature.importance === 'Critical' ? 'bg-rose-500 text-white' :
+                    feature.importance === 'High' ? 'bg-orange-500 text-white' :
+                    'bg-blue-500 text-white'
+                  }`}>
+                    {feature.importance}
+                  </span>
+                </div>
+                <div className="mb-3">
+                  <span className="text-emerald-300 font-semibold text-sm">Why: </span>
+                  <p className="text-gray-300 text-sm inline">{feature.why}</p>
+                </div>
+                <div className="bg-emerald-900/30 p-4 rounded border border-emerald-500/50">
+                  <span className="text-emerald-300 font-semibold text-sm">Check for: </span>
+                  <p className="text-emerald-200 text-sm inline">{feature.checkFor}</p>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Key Features Breakdown */}
-        <div className="bg-gradient-to-r from-gray-900/60 to-emerald-900/20 backdrop-blur-sm p-8 rounded-xl border border-emerald-500/50 mb-12">
+        {/* Selection Guide */}
+        <div className="bg-gradient-to-r from-gray-900/60 to-blue-900/20 backdrop-blur-sm p-8 rounded-xl border border-blue-500/50 mb-12">
           <h2 className="text-3xl font-bold text-white mb-6 flex items-center">
-            <Shield className="h-8 w-8 text-emerald-400 mr-3" />
-            Key Features to Look For
+            <Lightbulb className="h-8 w-8 text-blue-400 mr-3" />
+            Which Tool Should You Choose?
           </h2>
 
           <div className="space-y-4">
-            {keyFeatures.map((item, index) => (
-              <div key={index} className="bg-emerald-900/20 p-5 rounded-lg border border-emerald-500/50">
-                <div className="flex items-start justify-between mb-2">
-                  <h3 className="text-lg font-bold text-white">{item.feature}</h3>
-                  <span className={`px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap ml-3 ${
-                    item.importance === 'Critical' ? 'bg-rose-500 text-white' :
-                    item.importance === 'High' ? 'bg-orange-500 text-white' :
-                    'bg-blue-500 text-white'
-                  }`}>
-                    {item.importance}
-                  </span>
+            {selectionGuide.map((guide, index) => (
+              <div key={index} className="bg-blue-900/20 p-6 rounded-lg border-l-4 border-blue-400">
+                <h3 className="text-lg font-bold text-white mb-3">
+                  If: "{guide.scenario}"
+                </h3>
+                <div className="mb-3">
+                  <span className="text-blue-300 font-semibold">→ Choose: </span>
+                  <span className="text-white font-bold">{guide.recommendation}</span>
                 </div>
-                <p className="text-gray-300 text-sm mb-2">{item.description}</p>
-                <div className="bg-emerald-900/30 p-3 rounded">
-                  <span className="text-emerald-300 font-semibold text-sm">Available in: </span>
-                  <span className="text-gray-300 text-sm">{item.whoHasIt}</span>
+                <div className="bg-blue-900/30 p-3 rounded">
+                  <span className="text-blue-200 text-sm">
+                    <strong>Why:</strong> {guide.reasoning}
+                  </span>
                 </div>
               </div>
             ))}
@@ -629,20 +579,24 @@ export default function BestPerplexitySEOTrackingTools() {
 
         {/* Common Mistakes */}
         <div className="bg-gradient-to-r from-gray-900/60 to-rose-900/20 backdrop-blur-sm p-8 rounded-xl border border-rose-500/50 mb-12">
-          <h2 className="text-3xl font-bold text-white mb-6">
-            4 Mistakes When Choosing Perplexity Tracking Tools
+          <h2 className="text-3xl font-bold text-white mb-6 flex items-center">
+            <AlertCircle className="h-8 w-8 text-rose-400 mr-3" />
+            4 Common Tool Selection Mistakes
           </h2>
 
           <div className="space-y-6">
-            {mistakes.map((item, index) => (
-              <div key={index} className="bg-rose-900/20 p-6 rounded-lg border-l-4 border-rose-400">
-                <h3 className="text-xl font-bold text-rose-300 mb-2">❌ {item.mistake}</h3>
+            {commonMistakes.map((mistake, index) => (
+              <div key={index} className="bg-rose-900/20 p-6 rounded-xl border-l-4 border-rose-400">
+                <h3 className="text-xl font-bold text-rose-300 mb-3">❌ {mistake.mistake}</h3>
                 <p className="text-gray-300 mb-3">
-                  <strong className="text-white">Problem:</strong> {item.problem}
+                  <strong className="text-white">Problem:</strong> {mistake.problem}
                 </p>
-                <div className="bg-emerald-900/20 p-4 rounded border border-emerald-500/50">
-                  <p className="text-emerald-200">
-                    <strong>Solution:</strong> {item.solution}
+                <p className="text-gray-300 mb-4">
+                  <strong className="text-emerald-300">Solution:</strong> {mistake.solution}
+                </p>
+                <div className="bg-blue-900/30 p-4 rounded border border-blue-500/50">
+                  <p className="text-blue-200 text-sm">
+                    <strong>Real example:</strong> {mistake.realExample}
                   </p>
                 </div>
               </div>
@@ -651,57 +605,34 @@ export default function BestPerplexitySEOTrackingTools() {
         </div>
 
         {/* CTA */}
-        <div className="bg-gradient-to-r from-blue-900/40 via-cyan-900/40 to-emerald-900/40 backdrop-blur-sm p-12 rounded-xl border border-emerald-500/50 text-center">
+        <div className="bg-gradient-to-r from-blue-900/40 via-emerald-900/40 to-blue-900/40 backdrop-blur-sm p-12 rounded-xl border border-blue-500/50 text-center">
           <h2 className="text-4xl font-bold text-white mb-4">
-            Start with the #1 Rated Tool
+            Try the #1 Ranked Tool Free
           </h2>
           <p className="text-gray-200 text-xl mb-8 max-w-2xl mx-auto">
-            AISEOScan is the only tool built specifically for Perplexity SEO tracking. Try it free and see why agencies and businesses choose it over expensive alternatives.
+            AISEOScan tracks what actually matters for Perplexity: schema completeness, content structure, and authority signals. Free basic tracking, $29/month for detailed reports.
           </p>
           
           <Link href="https://www.aiseoscan.dev">
-            <a className="inline-flex items-center bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-10 py-4 rounded-lg font-bold text-lg hover:from-emerald-600 hover:to-emerald-700 transition-all duration-300 transform hover:scale-105">
+            <a className="inline-flex items-center bg-gradient-to-r from-blue-500 to-emerald-600 text-white px-10 py-4 rounded-lg font-bold text-lg hover:from-blue-600 hover:to-emerald-700 transition-all duration-300 transform hover:scale-105">
               <Award className="h-6 w-6 mr-2" />
-              Try AISEOScan Free
+              Start Tracking Free
             </a>
           </Link>
 
           <div className="mt-6 flex flex-wrap justify-center gap-6 text-sm text-gray-300">
             <div className="flex items-center">
               <CheckCircle className="h-4 w-4 text-emerald-400 mr-2" />
-              No credit card required
+              #1 for Perplexity SEO
             </div>
             <div className="flex items-center">
               <CheckCircle className="h-4 w-4 text-emerald-400 mr-2" />
-              $29 premium reports
+              Free basic tracking
             </div>
             <div className="flex items-center">
               <CheckCircle className="h-4 w-4 text-emerald-400 mr-2" />
-              Citation tracking included
+              $29/month premium
             </div>
-          </div>
-        </div>
-
-        {/* Related Tools */}
-        <div className="mt-12">
-          <h3 className="text-2xl font-bold text-white mb-6">Related Perplexity Tools</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Link href="/perplexity-seo-checking-tools">
-              <a className="bg-gray-900/60 p-4 rounded-lg border border-blue-500/30 hover:border-blue-500 transition-colors group">
-                <div className="flex items-center justify-between">
-                  <span className="text-white font-semibold group-hover:text-blue-400 transition-colors">Perplexity SEO Checking Tools</span>
-                  <ArrowRight className="h-5 w-5 text-gray-600 group-hover:text-blue-400 transition-colors" />
-                </div>
-              </a>
-            </Link>
-            <Link href="/perplexity-seo-tracking-tools">
-              <a className="bg-gray-900/60 p-4 rounded-lg border border-blue-500/30 hover:border-blue-500 transition-colors group">
-                <div className="flex items-center justify-between">
-                  <span className="text-white font-semibold group-hover:text-blue-400 transition-colors">Perplexity SEO Tracking Tools</span>
-                  <ArrowRight className="h-5 w-5 text-gray-600 group-hover:text-blue-400 transition-colors" />
-                </div>
-              </a>
-            </Link>
           </div>
         </div>
 

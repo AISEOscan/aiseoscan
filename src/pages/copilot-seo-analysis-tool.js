@@ -1,226 +1,278 @@
 import Layout from '../components/Layout'
 import Link from 'next/link'
-import { Bot, CheckCircle, Zap, ArrowRight, Activity, PieChart, BarChart3, Target, TrendingUp, AlertCircle, FileText, Layers } from 'lucide-react'
+import { Bot, CheckCircle, Zap, ArrowRight, Search, FileText, BarChart3, Target, TrendingUp, Lightbulb, Code, Shield, Clock } from 'lucide-react'
 
 export default function CopilotSEOAnalysisTool() {
+  const analysisVsChecking = {
+    checking: {
+      title: "Checking (Quick Health Check)",
+      what: "Binary pass/fail assessment - does this exist or not?",
+      output: "List of issues: 'Missing schema', 'No H1 tag', 'No HTTPS'",
+      depth: "Surface level - tells you WHAT is wrong",
+      example: "Your site is missing Article schema - YES or NO",
+      useCase: "Quick audit to identify problems",
+      time: "30 seconds"
+    },
+    analysis: {
+      title: "Analysis (Deep Dive)",
+      what: "Detailed examination of HOW WELL you're optimized",
+      output: "Scores, trends, competitive benchmarks, prioritized roadmap",
+      depth: "Deep - tells you WHY it matters and WHAT TO DO",
+      example: "Your schema coverage is 40% complete - here's the impact and fix priority",
+      useCase: "Understanding optimization quality and planning improvements",
+      time: "Review takes 10-15 minutes"
+    }
+  }
+
   const analysisLayers = [
     {
-      layer: "Layer 1: Bing Index Analysis",
-      icon: Layers,
-      checks: [
-        "Is your site indexed by Bing at all?",
-        "How many of your pages are in Bing's index?",
-        "Are your most important pages indexed?",
-        "When was your site last crawled by Bing?",
-        "Are there indexing errors or warnings?"
+      layer: "Layer 1: Schema Markup Completeness",
+      icon: Code,
+      whatWeAnalyze: [
+        "Which schema types are present (Article, FAQ, Organization, Person)",
+        "Completeness of each schema type (% of required fields filled)",
+        "Schema validation - is JSON-LD properly formatted?",
+        "Open Graph completeness for Microsoft ecosystem sharing"
       ],
-      whyItMatters: "Copilot pulls 100% of its results from Bing's index. If you're not in Bing, you don't exist to Copilot.",
-      scoring: "0-100 based on index coverage, recency, and error rate"
+      whyItMatters: "Copilot relies heavily on schema to understand content. We analyze not just presence, but quality and completeness.",
+      scoring: "0-100 based on: schema types present, field completeness, validation errors",
+      reportShows: "Exact schema gaps, which fields are missing, code examples to add missing schema"
     },
     {
-      layer: "Layer 2: Schema Markup Validation",
+      layer: "Layer 2: Content Structure Quality",
       icon: FileText,
-      checks: [
-        "Is Article schema present and valid?",
-        "Do you have Organization schema?",
-        "Is Person schema implemented for authors?",
-        "Are dates (published, modified) properly marked up?",
-        "Is your schema following Microsoft's guidelines?"
+      whatWeAnalyze: [
+        "Heading hierarchy depth and logic (H1 → H2 → H3)",
+        "FAQ section presence and structure",
+        "Content depth (word count, factual density)",
+        "Author attribution and credentials display",
+        "Question-format headings for Copilot queries"
       ],
-      whyItMatters: "Copilot relies heavily on structured data to understand content. Missing or broken schema means Copilot can't parse your content properly.",
-      scoring: "0-100 based on schema completeness, validity, and Microsoft compliance"
+      whyItMatters: "Copilot's 73% enterprise user base expects professional, well-structured content. We analyze if your structure meets enterprise standards.",
+      scoring: "0-100 based on: heading quality, FAQ presence, content depth, author signals",
+      reportShows: "Content structure gaps, missing FAQ opportunities, author attribution improvements"
     },
     {
-      layer: "Layer 3: Content Quality Analysis",
-      icon: FileText,
-      checks: [
-        "Is content professional and business-focused?",
-        "Appropriate length (Copilot favors 1,500-3,000 words)?",
-        "Clear structure with proper headings?",
-        "Does content answer business questions?",
-        "Is tone appropriate for enterprise audience?"
+      layer: "Layer 3: Technical Foundation",
+      icon: Zap,
+      whatWeAnalyze: [
+        "HTTPS status (required for Bing trust)",
+        "Mobile optimization (viewport tag presence)",
+        "Page speed indicators (render-blocking resources)",
+        "Semantic HTML usage (main, article, section tags)",
+        "URL structure clarity",
+        "Internal linking patterns"
       ],
-      whyItMatters: "Copilot's user base is 73% enterprise professionals. Content that's too casual, thin, or consumer-focused gets deprioritized.",
-      scoring: "0-100 based on professionalism, depth, structure, and business relevance"
+      whyItMatters: "Copilot uses Bing's index. Technical issues prevent Bing indexing, which means Copilot can't see your content.",
+      scoring: "0-100 based on: HTTPS, mobile optimization, speed, semantic HTML",
+      reportShows: "Technical blockers, render-blocking resources to fix, semantic HTML improvements"
     },
     {
       layer: "Layer 4: Authority Signals",
-      icon: Target,
-      checks: [
-        "HTTPS enabled site-wide?",
-        "Clear contact information and about page?",
-        "Professional design and branding?",
-        "Author credentials and expertise visible?",
-        "Trust indicators (certifications, partnerships)?"
+      icon: Shield,
+      whatWeAnalyze: [
+        "About page presence and discoverability",
+        "Contact information availability",
+        "Privacy policy link presence",
+        "Terms of service link presence"
       ],
-      whyItMatters: "Copilot checks trust signals before citing. Sites without clear authority indicators get filtered out.",
-      scoring: "0-100 based on trust signal presence and quality"
-    },
-    {
-      layer: "Layer 5: Technical Performance",
-      icon: Activity,
-      checks: [
-        "Mobile-friendly and responsive?",
-        "Core Web Vitals passing (LCP < 2.5s)?",
-        "No major JavaScript errors?",
-        "SSL certificate valid?",
-        "Site accessible without errors?"
-      ],
-      whyItMatters: "Copilot won't cite sites with poor technical performance. Users expect fast, professional experiences.",
-      scoring: "0-100 based on mobile score, speed metrics, and technical health"
+      whyItMatters: "Enterprise Copilot users expect to see who they're learning from. Authority signals build trust.",
+      scoring: "0-100 based on: presence of about page, contact info, legal pages",
+      reportShows: "Missing authority signals, where to add contact info, legal page requirements"
     }
   ]
 
-  const analysisReport = {
-    sections: [
-      {
-        title: "Executive Summary",
-        content: "Overall Copilot readiness score with key findings and priority recommendations"
-      },
-      {
-        title: "Bing Index Status",
-        content: "Detailed breakdown of what's indexed, what's not, and why. Includes crawl history and error analysis."
-      },
-      {
-        title: "Schema Markup Audit",
-        content: "Line-by-line schema validation with specific errors and fix recommendations. Includes code examples."
-      },
-      {
-        title: "Content Analysis",
-        content: "Page-by-page content scoring. Identifies thin content, structural issues, and tone mismatches."
-      },
-      {
-        title: "Authority Assessment",
-        content: "Trust signal checklist with what's present, what's missing, and implementation guidance."
-      },
-      {
-        title: "Technical Performance",
-        content: "Core Web Vitals, mobile usability, and technical issues with prioritized fixes."
-      },
-      {
-        title: "Competitive Benchmarking",
-        content: "How you compare to competitors getting cited by Copilot. Gap analysis and opportunities."
-      },
-      {
-        title: "Implementation Roadmap",
-        content: "Prioritized action plan: Quick wins (this week), medium-term (this month), long-term (this quarter)."
-      }
-    ]
+  const reportContents = [
+    {
+      section: "Executive Summary",
+      includes: [
+        "Overall Copilot SEO Score (0-100)",
+        "Category breakdown (Schema 30%, Content 25%, Technical 20%, Authority 15%, AI 10%)",
+        "Top 3 critical issues blocking Copilot citations",
+        "Estimated time to fix critical issues"
+      ]
+    },
+    {
+      section: "Schema Analysis",
+      includes: [
+        "Schema types found vs recommended",
+        "Completeness percentage for each schema type",
+        "Validation errors with line numbers",
+        "Copy-paste schema code to add missing types"
+      ]
+    },
+    {
+      section: "Content Structure Analysis",
+      includes: [
+        "Heading hierarchy diagram",
+        "FAQ opportunities (questions your content could answer)",
+        "Content depth score vs enterprise standards",
+        "Author attribution recommendations"
+      ]
+    },
+    {
+      section: "Technical Health Analysis",
+      includes: [
+        "HTTPS status and SSL certificate validity",
+        "Mobile optimization score",
+        "Render-blocking resources list with fix instructions",
+        "Semantic HTML usage analysis"
+      ]
+    },
+    {
+      section: "Authority Signal Analysis",
+      includes: [
+        "About page assessment",
+        "Contact information visibility",
+        "Legal page presence check",
+        "Trust signal recommendations"
+      ]
+    },
+    {
+      section: "Competitive Benchmark",
+      includes: [
+        "Your score vs industry average",
+        "Schema completeness vs typical sites",
+        "Where you rank (percentile)"
+      ]
+    },
+    {
+      section: "Priority Roadmap",
+      includes: [
+        "Fixes ordered by impact (high to low)",
+        "Time estimates for each fix",
+        "Quick wins (30 min or less)",
+        "3-month optimization timeline"
+      ]
+    },
+    {
+      section: "Code Examples",
+      includes: [
+        "Copy-paste schema markup for your site",
+        "HTML structure improvements",
+        "Meta tag additions",
+        "Implementation instructions"
+      ]
+    }
+  ]
+
+  const competitiveBenchmark = {
+    categories: [
+      { metric: "Overall Score", yourScore: 64, industryAvg: 52, topPerformer: 91 },
+      { metric: "Schema Completeness", yourScore: 45, industryAvg: 38, topPerformer: 95 },
+      { metric: "Content Structure", yourScore: 72, industryAvg: 61, topPerformer: 88 },
+      { metric: "Technical SEO", yourScore: 55, industryAvg: 48, topPerformer: 92 },
+      { metric: "Authority Signals", yourScore: 80, industryAvg: 70, topPerformer: 100 }
+    ],
+    interpretation: "You're above industry average overall but have significant room for improvement in schema and technical areas to reach top-performer levels."
   }
 
-  const competitorAnalysis = [
-    {
-      metric: "Bing Index Coverage",
-      you: "42%",
-      competitor: "87%",
-      gap: "Major gap - many pages not indexed",
-      action: "Submit sitemap to Bing Webmaster, fix crawl errors"
-    },
-    {
-      metric: "Schema Implementation",
-      you: "Partial",
-      competitor: "Complete",
-      gap: "Missing Person and Organization schema",
-      action: "Add author and company schema markup"
-    },
-    {
-      metric: "Content Depth (avg)",
-      you: "850 words",
-      competitor: "2,400 words",
-      gap: "Content too thin for enterprise audience",
-      action: "Expand top 10 pages to 2,000+ words"
-    },
-    {
-      metric: "Authority Signals",
-      you: "3/7",
-      competitor: "6/7",
-      gap: "Missing trust indicators",
-      action: "Add certifications, team bios, partnerships"
-    },
-    {
-      metric: "Mobile Performance",
-      you: "LCP 4.2s",
-      competitor: "LCP 1.8s",
-      gap: "Site too slow on mobile",
-      action: "Optimize images, reduce JavaScript"
-    }
-  ]
-
-  const deepDiveExample = {
-    page: "https://example.com/best-crm-software",
+  const pageLevelExample = {
+    page: "Product Features Page",
+    url: "/features",
     overallScore: 64,
     breakdown: [
       {
-        factor: "Bing Indexing",
-        score: 100,
-        status: "Pass",
-        details: "Page indexed, last crawled 2 days ago"
-      },
-      {
-        factor: "Schema Markup",
+        category: "Schema Markup",
         score: 40,
-        status: "Fail",
-        details: "Article schema present but missing dateModified and author.name fields"
+        weight: "30%",
+        weightedScore: 12,
+        issues: [
+          "Missing Article schema",
+          "Organization schema incomplete (missing logo, contactPoint)",
+          "No FAQ schema despite having Q&A content"
+        ]
       },
       {
-        factor: "Content Quality",
-        score: 55,
-        status: "Warning",
-        details: "Only 1,200 words - expand to 2,500+ for enterprise depth"
+        category: "Content Structure",
+        score: 75,
+        weight: "25%",
+        weightedScore: 18.75,
+        issues: [
+          "Good heading hierarchy",
+          "FAQ section present but missing schema markup",
+          "Content depth good (2,400 words)"
+        ]
       },
       {
-        factor: "Business Focus",
-        score: 85,
-        status: "Pass",
-        details: "Professional tone, appropriate for B2B audience"
-      },
-      {
-        factor: "Authority Signals",
+        category: "Technical SEO",
         score: 60,
-        status: "Warning",
-        details: "Missing author bio with credentials"
+        weight: "20%",
+        weightedScore: 12,
+        issues: [
+          "HTTPS enabled ✓",
+          "5 render-blocking CSS files",
+          "Missing viewport meta tag"
+        ]
       },
       {
-        factor: "Technical Performance",
-        score: 70,
-        status: "Warning",
-        details: "LCP 2.8s - needs optimization to hit 2.5s target"
+        category: "Authority Signals",
+        score: 90,
+        weight: "15%",
+        weightedScore: 13.5,
+        issues: [
+          "About page linked ✓",
+          "Contact info present ✓",
+          "All legal pages present ✓"
+        ]
+      },
+      {
+        category: "AI Optimization",
+        score: 80,
+        weight: "10%",
+        weightedScore: 8,
+        issues: [
+          "Good internal linking",
+          "Clear URL structure"
+        ]
       }
-    ]
+    ],
+    topPriority: "Add Article schema with complete fields - will increase score from 64 to ~72 (+8 points)"
   }
 
-  const analysisVsChecking = [
+  const analysisWorkflow = [
     {
-      aspect: "Depth",
-      checking: "Surface-level pass/fail",
-      analysis: "Multi-layer diagnostic with root cause identification"
+      step: "Run Full Scan",
+      what: "Enter URL, we analyze all layers (schema, content, technical, authority)",
+      time: "30 seconds",
+      output: "Raw data collected"
     },
     {
-      aspect: "Scope",
-      checking: "Individual issues",
-      analysis: "Holistic view across all factors + competitive context"
+      step: "Data Processing",
+      what: "Our system scores each category, identifies issues, benchmarks vs industry",
+      time: "Instant",
+      output: "Scored analysis"
     },
     {
-      aspect: "Output",
-      checking: "List of issues",
-      analysis: "Prioritized roadmap with implementation guidance"
+      step: "Report Generation",
+      what: "Premium report created with executive summary, detailed findings, code examples",
+      time: "Instant",
+      output: "Downloadable PDF report"
     },
     {
-      aspect: "Time Investment",
-      checking: "Quick scan (30 seconds)",
-      analysis: "Deep audit (detailed report with benchmarking)"
+      step: "Review Analysis",
+      what: "Read executive summary, understand score breakdown, identify top priorities",
+      time: "10-15 minutes",
+      output: "Understanding of current state"
     },
     {
-      aspect: "Best For",
-      checking: "Quick health check",
-      analysis: "Strategic planning and optimization campaigns"
+      step: "Implement Fixes",
+      what: "Follow priority roadmap, use code examples, implement recommended changes",
+      time: "Days to weeks",
+      output: "Improved optimization"
+    },
+    {
+      step: "Re-Analyze Progress",
+      what: "Run analysis again to measure improvement",
+      time: "30 seconds",
+      output: "Progress tracking"
     }
   ]
 
   return (
     <Layout 
-      title="Copilot SEO Analysis Tool: Deep Diagnostic for Microsoft Copilot Optimization"
-      description="Go beyond basic checking with comprehensive Copilot SEO analysis. Multi-layer diagnostics, competitive benchmarking, and strategic roadmaps for enterprise optimization."
+      title="Copilot SEO Analysis Tool: Deep Copilot Optimization Analysis"
+      description="Deep Copilot SEO analysis tool. Get detailed scores, competitive benchmarks, and priority roadmap for schema markup, content structure, technical SEO, and authority signals."
     >
       <div className="max-w-6xl mx-auto py-12">
         {/* Hero */}
@@ -233,23 +285,15 @@ export default function CopilotSEOAnalysisTool() {
             Copilot SEO Analysis Tool
           </h1>
           <p className="text-xl text-gray-200 mb-8 max-w-4xl leading-relaxed">
-            Go beyond basic checking with comprehensive Copilot SEO analysis. Multi-layer diagnostics, competitive benchmarking, root cause identification, and strategic implementation roadmaps for enterprise Microsoft Copilot optimization.
+            Deep Copilot SEO analysis tool that goes beyond basic checking. Get detailed scoring, competitive benchmarking, priority roadmap, and code examples for schema markup, content structure, technical optimization, and authority signals.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 mb-8">
-            <Link href="https://www.aiseoscan.dev">
-              <a className="inline-flex items-center bg-gradient-to-r from-purple-500 to-blue-600 text-white px-8 py-4 rounded-lg font-bold text-lg hover:from-purple-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105">
-                <Activity className="h-5 w-5 mr-2" />
-                Get Deep Copilot Analysis
-              </a>
-            </Link>
-            <Link href="/copilot-seo-tool">
-              <a className="inline-flex items-center bg-gray-800 text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-700 transition-all duration-300 border border-gray-600">
-                Basic Copilot Checker
-                <ArrowRight className="h-5 w-5 ml-2" />
-              </a>
-            </Link>
-          </div>
+          <Link href="https://www.aiseoscan.dev">
+            <a className="inline-flex items-center bg-gradient-to-r from-purple-500 to-blue-600 text-white px-8 py-4 rounded-lg font-bold text-lg hover:from-purple-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105">
+              <BarChart3 className="h-5 w-5 mr-2" />
+              Get Full Copilot SEO Analysis
+            </a>
+          </Link>
         </div>
 
         {/* Analysis vs Checking */}
@@ -258,77 +302,121 @@ export default function CopilotSEOAnalysisTool() {
             Analysis vs Checking: What's the Difference?
           </h2>
 
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-purple-500/50">
-                  <th className="text-left p-4 text-purple-300 font-semibold">Aspect</th>
-                  <th className="text-left p-4 text-gray-400 font-semibold">Basic Checking</th>
-                  <th className="text-left p-4 text-purple-300 font-semibold">Deep Analysis</th>
-                </tr>
-              </thead>
-              <tbody>
-                {analysisVsChecking.map((row, index) => (
-                  <tr key={index} className="border-b border-gray-700/50">
-                    <td className="p-4 text-white font-medium">{row.aspect}</td>
-                    <td className="p-4 text-gray-400">{row.checking}</td>
-                    <td className="p-4 text-purple-300">{row.analysis}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-blue-900/20 p-6 rounded-xl border border-blue-500/50">
+              <h3 className="text-xl font-bold text-white mb-4">{analysisVsChecking.checking.title}</h3>
+              <div className="space-y-3 text-sm">
+                <div>
+                  <span className="text-blue-300 font-semibold">What: </span>
+                  <span className="text-gray-300">{analysisVsChecking.checking.what}</span>
+                </div>
+                <div>
+                  <span className="text-blue-300 font-semibold">Output: </span>
+                  <span className="text-gray-300">{analysisVsChecking.checking.output}</span>
+                </div>
+                <div>
+                  <span className="text-blue-300 font-semibold">Depth: </span>
+                  <span className="text-gray-300">{analysisVsChecking.checking.depth}</span>
+                </div>
+                <div>
+                  <span className="text-blue-300 font-semibold">Example: </span>
+                  <span className="text-gray-300">{analysisVsChecking.checking.example}</span>
+                </div>
+                <div>
+                  <span className="text-blue-300 font-semibold">Use case: </span>
+                  <span className="text-gray-300">{analysisVsChecking.checking.useCase}</span>
+                </div>
+                <div>
+                  <span className="text-blue-300 font-semibold">Time: </span>
+                  <span className="text-gray-300">{analysisVsChecking.checking.time}</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-purple-900/20 p-6 rounded-xl border border-purple-500/50">
+              <h3 className="text-xl font-bold text-white mb-4">{analysisVsChecking.analysis.title}</h3>
+              <div className="space-y-3 text-sm">
+                <div>
+                  <span className="text-purple-300 font-semibold">What: </span>
+                  <span className="text-gray-300">{analysisVsChecking.analysis.what}</span>
+                </div>
+                <div>
+                  <span className="text-purple-300 font-semibold">Output: </span>
+                  <span className="text-gray-300">{analysisVsChecking.analysis.output}</span>
+                </div>
+                <div>
+                  <span className="text-purple-300 font-semibold">Depth: </span>
+                  <span className="text-gray-300">{analysisVsChecking.analysis.depth}</span>
+                </div>
+                <div>
+                  <span className="text-purple-300 font-semibold">Example: </span>
+                  <span className="text-gray-300">{analysisVsChecking.analysis.example}</span>
+                </div>
+                <div>
+                  <span className="text-purple-300 font-semibold">Use case: </span>
+                  <span className="text-gray-300">{analysisVsChecking.analysis.useCase}</span>
+                </div>
+                <div>
+                  <span className="text-purple-300 font-semibold">Time: </span>
+                  <span className="text-gray-300">{analysisVsChecking.analysis.time}</span>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div className="mt-6 bg-purple-900/20 p-6 rounded-lg border-l-4 border-purple-400">
+          <div className="mt-6 bg-purple-900/30 p-6 rounded-lg border-l-4 border-purple-400">
             <p className="text-purple-200">
-              <strong>Bottom line:</strong> Use checking for quick health checks. Use analysis when you need to understand WHY you're not getting cited and build a strategic plan to fix it.
+              <strong>Key difference:</strong> Checking tells you "you're missing schema." Analysis tells you "you're missing 3 specific schema types, here's the impact (-15 points), here's the code to add them, and this should take 45 minutes to implement."
             </p>
           </div>
         </div>
 
-        {/* 5 Analysis Layers */}
+        {/* Analysis Layers */}
         <div className="mb-12">
-          <h2 className="text-3xl font-bold text-white mb-8 flex items-center">
-            <Layers className="h-8 w-8 text-blue-400 mr-3" />
-            5 Layers of Copilot SEO Analysis
+          <h2 className="text-3xl font-bold text-white mb-8">
+            4 Layers of Copilot SEO Analysis
           </h2>
-
-          <p className="text-gray-300 mb-8">
-            Our analysis tool goes deep across 5 critical layers. Each layer gets its own diagnostic report with scoring, issues, and fixes:
-          </p>
 
           <div className="space-y-6">
             {analysisLayers.map((layer, index) => {
               const Icon = layer.icon
               return (
-                <div key={index} className="bg-gradient-to-r from-gray-900/60 to-blue-900/20 backdrop-blur-sm p-6 rounded-xl border border-blue-500/50">
+                <div key={index} className="bg-gradient-to-r from-gray-900/60 to-purple-900/20 backdrop-blur-sm p-8 rounded-xl border border-purple-500/50">
                   <div className="flex items-start mb-4">
-                    <div className="bg-blue-500 text-white font-bold w-10 h-10 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-                      {index + 1}
-                    </div>
+                    <Icon className="h-10 w-10 text-purple-400 mr-4 flex-shrink-0" />
                     <div className="flex-1">
-                      <h3 className="text-xl font-bold text-white mb-3">{layer.layer}</h3>
+                      <h3 className="text-2xl font-bold text-white mb-4">{layer.layer}</h3>
                       
                       <div className="mb-4">
-                        <h4 className="text-blue-300 font-semibold mb-2">What We Analyze:</h4>
-                        <div className="space-y-1">
-                          {layer.checks.map((check, cIndex) => (
-                            <div key={cIndex} className="flex items-start">
-                              <CheckCircle className="h-4 w-4 text-blue-400 mr-2 mt-1 flex-shrink-0" />
-                              <span className="text-gray-300 text-sm">{check}</span>
-                            </div>
+                        <h4 className="text-purple-300 font-semibold mb-3">What We Analyze:</h4>
+                        <ul className="space-y-2">
+                          {layer.whatWeAnalyze.map((item, i) => (
+                            <li key={i} className="text-gray-300 text-sm flex items-start">
+                              <CheckCircle className="h-4 w-4 text-purple-400 mr-2 mt-0.5 flex-shrink-0" />
+                              <span>{item}</span>
+                            </li>
                           ))}
+                        </ul>
+                      </div>
+
+                      <div className="space-y-3">
+                        <div className="bg-purple-900/30 p-4 rounded border border-purple-500/50">
+                          <p className="text-purple-200 text-sm">
+                            <strong>Why it matters:</strong> {layer.whyItMatters}
+                          </p>
                         </div>
-                      </div>
 
-                      <div className="mb-4">
-                        <h4 className="text-blue-300 font-semibold mb-2">Why This Layer Matters:</h4>
-                        <p className="text-gray-300 text-sm">{layer.whyItMatters}</p>
-                      </div>
+                        <div className="bg-blue-900/30 p-4 rounded border border-blue-500/50">
+                          <p className="text-blue-200 text-sm">
+                            <strong>Scoring:</strong> {layer.scoring}
+                          </p>
+                        </div>
 
-                      <div className="bg-blue-900/30 p-3 rounded border border-blue-500/50">
-                        <span className="text-blue-200 font-semibold text-sm">Scoring: </span>
-                        <span className="text-gray-300 text-sm">{layer.scoring}</span>
+                        <div className="bg-emerald-900/30 p-4 rounded border border-emerald-500/50">
+                          <p className="text-emerald-200 text-sm">
+                            <strong>Report shows:</strong> {layer.reportShows}
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -338,121 +426,150 @@ export default function CopilotSEOAnalysisTool() {
           </div>
         </div>
 
-        {/* What's in the Report */}
-        <div className="bg-gradient-to-r from-gray-900/60 to-emerald-900/20 backdrop-blur-sm p-8 rounded-xl border border-emerald-500/50 mb-12">
-          <h2 className="text-3xl font-bold text-white mb-6 flex items-center">
-            <FileText className="h-8 w-8 text-emerald-400 mr-3" />
-            What's Included in Your Analysis Report
+        {/* Report Contents */}
+        <div className="bg-gradient-to-r from-gray-900/60 to-blue-900/20 backdrop-blur-sm p-8 rounded-xl border border-blue-500/50 mb-12">
+          <h2 className="text-3xl font-bold text-white mb-8">
+            What's in Your Copilot SEO Analysis Report
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {analysisReport.sections.map((section, index) => (
-              <div key={index} className="bg-emerald-900/20 p-5 rounded-lg border border-emerald-500/50">
-                <h3 className="text-lg font-bold text-white mb-2">{section.title}</h3>
-                <p className="text-gray-300 text-sm">{section.content}</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {reportContents.map((section, index) => (
+              <div key={index} className="bg-blue-900/20 p-6 rounded-xl border border-blue-500/50">
+                <h3 className="text-lg font-bold text-white mb-4">{section.section}</h3>
+                <ul className="space-y-2">
+                  {section.includes.map((item, i) => (
+                    <li key={i} className="text-gray-300 text-sm flex items-start">
+                      <CheckCircle className="h-4 w-4 text-blue-400 mr-2 mt-0.5 flex-shrink-0" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             ))}
           </div>
-
-          <div className="mt-6 bg-emerald-900/30 p-6 rounded-lg">
-            <p className="text-emerald-200 text-lg mb-4">
-              <strong>Premium reports ($29) include:</strong>
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <div className="flex items-center text-gray-300">
-                <CheckCircle className="h-4 w-4 text-emerald-400 mr-2" />
-                <span className="text-sm">Downloadable PDF report</span>
-              </div>
-              <div className="flex items-center text-gray-300">
-                <CheckCircle className="h-4 w-4 text-emerald-400 mr-2" />
-                <span className="text-sm">Code examples for fixes</span>
-              </div>
-              <div className="flex items-center text-gray-300">
-                <CheckCircle className="h-4 w-4 text-emerald-400 mr-2" />
-                <span className="text-sm">Competitor benchmarking</span>
-              </div>
-              <div className="flex items-center text-gray-300">
-                <CheckCircle className="h-4 w-4 text-emerald-400 mr-2" />
-                <span className="text-sm">90-day action roadmap</span>
-              </div>
-            </div>
-          </div>
         </div>
 
-        {/* Competitive Analysis Example */}
-        <div className="bg-gradient-to-r from-gray-900/60 to-rose-900/20 backdrop-blur-sm p-8 rounded-xl border border-rose-500/50 mb-12">
+        {/* Competitive Benchmark */}
+        <div className="bg-gradient-to-r from-gray-900/60 to-emerald-900/20 backdrop-blur-sm p-8 rounded-xl border border-emerald-500/50 mb-12">
           <h2 className="text-3xl font-bold text-white mb-6 flex items-center">
-            <BarChart3 className="h-8 w-8 text-rose-400 mr-3" />
-            Competitive Benchmarking: You vs Top-Cited Competitors
+            <TrendingUp className="h-8 w-8 text-emerald-400 mr-3" />
+            Competitive Benchmarking Example
           </h2>
 
-          <p className="text-gray-300 mb-6">
-            Our analysis doesn't just audit your site—it shows how you stack up against competitors already getting cited by Copilot:
+          <p className="text-gray-300 mb-8">
+            Your analysis includes competitive benchmarking to show where you stand:
           </p>
 
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto mb-6">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-rose-500/50">
-                  <th className="text-left p-4 text-rose-300 font-semibold">Metric</th>
-                  <th className="text-center p-4 text-rose-300 font-semibold">You</th>
-                  <th className="text-center p-4 text-emerald-300 font-semibold">Top Competitor</th>
-                  <th className="text-left p-4 text-gray-400 font-semibold">Gap Analysis</th>
-                  <th className="text-left p-4 text-blue-300 font-semibold">Action</th>
+                <tr className="border-b border-emerald-500/50">
+                  <th className="text-left p-4 text-emerald-300 font-semibold">Metric</th>
+                  <th className="text-center p-4 text-purple-300 font-semibold">Your Score</th>
+                  <th className="text-center p-4 text-gray-400 font-semibold">Industry Avg</th>
+                  <th className="text-center p-4 text-emerald-300 font-semibold">Top Performer</th>
                 </tr>
               </thead>
               <tbody>
-                {competitorAnalysis.map((row, index) => (
+                {competitiveBenchmark.categories.map((row, index) => (
                   <tr key={index} className="border-b border-gray-700/50">
                     <td className="p-4 text-white font-medium">{row.metric}</td>
-                    <td className="p-4 text-center text-rose-400 font-bold">{row.you}</td>
-                    <td className="p-4 text-center text-emerald-400 font-bold">{row.competitor}</td>
-                    <td className="p-4 text-gray-300 text-sm">{row.gap}</td>
-                    <td className="p-4 text-blue-300 text-sm">{row.action}</td>
+                    <td className="p-4 text-center">
+                      <span className="text-purple-400 font-bold text-lg">{row.yourScore}</span>
+                    </td>
+                    <td className="p-4 text-center text-gray-400">{row.industryAvg}</td>
+                    <td className="p-4 text-center text-emerald-400 font-semibold">{row.topPerformer}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
+
+          <div className="bg-emerald-900/30 p-6 rounded-lg border-l-4 border-emerald-400">
+            <p className="text-emerald-200">
+              <strong>Interpretation:</strong> {competitiveBenchmark.interpretation}
+            </p>
+          </div>
         </div>
 
-        {/* Deep Dive Example */}
-        <div className="bg-gradient-to-r from-gray-900/60 to-purple-900/20 backdrop-blur-sm p-8 rounded-xl border border-purple-500/50 mb-12">
+        {/* Page-Level Deep Dive */}
+        <div className="bg-gradient-to-r from-gray-900/60 to-orange-900/20 backdrop-blur-sm p-8 rounded-xl border border-orange-500/50 mb-12">
           <h2 className="text-3xl font-bold text-white mb-6 flex items-center">
-            <PieChart className="h-8 w-8 text-purple-400 mr-3" />
-            Example: Page-Level Deep Dive
+            <Target className="h-8 w-8 text-orange-400 mr-3" />
+            Page-Level Deep Dive Example
           </h2>
 
-          <div className="mb-6">
+          <div className="bg-orange-900/20 p-6 rounded-lg border border-orange-500/50 mb-6">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="text-xl font-bold text-white">{deepDiveExample.page}</h3>
-                <p className="text-gray-400 text-sm">Overall Copilot Readiness Score</p>
+                <h3 className="text-xl font-bold text-white">{pageLevelExample.page}</h3>
+                <p className="text-gray-400 text-sm">{pageLevelExample.url}</p>
               </div>
-              <div className="text-right">
-                <div className="text-4xl font-bold text-yellow-400">{deepDiveExample.overallScore}/100</div>
-                <p className="text-sm text-yellow-300">Needs Work</p>
+              <div className="text-center">
+                <div className="text-4xl font-bold text-orange-400">{pageLevelExample.overallScore}</div>
+                <div className="text-gray-400 text-sm">Overall Score</div>
               </div>
             </div>
           </div>
 
-          <div className="space-y-3">
-            {deepDiveExample.breakdown.map((item, index) => (
-              <div key={index} className="bg-gray-900/60 p-4 rounded-lg border border-purple-500/30">
-                <div className="flex items-center justify-between mb-2">
-                  <h4 className="text-white font-semibold">{item.factor}</h4>
+          <div className="space-y-4">
+            {pageLevelExample.breakdown.map((category, index) => (
+              <div key={index} className="bg-orange-900/20 p-5 rounded-lg border border-orange-500/50">
+                <div className="flex items-center justify-between mb-3">
+                  <h4 className="text-lg font-bold text-white">{category.category}</h4>
                   <div className="flex items-center gap-3">
-                    <span className={`px-3 py-1 rounded-full text-xs font-bold ${
-                      item.status === 'Pass' ? 'bg-emerald-500 text-white' :
-                      item.status === 'Warning' ? 'bg-yellow-500 text-white' :
-                      'bg-rose-500 text-white'
-                    }`}>
-                      {item.status}
-                    </span>
-                    <span className="text-2xl font-bold text-white">{item.score}</span>
+                    <span className="text-orange-300 text-sm">{category.weight} weight</span>
+                    <span className="text-2xl font-bold text-orange-400">{category.score}</span>
                   </div>
                 </div>
-                <p className="text-gray-400 text-sm">{item.details}</p>
+                <div className="text-sm text-gray-400 mb-2">
+                  Weighted contribution: <span className="text-white font-semibold">{category.weightedScore.toFixed(1)} points</span>
+                </div>
+                <ul className="space-y-1">
+                  {category.issues.map((issue, i) => (
+                    <li key={i} className="text-gray-300 text-sm">• {issue}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-6 bg-emerald-900/30 p-6 rounded-lg border-l-4 border-emerald-400">
+            <p className="text-emerald-200 font-semibold">
+              🎯 Top Priority Fix: {pageLevelExample.topPriority}
+            </p>
+          </div>
+        </div>
+
+        {/* Analysis Workflow */}
+        <div className="bg-gradient-to-r from-gray-900/60 to-blue-900/20 backdrop-blur-sm p-8 rounded-xl border border-blue-500/50 mb-12">
+          <h2 className="text-3xl font-bold text-white mb-6 flex items-center">
+            <Lightbulb className="h-8 w-8 text-blue-400 mr-3" />
+            How the Analysis Works
+          </h2>
+
+          <div className="space-y-4">
+            {analysisWorkflow.map((step, index) => (
+              <div key={index} className="bg-blue-900/20 p-6 rounded-lg border border-blue-500/50">
+                <div className="flex items-start">
+                  <div className="bg-blue-500 text-white font-bold w-10 h-10 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                    {index + 1}
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-lg font-bold text-white mb-2">{step.step}</h3>
+                    <p className="text-gray-300 text-sm mb-3">{step.what}</p>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="bg-blue-900/30 p-3 rounded">
+                        <span className="text-blue-300 text-xs">Time: </span>
+                        <span className="text-gray-300 text-sm">{step.time}</span>
+                      </div>
+                      <div className="bg-blue-900/30 p-3 rounded">
+                        <span className="text-blue-300 text-xs">Output: </span>
+                        <span className="text-gray-300 text-sm">{step.output}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
@@ -461,55 +578,32 @@ export default function CopilotSEOAnalysisTool() {
         {/* CTA */}
         <div className="bg-gradient-to-r from-purple-900/40 via-blue-900/40 to-purple-900/40 backdrop-blur-sm p-12 rounded-xl border border-purple-500/50 text-center">
           <h2 className="text-4xl font-bold text-white mb-4">
-            Get Your Comprehensive Copilot SEO Analysis
+            Get Your Copilot SEO Analysis
           </h2>
           <p className="text-gray-200 text-xl mb-8 max-w-2xl mx-auto">
-            Multi-layer diagnostics, competitive benchmarking, and strategic roadmap. Know exactly why you're not getting cited and how to fix it.
+            Deep analysis with scores, benchmarks, priority roadmap, and code examples. Free basic scan shows high-level issues. Premium report ($29) includes full analysis.
           </p>
           
           <Link href="https://www.aiseoscan.dev">
             <a className="inline-flex items-center bg-gradient-to-r from-purple-500 to-blue-600 text-white px-10 py-4 rounded-lg font-bold text-lg hover:from-purple-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105">
-              <Activity className="h-6 w-6 mr-2" />
-              Start Deep Analysis
+              <BarChart3 className="h-6 w-6 mr-2" />
+              Get Full Analysis Report
             </a>
           </Link>
 
           <div className="mt-6 flex flex-wrap justify-center gap-6 text-sm text-gray-300">
             <div className="flex items-center">
               <CheckCircle className="h-4 w-4 text-emerald-400 mr-2" />
-              5-layer diagnostic
+              Free basic scan
             </div>
             <div className="flex items-center">
               <CheckCircle className="h-4 w-4 text-emerald-400 mr-2" />
-              Competitor benchmarking
+              $29 premium analysis
             </div>
             <div className="flex items-center">
               <CheckCircle className="h-4 w-4 text-emerald-400 mr-2" />
-              Implementation roadmap
+              Downloadable PDF
             </div>
-          </div>
-        </div>
-
-        {/* Related Tools */}
-        <div className="mt-12">
-          <h3 className="text-2xl font-bold text-white mb-6">Related Copilot Tools</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Link href="/copilot-seo-tool">
-              <a className="bg-gray-900/60 p-4 rounded-lg border border-purple-500/30 hover:border-purple-500 transition-colors group">
-                <div className="flex items-center justify-between">
-                  <span className="text-white font-semibold group-hover:text-purple-400 transition-colors">Copilot SEO Tool (Basic)</span>
-                  <ArrowRight className="h-5 w-5 text-gray-600 group-hover:text-purple-400 transition-colors" />
-                </div>
-              </a>
-            </Link>
-            <Link href="/copilot-seo-analysis-software">
-              <a className="bg-gray-900/60 p-4 rounded-lg border border-purple-500/30 hover:border-purple-500 transition-colors group">
-                <div className="flex items-center justify-between">
-                  <span className="text-white font-semibold group-hover:text-purple-400 transition-colors">Copilot SEO Analysis Software</span>
-                  <ArrowRight className="h-5 w-5 text-gray-600 group-hover:text-purple-400 transition-colors" />
-                </div>
-              </a>
-            </Link>
           </div>
         </div>
 

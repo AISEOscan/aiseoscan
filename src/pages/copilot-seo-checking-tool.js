@@ -1,267 +1,348 @@
 import Layout from '../components/Layout'
 import Link from 'next/link'
-import { Bot, CheckCircle, Zap, ArrowRight, Search, FileText, Code, Shield, AlertCircle, TrendingUp, Clock, Target } from 'lucide-react'
+import { Bot, CheckCircle, Zap, ArrowRight, Search, Code, FileText, Shield, Target, AlertTriangle, Lightbulb, ClipboardCheck } from 'lucide-react'
 
 export default function CopilotSEOCheckingTool() {
-  const checkingSteps = [
+  const checkingCategories = [
     {
-      step: "Bing Index Status Check",
-      what: "Verify if your site is in Bing's index",
-      why: "Copilot only cites pages indexed by Bing. Not indexed = invisible to Copilot.",
-      howToCheck: [
-        "Method 1: Search 'site:yoursite.com' in Bing",
-        "Method 2: Check Bing Webmaster Tools index count",
-        "Method 3: Use AISEOScan's automated index check"
-      ],
-      passing: "All key pages indexed, last crawled within 7 days",
-      failing: "Pages missing from index, crawl errors, or not crawled in 30+ days",
-      fix: "Submit sitemap to Bing Webmaster Tools, fix robots.txt blocks, ensure crawlability"
+      category: "Schema Markup",
+      icon: Code,
+      checks: [
+        {
+          check: "JSON-LD Presence",
+          passing: "Has <script type=\"application/ld+json\"> tags with valid JSON",
+          failing: "No JSON-LD scripts found on page",
+          howToCheck: "View page source (Ctrl+U), search for 'application/ld+json'",
+          fix: "Add JSON-LD script tag with Article, Organization, or Person schema"
+        },
+        {
+          check: "Article Schema Completeness",
+          passing: "Article schema has headline, author, datePublished, publisher fields filled",
+          failing: "Missing Article schema or incomplete (missing required fields)",
+          howToCheck: "Check JSON-LD content for @type: 'Article' and required properties",
+          fix: "Add missing fields to Article schema - author, datePublished, publisher are critical"
+        },
+        {
+          check: "Organization Schema",
+          passing: "Has Organization schema with name, logo, contactPoint",
+          failing: "No Organization schema or incomplete",
+          howToCheck: "Look for @type: 'Organization' in JSON-LD",
+          fix: "Add Organization schema with company details and contact information"
+        },
+        {
+          check: "Author/Person Schema",
+          passing: "Has Person schema for authors with name and credentials",
+          failing: "No Person schema or missing author information",
+          howToCheck: "Check for @type: 'Person' in author field of Article schema",
+          fix: "Add Person schema with author name, job title, and affiliation"
+        },
+        {
+          check: "Open Graph Tags",
+          passing: "Has og:title, og:description, og:image, og:url, og:type",
+          failing: "Missing Open Graph tags or incomplete set",
+          howToCheck: "View source, search for 'og:' - should have at least 5 OG tags",
+          fix: "Add missing Open Graph meta tags to <head> section"
+        }
+      ]
     },
     {
-      step: "Schema Markup Validation",
-      what: "Check if your structured data is correct",
-      why: "Copilot relies on schema to understand content. Broken schema = Copilot can't parse your content.",
-      howToCheck: [
-        "Method 1: Google's Rich Results Test (works for Bing too)",
-        "Method 2: Bing Webmaster Tools > Markup Validator",
-        "Method 3: AISEOScan's schema analysis"
-      ],
-      passing: "Valid Article, Organization, Person schema with all required fields",
-      failing: "Missing schema, validation errors, or incomplete required fields",
-      fix: "Add missing schema types, fix validation errors, include dateModified and author fields"
+      category: "Content Structure",
+      icon: FileText,
+      checks: [
+        {
+          check: "Heading Hierarchy",
+          passing: "Single H1, followed by logical H2s and H3s in proper order",
+          failing: "Multiple H1s, missing headings, or skipped levels (H1 → H3)",
+          howToCheck: "Inspect page, look at heading tags - should be H1 → H2 → H3 flow",
+          fix: "Restructure headings: one H1 (page title), H2s for main sections, H3s for subsections"
+        },
+        {
+          check: "FAQ Sections",
+          passing: "Has Q&A format content, ideally with FAQ schema markup",
+          failing: "No FAQ sections or Q&A content",
+          howToCheck: "Look for question-answer pairs on page",
+          fix: "Add FAQ section with common questions and answers, add FAQ schema"
+        },
+        {
+          check: "Content Depth",
+          passing: "1,500+ words with substantial information",
+          failing: "Under 500 words or thin content",
+          howToCheck: "Copy page content, paste in word counter tool",
+          fix: "Expand content with case studies, examples, data, and detailed explanations"
+        },
+        {
+          check: "Author Attribution",
+          passing: "Clear author byline with name and credentials visible",
+          failing: "No author information or anonymous content",
+          howToCheck: "Look for author name, bio, credentials on page",
+          fix: "Add author byline, short bio, and credentials near content"
+        }
+      ]
     },
     {
-      step: "Enterprise Content Quality",
-      what: "Assess if content meets professional standards",
-      why: "Copilot users are 73% enterprise professionals. Casual or thin content gets ignored.",
-      howToCheck: [
-        "Word count: Is it 1,500+ words?",
-        "Tone: Professional and business-focused?",
-        "Structure: Clear headings and logical flow?",
-        "Value: Does it answer business questions?"
-      ],
-      passing: "1,500+ words, professional tone, clear structure, actionable insights",
-      failing: "< 1,000 words, casual tone, poor structure, or vague advice",
-      fix: "Expand content depth, professionalize language, add case studies and data"
+      category: "Technical SEO",
+      icon: Zap,
+      checks: [
+        {
+          check: "HTTPS Security",
+          passing: "URL starts with https://, valid SSL certificate, padlock icon",
+          failing: "HTTP (not HTTPS) or SSL certificate errors",
+          howToCheck: "Look at URL bar - should show padlock and https://",
+          fix: "Get SSL certificate (free from Let's Encrypt), enable HTTPS site-wide"
+        },
+        {
+          check: "Mobile Viewport Tag",
+          passing: "Has <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">",
+          failing: "Missing viewport meta tag",
+          howToCheck: "View source, search for 'viewport' in <head> section",
+          fix: "Add viewport meta tag to <head>: <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
+        },
+        {
+          check: "Semantic HTML",
+          passing: "Uses <main>, <article>, <section>, <nav>, <header>, <footer> tags",
+          failing: "Only uses generic <div> tags without semantic meaning",
+          howToCheck: "View source, look for semantic HTML5 tags",
+          fix: "Replace generic divs with semantic tags where appropriate"
+        },
+        {
+          check: "Render-Blocking Resources",
+          passing: "Minimal CSS/JS in <head>, most scripts deferred or async",
+          failing: "Many blocking CSS/JS files preventing fast page load",
+          howToCheck: "Run Lighthouse audit in Chrome DevTools, check for blocking resources",
+          fix: "Move non-critical CSS/JS to bottom of page, use async/defer attributes"
+        }
+      ]
     },
     {
-      step: "Authority & Trust Signals",
-      what: "Verify presence of credibility indicators",
-      why: "Copilot prioritizes trustworthy sites. Missing trust signals = lower citation probability.",
-      howToCheck: [
-        "HTTPS enabled site-wide?",
-        "Clear contact page with phone/email/address?",
-        "About page with company info?",
-        "Author bios with credentials?",
-        "Privacy policy and terms of service?"
-      ],
-      passing: "All trust signals present and professional",
-      failing: "Missing 2+ trust signals or unprofessional implementation",
-      fix: "Add missing pages, display certifications, show team credentials"
-    },
-    {
-      step: "Mobile & Speed Performance",
-      what: "Test mobile responsiveness and load speed",
-      why: "Copilot users expect fast, mobile-friendly sites. Poor performance = lower rankings.",
-      howToCheck: [
-        "Method 1: Google PageSpeed Insights",
-        "Method 2: Bing Webmaster Tools > Site Scan",
-        "Method 3: AISEOScan's performance audit"
-      ],
-      passing: "Mobile-friendly, LCP < 2.5s, no layout shifts",
-      failing: "Not mobile-responsive, LCP > 4s, or major CLS issues",
-      fix: "Optimize images, reduce JavaScript, enable caching, fix mobile layout"
+      category: "Authority Signals",
+      icon: Shield,
+      checks: [
+        {
+          check: "About Page",
+          passing: "Has /about page linked in navigation or footer",
+          failing: "No About page or not discoverable",
+          howToCheck: "Look for 'About' link in menu or footer",
+          fix: "Create comprehensive About page, link from footer/navigation"
+        },
+        {
+          check: "Contact Information",
+          passing: "Email, phone, or physical address visible on site",
+          failing: "No contact information or only a contact form",
+          howToCheck: "Look for contact details in footer or contact page",
+          fix: "Add real contact information - not just a form. Include email and/or phone."
+        },
+        {
+          check: "Privacy Policy",
+          passing: "Has /privacy or /privacy-policy linked in footer",
+          failing: "No privacy policy",
+          howToCheck: "Look for 'Privacy' or 'Privacy Policy' link in footer",
+          fix: "Create privacy policy page, link from footer"
+        },
+        {
+          check: "Terms of Service",
+          passing: "Has /terms or /terms-of-service linked in footer",
+          failing: "No terms of service",
+          howToCheck: "Look for 'Terms' or 'Terms of Service' link in footer",
+          fix: "Create terms of service page, link from footer"
+        }
+      ]
     }
   ]
 
-  const quickCheckChecklist = [
+  const diyChecklist = [
     {
-      category: "Bing Indexing",
-      checks: [
-        "Homepage indexed in Bing",
-        "Top 10 pages indexed",
-        "No crawl errors in Bing Webmaster",
-        "Sitemap submitted to Bing"
+      category: "Schema (5 min)",
+      tasks: [
+        "□ View page source (Ctrl+U), search for 'application/ld+json'",
+        "□ If found: verify Article schema has headline, author, datePublished, publisher",
+        "□ If missing: add Article schema with all required fields",
+        "□ Check for Organization schema (company info)",
+        "□ Check for Person schema (author details)"
       ]
     },
     {
-      category: "Schema Markup",
-      checks: [
-        "Article schema on blog posts",
-        "Organization schema on homepage",
-        "Person schema for authors",
-        "All schema validates without errors"
+      category: "Content (10 min)",
+      tasks: [
+        "□ Count headings: Should have 1 H1, multiple H2s, H3s under H2s",
+        "□ Check for FAQ section with Q&A format",
+        "□ Verify word count is 1,500+ (paste in word counter)",
+        "□ Confirm visible author name and credentials"
       ]
     },
     {
-      category: "Content Quality",
-      checks: [
-        "Main pages are 1,500+ words",
-        "Professional, business-focused tone",
-        "Clear H1, H2, H3 structure",
-        "Original insights and data"
+      category: "Technical (5 min)",
+      tasks: [
+        "□ Verify URL starts with https:// and shows padlock",
+        "□ View source, search for 'viewport' meta tag",
+        "□ Check for semantic HTML tags (main, article, section)",
+        "□ Run Lighthouse audit in Chrome (Ctrl+Shift+I → Lighthouse tab)"
       ]
     },
     {
-      category: "Trust Signals",
-      checks: [
-        "HTTPS enabled site-wide",
-        "Contact page with real info",
-        "About page exists",
-        "Author credentials visible"
-      ]
-    },
-    {
-      category: "Technical",
-      checks: [
-        "Mobile-friendly (responsive)",
-        "Page loads in < 3 seconds",
-        "No major JavaScript errors",
-        "Valid SSL certificate"
+      category: "Authority (5 min)",
+      tasks: [
+        "□ Check footer for About page link",
+        "□ Verify contact information visible (not just form)",
+        "□ Check footer for Privacy Policy link",
+        "□ Check footer for Terms of Service link"
       ]
     }
   ]
 
   const commonIssues = [
     {
-      issue: "Pages Not Indexed by Bing",
-      symptom: "Search 'site:yoursite.com' in Bing returns 0 or very few results",
-      causes: [
-        "Never submitted sitemap to Bing Webmaster Tools",
-        "Robots.txt blocking Bingbot",
-        "Pages blocked by noindex meta tag",
-        "Site too new (< 30 days old)"
-      ],
-      fix: "Sign up for Bing Webmaster Tools, submit sitemap, check robots.txt, remove noindex tags",
-      severity: "Critical"
+      issue: "Missing Schema Markup Completely",
+      symptom: "View source, search for 'application/ld+json' - nothing found",
+      cause: "Never added structured data to site",
+      fix: "Add Article schema at minimum. Include headline, author, datePublished, publisher fields. Use JSON-LD format in <head> section.",
+      impact: "Critical - Copilot can't understand what your content is about without schema",
+      timeToFix: "30-60 minutes per page"
     },
     {
-      issue: "Schema Validation Errors",
-      symptom: "Rich Results Test shows errors or warnings",
-      causes: [
-        "Missing required fields (author, dateModified)",
-        "Incorrect schema type usage",
-        "Malformed JSON-LD syntax",
-        "Duplicate schema definitions"
-      ],
-      fix: "Use schema.org documentation, validate before deploying, include all required fields",
-      severity: "High"
+      issue: "Incomplete Article Schema",
+      symptom: "Has Article schema but missing author or publisher fields",
+      cause: "Added basic schema but didn't fill all required fields",
+      fix: "Add missing fields to existing schema. Author (with Person schema) and publisher (with Organization schema) are most commonly missing.",
+      impact: "High - Partial schema is better than none, but incomplete data reduces trust",
+      timeToFix: "15-30 minutes to complete"
     },
     {
-      issue: "Thin or Casual Content",
-      symptom: "Articles under 1,000 words or written in casual tone",
-      causes: [
-        "Targeting consumer audience instead of enterprise",
-        "Not understanding Copilot's professional user base",
-        "Prioritizing quantity over quality"
-      ],
-      fix: "Rewrite top 10 pages in professional tone, expand to 1,500+ words, add business value",
-      severity: "High"
+      issue: "No HTTPS (Still Using HTTP)",
+      symptom: "URL shows 'Not Secure' warning, starts with http:// not https://",
+      cause: "Haven't migrated to HTTPS or SSL certificate expired",
+      fix: "Get SSL certificate (free from Let's Encrypt), configure server to force HTTPS, set up 301 redirects from HTTP to HTTPS.",
+      impact: "Critical - Bing (and Copilot) heavily deprioritize non-secure sites",
+      timeToFix: "1-2 hours including setup and testing"
     },
     {
-      issue: "Missing Trust Signals",
-      symptom: "No contact page, missing about page, or no author info",
-      causes: [
-        "Site built quickly without credibility considerations",
-        "Not understanding enterprise audience expectations"
-      ],
-      fix: "Create professional contact page, add team bios, display certifications",
-      severity: "Medium-High"
+      issue: "Multiple H1 Tags",
+      symptom: "Page has 2+ H1 headings",
+      cause: "Multiple H1s from poor theme/template or header/logo marked as H1",
+      fix: "Keep only one H1 (main page title). Change others to H2, H3, or regular text. Logo should not be H1.",
+      impact: "Medium - Confuses AI about page topic. One clear H1 shows focus.",
+      timeToFix: "15-30 minutes to restructure"
     },
     {
-      issue: "Poor Mobile Performance",
-      symptom: "PageSpeed score < 50 on mobile, or layout breaks on phones",
-      causes: [
-        "Large unoptimized images",
-        "Too much JavaScript",
-        "Not using responsive design"
-      ],
-      fix: "Compress images (WebP format), lazy load content, implement responsive CSS",
-      severity: "Medium"
+      issue: "No Author Attribution",
+      symptom: "Content has no author byline or author name visible",
+      cause: "Anonymous content or forgot to add author information",
+      fix: "Add author byline near content with name, short bio, credentials. Add Person schema with author details.",
+      impact: "Medium - Enterprise Copilot users expect to know who wrote content",
+      timeToFix: "30 minutes to add author info and schema"
     }
   ]
 
-  const toolComparison = [
+  const checkingMethods = [
     {
-      method: "AISEOScan (Recommended)",
-      speed: "< 30 seconds",
-      coverage: "All 5 check categories",
-      accuracy: "High (automated + human-verified rules)",
-      reporting: "PDF report with prioritized fixes",
-      cost: "$29 premium / Free basic",
-      bestFor: "Anyone who wants comprehensive, fast results"
+      method: "Automated Checking (Recommended)",
+      description: "Use AISEOScan to check all 30+ factors automatically",
+      time: "30 seconds",
+      accuracy: "High - checks everything consistently",
+      cost: "Free basic / $29 premium",
+      pros: [
+        "Instant results",
+        "Checks all categories (schema, content, technical, authority)",
+        "Shows exact issues with fix instructions",
+        "Consistent - same checks every time"
+      ],
+      cons: [
+        "Premium reports require payment"
+      ]
     },
     {
-      method: "Manual Checking",
-      speed: "2-3 hours",
-      coverage: "Depends on your knowledge",
-      accuracy: "Variable (easy to miss issues)",
-      reporting: "You create your own notes",
-      cost: "Free (your time)",
-      bestFor: "Technical users with lots of free time"
+      method: "Manual DIY Checking",
+      description: "Follow checklist above, manually inspect each factor",
+      time: "25-30 minutes per page",
+      accuracy: "Medium - easy to miss things",
+      cost: "Free (time investment)",
+      pros: [
+        "Free",
+        "Learn exactly what to look for",
+        "Complete control"
+      ],
+      cons: [
+        "Very time-consuming",
+        "Easy to miss issues",
+        "Inconsistent - might check different things each time",
+        "Requires technical knowledge for schema validation"
+      ]
     },
     {
-      method: "Bing Webmaster Tools",
-      speed: "1-2 hours",
-      coverage: "Indexing + some technical (no schema/content)",
-      accuracy: "High for indexing, limited elsewhere",
-      reporting: "Dashboard (no downloadable report)",
+      method: "Schema Validators Only",
+      description: "Use Google Rich Results Test or Schema.org validator",
+      time: "5-10 minutes",
+      accuracy: "High for schema only, misses everything else",
       cost: "Free",
-      bestFor: "Checking index status only"
+      pros: [
+        "Free",
+        "Good for validating schema syntax"
+      ],
+      cons: [
+        "Only checks schema - misses content, technical, authority factors",
+        "Doesn't tell you which schema types to add",
+        "No Copilot-specific guidance"
+      ]
     },
     {
-      method: "Google Tools (PageSpeed, Rich Results)",
-      speed: "30-60 minutes",
-      coverage: "Schema + performance (no Copilot-specific)",
-      accuracy: "High for what they check",
-      reporting: "Individual tool outputs (fragmented)",
-      cost: "Free",
-      bestFor: "Schema validation and speed testing"
+      method: "Traditional SEO Tools",
+      description: "Use Ahrefs, Moz, SEMrush site audit",
+      time: "Varies",
+      accuracy: "Medium - miss AI-specific factors",
+      cost: "$99-999/month",
+      pros: [
+        "Comprehensive traditional SEO data",
+        "Automated crawling"
+      ],
+      cons: [
+        "Not designed for Copilot optimization",
+        "Miss AI-specific factors (FAQ sections, author attribution, factual density)",
+        "Expensive for limited Copilot value"
+      ]
     }
   ]
 
   const scoreInterpretation = [
     {
-      score: "90-100",
-      grade: "A - Excellent",
-      color: "emerald",
-      meaning: "Copilot-ready. Site meets all criteria for citations.",
-      action: "Monitor and maintain. Focus on content freshness."
+      range: "90-100",
+      grade: "A",
+      status: "Excellent - Copilot Ready",
+      meaning: "All critical factors are optimized. Schema complete, content well-structured, technical foundation solid, authority signals present.",
+      action: "Maintain current optimization. Run monthly checks to ensure nothing breaks."
     },
     {
-      score: "75-89",
-      grade: "B - Good",
-      color: "blue",
-      meaning: "Strong foundation. Minor issues to address.",
-      action: "Fix identified issues. Most are quick wins (< 1 week)."
+      range: "75-89",
+      grade: "B",
+      status: "Good - Minor Improvements Needed",
+      meaning: "Most factors optimized, but 2-3 issues remain. Typically missing FAQ schema, some incomplete schema fields, or minor technical issues.",
+      action: "Fix the 2-3 remaining issues identified. Re-check to reach 90+."
     },
     {
-      score: "60-74",
-      grade: "C - Fair",
-      color: "yellow",
-      meaning: "Some critical gaps. Unlikely to get cited consistently.",
-      action: "Prioritize schema and indexing fixes. 2-3 week project."
+      range: "60-74",
+      grade: "C",
+      status: "Fair - Significant Gaps",
+      meaning: "Core structure present but quality issues. Usually incomplete schema, poor content structure, or missing authority signals.",
+      action: "Prioritize schema completeness and content structure. Follow fix roadmap for 2-4 weeks."
     },
     {
-      score: "40-59",
-      grade: "D - Poor",
-      color: "orange",
-      meaning: "Major issues. Very low citation probability.",
-      action: "Comprehensive overhaul needed. 1-2 month project."
+      range: "40-59",
+      grade: "D",
+      status: "Poor - Major Work Needed",
+      meaning: "Multiple critical issues. Likely missing schema entirely, no HTTPS, poor content structure, no authority signals.",
+      action: "Start with quick wins: enable HTTPS, add basic Article schema, fix heading hierarchy. 1-2 month optimization project."
     },
     {
-      score: "0-39",
-      grade: "F - Critical",
-      color: "rose",
-      meaning: "Site not Copilot-ready at all. Zero citation probability.",
-      action: "Start from scratch. Not indexed or missing fundamentals."
+      range: "0-39",
+      grade: "F",
+      status: "Critical - Not Copilot Ready",
+      meaning: "Fundamentals missing. No schema, no HTTPS, broken structure, no authority signals. Site is invisible to Copilot.",
+      action: "Complete rebuild needed. Follow full optimization roadmap. Expect 2-3 months to reach acceptable levels."
     }
   ]
 
   return (
     <Layout 
-      title="Copilot SEO Checking Tool: Check Your Microsoft Copilot Optimization (Free)"
-      description="Free Copilot SEO checking tool. Verify Bing indexing, validate schema markup, check enterprise content quality, and test mobile performance. Get instant results."
+      title="Copilot SEO Checking Tool: How to Check Microsoft Copilot Optimization"
+      description="Learn how to check Copilot SEO: schema markup validation, content structure, technical health, and authority signals. DIY checklist and automated tool comparison."
     >
       <div className="max-w-6xl mx-auto py-12">
         {/* Hero */}
@@ -274,115 +355,88 @@ export default function CopilotSEOCheckingTool() {
             Copilot SEO Checking Tool
           </h1>
           <p className="text-xl text-gray-200 mb-8 max-w-4xl leading-relaxed">
-            Free tool to check your Microsoft Copilot SEO in under 30 seconds. Verify Bing indexing, schema markup, content quality, trust signals, and mobile performance. Get instant results with actionable fixes.
+            Learn how to check your Microsoft Copilot optimization. Complete guide to checking schema markup, content structure, technical SEO, and authority signals - with DIY checklist, automated tool comparison, and pass/fail criteria for each factor.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 mb-8">
-            <Link href="https://www.aiseoscan.dev">
-              <a className="inline-flex items-center bg-gradient-to-r from-purple-500 to-blue-600 text-white px-8 py-4 rounded-lg font-bold text-lg hover:from-purple-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105">
-                <Zap className="h-5 w-5 mr-2" />
-                Check Your Copilot SEO Free
-              </a>
-            </Link>
-            <Link href="/copilot-seo-analysis-tool">
-              <a className="inline-flex items-center bg-gray-800 text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-700 transition-all duration-300 border border-gray-600">
-                Deep Analysis Tool
-                <ArrowRight className="h-5 w-5 ml-2" />
-              </a>
-            </Link>
-          </div>
-
-          <div className="bg-purple-900/20 p-6 rounded-lg border border-purple-500/50">
-            <div className="flex items-start">
-              <Clock className="h-6 w-6 text-purple-400 mr-3 mt-1 flex-shrink-0" />
-              <div>
-                <h3 className="text-lg font-bold text-white mb-2">Quick Check (30 seconds)</h3>
-                <p className="text-gray-300">
-                  Enter your URL, get instant results. Free basic scan shows your Copilot readiness score and top 5 issues. Premium report ($29) includes detailed fixes and competitive analysis.
-                </p>
-              </div>
-            </div>
-          </div>
+          <Link href="https://www.aiseoscan.dev">
+            <a className="inline-flex items-center bg-gradient-to-r from-purple-500 to-blue-600 text-white px-8 py-4 rounded-lg font-bold text-lg hover:from-purple-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105">
+              <ClipboardCheck className="h-5 w-5 mr-2" />
+              Check Your Copilot SEO Now
+            </a>
+          </Link>
         </div>
 
-        {/* 5 Step Checking Process */}
+        {/* What to Check */}
         <div className="mb-12">
-          <h2 className="text-3xl font-bold text-white mb-8 flex items-center">
-            <Target className="h-8 w-8 text-purple-400 mr-3" />
-            What Our Copilot SEO Checking Tool Tests (5 Categories)
+          <h2 className="text-3xl font-bold text-white mb-8">
+            What to Check for Copilot SEO (4 Categories)
           </h2>
 
           <div className="space-y-8">
-            {checkingSteps.map((step, index) => (
-              <div key={index} className="bg-gradient-to-r from-gray-900/60 to-purple-900/20 backdrop-blur-sm p-8 rounded-xl border border-purple-500/50">
-                <div className="flex items-start mb-6">
-                  <div className="bg-purple-500 text-white font-bold w-12 h-12 rounded-full flex items-center justify-center mr-4 flex-shrink-0 text-lg">
-                    {index + 1}
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-white mb-2">{step.step}</h3>
-                    <p className="text-gray-400 mb-4">{step.what}</p>
-                  </div>
-                </div>
+            {checkingCategories.map((category, index) => {
+              const Icon = category.icon
+              return (
+                <div key={index} className="bg-gradient-to-r from-gray-900/60 to-purple-900/20 backdrop-blur-sm p-8 rounded-xl border border-purple-500/50">
+                  <div className="flex items-start mb-6">
+                    <Icon className="h-10 w-10 text-purple-400 mr-4 flex-shrink-0" />
+                    <div className="flex-1">
+                      <h3 className="text-2xl font-bold text-white mb-6">{category.category}</h3>
+                      
+                      <div className="space-y-6">
+                        {category.checks.map((check, cIndex) => (
+                          <div key={cIndex} className="bg-purple-900/20 p-6 rounded-lg border border-purple-500/50">
+                            <h4 className="text-lg font-bold text-white mb-4">{check.check}</h4>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                              <div className="bg-emerald-900/20 p-4 rounded border border-emerald-500/50">
+                                <span className="text-emerald-300 font-semibold text-sm">✅ Passing:</span>
+                                <p className="text-gray-300 text-sm mt-2">{check.passing}</p>
+                              </div>
+                              <div className="bg-rose-900/20 p-4 rounded border border-rose-500/50">
+                                <span className="text-rose-300 font-semibold text-sm">❌ Failing:</span>
+                                <p className="text-gray-300 text-sm mt-2">{check.failing}</p>
+                              </div>
+                            </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                  <div className="bg-purple-900/20 p-5 rounded-lg">
-                    <h4 className="text-purple-300 font-semibold mb-3">Why We Check This:</h4>
-                    <p className="text-gray-300 text-sm">{step.why}</p>
-                  </div>
-                  <div className="bg-purple-900/20 p-5 rounded-lg">
-                    <h4 className="text-purple-300 font-semibold mb-3">How We Check:</h4>
-                    <ul className="space-y-2">
-                      {step.howToCheck.map((method, mIndex) => (
-                        <li key={mIndex} className="text-gray-300 text-sm flex items-start">
-                          <CheckCircle className="h-4 w-4 text-purple-400 mr-2 mt-0.5 flex-shrink-0" />
-                          <span>{method}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
+                            <div className="mb-3">
+                              <span className="text-purple-300 font-semibold text-sm">How to Check: </span>
+                              <p className="text-gray-300 text-sm inline">{check.howToCheck}</p>
+                            </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="bg-emerald-900/20 p-4 rounded-lg border-l-4 border-emerald-400">
-                    <h4 className="text-emerald-300 font-semibold text-sm mb-2">✅ Passing Criteria:</h4>
-                    <p className="text-gray-300 text-sm">{step.passing}</p>
-                  </div>
-                  <div className="bg-rose-900/20 p-4 rounded-lg border-l-4 border-rose-400">
-                    <h4 className="text-rose-300 font-semibold text-sm mb-2">❌ Failing Criteria:</h4>
-                    <p className="text-gray-300 text-sm">{step.failing}</p>
+                            <div className="bg-blue-900/30 p-4 rounded border border-blue-500/50">
+                              <span className="text-blue-300 font-semibold text-sm">How to Fix: </span>
+                              <p className="text-blue-200 text-sm inline">{check.fix}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
-
-                <div className="mt-4 bg-blue-900/20 p-4 rounded-lg border border-blue-500/50">
-                  <h4 className="text-blue-300 font-semibold text-sm mb-2">🔧 How to Fix:</h4>
-                  <p className="text-gray-300 text-sm">{step.fix}</p>
-                </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
 
-        {/* Quick Checklist */}
-        <div className="bg-gradient-to-r from-gray-900/60 to-blue-900/20 backdrop-blur-sm p-8 rounded-xl border border-blue-500/50 mb-12">
+        {/* DIY Checklist */}
+        <div className="bg-gradient-to-r from-gray-900/60 to-emerald-900/20 backdrop-blur-sm p-8 rounded-xl border border-emerald-500/50 mb-12">
           <h2 className="text-3xl font-bold text-white mb-6 flex items-center">
-            <CheckCircle className="h-8 w-8 text-blue-400 mr-3" />
-            DIY Quick Checklist (Manual Check)
+            <ClipboardCheck className="h-8 w-8 text-emerald-400 mr-3" />
+            DIY Checking Checklist (25 Minutes)
           </h2>
 
-          <p className="text-gray-300 mb-6">
-            If you want to check manually before using the tool, here's what to verify:
+          <p className="text-gray-300 mb-8">
+            Follow this checklist to manually check all Copilot SEO factors. Total time: ~25 minutes per page.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {quickCheckChecklist.map((category, index) => (
-              <div key={index} className="bg-blue-900/20 p-5 rounded-lg border border-blue-500/50">
-                <h3 className="text-lg font-bold text-white mb-4">{category.category}</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {diyChecklist.map((section, index) => (
+              <div key={index} className="bg-emerald-900/20 p-6 rounded-xl border border-emerald-500/50">
+                <h3 className="text-xl font-bold text-white mb-4">{section.category}</h3>
                 <div className="space-y-2">
-                  {category.checks.map((check, cIndex) => (
-                    <div key={cIndex} className="flex items-start">
-                      <div className="w-5 h-5 border-2 border-blue-400 rounded mr-3 mt-0.5 flex-shrink-0"></div>
-                      <span className="text-gray-300 text-sm">{check}</span>
+                  {section.tasks.map((task, tIndex) => (
+                    <div key={tIndex} className="text-gray-300 text-sm font-mono bg-emerald-900/20 p-3 rounded border border-emerald-500/30">
+                      {task}
                     </div>
                   ))}
                 </div>
@@ -390,9 +444,9 @@ export default function CopilotSEOCheckingTool() {
             ))}
           </div>
 
-          <div className="mt-6 bg-blue-900/30 p-6 rounded-lg">
-            <p className="text-blue-200">
-              <strong>Time investment:</strong> Manual checking takes 2-3 hours. Our automated tool does it in 30 seconds and catches issues you'd likely miss.
+          <div className="mt-6 bg-emerald-900/30 p-6 rounded-lg border-l-4 border-emerald-400">
+            <p className="text-emerald-200">
+              <strong>Pro tip:</strong> Manual checking takes 25+ minutes and you'll likely miss issues. Automated checking (AISEOScan) does all this in 30 seconds with consistent accuracy.
             </p>
           </div>
         </div>
@@ -400,107 +454,135 @@ export default function CopilotSEOCheckingTool() {
         {/* Common Issues */}
         <div className="bg-gradient-to-r from-gray-900/60 to-rose-900/20 backdrop-blur-sm p-8 rounded-xl border border-rose-500/50 mb-12">
           <h2 className="text-3xl font-bold text-white mb-6 flex items-center">
-            <AlertCircle className="h-8 w-8 text-rose-400 mr-3" />
-            5 Most Common Copilot SEO Issues We Find
+            <AlertTriangle className="h-8 w-8 text-rose-400 mr-3" />
+            5 Most Common Issues We Find
           </h2>
 
           <div className="space-y-6">
-            {commonIssues.map((item, index) => (
+            {commonIssues.map((issue, index) => (
               <div key={index} className="bg-rose-900/20 p-6 rounded-xl border-l-4 border-rose-400">
-                <div className="flex items-start justify-between mb-3">
-                  <h3 className="text-xl font-bold text-white">{item.issue}</h3>
-                  <span className={`px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap ml-3 ${
-                    item.severity === 'Critical' ? 'bg-rose-500 text-white' :
-                    item.severity === 'High' ? 'bg-orange-500 text-white' :
-                    'bg-yellow-500 text-white'
-                  }`}>
-                    {item.severity}
-                  </span>
+                <h3 className="text-xl font-bold text-white mb-3">{index + 1}. {issue.issue}</h3>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <span className="text-rose-300 font-semibold text-sm">Symptom: </span>
+                    <p className="text-gray-300 text-sm">{issue.symptom}</p>
+                  </div>
+                  <div>
+                    <span className="text-orange-300 font-semibold text-sm">Cause: </span>
+                    <p className="text-gray-300 text-sm">{issue.cause}</p>
+                  </div>
                 </div>
 
                 <div className="mb-4">
-                  <span className="text-rose-300 font-semibold text-sm">Symptom: </span>
-                  <span className="text-gray-300 text-sm">{item.symptom}</span>
+                  <span className="text-blue-300 font-semibold text-sm">Fix: </span>
+                  <p className="text-gray-300 text-sm">{issue.fix}</p>
                 </div>
 
-                <div className="mb-4">
-                  <h4 className="text-rose-300 font-semibold text-sm mb-2">Common Causes:</h4>
-                  <ul className="space-y-1">
-                    {item.causes.map((cause, cIndex) => (
-                      <li key={cIndex} className="text-gray-300 text-sm">• {cause}</li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="bg-emerald-900/20 p-4 rounded border border-emerald-500/50">
-                  <h4 className="text-emerald-300 font-semibold text-sm mb-2">✓ Fix:</h4>
-                  <p className="text-emerald-200 text-sm">{item.fix}</p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="bg-rose-900/30 p-3 rounded">
+                    <span className="text-rose-200 font-semibold text-sm">Impact: </span>
+                    <span className="text-gray-300 text-sm">{issue.impact}</span>
+                  </div>
+                  <div className="bg-blue-900/30 p-3 rounded">
+                    <span className="text-blue-200 font-semibold text-sm">Time to fix: </span>
+                    <span className="text-gray-300 text-sm">{issue.timeToFix}</span>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Tool Comparison */}
-        <div className="bg-gradient-to-r from-gray-900/60 to-emerald-900/20 backdrop-blur-sm p-8 rounded-xl border border-emerald-500/50 mb-12">
+        {/* Checking Methods */}
+        <div className="bg-gradient-to-r from-gray-900/60 to-blue-900/20 backdrop-blur-sm p-8 rounded-xl border border-blue-500/50 mb-12">
           <h2 className="text-3xl font-bold text-white mb-8">
-            Checking Methods Compared
+            4 Ways to Check Copilot SEO
           </h2>
 
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-emerald-500/50">
-                  <th className="text-left p-4 text-emerald-300 font-semibold">Method</th>
-                  <th className="text-left p-4 text-emerald-300 font-semibold">Speed</th>
-                  <th className="text-left p-4 text-emerald-300 font-semibold">Coverage</th>
-                  <th className="text-left p-4 text-emerald-300 font-semibold">Accuracy</th>
-                  <th className="text-left p-4 text-emerald-300 font-semibold">Cost</th>
-                  <th className="text-left p-4 text-emerald-300 font-semibold">Best For</th>
-                </tr>
-              </thead>
-              <tbody>
-                {toolComparison.map((row, index) => (
-                  <tr key={index} className="border-b border-gray-700/50">
-                    <td className="p-4 text-white font-medium">{row.method}</td>
-                    <td className="p-4 text-gray-300 text-sm">{row.speed}</td>
-                    <td className="p-4 text-gray-300 text-sm">{row.coverage}</td>
-                    <td className="p-4 text-gray-300 text-sm">{row.accuracy}</td>
-                    <td className="p-4 text-gray-300 text-sm font-semibold">{row.cost}</td>
-                    <td className="p-4 text-gray-400 text-sm">{row.bestFor}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="space-y-6">
+            {checkingMethods.map((method, index) => (
+              <div key={index} className={`p-6 rounded-xl border-2 ${
+                method.method.includes('Recommended')
+                  ? 'bg-emerald-900/20 border-emerald-500'
+                  : 'bg-blue-900/20 border-blue-500/50'
+              }`}>
+                <div className="flex items-start justify-between mb-4">
+                  <h3 className="text-xl font-bold text-white">{method.method}</h3>
+                  {method.method.includes('Recommended') && (
+                    <span className="bg-emerald-500 text-white px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap ml-3">
+                      ⭐ Best
+                    </span>
+                  )}
+                </div>
+
+                <p className="text-gray-300 mb-4">{method.description}</p>
+
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4 text-sm">
+                  <div>
+                    <div className="text-gray-500 text-xs uppercase mb-1">Time</div>
+                    <div className="text-white font-semibold">{method.time}</div>
+                  </div>
+                  <div>
+                    <div className="text-gray-500 text-xs uppercase mb-1">Accuracy</div>
+                    <div className="text-white font-semibold">{method.accuracy}</div>
+                  </div>
+                  <div>
+                    <div className="text-gray-500 text-xs uppercase mb-1">Cost</div>
+                    <div className="text-blue-400 font-semibold">{method.cost}</div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <h4 className="text-emerald-300 font-semibold mb-2 text-sm">✅ Pros:</h4>
+                    <ul className="space-y-1">
+                      {method.pros.map((pro, pIndex) => (
+                        <li key={pIndex} className="text-gray-300 text-sm flex items-start">
+                          <CheckCircle className="h-4 w-4 text-emerald-400 mr-2 mt-0.5 flex-shrink-0" />
+                          <span>{pro}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="text-rose-300 font-semibold mb-2 text-sm">❌ Cons:</h4>
+                    <ul className="space-y-1">
+                      {method.cons.map((con, cIndex) => (
+                        <li key={cIndex} className="text-gray-400 text-sm">• {con}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
         {/* Score Interpretation */}
         <div className="bg-gradient-to-r from-gray-900/60 to-purple-900/20 backdrop-blur-sm p-8 rounded-xl border border-purple-500/50 mb-12">
           <h2 className="text-3xl font-bold text-white mb-6 flex items-center">
-            <TrendingUp className="h-8 w-8 text-purple-400 mr-3" />
+            <Target className="h-8 w-8 text-purple-400 mr-3" />
             Understanding Your Copilot SEO Score
           </h2>
 
-          <p className="text-gray-300 mb-6">
-            Our checking tool gives you a score from 0-100. Here's what each score range means:
-          </p>
-
           <div className="space-y-4">
-            {scoreInterpretation.map((item, index) => (
-              <div key={index} className={`p-6 rounded-lg border-l-4 bg-${item.color}-900/20 border-${item.color}-400`}>
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-4">
-                    <div className={`text-3xl font-bold text-${item.color}-400`}>{item.score}</div>
-                    <div>
-                      <h3 className="text-xl font-bold text-white">{item.grade}</h3>
-                      <p className="text-gray-400 text-sm">{item.meaning}</p>
-                    </div>
-                  </div>
+            {scoreInterpretation.map((score, index) => (
+              <div key={index} className="bg-purple-900/20 p-6 rounded-lg border-l-4 border-purple-400">
+                <div className="flex items-center gap-4 mb-3">
+                  <span className="text-3xl font-bold text-white">{score.range}</span>
+                  <span className="bg-purple-500 text-white px-4 py-1 rounded-full font-bold">
+                    Grade {score.grade}
+                  </span>
+                  <span className="text-purple-300 font-semibold">{score.status}</span>
                 </div>
-                <div className={`bg-${item.color}-900/30 p-4 rounded`}>
-                  <span className={`text-${item.color}-300 font-semibold`}>Recommended Action: </span>
-                  <span className="text-gray-300">{item.action}</span>
+                <p className="text-gray-300 mb-3">
+                  <strong className="text-white">What it means:</strong> {score.meaning}
+                </p>
+                <div className="bg-purple-900/30 p-4 rounded border border-purple-500/50">
+                  <p className="text-purple-200 text-sm">
+                    <strong>What to do:</strong> {score.action}
+                  </p>
                 </div>
               </div>
             ))}
@@ -513,52 +595,29 @@ export default function CopilotSEOCheckingTool() {
             Check Your Copilot SEO in 30 Seconds
           </h2>
           <p className="text-gray-200 text-xl mb-8 max-w-2xl mx-auto">
-            Stop guessing if your site is Copilot-ready. Get instant results with specific fixes for each issue found.
+            Automated checking covers all 30+ factors instantly. Free basic scan shows top issues. Premium report ($29) includes detailed pass/fail for every check plus fix instructions.
           </p>
           
           <Link href="https://www.aiseoscan.dev">
             <a className="inline-flex items-center bg-gradient-to-r from-purple-500 to-blue-600 text-white px-10 py-4 rounded-lg font-bold text-lg hover:from-purple-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105">
-              <Search className="h-6 w-6 mr-2" />
-              Run Free Copilot Check
+              <ClipboardCheck className="h-6 w-6 mr-2" />
+              Run Automated Check
             </a>
           </Link>
 
           <div className="mt-6 flex flex-wrap justify-center gap-6 text-sm text-gray-300">
             <div className="flex items-center">
               <CheckCircle className="h-4 w-4 text-emerald-400 mr-2" />
-              Results in 30 seconds
+              30 seconds vs 25 minutes manual
             </div>
             <div className="flex items-center">
               <CheckCircle className="h-4 w-4 text-emerald-400 mr-2" />
-              No signup required
+              Checks everything consistently
             </div>
             <div className="flex items-center">
               <CheckCircle className="h-4 w-4 text-emerald-400 mr-2" />
-              5 categories checked
+              Free basic scan
             </div>
-          </div>
-        </div>
-
-        {/* Related Tools */}
-        <div className="mt-12">
-          <h3 className="text-2xl font-bold text-white mb-6">Related Copilot Tools</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Link href="/copilot-seo-tool">
-              <a className="bg-gray-900/60 p-4 rounded-lg border border-purple-500/30 hover:border-purple-500 transition-colors group">
-                <div className="flex items-center justify-between">
-                  <span className="text-white font-semibold group-hover:text-purple-400 transition-colors">Copilot SEO Tool</span>
-                  <ArrowRight className="h-5 w-5 text-gray-600 group-hover:text-purple-400 transition-colors" />
-                </div>
-              </a>
-            </Link>
-            <Link href="/copilot-seo-checker">
-              <a className="bg-gray-900/60 p-4 rounded-lg border border-purple-500/30 hover:border-purple-500 transition-colors group">
-                <div className="flex items-center justify-between">
-                  <span className="text-white font-semibold group-hover:text-purple-400 transition-colors">Copilot SEO Checker</span>
-                  <ArrowRight className="h-5 w-5 text-gray-600 group-hover:text-purple-400 transition-colors" />
-                </div>
-              </a>
-            </Link>
           </div>
         </div>
 
