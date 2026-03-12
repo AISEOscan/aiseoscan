@@ -74,7 +74,7 @@ export default function Layout({ children, title = 'AISEO Scanner - Is your webs
         {children}
       </main>
 
-     <footer className="bg-gray-950/80 backdrop-blur-xl border-t border-purple-500/30 mt-12">
+  <footer className="bg-gray-950/80 backdrop-blur-xl border-t border-purple-500/30 mt-12">
   <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     {/* Platform Links */}
     <div className="mb-6 pb-6 border-b border-gray-800">
@@ -137,6 +137,13 @@ export default function Layout({ children, title = 'AISEO Scanner - Is your webs
             className="text-purple-400 hover:text-purple-300 transition-colors font-medium"
           >
             AI SEO Guide
+          </Link>
+          <span>•</span>
+          <Link 
+            href="/ai-seo-tools"
+            className="text-blue-400 hover:text-blue-300 transition-colors font-medium"
+          >
+            AI SEO Tools
           </Link>
         </div>
       </div>
