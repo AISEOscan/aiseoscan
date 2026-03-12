@@ -1,6 +1,6 @@
 import Layout from '../components/Layout'
 import Link from 'next/link'
-import { Bot, CheckCircle, Zap, ArrowRight, Search, Code, FileText, Shield, TrendingUp } from 'lucide-react'
+import { Bot, CheckCircle, Zap, ArrowRight, Search, Code, FileText, Shield } from 'lucide-react'
 
 export default function AISEOTools() {
   const whatWeActuallyCheck = [
@@ -62,11 +62,59 @@ export default function AISEOTools() {
   ]
 
   const platformsSupported = [
-    { name: "ChatGPT", users: "347M", color: "emerald" },
-    { name: "Perplexity", users: "230M", color: "blue" },
-    { name: "Gemini", users: "200M", color: "pink" },
-    { name: "Claude", users: "150M", color: "orange" },
-    { name: "SearchGPT", users: "120M", color: "cyan" }
+    { name: "ChatGPT", users: "347M" },
+    { name: "Perplexity", users: "230M" },
+    { name: "Gemini", users: "200M" },
+    { name: "Claude", users: "150M" },
+    { name: "SearchGPT", users: "120M" }
+  ]
+
+  const toolPages = [
+    {
+      title: "Copilot SEO Tool",
+      description: "Check Microsoft Copilot optimization - schema, content, and enterprise factors",
+      url: "/copilot-seo-tool"
+    },
+    {
+      title: "Perplexity SEO Checking Tools",
+      description: "Compare tools for checking Perplexity optimization",
+      url: "/perplexity-seo-checking-tools"
+    },
+    {
+      title: "Perplexity SEO Tracking Tools",
+      description: "Track Perplexity SEO progress over time",
+      url: "/perplexity-seo-tracking-tools"
+    },
+    {
+      title: "Perplexity SEO Checking Software",
+      description: "Cloud vs self-hosted vs enterprise software comparison",
+      url: "/perplexity-seo-checking-software"
+    },
+    {
+      title: "Copilot SEO Analysis Tool",
+      description: "Deep Copilot SEO analysis with scoring and benchmarks",
+      url: "/copilot-seo-analysis-tool"
+    },
+    {
+      title: "Best Perplexity SEO Tracking Tools",
+      description: "Ranked comparison of top Perplexity tracking tools",
+      url: "/best-perplexity-seo-tracking-tools"
+    },
+    {
+      title: "Copilot SEO Checking Tool",
+      description: "How to check Copilot SEO - pass/fail criteria and fixes",
+      url: "/copilot-seo-checking-tool"
+    },
+    {
+      title: "Copilot SEO Analysis Software",
+      description: "Cloud vs self-hosted software architecture comparison",
+      url: "/copilot-seo-analysis-software"
+    },
+    {
+      title: "Copilot SEO Checker",
+      description: "Free 30-second Copilot SEO check with instant results",
+      url: "/copilot-seo-checker"
+    }
   ]
 
   return (
@@ -129,6 +177,29 @@ export default function AISEOTools() {
                 </div>
               )
             })}
+          </div>
+        </div>
+
+        {/* Tool Pages */}
+        <div className="mb-12">
+          <h2 className="text-3xl font-bold text-white mb-8 text-center">
+            AI SEO Tool Guides
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {toolPages.map((tool, index) => (
+              <Link key={index} href={tool.url}>
+                <a className="bg-gradient-to-r from-gray-900/60 to-blue-900/20 backdrop-blur-sm p-6 rounded-xl border border-blue-500/50 hover:border-blue-400 transition-all group">
+                  <div className="flex items-start justify-between mb-3">
+                    <h3 className="text-lg font-bold text-white group-hover:text-blue-400 transition-colors">
+                      {tool.title}
+                    </h3>
+                    <ArrowRight className="h-5 w-5 text-blue-400 group-hover:translate-x-1 transition-transform flex-shrink-0 ml-2" />
+                  </div>
+                  <p className="text-gray-400 text-sm">{tool.description}</p>
+                </a>
+              </Link>
+            ))}
           </div>
         </div>
 
