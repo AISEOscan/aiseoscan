@@ -1,6 +1,6 @@
 import Layout from '../components/Layout'
 import Link from 'next/link'
-import { Bot, CheckCircle, Zap, ArrowRight, Search, Award, Star, TrendingUp, Users, Code, FileText, Shield, Target, AlertCircle } from 'lucide-react'
+import { Bot, CheckCircle, Zap, ArrowRight, Search, Award, Star, TrendingUp, Users, Code, FileText, Shield, Target, AlertCircle, Lightbulb } from 'lucide-react'
 
 export default function BestPerplexitySEOTrackingTools() {
   const topTools = [

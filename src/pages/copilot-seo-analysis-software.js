@@ -1,6 +1,6 @@
 import Layout from '../components/Layout'
 import Link from 'next/link'
-import { Bot, CheckCircle, Zap, ArrowRight, Search, Server, Cloud, Building2, Code, Cpu, Database, Shield, TrendingUp, Lightbulb, AlertCircle } from 'lucide-react'
+import { Bot, CheckCircle, Zap, ArrowRight, Search, Server, Cloud, Building2, Code, Cpu, Database, Shield, TrendingUp, Lightbulb, AlertCircle, Target } from 'lucide-react'
 
 export default function CopilotSEOAnalysisSoftware() {
   const softwareTypes = [
