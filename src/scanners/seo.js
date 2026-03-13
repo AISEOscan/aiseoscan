@@ -108,11 +108,12 @@ function extractPageData(html, baseUrl) {
   });
   
   // Extract FAQ content
-  const faqPatterns = [
-    /(?:frequently asked questions|faq|q&a|questions and answers)/i,
-    /<dt[^>]*>(.*?)<\/dt>\s*<dd[^>]*>(.*?)<\/dd>/gi,
-    /(?:q:|question:|a:|answer:)/gi
-  ];
+ const faqPatterns = [
+  /(?:frequently asked questions|faq|q&a|questions and answers)/i,
+  /<dt[^>]*>(.*?)<\/dt>\s*<dd[^>]*>(.*?)<\/dd>/gi,
+  /(?:q:|question:|a:|answer:)/gi,
+  /<h[2-4][^>]*>[^<]*\?[^<]*<\/h[2-4]>/gi,
+];
   
   const hasFAQ = faqPatterns.some(pattern => pattern.test(html));
   
