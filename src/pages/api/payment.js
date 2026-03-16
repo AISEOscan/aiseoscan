@@ -24,6 +24,13 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'URL is required' });
     }
 
+    // ─── NEW: Get affiliate referral from cookie ─────────────────────────────
+    const affiliateReferral = req.cookies?.launch_visitor_1G49c2o4ZzR3p8A6 || null;
+    if (affiliateReferral) {
+      console.log(`🤝 Payment API: Affiliate referral detected: ${affiliateReferral}`);
+    }
+    // ─────────────────────────────────────────────────────────────────────────
+
     // Process discount code — UNCHANGED
     let finalAmount = 2900; // $29.00
     let discountInfo = null;
@@ -67,7 +74,8 @@ export default async function handler(req, res) {
         low: preliminaryScan?.summary?.low || 0,
         previewIssuesCount: preliminaryScan?.previewIssues?.length || 0,
         discountApplied: discountInfo,
-        usePaymentIntent: !!usePaymentIntent
+        usePaymentIntent: !!usePaymentIntent,
+        affiliateReferral: affiliateReferral || 'none'
       }));
 
     // Store preliminary report — UNCHANGED
@@ -91,9 +99,7 @@ export default async function handler(req, res) {
 
     await storeReport(reportData);
 
-    // ─── NEW: Inline PaymentIntent flow ───────────────────────────────────────
-    // Only used when PaymentButton sends usePaymentIntent: true
-    // Free scans (finalAmount === 0) fall through to checkout session as before
+    // ─── UPDATED: Inline PaymentIntent flow WITH AFFILIATE TRACKING ──────────
     if (usePaymentIntent && finalAmount > 0) {
       const paymentIntent = await stripe.paymentIntents.create({
         amount: finalAmount,
@@ -102,6 +108,7 @@ export default async function handler(req, res) {
           reportId: reportIds.id,
           publicId: reportIds.publicId,
           url,
+          ...(affiliateReferral && { launch_referral: affiliateReferral }), // ADD THIS
           ...(discountInfo && { discountCode: discountInfo.code, discountType: discountInfo.type })
         },
         description: `AISEOScan AI SEO Readiness Analysis for ${url}`
@@ -115,7 +122,7 @@ export default async function handler(req, res) {
     }
     // ─────────────────────────────────────────────────────────────────────────
 
-    // EXISTING: Checkout session flow — completely unchanged from here down
+    // ─── UPDATED: Checkout session flow WITH AFFILIATE TRACKING ──────────────
     const sessionData = {
       payment_method_types: ['card'],
       mode: 'payment',
@@ -125,6 +132,7 @@ export default async function handler(req, res) {
         reportId: reportIds.id,
         publicId: reportIds.publicId,
         url,
+        ...(affiliateReferral && { launch_referral: affiliateReferral }), // ADD THIS
         ...(discountInfo && { discountCode: discountInfo.code, discountType: discountInfo.type })
       }
     };

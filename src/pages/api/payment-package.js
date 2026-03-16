@@ -15,12 +15,19 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
+    // ─── NEW: Get affiliate referral from cookie ─────────────────────────────
+    const affiliateReferral = req.cookies?.launch_visitor_1G49c2o4ZzR3p8A6 || null;
+    if (affiliateReferral) {
+      console.log(`🤝 Package API: Affiliate referral detected: ${affiliateReferral}`);
+    }
+    // ─────────────────────────────────────────────────────────────────────────
+
     // Generate unique token
     const token = `SCAN-${crypto.randomBytes(8).toString('hex').toUpperCase()}`;
 
     console.log(`Creating package purchase: ${credits} credits for $${amount / 100}`);
 
-    // Create Stripe checkout session
+    // ─── UPDATED: Create Stripe checkout session WITH AFFILIATE TRACKING ─────
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
@@ -44,7 +51,8 @@ export default async function handler(req, res) {
         token,
         credits: credits.toString(),
         packageId,
-        amount: (amount / 100).toString()
+        amount: (amount / 100).toString(),
+        ...(affiliateReferral && { launch_referral: affiliateReferral }) 
       }
     });
 

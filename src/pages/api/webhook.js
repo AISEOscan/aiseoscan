@@ -32,20 +32,25 @@ export default async function handler(req, res) {
 
     // ─── EXISTING: checkout.session.completed ────────────────────────────────
     // Handles: redirect checkout flow + package purchases + free scans
-    // NOT changed at all
+    // NOW INCLUDES: Affiliate tracking via metadata
     if (event.type === 'checkout.session.completed') {
       console.log('🔄 WEBHOOK: Processing checkout.session.completed');
 
       const session = event.data.object;
 
-      // Package purchase — UNCHANGED
+      // Package purchase — WITH AFFILIATE TRACKING
       if (session.metadata?.type === 'package') {
         console.log('📦 WEBHOOK: Package purchase detected');
 
-        const { token, credits, packageId, amount } = session.metadata;
+        const { token, credits, packageId, amount, launch_referral } = session.metadata;
         const email = session.customer_email || session.customer_details?.email;
 
         console.log(`📦 WEBHOOK: Attempting to store token ${token} with ${credits} credits for ${email}`);
+        
+        // Log affiliate referral if present
+        if (launch_referral) {
+          console.log(`🤝 WEBHOOK: Affiliate referral detected: ${launch_referral}`);
+        }
 
         const success = await storeToken({
           token,
@@ -64,16 +69,18 @@ export default async function handler(req, res) {
         }
       }
 
-      // Single report payment — UNCHANGED
+      // Single report payment — WITH AFFILIATE TRACKING
       const reportId = session.metadata?.reportId;
       const publicId = session.metadata?.publicId;
       const url = session.metadata?.url;
+      const launch_referral = session.metadata?.launch_referral;
 
       console.log('📋 WEBHOOK: Session metadata:', {
         reportId,
         publicId,
         url,
-        paymentStatus: session.payment_status
+        paymentStatus: session.payment_status,
+        affiliateReferral: launch_referral || 'none'
       });
 
       if (!reportId || !publicId || !url) {
@@ -82,6 +89,11 @@ export default async function handler(req, res) {
       }
 
       console.log(`💳 WEBHOOK: Processing payment confirmation for report: ${publicId}`);
+      
+      // Log affiliate referral if present
+      if (launch_referral) {
+        console.log(`🤝 WEBHOOK: Affiliate referral detected for report ${publicId}: ${launch_referral}`);
+      }
 
       let existingReport;
       try {
@@ -133,14 +145,19 @@ export default async function handler(req, res) {
 
     // ─── NEW: payment_intent.succeeded ───────────────────────────────────────
     // Handles: inline Stripe Elements flow (PaymentButton embedded form)
-    // Only fires when user pays via embedded card form, never for packages/tokens
+    // NOW INCLUDES: Affiliate tracking via metadata
     if (event.type === 'payment_intent.succeeded') {
       console.log('🔄 WEBHOOK: Processing payment_intent.succeeded');
 
       const intent = event.data.object;
-      const { reportId, publicId, url } = intent.metadata || {};
+      const { reportId, publicId, url, launch_referral } = intent.metadata || {};
 
-      console.log('📋 WEBHOOK: PaymentIntent metadata:', { reportId, publicId, url });
+      console.log('📋 WEBHOOK: PaymentIntent metadata:', { 
+        reportId, 
+        publicId, 
+        url,
+        affiliateReferral: launch_referral || 'none'
+      });
 
       // Safety check: if no reportId/publicId this isn't one of our report payments
       if (!reportId || !publicId) {
@@ -149,6 +166,11 @@ export default async function handler(req, res) {
       }
 
       console.log(`💳 WEBHOOK: Processing inline payment for report: ${publicId}`);
+      
+      // Log affiliate referral if present
+      if (launch_referral) {
+        console.log(`🤝 WEBHOOK: Affiliate referral detected for report ${publicId}: ${launch_referral}`);
+      }
 
       let existingReport;
       try {

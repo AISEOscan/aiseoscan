@@ -20,6 +20,7 @@ const CARD_ELEMENT_OPTIONS = {
 };
 
 // Inner form — has access to stripe/elements hooks
+// NO CHANGES NEEDED HERE - cookie is read server-side in /api/payment
 function CheckoutForm({ url, scanResults, discountCode, onCancel }) {
   const stripe = useStripe();
   const elements = useElements();
@@ -33,6 +34,7 @@ function CheckoutForm({ url, scanResults, discountCode, onCancel }) {
 
     try {
       // Step 1: Create a PaymentIntent on your server
+      // Server will automatically read affiliate cookie and add to metadata
       const response = await fetch('/api/payment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -113,7 +115,7 @@ function CheckoutForm({ url, scanResults, discountCode, onCancel }) {
   );
 }
 
-// ─── Main exported component (structure identical to original) ───────────────
+// ─── Main exported component (NO CHANGES - all affiliate tracking is server-side) ───
 export default function PaymentButton({ url, scanResults }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);

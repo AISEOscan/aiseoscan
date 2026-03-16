@@ -30,6 +30,16 @@ export default function Layout({ children, title = 'AISEO Scanner - Is your webs
         <link rel="icon" href="/favicon.png" type="image/png" />
         <link rel="shortcut icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+        <Script
+  id="affiliate-watch"
+  strategy="afterInteractive"
+  dangerouslySetInnerHTML={{
+    __html: `
+      (function(){/* paste their script here */})();
+    `
+  }}
+/>
       </Head>
 
       <header className="bg-gray-950/80 backdrop-blur-xl border-b border-purple-500/30 shadow-2xl">
@@ -145,6 +155,10 @@ export default function Layout({ children, title = 'AISEO Scanner - Is your webs
           >
             AI SEO Tools
           </Link>
+          <span>•</span>
+          <Link href="[your affiliate signup URL from affiliate.watch]">
+  <a className="text-gray-400 hover:text-purple-400">Become an Affiliate</a>
+</Link>
         </div>
       </div>
     </div>
